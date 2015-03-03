@@ -185,6 +185,7 @@ public class LocalNavigation implements NodeMain{
                 //			    3.1 //TODO: print out the sensor data
                 //System.out.println(message.range);
 
+                sonarHandler(message);
 
             }
         });
@@ -197,6 +198,8 @@ public class LocalNavigation implements NodeMain{
 
                 //              3.1 //TODO: print out the sensor data
                 //System.out.println(message.range);
+
+                sonarHandler(message);
 
             }
         });
@@ -253,23 +256,23 @@ public class LocalNavigation implements NodeMain{
 
         //        3.5 plotting the location of each sonar ping in the world frame
 
-        //        GUIPointMsg ptMsg = new GUIPointMsg();
-        //        if (message.isFront){
-        //            //            Adding a PI/2 shift b/c the sonar is on the left face of the robot
-        //            ptMsg.x = robotX + FRONT_SONAR_X + message.range*Math.cos(robotTheta + Math.PI/2);
-        //            ptMsg.y = robotY + FRONT_SONAR_Y + message.range*Math.sin(robotTheta + Math.PI/2);
-        //            //            Readings from the front sensor are red
-        //            ptMsg.color = redMsg;
-        //        } else {
-        //            //          Adding a PI/2 shift b/c the sonar is on the left face of the robot
-        //            ptMsg.x = robotX + BACK_SONAR_X + message.range*Math.cos(robotTheta + Math.PI/2);
-        //            ptMsg.y = robotY + BACK_SONAR_Y + message.range*Math.sin(robotTheta + Math.PI/2);
-        //            //          Readings from the back sensor are blue
-        //            ptMsg.color = blueMsg;
-        //        }
+        GUIPointMsg ptMsg = new GUIPointMsg();
+        if (message.isFront){
+            //            Adding a PI/2 shift b/c the sonar is on the left face of the robot
+            ptMsg.x = robotX + FRONT_SONAR_X + message.range*Math.cos(robotTheta + Math.PI/2);
+            ptMsg.y = robotY + FRONT_SONAR_Y + message.range*Math.sin(robotTheta + Math.PI/2);
+            //            Readings from the front sensor are red
+            ptMsg.color = redMsg;
+        } else {
+            //          Adding a PI/2 shift b/c the sonar is on the left face of the robot
+            ptMsg.x = robotX + BACK_SONAR_X + message.range*Math.cos(robotTheta + Math.PI/2);
+            ptMsg.y = robotY + BACK_SONAR_Y + message.range*Math.sin(robotTheta + Math.PI/2);
+            //          Readings from the back sensor are blue
+            ptMsg.color = blueMsg;
+        }
         //        //        TODO: may need to add shape to the point message, but not sure what to do there
         //
-        //        guiPtPub.publish(ptMsg);
+        guiPtPub.publish(ptMsg);
 
         //       3.5 Plotting non obstacles and obstacle points
         //        System.out.println(message.range);
