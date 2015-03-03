@@ -290,8 +290,8 @@ public class LocalNavigation implements NodeMain{
         if (message.isFront){
             System.out.println("Front Range " + message.range);    
             //            X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
-            ptMsg.x = robotX + Math.cos(robotTheta)*FRONT_SONAR_Y - Math.sin(robotTheta)*(message.range + FRONT_SONAR_X);
-            ptMsg.y = robotY + Math.sin(robotTheta)*FRONT_SONAR_Y + Math.cos(robotTheta)*(message.range + FRONT_SONAR_X);
+            ptMsg.x = robotX + Math.cos(robotTheta)*FRONT_SONAR_Y - Math.sin(robotTheta)*(-message.range + FRONT_SONAR_X);
+            ptMsg.y = robotY + Math.sin(robotTheta)*FRONT_SONAR_Y + Math.cos(robotTheta)*(-message.range + FRONT_SONAR_X);
             //            Readings from the front sensor are red
             ptMsg.color = redMsg;
             System.out.println("Front Point X Coord: " + ptMsg.x);
