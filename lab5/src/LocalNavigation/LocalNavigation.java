@@ -24,7 +24,7 @@ public class LocalNavigation implements NodeMain{
     public Publisher<org.ros.message.lab5_msgs.GUIPointMsg> guiPtPub;
     public Publisher<org.ros.message.lab5_msgs.GUIEraseMsg> guiErasePub;
 
-    public State state;
+    public State state; 
     //    Booleans representing whether the bumper is depressed
     //    True/1 denote depressed, False/0 denote unpressed
     public boolean leftBumper = false;
@@ -117,11 +117,12 @@ System.out.println("in onstart");
                 rightBumper = message.right;
 
                 //                //                3.2 Stop Robot when state == STOP_ON_BUMP and either bumper is pressed
-                //                if (state == State.STOP_ON_BUMP){
-                //                    if (leftBumper || rightBumper){
-                //                        motionPub.publish(stopMsg);
-                //                    }
-                //                }
+                                if (state == State.STOP_ON_BUMP){
+                                    if (leftBumper || rightBumper){
+System.out.println("should be stopping");
+                                        motionPub.publish(stopMsg);
+                                    }
+                                }
                 //
                 //                //                3.3 
                 //                if ((state == State.ALIGN_ON_BUMP) && (leftBumper || rightBumper)){
@@ -182,7 +183,7 @@ System.out.println("in onstart");
                     org.ros.message.rss_msgs.SonarMsg message) {
 
                 //			    3.1 //TODO: print out the sensor data
-                System.out.println(message.range);
+                //System.out.println(message.range);
 
 
             }
@@ -195,7 +196,7 @@ System.out.println("in onstart");
                     org.ros.message.rss_msgs.SonarMsg message) {
 
                 //              3.1 //TODO: print out the sensor data
-                System.out.println(message.range);
+                //System.out.println(message.range);
 
             }
         });
@@ -227,9 +228,9 @@ System.out.println("at end of onstart");
     public void setState(State newState){
         state = newState;
 //        need to figure out how to use string message
-//        org.ros.message.std_msgs.String str = new org.ros.message.std_msgs.String();
-//        str = state.toString();
-//        statePub.publish(str);
+        org.ros.message.std_msgs.String str = new org.ros.message.std_msgs.String();
+        str.data = state.toString();
+        statePub.publish(str);
     }
 
     /**
