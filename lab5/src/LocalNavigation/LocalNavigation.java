@@ -112,8 +112,8 @@ public class LocalNavigation implements NodeMain{
 
                 //              3.1 //TODO: print out the sensor data
 
-                System.out.println("Left " + message.left);
-                System.out.println("Right " + message.right);
+                //                System.out.println("Left " + message.left);
+                //                System.out.println("Right " + message.right);
                 leftBumper = message.left;
                 rightBumper = message.right;
 
@@ -264,6 +264,7 @@ public class LocalNavigation implements NodeMain{
             ptMsg.y = robotY + FRONT_SONAR_Y + message.range*Math.sin(robotTheta + Math.PI/2);
             //            Readings from the front sensor are red
             ptMsg.color = redMsg;
+            
         } else {
             //          Adding a PI/2 shift b/c the sonar is on the left face of the robot
             ptMsg.x = robotX + BACK_SONAR_X + message.range*Math.cos(robotTheta + Math.PI/2);
@@ -273,6 +274,8 @@ public class LocalNavigation implements NodeMain{
         }
         //        //        TODO: may need to add shape to the point message, but not sure what to do there
         //
+        System.out.println("X Coord: " + ptMsg.x);
+        System.out.println("Y Coord: " + ptMsg.y);
         guiPtPub.publish(ptMsg);
 
         //       3.5 Plotting non obstacles and obstacle points
