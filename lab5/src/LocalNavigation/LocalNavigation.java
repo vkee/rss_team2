@@ -286,6 +286,14 @@ public class LocalNavigation implements NodeMain{
         }
 
         guiPtPub.publish(ptMsg);
+        
+        GUIPointMsg botMsg = new GUIPointMsg();
+        botMsg.x = robotX;
+        botMsg.y = robotY;
+        botMsg.color = greenMsg;
+        
+        guiPtPub.publish(botMsg);
+        
 
         //       3.5 Plotting non obstacles and obstacle points
         //        System.out.println(message.range);
