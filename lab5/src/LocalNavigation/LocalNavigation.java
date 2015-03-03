@@ -79,7 +79,7 @@ public class LocalNavigation implements NodeMain{
     public final MotionMsg stopMsg;
 
     public LocalNavigation(){
-        setState(State.STOP_ON_BUMP);
+        setState(State.ALIGN_ON_BUMP);
         generateColorMsgs();
 
         stopMsg = new MotionMsg();
@@ -123,40 +123,40 @@ public class LocalNavigation implements NodeMain{
                         motionPub.publish(stopMsg);
                     }
                 }
-                //
-                //                //                3.3 
-                //                if ((state == State.ALIGN_ON_BUMP) && (leftBumper || rightBumper)){
-                //                    setState(State.ALIGNING);
-                //                }
-                //
-                //                if (state == State.ALIGNING){
-                //                    if (!leftBumper && !rightBumper){
-                //                        //                      Move slowly forward
 
-                //                MotionMsg msg = new MotionMsg();
-                //                msg.translationalVelocity = SLOW_FWD;
-                //                msg.rotationalVelocity = STOP;
-                //                        motionPub.publish(msg);
-                //                    } else if (leftBumper && rightBumper){
-                //                        motionPub.publish(stopMsg);
-                //                        setState(State.ALIGNED);
-                //                    } else {
-                //                        if (leftBumper){
-                //                            //                          rotate right/CCW
-                //                MotionMsg msg = new MotionMsg();
-                //                msg.translationalVelocity = STOP;
-                //                msg.rotationalVelocity = SLOW_CCW;
-                //                        motionPub.publish(msg);
-                //                        } else {
-                //                            //                          rotate left / CW
+                //                3.3 
+                if ((state == State.ALIGN_ON_BUMP) && (leftBumper || rightBumper)){
+                    setState(State.ALIGNING);
+                }
 
-                //                MotionMsg msg = new MotionMsg();
-                //                msg.translationalVelocity = STOP;
-                //                msg.rotationalVelocity = SLOW_CW;
-                //                        motionPub.publish(msg);
-                //                        }
-                //                    }
-                //                }
+                if (state == State.ALIGNING){
+                    if (!leftBumper && !rightBumper){
+                        //                      Move slowly forward
+
+                        MotionMsg msg = new MotionMsg();
+                        msg.translationalVelocity = SLOW_FWD;
+                        msg.rotationalVelocity = STOP;
+                        motionPub.publish(msg);
+                    } else if (leftBumper && rightBumper){
+                        motionPub.publish(stopMsg);
+                        setState(State.ALIGNED);
+                    } else {
+                        if (leftBumper){
+                            //                          rotate right/CCW
+                            MotionMsg msg = new MotionMsg();
+                            msg.translationalVelocity = STOP;
+                            msg.rotationalVelocity = SLOW_CCW;
+                            motionPub.publish(msg);
+                        } else {
+                            //                          rotate left / CW
+
+                            MotionMsg msg = new MotionMsg();
+                            msg.translationalVelocity = STOP;
+                            msg.rotationalVelocity = SLOW_CW;
+                            motionPub.publish(msg);
+                        }
+                    }
+                }
                 //
                 //                //                4
                 //                if (state == State.ALIGNED){
