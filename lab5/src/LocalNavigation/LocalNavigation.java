@@ -166,13 +166,44 @@ public class LocalNavigation implements NodeMain{
                 }
                 //
                 //                //                4
-                                if (state == State.ALIGNED){     
-                                    //                    back up a small amount, stop, rotate pi/2 cw, stop
-                                use robot odometry to control this
-                                need to make a loop where do not exit until rotate pi/2
-                                        motionPub.publish(stopMsg);
-                                    setState(State.ALIGNED_AND_ROTATED);
-                                }
+                if (state == State.ALIGNED){   
+
+                    setState(State.REVERSING);
+                    //                    back up a small amount, stop, rotate pi/2 cw, stop
+                    //                                use robot odometry to control this
+                    //                                need to make a loop where do not exit until rotate pi/2
+                }
+
+//                Backing up a small amount
+                if (state == State.REVERSING){
+                    //                                  Proportional Controller with cap for reversing based on error from distance offset
+                    double error = distanceOffset - getDist(robotX, robotY, alignedBotX, alignedBotY);
+
+                    if (error < 0.01){
+                        double reverseGain = 1.0;
+                        
+                        MotionMsg reverseMsg = new MotionMsg();
+//                        check signs with this, may be an error 
+                        reverseMsg.translationalVelocity = -Math.min(reverseGain*error, 3.0);
+                        reverseMsg.rotationalVelocity = STOP;
+                        
+                        motionPub.publish(reverseMsg);
+                    } else {
+                        setState(State.STOP);
+                    }
+                }
+                
+//                Stopping
+                if (state == State.STOP){
+                    motionPub.publish(stopMsg);
+                    
+                    setState(State.ROTATING);
+                }
+                
+//                Rotating
+                if (state == State.ROTATING){
+                    
+                }
                 //
                 //                //                4.1
                 //                //                need to check that the state doesn't become algined and rotated anywhere else b/c need
