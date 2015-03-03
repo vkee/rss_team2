@@ -85,12 +85,12 @@ public class LocalNavigation implements NodeMain{
         stopMsg = new MotionMsg();
         stopMsg.translationalVelocity = STOP;
         stopMsg.rotationalVelocity = STOP;
-System.out.println("in the constructor of LocalNavigation");
+        System.out.println("in the constructor of LocalNavigation");
     }
 
     @Override
     public void onStart(Node node) {
-System.out.println("in onstart");
+        System.out.println("in onstart");
         frontSonarSub = node.newSubscriber("/rss/Sonars/Front", "rss_msgs/SonarMsg");
         backSonarSub = node.newSubscriber("/rss/Sonars/Back", "rss_msgs/SonarMsg");
         bumpersSub = node.newSubscriber("/rss/BumpSensors", "rss_msgs/BumpMsg");
@@ -112,17 +112,17 @@ System.out.println("in onstart");
                 //              3.1 //TODO: print out the sensor data
 
                 System.out.println("Left " + message.left);
-		System.out.println("Right " + message.right);
+                System.out.println("Right " + message.right);
                 leftBumper = message.left;
                 rightBumper = message.right;
 
                 //                //                3.2 Stop Robot when state == STOP_ON_BUMP and either bumper is pressed
-                                if (state == State.STOP_ON_BUMP){
-                                    if (leftBumper || rightBumper){
-System.out.println("should be stopping");
-                                        motionPub.publish(stopMsg);
-                                    }
-                                }
+                //                                if (state == State.STOP_ON_BUMP){
+                //                                    if (leftBumper || rightBumper){
+                //System.out.println("should be stopping");
+                //                                        motionPub.publish(stopMsg);
+                //                                    }
+                //                                }
                 //
                 //                //                3.3 
                 //                if ((state == State.ALIGN_ON_BUMP) && (leftBumper || rightBumper)){
@@ -218,7 +218,7 @@ System.out.println("should be stopping");
         //        Robot.resetRobotBase();
         //        Robot.setVelocity(0.0, 0.0);
         //                        motionPub.publish(stopMsg);
-System.out.println("at end of onstart");
+        System.out.println("at end of onstart");
     }
 
     /**
@@ -227,10 +227,10 @@ System.out.println("at end of onstart");
      */
     public void setState(State newState){
         state = newState;
-//        need to figure out how to use string message
-        org.ros.message.std_msgs.String str = new org.ros.message.std_msgs.String();
-        str.data = state.toString();
-        statePub.publish(str);
+        //        need to figure out how to use string message
+        //        org.ros.message.std_msgs.String str = new org.ros.message.std_msgs.String();
+        //        str.data = state.toString();
+        //        statePub.publish(str);
     }
 
     /**
@@ -360,16 +360,16 @@ System.out.println("at end of onstart");
         //                //                erase wall fit line from SonarGUI, generate more accurate line segment
         //            }
         //        }
-        
-//        6
+
+        //        6
         if (state == State.WALL_ENDED){
             setState(State.ALIGN_ON_BUMP);
-//            robot drives slowly ccw along circle radius d tangent to current heading
-//            use random color generator to choose a new color
-            
-//            if back at the original state, enter state done
+            //            robot drives slowly ccw along circle radius d tangent to current heading
+            //            use random color generator to choose a new color
+
+            //            if back at the original state, enter state done
         }
-        
+
     }
 
     private void generateColorMsgs(){
