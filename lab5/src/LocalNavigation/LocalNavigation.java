@@ -39,11 +39,11 @@ public class LocalNavigation implements NodeMain{
     public double robotTheta = 0.0; // in radians
 
     //    Offset of the front sonar wrt the robot's origin
-    public final double FRONT_SONAR_X = 0.0; // in meters
-    public final double FRONT_SONAR_Y = 0.0; // in meters
+    public final double FRONT_SONAR_X = -0.19; // in meters
+    public final double FRONT_SONAR_Y = 0.06; // in meters
     //    Offset of the Back Sonar wrt the robot's origin
-    public final double BACK_SONAR_X = 0.0; // in meters
-    public final double BACK_SONAR_Y = 0.0; // in meters
+    public final double BACK_SONAR_X = -0.19; // in meters
+    public final double BACK_SONAR_Y = -0.30; // in meters
     public final double SONAR_DIST = Math.sqrt((FRONT_SONAR_X - BACK_SONAR_X)*(FRONT_SONAR_X - BACK_SONAR_X) - 
             (FRONT_SONAR_Y - BACK_SONAR_Y)*(FRONT_SONAR_Y - BACK_SONAR_Y)); // distance between the sonars in meters
 
@@ -258,12 +258,18 @@ public class LocalNavigation implements NodeMain{
         //        3.5 plotting the location of each sonar ping in the world frame
 
         GUIPointMsg ptMsg = new GUIPointMsg();
+        System.out.println("Robot X: " + robotX);
+        System.out.println("Robot Y: " + robotY);
+        System.out.println("Robot Theta: " + robotTheta);
+
         if (message.isFront){
             //            Adding a PI/2 shift b/c the sonar is on the left face of the robot
             ptMsg.x = robotX + FRONT_SONAR_X + message.range*Math.cos(robotTheta + Math.PI/2);
             ptMsg.y = robotY + FRONT_SONAR_Y + message.range*Math.sin(robotTheta + Math.PI/2);
             //            Readings from the front sensor are red
             ptMsg.color = redMsg;
+            System.out.println("Front Point X Coord: " + ptMsg.x);
+            System.out.println("Front Point Y Coord: " + ptMsg.y);
             
         } else {
             //          Adding a PI/2 shift b/c the sonar is on the left face of the robot
@@ -271,11 +277,10 @@ public class LocalNavigation implements NodeMain{
             ptMsg.y = robotY + BACK_SONAR_Y + message.range*Math.sin(robotTheta + Math.PI/2);
             //          Readings from the back sensor are blue
             ptMsg.color = blueMsg;
+            System.out.println("Back Point X Coord: " + ptMsg.x);
+            System.out.println("Back Point Y Coord: " + ptMsg.y);
         }
-        //        //        TODO: may need to add shape to the point message, but not sure what to do there
-        //
-        System.out.println("X Coord: " + ptMsg.x);
-        System.out.println("Y Coord: " + ptMsg.y);
+
         guiPtPub.publish(ptMsg);
 
         //       3.5 Plotting non obstacles and obstacle points
