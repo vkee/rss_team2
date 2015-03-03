@@ -38,6 +38,14 @@ public class LocalNavigation implements NodeMain{
     public double robotY = 0.0; // in meters
     public double robotTheta = 0.0; // in radians
 
+    //    Robot Odometry at Aligned State
+    private double alignedBotX = 0.0;
+    private double alignedBotY = 0.0;
+    private double alignedBotTheta = 0.0;
+
+    //    Distance offset of the robot from the wall, defined as d in the lab
+    private final double distanceOffset = 0.25;
+
     //    Offset of the front sonar wrt the robot's origin
     public final double FRONT_SONAR_X = -0.19; // in meters
     public final double FRONT_SONAR_Y = 0.06; // in meters
@@ -63,8 +71,8 @@ public class LocalNavigation implements NodeMain{
     public LineEstimator lineEstimator = new LineEstimator();
 
     public enum State {
-        STOP_ON_BUMP, ALIGN_ON_BUMP, ALIGNING, ALIGNED, ALIGNED_AND_ROTATED, BACKING_UP, 
-        FINDING_WALL, TRACKING_WALL, WALL_ENDED, DONE
+        STOP_ON_BUMP, ALIGN_ON_BUMP, ALIGNING, ALIGNED, REVERSING, STOP, ROTATING, 
+        ALIGNED_AND_ROTATED, BACKING_UP, FINDING_WALL, TRACKING_WALL, WALL_ENDED, DONE
     }
 
     //    Velocity Constants
@@ -86,12 +94,10 @@ public class LocalNavigation implements NodeMain{
         stopMsg = new MotionMsg();
         stopMsg.translationalVelocity = STOP;
         stopMsg.rotationalVelocity = STOP;
-        System.out.println("in the constructor of LocalNavigation");
     }
 
     @Override
     public void onStart(Node node) {
-        System.out.println("in onstart");
         frontSonarSub = node.newSubscriber("/rss/Sonars/Front", "rss_msgs/SonarMsg");
         backSonarSub = node.newSubscriber("/rss/Sonars/Back", "rss_msgs/SonarMsg");
         bumpersSub = node.newSubscriber("/rss/BumpSensors", "rss_msgs/BumpMsg");
@@ -160,12 +166,13 @@ public class LocalNavigation implements NodeMain{
                 }
                 //
                 //                //                4
-                //                if (state == State.ALIGNED){
-                //                    //                    back up a small amount, stop, rotate pi/2 cw, stop
-                //                need to make a loop where do not exit until rotate pi/2
-                //                        motionPub.publish(stopMsg);
-                //                    setState(State.ALIGNED_AND_ROTATED);
-                //                }
+                                if (state == State.ALIGNED){     
+                                    //                    back up a small amount, stop, rotate pi/2 cw, stop
+                                use robot odometry to control this
+                                need to make a loop where do not exit until rotate pi/2
+                                        motionPub.publish(stopMsg);
+                                    setState(State.ALIGNED_AND_ROTATED);
+                                }
                 //
                 //                //                4.1
                 //                //                need to check that the state doesn't become algined and rotated anywhere else b/c need
@@ -222,19 +229,6 @@ public class LocalNavigation implements NodeMain{
         //        Robot.resetRobotBase();
         //        Robot.setVelocity(0.0, 0.0);
         //                        motionPub.publish(stopMsg);
-        System.out.println("at end of onstart");
-    }
-
-    /**
-     * Set the state and publish the new state to the /rss/state topic
-     * @param newState
-     */
-    public void setState(State newState){
-        state = newState;
-        //        need to figure out how to use string message
-        //        org.ros.message.std_msgs.String str = new org.ros.message.std_msgs.String();
-        //        str.data = state.toString();
-        //        statePub.publish(str);
     }
 
     /**
@@ -256,26 +250,26 @@ public class LocalNavigation implements NodeMain{
         }
 
         //        3.5 plotting the location of each sonar ping in the world frame
-        
+
         GUIPointMsg ptMsg = new GUIPointMsg();
         System.out.println("Robot X: " + robotX);
         System.out.println("Robot Y: " + robotY);
         System.out.println("Robot Theta: " + robotTheta);
 
         if (message.isFront){
-            System.out.println("Front Range " + message.range);      
+            System.out.println("Front Range " + message.range);    
+            //            X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
             ptMsg.x = robotX + Math.cos(robotTheta)*FRONT_SONAR_Y - Math.sin(robotTheta)*(message.range + FRONT_SONAR_X);
             ptMsg.y = robotY + Math.sin(robotTheta)*FRONT_SONAR_Y + Math.cos(robotTheta)*(message.range + FRONT_SONAR_X);
             //            Readings from the front sensor are red
             ptMsg.color = redMsg;
             System.out.println("Front Point X Coord: " + ptMsg.x);
             System.out.println("Front Point Y Coord: " + ptMsg.y);
-            
+
         } else {
             System.out.println("Back Range " + message.range);
 
-            //          Adding a PI/2 shift b/c the sonar is on the left face of the robot
-            
+            //            X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
             ptMsg.x = robotX + Math.cos(robotTheta)*BACK_SONAR_Y - Math.sin(robotTheta)*(message.range + BACK_SONAR_X);
             ptMsg.y = robotY + Math.sin(robotTheta)*BACK_SONAR_Y + Math.cos(robotTheta)*(message.range + BACK_SONAR_X);
 
@@ -286,14 +280,14 @@ public class LocalNavigation implements NodeMain{
         }
 
         guiPtPub.publish(ptMsg);
-        
+
+        //        Publishing the robot's current position
         GUIPointMsg botMsg = new GUIPointMsg();
         botMsg.x = robotX;
         botMsg.y = robotY;
         botMsg.color = greenMsg;
-        
         guiPtPub.publish(botMsg);
-        
+
 
         //       3.5 Plotting non obstacles and obstacle points
         //        System.out.println(message.range);
@@ -315,13 +309,13 @@ public class LocalNavigation implements NodeMain{
         //        double y;
         //        if (obstacleDetected){
         //            if (message.isFront){
-        //                //            Adding a PI/2 shift b/c the sonar is on the left face of the robot
-        //                x = robotX + FRONT_SONAR_X + message.range*Math.cos(robotTheta + Math.PI/2);
-        //                y = robotY + FRONT_SONAR_Y + message.range*Math.sin(robotTheta + Math.PI/2);
+        //                    X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
+        //        x = robotX + Math.cos(robotTheta)*FRONT_SONAR_Y - Math.sin(robotTheta)*(message.range + FRONT_SONAR_X);
+        //        y = robotY + Math.sin(robotTheta)*FRONT_SONAR_Y + Math.cos(robotTheta)*(message.range + FRONT_SONAR_X);
         //            } else {
-        //                //          Adding a PI/2 shift b/c the sonar is on the left face of the robot
-        //                x = robotX + BACK_SONAR_X + message.range*Math.cos(robotTheta + Math.PI/2);
-        //                y = robotY + BACK_SONAR_Y + message.range*Math.sin(robotTheta + Math.PI/2);
+        //            X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
+        //        x = robotX + Math.cos(robotTheta)*BACK_SONAR_Y - Math.sin(robotTheta)*(message.range + BACK_SONAR_X);
+        //        y = robotY + Math.sin(robotTheta)*BACK_SONAR_Y + Math.cos(robotTheta)*(message.range + BACK_SONAR_X);
         //            }
         //            
         ////            Updating and replotting line
@@ -394,6 +388,36 @@ public class LocalNavigation implements NodeMain{
             //            if back at the original state, enter state done
         }
 
+    }
+
+    /**
+     * Set the state and publish the new state to the /rss/state topic
+     * @param newState
+     */
+    public void setState(State newState){
+        state = newState;
+        //        need to figure out how to use string message
+        //        org.ros.message.std_msgs.String str = new org.ros.message.std_msgs.String();
+        //        str.data = state.toString();
+        //        statePub.publish(str);
+
+        if (newState == State.ALIGNED){
+            //          Storing robot odometry at the moment the robot switches into the aligned state
+            alignedBotX = robotX;
+            alignedBotY = robotY;
+            alignedBotTheta = robotTheta;
+        }
+    }
+
+    /**
+     * Returns the distance between two points
+     * @param pt1X the x coordinate of point 1
+     * @param pt1Y the y coordinate of point 1
+     * @param pt2X the x coordinate of point 2
+     * @param pt2Y the y coordinate of point 2
+     */
+    public double getDist(double pt1X, double pt1Y, double pt2X, double pt2Y){
+        return Math.sqrt((pt1X - pt2X)*(pt1X - pt2X) + (pt1Y - pt2Y)*(pt1Y - pt2Y));
     }
 
     private void generateColorMsgs(){
