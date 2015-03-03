@@ -117,12 +117,12 @@ public class LocalNavigation implements NodeMain{
                 rightBumper = message.right;
 
                 //                //                3.2 Stop Robot when state == STOP_ON_BUMP and either bumper is pressed
-                //                                if (state == State.STOP_ON_BUMP){
-                //                                    if (leftBumper || rightBumper){
-                //System.out.println("should be stopping");
-                //                                        motionPub.publish(stopMsg);
-                //                                    }
-                //                                }
+                if (state == State.STOP_ON_BUMP){
+                    if (leftBumper || rightBumper){
+                        System.out.println("should be stopping");
+                        motionPub.publish(stopMsg);
+                    }
+                }
                 //
                 //                //                3.3 
                 //                if ((state == State.ALIGN_ON_BUMP) && (leftBumper || rightBumper)){
