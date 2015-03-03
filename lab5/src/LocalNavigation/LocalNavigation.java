@@ -256,13 +256,14 @@ public class LocalNavigation implements NodeMain{
         }
 
         //        3.5 plotting the location of each sonar ping in the world frame
-
+        
         GUIPointMsg ptMsg = new GUIPointMsg();
         System.out.println("Robot X: " + robotX);
         System.out.println("Robot Y: " + robotY);
         System.out.println("Robot Theta: " + robotTheta);
 
         if (message.isFront){
+            System.out.println("Front Range " + message.range);
             //            Adding a PI/2 shift b/c the sonar is on the left face of the robot
             ptMsg.x = robotX + FRONT_SONAR_X + message.range*Math.cos(robotTheta + Math.PI/2);
             ptMsg.y = robotY + FRONT_SONAR_Y + message.range*Math.sin(robotTheta + Math.PI/2);
@@ -272,6 +273,8 @@ public class LocalNavigation implements NodeMain{
             System.out.println("Front Point Y Coord: " + ptMsg.y);
             
         } else {
+            System.out.println("Back Range " + message.range);
+
             //          Adding a PI/2 shift b/c the sonar is on the left face of the robot
             ptMsg.x = robotX + BACK_SONAR_X + message.range*Math.cos(robotTheta + Math.PI/2);
             ptMsg.y = robotY + BACK_SONAR_Y + message.range*Math.sin(robotTheta + Math.PI/2);
