@@ -270,8 +270,8 @@ public class LocalNavigation implements NodeMain{
 //          
 //            ptMsg.x = Math.cos(-Math.PI/2)*tempX - Math.sin(-Math.PI/2)*tempY;
 //            ptMsg.y = Math.sin(-Math.PI/2)*tempX + Math.cos(-Math.PI/2)*tempY;
-            ptMsg.x = robotX;
-            ptMsg.y = robotY;
+            ptMsg.x = robotX + FRONT_SONAR_X;
+            ptMsg.y = robotY + FRONT_SONAR_Y;
             //            Readings from the front sensor are red
             ptMsg.color = redMsg;
             System.out.println("Front Point X Coord: " + ptMsg.x);
@@ -285,8 +285,8 @@ public class LocalNavigation implements NodeMain{
 //            double tempY = robotY + BACK_SONAR_Y + message.range*Math.sin(robotTheta + Math.PI/2);
 //            ptMsg.x = Math.cos(-Math.PI/2)*tempX - Math.sin(-Math.PI/2)*tempY;
 //            ptMsg.y = Math.sin(-Math.PI/2)*tempX + Math.cos(-Math.PI/2)*tempY;
-            ptMsg.x = robotX;
-            ptMsg.y = robotY;
+            ptMsg.x = robotX + BACK_SONAR_X;
+            ptMsg.y = robotY + BACK_SONAR_Y;
             //          Readings from the back sensor are blue
             ptMsg.color = blueMsg;
             System.out.println("Back Point X Coord: " + ptMsg.x);
