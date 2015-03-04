@@ -115,8 +115,8 @@ public class LocalNavigation implements NodeMain{
             @Override
             public void onNewMessage(
                     org.ros.message.rss_msgs.BumpMsg message) {
-                
-//                System.out.println("State: " + state);
+
+                //                System.out.println("State: " + state);
 
                 //              3.1 //TODO: print out the sensor data
 
@@ -306,22 +306,22 @@ public class LocalNavigation implements NodeMain{
         //        3.5 plotting the location of each sonar ping in the world frame
 
         GUIPointMsg ptMsg = new GUIPointMsg();
-//        System.out.println("Robot X: " + robotX);
-//        System.out.println("Robot Y: " + robotY);
-//        System.out.println("Robot Theta: " + robotTheta);
+        //        System.out.println("Robot X: " + robotX);
+        //        System.out.println("Robot Y: " + robotY);
+        //        System.out.println("Robot Theta: " + robotTheta);
 
         if (message.isFront){
-//            System.out.println("Front Range " + message.range);    
+            //            System.out.println("Front Range " + message.range);    
             //            X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
             ptMsg.x = robotX + Math.cos(robotTheta)*FRONT_SONAR_Y - Math.sin(robotTheta)*(message.range - FRONT_SONAR_X);
             ptMsg.y = robotY + Math.sin(robotTheta)*FRONT_SONAR_Y + Math.cos(robotTheta)*(message.range - FRONT_SONAR_X);
             //            Readings from the front sensor are red
             ptMsg.color = redMsg;
-//            System.out.println("Front Point X Coord: " + ptMsg.x);
-//            System.out.println("Front Point Y Coord: " + ptMsg.y);
+            //            System.out.println("Front Point X Coord: " + ptMsg.x);
+            //            System.out.println("Front Point Y Coord: " + ptMsg.y);
 
         } else {
-//            System.out.println("Back Range " + message.range);
+            //            System.out.println("Back Range " + message.range);
 
             //            X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
             ptMsg.x = robotX + Math.cos(robotTheta)*BACK_SONAR_Y - Math.sin(robotTheta)*(message.range - BACK_SONAR_X);
@@ -329,33 +329,32 @@ public class LocalNavigation implements NodeMain{
 
             //          Readings from the back sensor are blue
             ptMsg.color = blueMsg;
-//            System.out.println("Back Point X Coord: " + ptMsg.x);
-//            System.out.println("Back Point Y Coord: " + ptMsg.y);
+            //            System.out.println("Back Point X Coord: " + ptMsg.x);
+            //            System.out.println("Back Point Y Coord: " + ptMsg.y);
         }
 
-//        guiPtPub.publish(ptMsg);
+        //        guiPtPub.publish(ptMsg);
 
-//        //        Publishing the robot's current position
-//        GUIPointMsg botMsg = new GUIPointMsg();
-//        botMsg.x = robotX;
-//        botMsg.y = robotY;
-//        botMsg.color = greenMsg;
-//        guiPtPub.publish(botMsg);
+        //        //        Publishing the robot's current position
+        //        GUIPointMsg botMsg = new GUIPointMsg();
+        //        botMsg.x = robotX;
+        //        botMsg.y = robotY;
+        //        botMsg.color = greenMsg;
+        //        guiPtPub.publish(botMsg);
 
 
         //       3.5 Plotting non obstacles and obstacle points
-                System.out.println(message.range);
+        System.out.println(message.range);
         //        May need to also check if the range is 0 which may be for infinite distance
-                GUIPointMsg ptMsg = new GUIPointMsg();
-                if (!obstacleDetected){
-        //            Non obstacle points are in green
-                    ptMsg.color = greenMsg;
-                } else {
-        //            Obstacle points are in black
-                    ptMsg.color = redMsg;
-                }
-        
-                guiPtPub.publish(ptMsg);
+        if (!obstacleDetected){
+            //            Non obstacle points are in green
+            ptMsg.color = greenMsg;
+        } else {
+            //            Obstacle points are in black
+            ptMsg.color = redMsg;
+        }
+
+        guiPtPub.publish(ptMsg);
 
 
         //        3.6 Linear Filter Stuff
