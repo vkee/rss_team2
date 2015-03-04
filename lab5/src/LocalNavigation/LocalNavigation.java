@@ -464,7 +464,9 @@ public class LocalNavigation implements NodeMain{
                 System.out.println("Orientation Error " + orientError);
                 System.out.println("Rotation Vel: " + msg.rotationalVelocity);
                 
-                dataLogger.write(System.currentTimeMillis(), transError, orientError);
+                if (saveErrors){
+                    dataLogger.write(System.currentTimeMillis(), transError, orientError);
+                }
                                 
                 motionPub.publish(msg);
             }
