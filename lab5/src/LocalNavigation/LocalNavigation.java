@@ -102,6 +102,8 @@ public class LocalNavigation implements NodeMain{
     public final double FAST_CW = -FAST_CCW; // fast cw rotational velocity
     public final double STOP = 0.0; // stop value
     public final MotionMsg stopMsg;
+    
+    private final FileLogger dataLogger;
 
     public LocalNavigation(){
         setState(State.ALIGN_ON_BUMP);
@@ -110,6 +112,9 @@ public class LocalNavigation implements NodeMain{
         stopMsg = new MotionMsg();
         stopMsg.translationalVelocity = STOP;
         stopMsg.rotationalVelocity = STOP;
+        
+        dataLogger = new FileLogger("data.txt");
+        
     }
 
     @Override
@@ -221,7 +226,7 @@ public class LocalNavigation implements NodeMain{
                 if (state == State.ROTATING){
 
                     double error = Math.abs(robotTheta - (alignedBotTheta - Math.PI/2)) ;
-//                    System.out.println("Error: " + error);
+                    System.out.println("Error: " + error);
                     if (error > 0.01){
                         double rotateGain = 0.25;
 
@@ -459,7 +464,7 @@ public class LocalNavigation implements NodeMain{
                 System.out.println("Orientation Error " + orientError);
                 System.out.println("Rotation Vel: " + msg.rotationalVelocity);
                 
-                
+                dataLogger.
                 
                 motionPub.publish(msg);
             }
@@ -472,6 +477,7 @@ public class LocalNavigation implements NodeMain{
             //            use random color generator to choose a new color
 
             //            if back at the original state, enter state done
+            dataLogger.closeFile();
         }
 
     }
