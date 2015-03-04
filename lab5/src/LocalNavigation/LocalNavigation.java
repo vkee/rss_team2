@@ -151,14 +151,14 @@ public class LocalNavigation implements NodeMain{
                         if (leftBumper){
                             //                          rotate right/CCW
                             MotionMsg msg = new MotionMsg();
-                            msg.translationalVelocity = STOP;
+                            msg.translationalVelocity = SLOW_FWD;
                             msg.rotationalVelocity = SLOW_CCW;
                             motionPub.publish(msg);
                         } else {
                             //                          rotate left / CW
 
                             MotionMsg msg = new MotionMsg();
-                            msg.translationalVelocity = STOP;
+                            msg.translationalVelocity = SLOW_FWD;
                             msg.rotationalVelocity = SLOW_CW;
                             motionPub.publish(msg);
                         }
