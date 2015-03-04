@@ -71,18 +71,18 @@ public class LocalNavigation implements NodeMain{
     public LineEstimator lineEstimator = new LineEstimator();
 
     public enum State {
-        STOP_ON_BUMP, ALIGN_ON_BUMP, ALIGNING, ALIGNED, REVERSING, STOP, ROTATING, 
+        STOP_ON_BUMP, ALIGN_ON_BUMP, ALIGNING, ALIGNED, REVERSING, REVERSE_STOP, ROTATING, ROTATE_STOP,
         ALIGNED_AND_ROTATED, BACKING_UP, FINDING_WALL, TRACKING_WALL, WALL_ENDED, DONE
     }
 
     //    Velocity Constants
-    public final double SLOW_FWD = 0.25; // slow forward translational velocity
+    public final double SLOW_FWD = 0.15; // slow forward translational velocity
     public final double SLOW_REV = -SLOW_FWD; // slow backwards translational velocity
-    public final double FAST_FWD = 0.75; // fast forward translational velocity
+    public final double FAST_FWD = 0.5; // fast forward translational velocity
     public final double FAST_REV = -FAST_FWD; // fast backwards translational velocity
-    public final double SLOW_CCW = 0.25; // slow ccw rotational velocity
+    public final double SLOW_CCW = 0.15; // slow ccw rotational velocity
     public final double SLOW_CW = -SLOW_CCW; // slow cw rotational velocity
-    public final double FAST_CCW = 0.75; // fast ccw rotational velocity
+    public final double FAST_CCW = 0.5; // fast ccw rotational velocity
     public final double FAST_CW = -FAST_CCW; // fast cw rotational velocity
     public final double STOP = 0.0; // stop value
     public final MotionMsg stopMsg;
@@ -126,7 +126,6 @@ public class LocalNavigation implements NodeMain{
                 //                //                3.2 Stop Robot when state == STOP_ON_BUMP and either bumper is pressed
                 if (state == State.STOP_ON_BUMP){
                     if (leftBumper || rightBumper){
-                        System.out.println("should be stopping");
                         motionPub.publish(stopMsg);
                     }
                 }
@@ -174,36 +173,58 @@ public class LocalNavigation implements NodeMain{
                     //                                need to make a loop where do not exit until rotate pi/2
                 }
 
-//                Backing up a small amount
+                //                Backing up a small amount
                 if (state == State.REVERSING){
                     //                                  Proportional Controller with cap for reversing based on error from distance offset
                     double error = distanceOffset - getDist(robotX, robotY, alignedBotX, alignedBotY);
 
-                    if (error < 0.01){
+                    if (error > 0.01){
                         double reverseGain = 1.0;
-                        
+
                         MotionMsg reverseMsg = new MotionMsg();
-//                        check signs with this, may be an error 
+                        //                        check signs with this, may be an error 
                         reverseMsg.translationalVelocity = -Math.min(reverseGain*error, 3.0);
                         reverseMsg.rotationalVelocity = STOP;
-                        
+
                         motionPub.publish(reverseMsg);
                     } else {
-                        setState(State.STOP);
+                        setState(State.REVERSE_STOP);
                     }
                 }
-                
-//                Stopping
-                if (state == State.STOP){
+
+                //                Stopping
+                if (state == State.REVERSE_STOP){
                     motionPub.publish(stopMsg);
-                    
+
                     setState(State.ROTATING);
                 }
-                
-//                Rotating
+
+                //                Rotating pi/2 radians cw
                 if (state == State.ROTATING){
-                    
+
+                    double error = robotTheta - (alignedBotTheta - Math.PI/2);
+
+                    if (error > 0.01){
+                        double rotateGain = 1.0;
+
+                        MotionMsg reverseMsg = new MotionMsg();
+                        reverseMsg.translationalVelocity = STOP;
+                        //                        check signs with this, may be an error 
+                        reverseMsg.rotationalVelocity = -Math.min(rotateGain*error, 1.0);
+
+                        motionPub.publish(reverseMsg);
+                    } else {
+                        setState(State.ROTATE_STOP);
+                    }
                 }
+
+                //              Stopping
+                if (state == State.ROTATE_STOP){
+                    motionPub.publish(stopMsg);
+
+                    setState(State.ALIGNED_AND_ROTATED);
+                }
+
                 //
                 //                //                4.1
                 //                //                need to check that the state doesn't become algined and rotated anywhere else b/c need
