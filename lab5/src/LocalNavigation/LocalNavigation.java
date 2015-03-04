@@ -129,8 +129,8 @@ public class LocalNavigation implements NodeMain{
 
                 //              3.1 //TODO: print out the sensor data
 
-                                System.out.println("Left " + message.left);
-                                System.out.println("Right " + message.right);
+                System.out.println("Left " + message.left);
+                System.out.println("Right " + message.right);
                 leftBumper = message.left;
                 rightBumper = message.right;
 
@@ -393,21 +393,6 @@ public class LocalNavigation implements NodeMain{
                 setState(State.FINDING_WALL);
             }
         }
-        //      going to need to construct a loop that will publish the velocities (rotational and translational) every time step
-        //        do the same type of controller to determine the rotational velocity and translational velocity
-        //        but not quite sure how to do this
-        //        distance too close need to rotate outwards so cw slightly
-        //        too far need to rotate inwards ccw slightly
-        //        for angle similar, need to compute angle from sonar sensors
-        //        double transError = d - lineEstimator.getPerpDist(robotX, robotY); // where d is the desired distance to remain from the wall
-        //
-        //        double obsSlope = Math.atan2(-lineEstimator.getA(), lineEstimator.getB());
-        //        double orientError = obsSlope - robotTheta;
-        //        may also want to also store each sonar value when an obstacle is detected
-        //        and then compute the angle from the triangle formed by their difference and the distance
-        //        between the sonars and add this in as a factor of the orientation error
-        //        orientError += (obsSlope - Math.atan2(frontSonarDist - backSonarDist, SONAR_DIST));
-        //        determine the translational and rotational velocities
 
         //        4.2
         if (state == State.FINDING_WALL){
@@ -432,7 +417,24 @@ public class LocalNavigation implements NodeMain{
                 motionPub.publish(stopMsg);
                 setState(State.WALL_ENDED);
 
-                //                erase wall fit line from SonarGUI, generate more accurate line segment
+                //         TODO       erase wall fit line from SonarGUI, generate more accurate line segment
+            } else {
+                double transGain = 0.125;
+                double rotGain = 0.25;
+
+                double transError = lineEstimator.getPerpDist(robotX, robotY) - distanceOffset; // where d is the desired distance to remain from the wall
+                // computing slope from the estimated line
+                double obsSlope = Math.atan2(-lineEstimator.getA(), lineEstimator.getB()); 
+                double orientError = obsSlope - robotTheta;
+                //        may also want to also store each sonar value when an obstacle is detected
+                //        and then compute the angle from the triangle formed by their difference and the distance
+                //        between the sonars and add this in as a factor of the orientation error 
+                //                orientError += (obsSlope - Math.atan2(frontSonarDist - backSonarDist, SONAR_DIST));
+                MotionMsg msg = new MotionMsg();
+                msg.translationalVelocity = SLOW_FWD;
+                //                Rotate CW away from the wall if too close, rotate CCW towards the wall if too far
+                msg.rotationalVelocity = trackingGain*transError + rotGain*orientError;
+                motionPub.publish(msg);
             }
         }
 
