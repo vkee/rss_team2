@@ -463,9 +463,7 @@ public class LocalNavigation implements NodeMain{
                 System.out.println("Translational Error "  + transError);
                 System.out.println("Orientation Error " + orientError);
                 System.out.println("Rotation Vel: " + msg.rotationalVelocity);
-                
-                dataLogger.
-                
+                                
                 motionPub.publish(msg);
             }
         }
