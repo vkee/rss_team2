@@ -390,6 +390,9 @@ public class LocalNavigation implements NodeMain{
 
         // 4.1
         if (state == State.BACKING_UP){ 
+            
+//            NEED TO HAVE IT SO THAT ONLY IF BOTH OF THEM DON'T DETECT THE WALL THEN STOP
+            
             if (obstacleDetected){
                 //              back up slowly and track the wall 
                 MotionMsg msg = new MotionMsg();
