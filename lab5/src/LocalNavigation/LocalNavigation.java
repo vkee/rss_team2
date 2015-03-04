@@ -236,7 +236,7 @@ public class LocalNavigation implements NodeMain{
                 }
 
                 if (state == State.ALIGNED_AND_ROTATED){
-//                    setState(State.BACKING_UP);
+                    setState(State.BACKING_UP);
                 }
 
                 //
@@ -406,18 +406,18 @@ public class LocalNavigation implements NodeMain{
         guiLinePub.publish(lineMsg);
 
         // 4.1
-        if (state == State.BACKING_UP){ 
-            if (obsDetectFront || obsDetectBack){
-                //              back up slowly and track the wall 
-                MotionMsg msg = new MotionMsg();
-                msg.translationalVelocity = SLOW_REV;
-                msg.rotationalVelocity = STOP;
-                motionPub.publish(msg);
-            } else {
-                motionPub.publish(stopMsg);
-                setState(State.FINDING_WALL);
-            }
-        }
+//        if (state == State.BACKING_UP){ 
+//            if (obsDetectFront || obsDetectBack){
+//                //              back up slowly and track the wall 
+//                MotionMsg msg = new MotionMsg();
+//                msg.translationalVelocity = SLOW_REV;
+//                msg.rotationalVelocity = STOP;
+//                motionPub.publish(msg);
+//            } else {
+//                motionPub.publish(stopMsg);
+//                setState(State.FINDING_WALL);
+//            }
+//        }
         //      going to need to construct a loop that will publish the velocities (rotational and translational) every time step
         //        do the same type of controller to determine the rotational velocity and translational velocity
         //        but not quite sure how to do this
