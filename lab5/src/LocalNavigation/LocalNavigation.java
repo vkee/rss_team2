@@ -354,32 +354,32 @@ public class LocalNavigation implements NodeMain{
             ptMsg.color = redMsg;
         }
 
-        guiPtPub.publish(ptMsg);
+        //        guiPtPub.publish(ptMsg);
 
 
         //        3.6 Linear Filter Stuff
-        //        double x;
-        //        double y;
-        //        if (obstacleDetected){
-        //            if (message.isFront){
-        //                    X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
-        //        x = robotX + Math.cos(robotTheta)*FRONT_SONAR_Y - Math.sin(robotTheta)*(message.range + FRONT_SONAR_X);
-        //        y = robotY + Math.sin(robotTheta)*FRONT_SONAR_Y + Math.cos(robotTheta)*(message.range + FRONT_SONAR_X);
-        //            } else {
-        //            X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
-        //        x = robotX + Math.cos(robotTheta)*BACK_SONAR_Y - Math.sin(robotTheta)*(message.range + BACK_SONAR_X);
-        //        y = robotY + Math.sin(robotTheta)*BACK_SONAR_Y + Math.cos(robotTheta)*(message.range + BACK_SONAR_X);
-        //            }
-        //            
-        ////            Updating and replotting line
-        //            lineEstimator.updateTerms(x, y);
-        //            GUILineMsg lineMsg = new GUILineMsg();
-        //            lineMsg.lineA = lineEstimator.getA();
-        //            lineMsg.lineB = lineEstimator.getB();
-        //            lineMsg.lineC = lineEstimator.getC();
-        //            lineMsg.color = blackMsg;
-        //            guiLinePub.publish(lineMsg);
-        //        }
+        double x;
+        double y;
+        if (obstacleDetected){
+            if (message.isFront){
+                //                            X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
+                x = robotX + Math.cos(robotTheta)*FRONT_SONAR_Y - Math.sin(robotTheta)*(message.range + FRONT_SONAR_X);
+                y = robotY + Math.sin(robotTheta)*FRONT_SONAR_Y + Math.cos(robotTheta)*(message.range + FRONT_SONAR_X);
+            } else {
+                //                    X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
+                x = robotX + Math.cos(robotTheta)*BACK_SONAR_Y - Math.sin(robotTheta)*(message.range + BACK_SONAR_X);
+                y = robotY + Math.sin(robotTheta)*BACK_SONAR_Y + Math.cos(robotTheta)*(message.range + BACK_SONAR_X);
+            }
+
+            //            Updating and replotting line
+            lineEstimator.updateTerms(x, y);
+            GUILineMsg lineMsg = new GUILineMsg();
+            lineMsg.lineA = lineEstimator.getA();
+            lineMsg.lineB = lineEstimator.getB();
+            lineMsg.lineC = lineEstimator.getC();
+            lineMsg.color = blackMsg;
+            guiLinePub.publish(lineMsg);
+        }
 
         // 4.1
         //        if (state == State.BACKING_UP){ 
