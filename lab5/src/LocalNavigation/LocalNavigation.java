@@ -129,8 +129,8 @@ public class LocalNavigation implements NodeMain{
 
                 //              3.1 //TODO: print out the sensor data
 
-                //                System.out.println("Left " + message.left);
-                //                System.out.println("Right " + message.right);
+                                System.out.println("Left " + message.left);
+                                System.out.println("Right " + message.right);
                 leftBumper = message.left;
                 rightBumper = message.right;
 
