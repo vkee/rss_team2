@@ -42,8 +42,8 @@ public class LocalNavigation implements NodeMain{
     private double alignedBotX = 0.0;
     private double alignedBotY = 0.0;
     private double alignedBotTheta = 0.0;
-    
-//    Coordinates for the Line Segment of the Wall
+
+    //    Coordinates for the Line Segment of the Wall
     private double startWallX = 0.0;
     private double startWallY = 0.0;
     private double startWallTheta = 0.0;
@@ -102,7 +102,7 @@ public class LocalNavigation implements NodeMain{
     public final double FAST_CW = -FAST_CCW; // fast cw rotational velocity
     public final double STOP = 0.0; // stop value
     public final MotionMsg stopMsg;
-    
+
     private final FileLogger dataLogger;
 
     public LocalNavigation(){
@@ -112,9 +112,9 @@ public class LocalNavigation implements NodeMain{
         stopMsg = new MotionMsg();
         stopMsg.translationalVelocity = STOP;
         stopMsg.rotationalVelocity = STOP;
-        
+
         dataLogger = new FileLogger("data.txt");
-        
+
     }
 
     @Override
@@ -141,8 +141,8 @@ public class LocalNavigation implements NodeMain{
 
                 //              3.1 //TODO: print out the sensor data
 
-//                System.out.println("Left " + message.left);
-//                System.out.println("Right " + message.right);
+                //                System.out.println("Left " + message.left);
+                //                System.out.println("Right " + message.right);
                 leftBumper = message.left;
                 rightBumper = message.right;
 
@@ -224,10 +224,10 @@ public class LocalNavigation implements NodeMain{
 
                 //                Rotating pi/2 radians cw
                 if (state == State.ROTATING){
-
-                    double error = Math.abs(robotTheta - (alignedBotTheta - Math.PI/2)) ;
+                    //                    TODO: david figure out the wraparound case
+                    double error = robotTheta - (alignedBotTheta - Math.PI/2);
                     System.out.println("Error: " + error);
-                    if (error > 0.01){
+                    if (Math.abs(error) > 0.01){
                         double rotateGain = 0.25;
 
                         MotionMsg reverseMsg = new MotionMsg();
@@ -432,8 +432,8 @@ public class LocalNavigation implements NodeMain{
                 setState(State.WALL_ENDED);
                 endWallX = robotX;
                 endWallY = robotY;
-                
-//                Using the points at the start and end of the wall
+
+                //                Using the points at the start and end of the wall
                 GUISegmentMsg msg = new GUISegmentMsg();
                 msg.endX = endWallX;
                 msg.endY = endWallY;
@@ -441,9 +441,9 @@ public class LocalNavigation implements NodeMain{
                 msg.startY = startWallY;
                 msg.color = blackMsg;
                 guiSegPub.publish(msg);
-                
+
                 //         TODO       erase wall fit line from SonarGUI, generate more accurate line segment
-//                probably could just store the points at the beginning and end of tracking wall for the segment msg
+                //                probably could just store the points at the beginning and end of tracking wall for the segment msg
             } else {
                 double transGain = 0.0625;
                 double rotGain = 0.125;
@@ -463,11 +463,11 @@ public class LocalNavigation implements NodeMain{
                 System.out.println("Translational Error "  + transError);
                 System.out.println("Orientation Error " + orientError);
                 System.out.println("Rotation Vel: " + msg.rotationalVelocity);
-                
+
                 if (saveErrors){
                     dataLogger.write(System.currentTimeMillis(), transError, orientError);
                 }
-                                
+
                 motionPub.publish(msg);
             }
         }
