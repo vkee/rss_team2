@@ -445,7 +445,7 @@ public class LocalNavigation implements NodeMain{
         if (state == State.TRACKING_WALL){
             //            move slowly forward tracking wall with feedback controller, update linear filter, and SonarGUI see code above
 
-            if (!obstacleDetected){
+            if (!(obsDetectFront || obsDetectBack)){
                 motionPub.publish(stopMsg);
                 setState(State.WALL_ENDED);
 
