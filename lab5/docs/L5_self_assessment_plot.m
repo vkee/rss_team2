@@ -1,17 +1,17 @@
 
 close all;
 
-D1 = [0 0 0]; % before
-D2 = [0 0 0]; % after
+D1 = [3 4 4]; % before
+D2 = [4 4 5]; % after
 
-G1 = [0 0 0];
-G2 = [0 0 0];
+G1 = [1 1 3];
+G2 = [1 1 3];
 
 S1 = [1.5 4 2];
-S2 = [0 0 0];
+S2 = [1.5 4 2];
 
 V1 = [3 2 2];
-V2 = [0 0 0];
+V2 = [3 2 3];
 
 % bar x-axis labels
 lab = {'Electronics','Data Analysis','Motion Control'};
