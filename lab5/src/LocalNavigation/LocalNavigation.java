@@ -42,6 +42,13 @@ public class LocalNavigation implements NodeMain{
     private double alignedBotX = 0.0;
     private double alignedBotY = 0.0;
     private double alignedBotTheta = 0.0;
+    
+//    Coordinates for the Line Segment of the Wall
+    private double startWallX = 0.0;
+    private double startWallY = 0.0;
+    private double startWallTheta = 0.0;
+    private double endWallX = 0.0;
+    private double endWallY = 0.0;
 
     //    Distance offset of the robot from the wall, defined as d in the lab
     private final double distanceOffset = 0.25;
@@ -405,7 +412,9 @@ public class LocalNavigation implements NodeMain{
             } else {
                 setState(State.TRACKING_WALL);
                 //             TODO   current robot pose and sonar readings store in fields
-
+                startWallX = robotX;
+                startWallY = robotY;
+                startWallTheta = robotTheta;
                 lineEstimator.resetFilter();
             }
         }
@@ -416,8 +425,20 @@ public class LocalNavigation implements NodeMain{
             if (!(obsDetectFront || obsDetectBack)){
                 motionPub.publish(stopMsg);
                 setState(State.WALL_ENDED);
-
+                endWallX = robotX;
+                endWallY = robotY;
+                
+//                Using the points at the start and end of the wall
+                GUISegmentMsg msg = new GUISegmentMsg();
+                msg.endX = endWallX;
+                msg.endY = endWallY;
+                msg.startX = startWallX;
+                msg.startY = startWallY;
+                msg.color = blackMsg;
+                guiSegPub.publish(msg);
+                
                 //         TODO       erase wall fit line from SonarGUI, generate more accurate line segment
+//                probably could just store the points at the beginning and end of tracking wall for the segment msg
             } else {
                 double transGain = 0.0625;
                 double rotGain = 0.125;
@@ -437,6 +458,9 @@ public class LocalNavigation implements NodeMain{
                 System.out.println("Translational Error "  + transError);
                 System.out.println("Orientation Error " + orientError);
                 System.out.println("Rotation Vel: " + msg.rotationalVelocity);
+                
+                
+                
                 motionPub.publish(msg);
             }
         }
