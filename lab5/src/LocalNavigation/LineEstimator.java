@@ -42,11 +42,11 @@ public class LineEstimator {
             b = (sumY*sumX2 - sumX*sumZ)/d;
             c = -1.0;
             
-//            double l_n = Math.sqrt(a*a + b*b);
-//            
-//            a = a / l_n;
-//            b = b / l_n;
-//            c = c / l_n;
+            double l_n = Math.sqrt(a*a + b*b);
+            
+            a = a / l_n;
+            b = b / l_n;
+            c = c / l_n;
         }
     }
     
