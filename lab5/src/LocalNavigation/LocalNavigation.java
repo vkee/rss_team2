@@ -115,6 +115,8 @@ public class LocalNavigation implements NodeMain{
             @Override
             public void onNewMessage(
                     org.ros.message.rss_msgs.BumpMsg message) {
+                
+                System.out.println("State: " + state);
 
                 //              3.1 //TODO: print out the sensor data
 
@@ -205,12 +207,12 @@ public class LocalNavigation implements NodeMain{
                     double error = robotTheta - (alignedBotTheta - Math.PI/2);
 
                     if (error > 0.01){
-                        double rotateGain = 1.0;
+                        double rotateGain = 0.25;
 
                         MotionMsg reverseMsg = new MotionMsg();
                         reverseMsg.translationalVelocity = STOP;
                         //                        check signs with this, may be an error 
-                        reverseMsg.rotationalVelocity = -Math.min(rotateGain*error, 1.0);
+                        reverseMsg.rotationalVelocity = -Math.min(rotateGain*error, 0.5);
 
                         motionPub.publish(reverseMsg);
                     } else {
@@ -304,22 +306,22 @@ public class LocalNavigation implements NodeMain{
         //        3.5 plotting the location of each sonar ping in the world frame
 
         GUIPointMsg ptMsg = new GUIPointMsg();
-        System.out.println("Robot X: " + robotX);
-        System.out.println("Robot Y: " + robotY);
-        System.out.println("Robot Theta: " + robotTheta);
+//        System.out.println("Robot X: " + robotX);
+//        System.out.println("Robot Y: " + robotY);
+//        System.out.println("Robot Theta: " + robotTheta);
 
         if (message.isFront){
-            System.out.println("Front Range " + message.range);    
+//            System.out.println("Front Range " + message.range);    
             //            X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
             ptMsg.x = robotX + Math.cos(robotTheta)*FRONT_SONAR_Y - Math.sin(robotTheta)*(message.range - FRONT_SONAR_X);
             ptMsg.y = robotY + Math.sin(robotTheta)*FRONT_SONAR_Y + Math.cos(robotTheta)*(message.range - FRONT_SONAR_X);
             //            Readings from the front sensor are red
             ptMsg.color = redMsg;
-            System.out.println("Front Point X Coord: " + ptMsg.x);
-            System.out.println("Front Point Y Coord: " + ptMsg.y);
+//            System.out.println("Front Point X Coord: " + ptMsg.x);
+//            System.out.println("Front Point Y Coord: " + ptMsg.y);
 
         } else {
-            System.out.println("Back Range " + message.range);
+//            System.out.println("Back Range " + message.range);
 
             //            X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
             ptMsg.x = robotX + Math.cos(robotTheta)*BACK_SONAR_Y - Math.sin(robotTheta)*(message.range - BACK_SONAR_X);
@@ -327,8 +329,8 @@ public class LocalNavigation implements NodeMain{
 
             //          Readings from the back sensor are blue
             ptMsg.color = blueMsg;
-            System.out.println("Back Point X Coord: " + ptMsg.x);
-            System.out.println("Back Point Y Coord: " + ptMsg.y);
+//            System.out.println("Back Point X Coord: " + ptMsg.x);
+//            System.out.println("Back Point Y Coord: " + ptMsg.y);
         }
 
         guiPtPub.publish(ptMsg);
