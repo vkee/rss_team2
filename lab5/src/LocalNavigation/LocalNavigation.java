@@ -56,7 +56,7 @@ public class LocalNavigation implements NodeMain{
             (FRONT_SONAR_Y - BACK_SONAR_Y)*(FRONT_SONAR_Y - BACK_SONAR_Y)); // distance between the sonars in meters
 
     //    Obstacle Threshold segmenting obstacle points and non-obstacle points
-    public final double threshold = 0.0;
+    public final double threshold = 0.5;
 
     private boolean obstacleDetected = false;
     private double frontSonarDist = 0.0;
@@ -350,7 +350,7 @@ public class LocalNavigation implements NodeMain{
             //            Non obstacle points are in green
             ptMsg.color = greenMsg;
         } else {
-            //            Obstacle points are in black
+            //            Obstacle points are in red
             ptMsg.color = redMsg;
         }
 
