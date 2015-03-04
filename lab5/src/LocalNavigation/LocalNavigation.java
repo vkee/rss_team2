@@ -236,7 +236,7 @@ public class LocalNavigation implements NodeMain{
                 }
 
                 if (state == State.ALIGNED_AND_ROTATED){
-                    setState(State.BACKING_UP);
+//                    setState(State.BACKING_UP);
                 }
 
                 //
