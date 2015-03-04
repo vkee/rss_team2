@@ -129,8 +129,8 @@ public class LocalNavigation implements NodeMain{
 
                 //              3.1 //TODO: print out the sensor data
 
-                System.out.println("Left " + message.left);
-                System.out.println("Right " + message.right);
+//                System.out.println("Left " + message.left);
+//                System.out.println("Right " + message.right);
                 leftBumper = message.left;
                 rightBumper = message.right;
 
@@ -214,7 +214,7 @@ public class LocalNavigation implements NodeMain{
                 if (state == State.ROTATING){
 
                     double error = Math.abs(robotTheta - (alignedBotTheta - Math.PI/2)) ;
-                    System.out.println("Error: " + error);
+//                    System.out.println("Error: " + error);
                     if (error > 0.01){
                         double rotateGain = 0.25;
 
@@ -419,8 +419,8 @@ public class LocalNavigation implements NodeMain{
 
                 //         TODO       erase wall fit line from SonarGUI, generate more accurate line segment
             } else {
-                double transGain = 0.125;
-                double rotGain = 0.25;
+                double transGain = 0.0625;
+                double rotGain = 0.125;
 
                 double transError = lineEstimator.getPerpDist(robotX, robotY) - distanceOffset; // where d is the desired distance to remain from the wall
                 // computing slope from the estimated line
@@ -434,6 +434,7 @@ public class LocalNavigation implements NodeMain{
                 msg.translationalVelocity = SLOW_FWD;
                 //                Rotate CW away from the wall if too close, rotate CCW towards the wall if too far
                 msg.rotationalVelocity = transGain*transError + rotGain*orientError;
+                System.out.println("Rotation Vel: " + rotationalVelocity);
                 motionPub.publish(msg);
             }
         }
