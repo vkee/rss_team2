@@ -80,7 +80,7 @@ public class LocalNavigation implements NodeMain{
     //    Velocity Constants
     public final double SLOW_FWD = 0.15; // slow forward translational velocity
     public final double SLOW_REV = -SLOW_FWD; // slow backwards translational velocity
-    public final double MED_FWD = 0.25; // slow forward translational velocity
+    public final double MED_FWD = 0.2; // slow forward translational velocity
 
     public final double FAST_FWD = 0.5; // fast forward translational velocity
     public final double FAST_REV = -FAST_FWD; // fast backwards translational velocity
@@ -175,13 +175,13 @@ public class LocalNavigation implements NodeMain{
                 }
                 //
                 //                //                4
-//                if (state == State.ALIGNED){   
-//
-//                    setState(State.REVERSING);
-//                    //                    back up a small amount, stop, rotate pi/2 cw, stop
-//                    //                                use robot odometry to control this
-//                    //                                need to make a loop where do not exit until rotate pi/2
-//                }
+                if (state == State.ALIGNED){   
+
+                    setState(State.REVERSING);
+                    //                    back up a small amount, stop, rotate pi/2 cw, stop
+                    //                                use robot odometry to control this
+                    //                                need to make a loop where do not exit until rotate pi/2
+                }
 
                 //                Backing up a small amount
                 if (state == State.REVERSING){
@@ -213,7 +213,7 @@ public class LocalNavigation implements NodeMain{
                 if (state == State.ROTATING){
 
                     double error = robotTheta - (alignedBotTheta - Math.PI/2);
-
+System.out.println("Error: " + error);
                     if (error > 0.01){
                         double rotateGain = 0.25;
 
@@ -236,7 +236,7 @@ public class LocalNavigation implements NodeMain{
                 }
 
                 if (state == State.ALIGNED_AND_ROTATED){
-                    setState(State.BACKING_UP);
+//                    setState(State.BACKING_UP);
                 }
 
                 //
