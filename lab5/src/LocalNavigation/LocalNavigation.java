@@ -56,9 +56,11 @@ public class LocalNavigation implements NodeMain{
             (FRONT_SONAR_Y - BACK_SONAR_Y)*(FRONT_SONAR_Y - BACK_SONAR_Y)); // distance between the sonars in meters
 
     //    Obstacle Threshold segmenting obstacle points and non-obstacle points
-    public final double threshold = 0.5;
+    public final double threshold = 0.5; // in meters
 
-    private boolean obstacleDetected = false;
+    //    Whether an obstacle is detected
+    private boolean obsDetectFront = false;
+    private boolean obsDetectBack = false;
     private double frontSonarDist = 0.0;
     private double backSonarDist = 0.0;
 
@@ -297,14 +299,20 @@ public class LocalNavigation implements NodeMain{
     public void sonarHandler(org.ros.message.rss_msgs.SonarMsg message){
 
         if (message.range < threshold){
-            obstacleDetected = true;
+
             if (message.isFront){
                 frontSonarDist = message.range;
+                obsDetectFront = true;
             } else {
                 backSonarDist = message.range;
+                obsDetectBack = true;
             }
         } else {
-            obstacleDetected = false;
+            if (message.isFront){
+                obsDetectFront = false;
+            } else {
+                obsDetectBack = false;
+            }
         }
 
         //        3.5 plotting the location of each sonar ping in the world frame
@@ -350,7 +358,7 @@ public class LocalNavigation implements NodeMain{
         //       3.5 Plotting non obstacles and obstacle points
         System.out.println(message.range);
         //        May need to also check if the range is 0 which may be for infinite distance
-        if (!obstacleDetected){
+        if (!(obsDetectFront || obsDetectBack)){
             //            Non obstacle points are in green
             ptMsg.color = greenMsg;
         } else {
@@ -364,36 +372,36 @@ public class LocalNavigation implements NodeMain{
         //        3.6 Linear Filter Stuff
         double x;
         double y;
-        if (obstacleDetected){
-            if (message.isFront){
+        if (message.isFront){
+            if (obsDetectFront){
+
                 //                            X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
                 x = robotX + Math.cos(robotTheta)*FRONT_SONAR_Y - Math.sin(robotTheta)*(message.range + FRONT_SONAR_X);
                 y = robotY + Math.sin(robotTheta)*FRONT_SONAR_Y + Math.cos(robotTheta)*(message.range + FRONT_SONAR_X);
-            } else {
+            }
+        } else {
+            if (obsDetectBack){
                 //                    X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
                 x = robotX + Math.cos(robotTheta)*BACK_SONAR_Y - Math.sin(robotTheta)*(message.range + BACK_SONAR_X);
                 y = robotY + Math.sin(robotTheta)*BACK_SONAR_Y + Math.cos(robotTheta)*(message.range + BACK_SONAR_X);
             }
-
-            //            Updating and replotting line
-            lineEstimator.updateTerms(x, y);
-            GUILineMsg lineMsg = new GUILineMsg();
-            lineMsg.lineA = lineEstimator.getA();
-            lineMsg.lineB = lineEstimator.getB();
-            lineMsg.lineC = lineEstimator.getC();
-            //            System.out.println("A term " + lineMsg.lineA);
-            //            System.out.println("B term " + lineMsg.lineB);
-            //            System.out.println("C term " + lineMsg.lineC);
-            lineMsg.color = redMsg;
-            guiLinePub.publish(lineMsg);
         }
+
+        //            Updating and replotting line
+        lineEstimator.updateTerms(x, y);
+        GUILineMsg lineMsg = new GUILineMsg();
+        lineMsg.lineA = lineEstimator.getA();
+        lineMsg.lineB = lineEstimator.getB();
+        lineMsg.lineC = lineEstimator.getC();
+        //            System.out.println("A term " + lineMsg.lineA);
+        //            System.out.println("B term " + lineMsg.lineB);
+        //            System.out.println("C term " + lineMsg.lineC);
+        lineMsg.color = redMsg;
+        guiLinePub.publish(lineMsg);
 
         // 4.1
         if (state == State.BACKING_UP){ 
-            
-//            NEED TO HAVE IT SO THAT ONLY IF BOTH OF THEM DON'T DETECT THE WALL THEN STOP
-            
-            if (obstacleDetected){
+            if (obsDetectFront || obsDetectBack){
                 //              back up slowly and track the wall 
                 MotionMsg msg = new MotionMsg();
                 msg.translationalVelocity = SLOW_REV;
