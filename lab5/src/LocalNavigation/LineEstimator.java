@@ -40,7 +40,7 @@ public class LineEstimator {
         } else {
             a = (sumX*sumY2 - sumY*sumZ)/d;
             b = (sumY*sumX2 - sumX*sumZ)/d;
-            c = -1;
+            c = -2.0;
             
 //            double l_n = Math.sqrt(a*a + b*b);
 //            
