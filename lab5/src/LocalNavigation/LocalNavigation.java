@@ -178,7 +178,7 @@ public class LocalNavigation implements NodeMain{
                 //                //                4
                 if (state == State.ALIGNED){   
 
-                    //                    setState(State.REVERSING);
+                    setState(State.REVERSING);
                     //                    back up a small amount, stop, rotate pi/2 cw, stop
                     //                                use robot odometry to control this
                     //                                need to make a loop where do not exit until rotate pi/2
