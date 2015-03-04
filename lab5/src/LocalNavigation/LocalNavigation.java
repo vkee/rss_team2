@@ -213,7 +213,7 @@ public class LocalNavigation implements NodeMain{
                 //                Rotating pi/2 radians cw
                 if (state == State.ROTATING){
 
-                    double error = robotTheta - (alignedBotTheta - Math.PI/2);
+                    double error = (robotTheta - (alignedBotTheta - Math.PI/2)) % (2*Math.PI);
                     System.out.println("Error: " + error);
                     if (error > 0.01){
                         double rotateGain = 0.25;
