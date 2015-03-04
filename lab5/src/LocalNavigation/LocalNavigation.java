@@ -78,6 +78,7 @@ public class LocalNavigation implements NodeMain{
     }
 
     //    Velocity Constants
+    public final double VERY_SLOW_FWD = 0.1; // slow forward translational velocity
     public final double SLOW_FWD = 0.15; // slow forward translational velocity
     public final double SLOW_REV = -SLOW_FWD; // slow backwards translational velocity
     public final double MED_FWD = 0.2; // slow forward translational velocity
@@ -160,14 +161,14 @@ public class LocalNavigation implements NodeMain{
                         if (leftBumper){
                             //                          rotate right/CCW
                             MotionMsg msg = new MotionMsg();
-                            msg.translationalVelocity = STOP;
+                            msg.translationalVelocity = VERY_SLOW_FWD;
                             msg.rotationalVelocity = SLOW_CCW;
                             motionPub.publish(msg);
                         } else {
                             //                          rotate left / CW
 
                             MotionMsg msg = new MotionMsg();
-                            msg.translationalVelocity = STOP;
+                            msg.translationalVelocity = VERY_SLOW_FWD;
                             msg.rotationalVelocity = SLOW_CW;
                             motionPub.publish(msg);
                         }
