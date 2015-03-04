@@ -368,25 +368,8 @@ public class LocalNavigation implements NodeMain{
 
 
         //        3.6 Linear Filter Stuff
-        double x = 0.0;
-        double y = 0.0;
-        if (message.isFront){
-            if (obsDetectFront){
-
-                //                            X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
-                x = robotX + Math.cos(robotTheta)*FRONT_SONAR_Y - Math.sin(robotTheta)*(message.range + FRONT_SONAR_X);
-                y = robotY + Math.sin(robotTheta)*FRONT_SONAR_Y + Math.cos(robotTheta)*(message.range + FRONT_SONAR_X);
-            }
-        } else {
-            if (obsDetectBack){
-                //                    X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
-                x = robotX + Math.cos(robotTheta)*BACK_SONAR_Y - Math.sin(robotTheta)*(message.range + BACK_SONAR_X);
-                y = robotY + Math.sin(robotTheta)*BACK_SONAR_Y + Math.cos(robotTheta)*(message.range + BACK_SONAR_X);
-            }
-        }
-
         //            Updating and replotting line
-        lineEstimator.updateTerms(x, y);
+        lineEstimator.updateTerms(ptMsg.x, ptMsg.y);
         GUILineMsg lineMsg = new GUILineMsg();
         lineMsg.lineA = lineEstimator.getA();
         lineMsg.lineB = lineEstimator.getB();
