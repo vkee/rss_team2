@@ -427,31 +427,31 @@ public class LocalNavigation implements NodeMain{
         //        determine the translational and rotational velocities
 
         //        4.2
-//        if (state == State.FINDING_WALL){
-//            if (!(obsDetectFront || obsDetectBack)){
-//                //            Robot moves forward slowly
-//                MotionMsg msg = new MotionMsg();
-//                msg.translationalVelocity = SLOW_FWD;
-//                msg.rotationalVelocity = STOP;
-//                motionPub.publish(msg);
-//            } else {
-//                setState(State.TRACKING_WALL);
-//                //             TODO   current robot pose and sonar readings store in fields
-//
-//                lineEstimator.resetFilter();
-//            }
-//        }
-//
-//        if (state == State.TRACKING_WALL){
-//            //            move slowly forward tracking wall with feedback controller, update linear filter, and SonarGUI see code above
-//
-//            if (!obstacleDetected){
-//                motionPub.publish(stopMsg);
-//                setState(State.WALL_ENDED);
-//
-//                //                erase wall fit line from SonarGUI, generate more accurate line segment
-//            }
-//        }
+        if (state == State.FINDING_WALL){
+            if (!(obsDetectFront || obsDetectBack)){
+                //            Robot moves forward slowly
+                MotionMsg msg = new MotionMsg();
+                msg.translationalVelocity = SLOW_FWD;
+                msg.rotationalVelocity = STOP;
+                motionPub.publish(msg);
+            } else {
+                setState(State.TRACKING_WALL);
+                //             TODO   current robot pose and sonar readings store in fields
+
+                lineEstimator.resetFilter();
+            }
+        }
+
+        if (state == State.TRACKING_WALL){
+            //            move slowly forward tracking wall with feedback controller, update linear filter, and SonarGUI see code above
+
+            if (!obstacleDetected){
+                motionPub.publish(stopMsg);
+                setState(State.WALL_ENDED);
+
+                //                erase wall fit line from SonarGUI, generate more accurate line segment
+            }
+        }
 
         //        6
         if (state == State.WALL_ENDED){
