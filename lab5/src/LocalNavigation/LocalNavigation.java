@@ -80,10 +80,16 @@ public class LocalNavigation implements NodeMain{
     //    Velocity Constants
     public final double SLOW_FWD = 0.15; // slow forward translational velocity
     public final double SLOW_REV = -SLOW_FWD; // slow backwards translational velocity
+    public final double MED_FWD = 0.375; // slow forward translational velocity
+
     public final double FAST_FWD = 0.5; // fast forward translational velocity
     public final double FAST_REV = -FAST_FWD; // fast backwards translational velocity
     public final double SLOW_CCW = 0.15; // slow ccw rotational velocity
+    public final double MED_CCW = 0.375; // slow ccw rotational velocity
+
     public final double SLOW_CW = -SLOW_CCW; // slow cw rotational velocity
+    public final double MED_CW = 0.375; // slow ccw rotational velocity
+
     public final double FAST_CCW = 0.5; // fast ccw rotational velocity
     public final double FAST_CW = -FAST_CCW; // fast cw rotational velocity
     public final double STOP = 0.0; // stop value
@@ -154,15 +160,15 @@ public class LocalNavigation implements NodeMain{
                         if (leftBumper){
                             //                          rotate right/CCW
                             MotionMsg msg = new MotionMsg();
-                            msg.translationalVelocity = SLOW_FWD;
-                            msg.rotationalVelocity = FAST_CCW;
+                            msg.translationalVelocity = MED_FWD;
+                            msg.rotationalVelocity = MED_CCW;
                             motionPub.publish(msg);
                         } else {
                             //                          rotate left / CW
 
                             MotionMsg msg = new MotionMsg();
-                            msg.translationalVelocity = SLOW_FWD;
-                            msg.rotationalVelocity = FAST_CW;
+                            msg.translationalVelocity = MED_FWD;
+                            msg.rotationalVelocity = MED_CW;
                             motionPub.publish(msg);
                         }
                     }
