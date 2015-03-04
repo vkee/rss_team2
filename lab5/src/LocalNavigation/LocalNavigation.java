@@ -213,14 +213,14 @@ public class LocalNavigation implements NodeMain{
                 if (state == State.ROTATING){
 
                     double error = robotTheta - (alignedBotTheta - Math.PI/2);
-
+System.out.println("Error: " + error);
                     if (error > 0.01){
                         double rotateGain = 0.25;
 
                         MotionMsg reverseMsg = new MotionMsg();
                         reverseMsg.translationalVelocity = STOP;
                         //                        check signs with this, may be an error 
-                        reverseMsg.rotationalVelocity = -Math.min(rotateGain*error, 0.5);
+                        reverseMsg.rotationalVelocity = -Math.min(rotateGain*error, 0.25);
 
                         motionPub.publish(reverseMsg);
                     } else {
