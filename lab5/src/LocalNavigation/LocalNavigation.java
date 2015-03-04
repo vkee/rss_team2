@@ -227,6 +227,10 @@ public class LocalNavigation implements NodeMain{
                     setState(State.ALIGNED_AND_ROTATED);
                 }
 
+                if (state == State.ALIGNED_AND_ROTATED){
+                    setState(State.BACKING_UP);
+                }
+
                 //
                 //                //                4.1
                 //                //                need to check that the state doesn't become algined and rotated anywhere else b/c need
@@ -377,21 +381,26 @@ public class LocalNavigation implements NodeMain{
             lineMsg.lineA = lineEstimator.getA();
             lineMsg.lineB = lineEstimator.getB();
             lineMsg.lineC = lineEstimator.getC();
-            System.out.println("A term " + lineMsg.lineA);
-            System.out.println("B term " + lineMsg.lineB);
-            System.out.println("C term " + lineMsg.lineC);
+            //            System.out.println("A term " + lineMsg.lineA);
+            //            System.out.println("B term " + lineMsg.lineB);
+            //            System.out.println("C term " + lineMsg.lineC);
             lineMsg.color = redMsg;
             guiLinePub.publish(lineMsg);
         }
 
         // 4.1
-        //        if (state == State.BACKING_UP){ 
-        //            if (obstacleDetected){
-        //                //              back up slowly and track the wall 
-        //            } else {
-        //                setState(State.FINDING_WALL);
-        //            }
-        //        }
+        if (state == State.BACKING_UP){ 
+            if (obstacleDetected){
+                //              back up slowly and track the wall 
+                MotionMsg msg = new MotionMsg();
+                msg.translationalVelocity = SLOW_REV;
+                msg.rotationalVelocity = STOP;
+                motionPub.publish(msg);
+            } else {
+                motionPub.publish(stopMsg);
+                setState(State.FINDING_WALL);
+            }
+        }
         //      going to need to construct a loop that will publish the velocities (rotational and translational) every time step
         //        do the same type of controller to determine the rotational velocity and translational velocity
         //        but not quite sure how to do this
