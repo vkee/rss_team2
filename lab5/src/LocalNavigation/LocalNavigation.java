@@ -207,7 +207,7 @@ public class LocalNavigation implements NodeMain{
                     double error = robotTheta - (alignedBotTheta - Math.PI/2);
 
                     if (error > 0.01){
-                        double rotateGain = 0.375;
+                        double rotateGain = 0.25;
 
                         MotionMsg reverseMsg = new MotionMsg();
                         reverseMsg.translationalVelocity = STOP;
