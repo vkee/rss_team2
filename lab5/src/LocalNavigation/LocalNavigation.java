@@ -118,7 +118,7 @@ public class LocalNavigation implements NodeMain{
             public void onNewMessage(
                     org.ros.message.rss_msgs.BumpMsg message) {
 
-                //                System.out.println("State: " + state);
+                                System.out.println("State: " + state);
 
                 //              3.1 //TODO: print out the sensor data
 
@@ -169,13 +169,13 @@ public class LocalNavigation implements NodeMain{
                 }
                 //
                 //                //                4
-                if (state == State.ALIGNED){   
-
-                    setState(State.REVERSING);
-                    //                    back up a small amount, stop, rotate pi/2 cw, stop
-                    //                                use robot odometry to control this
-                    //                                need to make a loop where do not exit until rotate pi/2
-                }
+//                if (state == State.ALIGNED){   
+//
+//                    setState(State.REVERSING);
+//                    //                    back up a small amount, stop, rotate pi/2 cw, stop
+//                    //                                use robot odometry to control this
+//                    //                                need to make a loop where do not exit until rotate pi/2
+//                }
 
                 //                Backing up a small amount
                 if (state == State.REVERSING){
@@ -356,7 +356,7 @@ public class LocalNavigation implements NodeMain{
 
 
         //       3.5 Plotting non obstacles and obstacle points
-        System.out.println(message.range);
+//        System.out.println(message.range);
         //        May need to also check if the range is 0 which may be for infinite distance
         if (!(obsDetectFront || obsDetectBack)){
             //            Non obstacle points are in green
