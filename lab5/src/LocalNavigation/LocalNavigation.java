@@ -116,7 +116,7 @@ public class LocalNavigation implements NodeMain{
             public void onNewMessage(
                     org.ros.message.rss_msgs.BumpMsg message) {
                 
-                System.out.println("State: " + state);
+//                System.out.println("State: " + state);
 
                 //              3.1 //TODO: print out the sensor data
 
@@ -207,7 +207,7 @@ public class LocalNavigation implements NodeMain{
                     double error = robotTheta - (alignedBotTheta - Math.PI/2);
 
                     if (error > 0.01){
-                        double rotateGain = 0.25;
+                        double rotateGain = 0.375;
 
                         MotionMsg reverseMsg = new MotionMsg();
                         reverseMsg.translationalVelocity = STOP;
@@ -333,29 +333,29 @@ public class LocalNavigation implements NodeMain{
 //            System.out.println("Back Point Y Coord: " + ptMsg.y);
         }
 
-        guiPtPub.publish(ptMsg);
+//        guiPtPub.publish(ptMsg);
 
-        //        Publishing the robot's current position
-        GUIPointMsg botMsg = new GUIPointMsg();
-        botMsg.x = robotX;
-        botMsg.y = robotY;
-        botMsg.color = greenMsg;
-        guiPtPub.publish(botMsg);
+//        //        Publishing the robot's current position
+//        GUIPointMsg botMsg = new GUIPointMsg();
+//        botMsg.x = robotX;
+//        botMsg.y = robotY;
+//        botMsg.color = greenMsg;
+//        guiPtPub.publish(botMsg);
 
 
         //       3.5 Plotting non obstacles and obstacle points
-        //        System.out.println(message.range);
+                System.out.println(message.range);
         //        May need to also check if the range is 0 which may be for infinite distance
-        //        GUIPointMsg ptMsg = new GUIPointMsg();
-        //        if (!obstacleDetected){
-        ////            Non obstacle points are in green
-        //            ptMsg.color = greenMsg;
-        //        } else {
-        ////            Obstacle points are in black
-        //            ptMsg.color = blackMsg;
-        //        }
-        //
-        //        guiPtPub.publish(ptMsg);
+                GUIPointMsg ptMsg = new GUIPointMsg();
+                if (!obstacleDetected){
+        //            Non obstacle points are in green
+                    ptMsg.color = greenMsg;
+                } else {
+        //            Obstacle points are in black
+                    ptMsg.color = redMsg;
+                }
+        
+                guiPtPub.publish(ptMsg);
 
 
         //        3.6 Linear Filter Stuff
