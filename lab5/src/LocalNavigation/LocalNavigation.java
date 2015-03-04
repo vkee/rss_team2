@@ -370,8 +370,8 @@ public class LocalNavigation implements NodeMain{
 
 
         //        3.6 Linear Filter Stuff
-        double x;
-        double y;
+        double x = 0.0;
+        double y = 0.0;
         if (message.isFront){
             if (obsDetectFront){
 
