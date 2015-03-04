@@ -124,7 +124,7 @@ public class LocalNavigation implements NodeMain{
             public void onNewMessage(
                     org.ros.message.rss_msgs.BumpMsg message) {
 
-                                System.out.println("State: " + state);
+                System.out.println("State: " + state);
 
                 //              3.1 //TODO: print out the sensor data
 
@@ -177,7 +177,7 @@ public class LocalNavigation implements NodeMain{
                 //                //                4
                 if (state == State.ALIGNED){   
 
-//                    setState(State.REVERSING);
+                    //                    setState(State.REVERSING);
                     //                    back up a small amount, stop, rotate pi/2 cw, stop
                     //                                use robot odometry to control this
                     //                                need to make a loop where do not exit until rotate pi/2
@@ -213,7 +213,7 @@ public class LocalNavigation implements NodeMain{
                 if (state == State.ROTATING){
 
                     double error = robotTheta - (alignedBotTheta - Math.PI/2);
-System.out.println("Error: " + error);
+                    System.out.println("Error: " + error);
                     if (error > 0.01){
                         double rotateGain = 0.25;
 
@@ -362,7 +362,7 @@ System.out.println("Error: " + error);
 
 
         //       3.5 Plotting non obstacles and obstacle points
-//        System.out.println(message.range);
+        //        System.out.println(message.range);
         //        May need to also check if the range is 0 which may be for infinite distance
         if (!(obsDetectFront || obsDetectBack)){
             //            Non obstacle points are in green
@@ -406,18 +406,18 @@ System.out.println("Error: " + error);
         guiLinePub.publish(lineMsg);
 
         // 4.1
-//        if (state == State.BACKING_UP){ 
-//            if (obsDetectFront || obsDetectBack){
-//                //              back up slowly and track the wall 
-//                MotionMsg msg = new MotionMsg();
-//                msg.translationalVelocity = SLOW_REV;
-//                msg.rotationalVelocity = STOP;
-//                motionPub.publish(msg);
-//            } else {
-//                motionPub.publish(stopMsg);
-//                setState(State.FINDING_WALL);
-//            }
-//        }
+        //        if (state == State.BACKING_UP){ 
+        //            if (obsDetectFront || obsDetectBack){
+        //                //              back up slowly and track the wall 
+        //                MotionMsg msg = new MotionMsg();
+        //                msg.translationalVelocity = SLOW_REV;
+        //                msg.rotationalVelocity = STOP;
+        //                motionPub.publish(msg);
+        //            } else {
+        //                motionPub.publish(stopMsg);
+        //                setState(State.FINDING_WALL);
+        //            }
+        //        }
         //      going to need to construct a loop that will publish the velocities (rotational and translational) every time step
         //        do the same type of controller to determine the rotational velocity and translational velocity
         //        but not quite sure how to do this
