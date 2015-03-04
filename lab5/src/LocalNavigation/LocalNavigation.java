@@ -155,14 +155,14 @@ public class LocalNavigation implements NodeMain{
                             //                          rotate right/CCW
                             MotionMsg msg = new MotionMsg();
                             msg.translationalVelocity = SLOW_FWD;
-                            msg.rotationalVelocity = SLOW_CCW;
+                            msg.rotationalVelocity = FAST_CCW;
                             motionPub.publish(msg);
                         } else {
                             //                          rotate left / CW
 
                             MotionMsg msg = new MotionMsg();
                             msg.translationalVelocity = SLOW_FWD;
-                            msg.rotationalVelocity = SLOW_CW;
+                            msg.rotationalVelocity = FAST_CW;
                             motionPub.publish(msg);
                         }
                     }
