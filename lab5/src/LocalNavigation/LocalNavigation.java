@@ -377,7 +377,10 @@ public class LocalNavigation implements NodeMain{
             lineMsg.lineA = lineEstimator.getA();
             lineMsg.lineB = lineEstimator.getB();
             lineMsg.lineC = lineEstimator.getC();
-            lineMsg.color = blackMsg;
+            System.out.println("A term " + lineMsg.lineA);
+            System.out.println("B term " + lineMsg.lineB);
+            System.out.println("C term " + lineMsg.lineC);
+            lineMsg.color = redMsg;
             guiLinePub.publish(lineMsg);
         }
 
