@@ -476,7 +476,7 @@ public class LocalNavigation implements NodeMain{
                 System.out.println("Rotation Vel: " + msg.rotationalVelocity);
 
                 if (saveErrors){
-                    dataLogger.write(System.currentTimeMillis(), transError, orientError);
+//                    dataLogger.write(System.currentTimeMillis(), transError, orientError);
                 }
 
                 motionPub.publish(msg);
