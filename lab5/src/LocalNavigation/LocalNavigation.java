@@ -458,7 +458,7 @@ public class LocalNavigation implements NodeMain{
                 msg.startY = startWallY;
                 msg.color = blackMsg;
                 guiSegPub.publish(msg);
-                
+   
                 
             } else {
                 double transGain = 0.0625;
@@ -491,10 +491,17 @@ public class LocalNavigation implements NodeMain{
         //        6
         if (state == State.WALL_ENDED){
             setState(State.ALIGN_ON_BUMP);
+            
+            MotionMsg msg = new MotionMsg();
+            msg.translationalVelocity = SLOW_FWD;
+            msg.rotationalVelocity = SLOW_CCW;
             //            robot drives slowly ccw along circle radius d tangent to current heading
             //            use random color generator to choose a new color
 
+            motionPub.publish(msg);
+
             //            if back at the original state, enter state done
+            //setState(State.DONE);
             dataLogger.closeFile();
         }
 
