@@ -1,1 +1,15 @@
+/.classpath
+/.project
+/.svn/
 /LocalNavigation/
+/Motor/
+/Servo/
+/VisualServo/
+/analogIO/
+/digitalIO/
+/motion/
+/odometry/
+/sonar/
+/utils/
+/Listener.class
+/Publisher.class
