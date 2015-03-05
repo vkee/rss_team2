@@ -444,6 +444,12 @@ public class LocalNavigation implements NodeMain{
                 endWallX = robotX;
                 endWallY = robotY;
 
+                
+                //erase screen
+                GUIEraseMsg eraseMsg = new GUIEraseMSG();
+                eraseMsg.std_msgs = "erase";
+                guiErasePub.publish(eraseMsg);
+                
                 //                Using the points at the start and end of the wall
                 GUISegmentMsg msg = new GUISegmentMsg();
                 msg.endX = endWallX;
@@ -452,9 +458,8 @@ public class LocalNavigation implements NodeMain{
                 msg.startY = startWallY;
                 msg.color = blackMsg;
                 guiSegPub.publish(msg);
-
-                //         TODO       erase wall fit line from SonarGUI, generate more accurate line segment
-                //                probably could just store the points at the beginning and end of tracking wall for the segment msg
+                
+                
             } else {
                 double transGain = 0.0625;
                 double rotGain = 0.125;
