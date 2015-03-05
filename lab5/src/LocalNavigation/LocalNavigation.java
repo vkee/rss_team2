@@ -448,7 +448,7 @@ public class LocalNavigation implements NodeMain{
                 //erase screen
                 GUIEraseMsg eraseMsg = new GUIEraseMsg();
               //  eraseMsg.std_msgs = "erase";
-                guiErasePub.publish(eraseMsg);
+                guiErasePub.publish(eraseMsg); //DOESN'T WORK YET...
                 
                 //                Using the points at the start and end of the wall
                 GUISegmentMsg msg = new GUISegmentMsg();
@@ -493,10 +493,13 @@ public class LocalNavigation implements NodeMain{
             setState(State.ALIGN_ON_BUMP);
             
             MotionMsg msg = new MotionMsg();
-            msg.translationalVelocity = SLOW_FWD;
+            msg.translationalVelocity = MED_FWD;
             msg.rotationalVelocity = SLOW_CCW;
             //            robot drives slowly ccw along circle radius d tangent to current heading
             //            use random color generator to choose a new color...HOW?
+            
+            //How to access random colors?
+            
 
             motionPub.publish(msg);
 
