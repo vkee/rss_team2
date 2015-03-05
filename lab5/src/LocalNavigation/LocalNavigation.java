@@ -106,7 +106,8 @@ public class LocalNavigation implements NodeMain{
     private final FileLogger dataLogger;
 
     public LocalNavigation(){
-        setState(State.ALIGN_ON_BUMP);
+    	setState(State.TRACKING_WALL);
+//        setState(State.ALIGN_ON_BUMP);
         generateColorMsgs();
 
         stopMsg = new MotionMsg();
