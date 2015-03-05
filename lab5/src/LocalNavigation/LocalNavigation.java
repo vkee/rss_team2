@@ -446,7 +446,7 @@ public class LocalNavigation implements NodeMain{
 
                 
                 //erase screen
-                GUIEraseMsg eraseMsg = new GUIEraseMSG();
+                GUIEraseMsg eraseMsg = new GUIEraseMsg();
                 eraseMsg.std_msgs = "erase";
                 guiErasePub.publish(eraseMsg);
                 
@@ -496,7 +496,7 @@ public class LocalNavigation implements NodeMain{
             msg.translationalVelocity = SLOW_FWD;
             msg.rotationalVelocity = SLOW_CCW;
             //            robot drives slowly ccw along circle radius d tangent to current heading
-            //            use random color generator to choose a new color
+            //            use random color generator to choose a new color...HOW?
 
             motionPub.publish(msg);
 
