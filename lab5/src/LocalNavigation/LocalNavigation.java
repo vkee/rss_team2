@@ -225,6 +225,9 @@ public class LocalNavigation implements NodeMain{
                 //                Rotating pi/2 radians cw
                 if (state == State.ROTATING){
                     //                    TODO: david figure out the wraparound case
+//                    may be easiest to quickly make a test class and run junit tests on diff cases
+//                    rather than compiling and running on robot each time which takes at least a couple minutes
+//                    I think if the error is greater than pi, then subtract 2 pi might work
                     double error = robotTheta - (alignedBotTheta - Math.PI/2);
                     System.out.println("Error: " + error);
                     if (Math.abs(error) > 0.01){
