@@ -447,7 +447,7 @@ public class LocalNavigation implements NodeMain{
                 
                 //erase screen
                 GUIEraseMsg eraseMsg = new GUIEraseMsg();
-                eraseMsg.std_msgs = "erase";
+              //  eraseMsg.std_msgs = "erase";
                 guiErasePub.publish(eraseMsg);
                 
                 //                Using the points at the start and end of the wall
