@@ -17,5 +17,6 @@
 	<classpathentry kind="lib" path="uorc_listener/target/org.ros.rss.uorc_listener-0.0.jar"/>
 	<classpathentry kind="lib" path="uorc_publisher/target/uorc_publish-0.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="uorc_publisher/target/classes"/>
 </classpath>
