@@ -1,0 +1,16 @@
+/EraseMessageListener.class
+/FileLogger.class
+/LineEstimator.class
+/LineMessageListener.class
+/LocalNavigation$State.class
+/LocalNavigation.class
+/PointMessageListener.class
+/Pose.class
+/SegmentMessageListener.class
+/SonarGUI$GUIPoint.class
+/SonarGUI$Line.class
+/SonarGUI$Segment.class
+/SonarGUI.class
+/WallSegment.class
+/RotationError.class
+/RotationErrorTest.class

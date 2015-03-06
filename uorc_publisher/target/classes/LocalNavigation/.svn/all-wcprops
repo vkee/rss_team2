@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/rss-2015/group2/!svn/ver/115/group2/lab5/src/LocalNavigation
+END
+LineMessageListener.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/rss-2015/group2/!svn/ver/115/group2/lab5/src/LocalNavigation/LineMessageListener.java
+END
+WallSegment.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/rss-2015/group2/!svn/ver/115/group2/lab5/src/LocalNavigation/WallSegment.java
+END
+PointMessageListener.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/rss-2015/group2/!svn/ver/115/group2/lab5/src/LocalNavigation/PointMessageListener.java
+END
+Pose.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/rss-2015/group2/!svn/ver/115/group2/lab5/src/LocalNavigation/Pose.java
+END
+SonarGUI.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/rss-2015/group2/!svn/ver/115/group2/lab5/src/LocalNavigation/SonarGUI.java
+END
+EraseMessageListener.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/rss-2015/group2/!svn/ver/115/group2/lab5/src/LocalNavigation/EraseMessageListener.java
+END
+SegmentMessageListener.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/rss-2015/group2/!svn/ver/115/group2/lab5/src/LocalNavigation/SegmentMessageListener.java
+END
