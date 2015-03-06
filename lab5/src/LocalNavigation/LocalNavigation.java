@@ -106,8 +106,8 @@ public class LocalNavigation implements NodeMain{
     private final FileLogger dataLogger;
 
     public LocalNavigation(){
-    	setState(State.TRACKING_WALL);
-//        setState(State.ALIGN_ON_BUMP);
+        setState(State.TRACKING_WALL);
+        //        setState(State.ALIGN_ON_BUMP);
         generateColorMsgs();
 
         stopMsg = new MotionMsg();
@@ -155,8 +155,15 @@ public class LocalNavigation implements NodeMain{
                 }
 
                 //                3.3 
-                if ((state == State.ALIGN_ON_BUMP) && (leftBumper || rightBumper)){
-                    setState(State.ALIGNING);
+                if ((state == State.ALIGN_ON_BUMP)){
+                    if (leftBumper || rightBumper){
+                        setState(State.ALIGNING);
+                    } else {
+                        MotionMsg msg = new MotionMsg();
+                        msg.translationalVelocity = MED_FWD;
+                        msg.rotationalVelocity = STOP;
+                        motionPub.publish(msg);
+                    }
                 }
 
                 if (state == State.ALIGNING){
@@ -226,18 +233,18 @@ public class LocalNavigation implements NodeMain{
                 //                Rotating pi/2 radians cw
                 if (state == State.ROTATING){
                     //                    TODO: david figure out the wraparound case
-//                    may be easiest to quickly make a test class and run junit tests on diff cases
-//                    rather than compiling and running on robot each time which takes at least a couple minutes
-//                    I think if the error is greater than pi, then subtract 2 pi might work
+                    //                    may be easiest to quickly make a test class and run junit tests on diff cases
+                    //                    rather than compiling and running on robot each time which takes at least a couple minutes
+                    //                    I think if the error is greater than pi, then subtract 2 pi might work
                     double error = (robotTheta - (alignedBotTheta - Math.PI/2)) % (2*Math.PI);
-                    
-//                    To account for case where rotate past
+
+                    //                    To account for case where rotate past
                     if (Math.abs(error) > Math.PI){
                         error -= 2*Math.PI;
                     }
-                    
+
                     System.out.println("Error: " + error);
-                    
+
                     if (Math.abs(error) > 0.01){
                         double rotateGain = 0.25;
 
@@ -444,12 +451,12 @@ public class LocalNavigation implements NodeMain{
                 endWallX = robotX;
                 endWallY = robotY;
 
-                
+
                 //erase screen
                 GUIEraseMsg eraseMsg = new GUIEraseMsg();
-              //  eraseMsg.std_msgs = "erase";
+                //  eraseMsg.std_msgs = "erase";
                 guiErasePub.publish(eraseMsg); //DOESN'T WORK YET...
-                
+
                 //                Using the points at the start and end of the wall
                 GUISegmentMsg msg = new GUISegmentMsg();
                 msg.endX = endWallX;
@@ -458,8 +465,8 @@ public class LocalNavigation implements NodeMain{
                 msg.startY = startWallY;
                 msg.color = blackMsg;
                 guiSegPub.publish(msg);
-   
-                
+
+
             } else {
                 double transGain = 0.0625;
                 double rotGain = 0.125;
@@ -481,7 +488,7 @@ public class LocalNavigation implements NodeMain{
                 System.out.println("Rotation Vel: " + msg.rotationalVelocity);
 
                 if (saveErrors){
-//                    dataLogger.write(System.currentTimeMillis(), transError, orientError);
+                    //                    dataLogger.write(System.currentTimeMillis(), transError, orientError);
                 }
 
                 motionPub.publish(msg);
@@ -491,15 +498,15 @@ public class LocalNavigation implements NodeMain{
         //        6
         if (state == State.WALL_ENDED){
             setState(State.ALIGN_ON_BUMP);
-            
+
             MotionMsg msg = new MotionMsg();
             msg.translationalVelocity = MED_FWD;
             msg.rotationalVelocity = SLOW_CCW;
             //            robot drives slowly ccw along circle radius d tangent to current heading
             //            use random color generator to choose a new color...HOW?
-            
+
             //How to access random colors?
-            
+
 
             motionPub.publish(msg);
 
