@@ -385,20 +385,33 @@ public class LocalNavigation implements NodeMain{
         //       3.5 Plotting non obstacles and obstacle points
         //        System.out.println(message.range);
         //        May need to also check if the range is 0 which may be for infinite distance
-        if (!(obsDetectFront || obsDetectBack)){
-            //            Non obstacle points are in green
-            ptMsg.color = greenMsg;
-        } else {
+        if (message.isFront){
+		if (obsDetectFront){
             //            Obstacle points are in red
-            ptMsg.color = redMsg;
-        }
+ptMsg.color = redMsg;
+lineEstimator.updateTerms(ptMsg.x, ptMsg.y);
+} else {
+            //            Non obstacle points are in green
+ptMsg.color = greenMsg;
+}
+} else {
+		if (obsDetectBack){
+            //            Obstacle points are in red
+ptMsg.color = redMsg;
+lineEstimator.updateTerms(ptMsg.x, ptMsg.y);
+} else {
+            //            Non obstacle points are in green
+ptMsg.color = greenMsg;
+}
+}
 
         guiPtPub.publish(ptMsg);
 
 
         //        3.6 Linear Filter Stuff
         //            Updating and replotting line
-        lineEstimator.updateTerms(ptMsg.x, ptMsg.y);
+
+        
         GUILineMsg lineMsg = new GUILineMsg();
         lineMsg.lineA = lineEstimator.getA();
         lineMsg.lineB = lineEstimator.getB();
