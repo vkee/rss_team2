@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/rss/!svn/ver/3688/data/spring2015/pub/labs/lab6_msgs/msg
+END
+GUIPolyMsg.msg
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/rss/!svn/ver/3688/data/spring2015/pub/labs/lab6_msgs/msg/GUIPolyMsg.msg
+END
+GUIRectMsg.msg
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/rss/!svn/ver/3688/data/spring2015/pub/labs/lab6_msgs/msg/GUIRectMsg.msg
+END
