@@ -106,8 +106,7 @@ public class LocalNavigation implements NodeMain{
     private final FileLogger dataLogger;
 
     public LocalNavigation(){
-        setState(State.TRACKING_WALL);
-        //        setState(State.ALIGN_ON_BUMP);
+        setState(State.ALIGN_ON_BUMP);
         generateColorMsgs();
 
         stopMsg = new MotionMsg();
@@ -501,7 +500,7 @@ public class LocalNavigation implements NodeMain{
 
             MotionMsg msg = new MotionMsg();
             msg.translationalVelocity = MED_FWD;
-            msg.rotationalVelocity = SLOW_CCW;
+            msg.rotationalVelocity = MED_FWD/2.0;//v=r omega		//MED_CCW;
             //            robot drives slowly ccw along circle radius d tangent to current heading
             //            use random color generator to choose a new color...HOW?
 
