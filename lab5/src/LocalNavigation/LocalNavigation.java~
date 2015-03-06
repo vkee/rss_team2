@@ -43,6 +43,13 @@ public class LocalNavigation implements NodeMain{
     private double alignedBotY = 0.0;
     private double alignedBotTheta = 0.0;
 
+    //    Coordinates for the Line Segment of the Wall
+    private double startWallX = 0.0;
+    private double startWallY = 0.0;
+    private double startWallTheta = 0.0;
+    private double endWallX = 0.0;
+    private double endWallY = 0.0;
+
     //    Distance offset of the robot from the wall, defined as d in the lab
     private final double distanceOffset = 0.25;
 
@@ -78,6 +85,7 @@ public class LocalNavigation implements NodeMain{
     }
 
     //    Velocity Constants
+    public final double VERY_SLOW_FWD = 0.1; // slow forward translational velocity
     public final double SLOW_FWD = 0.15; // slow forward translational velocity
     public final double SLOW_REV = -SLOW_FWD; // slow backwards translational velocity
     public final double MED_FWD = 0.2; // slow forward translational velocity
@@ -95,13 +103,19 @@ public class LocalNavigation implements NodeMain{
     public final double STOP = 0.0; // stop value
     public final MotionMsg stopMsg;
 
+    private final FileLogger dataLogger;
+
     public LocalNavigation(){
-        setState(State.ALIGN_ON_BUMP);
+    	setState(State.TRACKING_WALL);
+//        setState(State.ALIGN_ON_BUMP);
         generateColorMsgs();
 
         stopMsg = new MotionMsg();
         stopMsg.translationalVelocity = STOP;
         stopMsg.rotationalVelocity = STOP;
+
+        dataLogger = new FileLogger("data.txt");
+
     }
 
     @Override
@@ -124,7 +138,7 @@ public class LocalNavigation implements NodeMain{
             public void onNewMessage(
                     org.ros.message.rss_msgs.BumpMsg message) {
 
-                                System.out.println("State: " + state);
+                System.out.println("State: " + state);
 
                 //              3.1 //TODO: print out the sensor data
 
@@ -160,15 +174,15 @@ public class LocalNavigation implements NodeMain{
                         if (leftBumper){
                             //                          rotate right/CCW
                             MotionMsg msg = new MotionMsg();
-                            msg.translationalVelocity = MED_FWD;
-                            msg.rotationalVelocity = MED_CCW;
+                            msg.translationalVelocity = VERY_SLOW_FWD;
+                            msg.rotationalVelocity = SLOW_CCW;
                             motionPub.publish(msg);
                         } else {
                             //                          rotate left / CW
 
                             MotionMsg msg = new MotionMsg();
-                            msg.translationalVelocity = MED_FWD;
-                            msg.rotationalVelocity = MED_CW;
+                            msg.translationalVelocity = VERY_SLOW_FWD;
+                            msg.rotationalVelocity = SLOW_CW;
                             motionPub.publish(msg);
                         }
                     }
@@ -211,16 +225,26 @@ public class LocalNavigation implements NodeMain{
 
                 //                Rotating pi/2 radians cw
                 if (state == State.ROTATING){
-
-                    double error = robotTheta - (alignedBotTheta - Math.PI/2);
-System.out.println("Error: " + error);
-                    if (error > 0.01){
+                    //                    TODO: david figure out the wraparound case
+//                    may be easiest to quickly make a test class and run junit tests on diff cases
+//                    rather than compiling and running on robot each time which takes at least a couple minutes
+//                    I think if the error is greater than pi, then subtract 2 pi might work
+                    double error = (robotTheta - (alignedBotTheta - Math.PI/2)) % (2*Math.PI);
+                    
+//                    To account for case where rotate past
+                    if (Math.abs(error) > Math.PI){
+                        error -= 2*Math.PI;
+                    }
+                    
+                    System.out.println("Error: " + error);
+                    
+                    if (Math.abs(error) > 0.01){
                         double rotateGain = 0.25;
 
                         MotionMsg reverseMsg = new MotionMsg();
                         reverseMsg.translationalVelocity = STOP;
                         //                        check signs with this, may be an error 
-                        reverseMsg.rotationalVelocity = -Math.min(rotateGain*error, 0.5);
+                        reverseMsg.rotationalVelocity = -Math.min(rotateGain*error, 0.25);
 
                         motionPub.publish(reverseMsg);
                     } else {
@@ -236,17 +260,8 @@ System.out.println("Error: " + error);
                 }
 
                 if (state == State.ALIGNED_AND_ROTATED){
-//                    setState(State.BACKING_UP);
+                    setState(State.BACKING_UP);
                 }
-
-                //
-                //                //                4.1
-                //                //                need to check that the state doesn't become algined and rotated anywhere else b/c need
-                //                //                this same behavior, maybe just use a method to change state to algined and rotated and then
-                //                //                run the appropriate code
-                //                if (state == State.ALIGNED_AND_ROTATED){
-                //                    setState(State.BACKING_UP);
-                //                }
             }
         });        
 
@@ -362,7 +377,7 @@ System.out.println("Error: " + error);
 
 
         //       3.5 Plotting non obstacles and obstacle points
-//        System.out.println(message.range);
+        //        System.out.println(message.range);
         //        May need to also check if the range is 0 which may be for infinite distance
         if (!(obsDetectFront || obsDetectBack)){
             //            Non obstacle points are in green
@@ -372,29 +387,12 @@ System.out.println("Error: " + error);
             ptMsg.color = redMsg;
         }
 
-        //        guiPtPub.publish(ptMsg);
+        guiPtPub.publish(ptMsg);
 
 
         //        3.6 Linear Filter Stuff
-        double x = 0.0;
-        double y = 0.0;
-        if (message.isFront){
-            if (obsDetectFront){
-
-                //                            X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
-                x = robotX + Math.cos(robotTheta)*FRONT_SONAR_Y - Math.sin(robotTheta)*(message.range + FRONT_SONAR_X);
-                y = robotY + Math.sin(robotTheta)*FRONT_SONAR_Y + Math.cos(robotTheta)*(message.range + FRONT_SONAR_X);
-            }
-        } else {
-            if (obsDetectBack){
-                //                    X and Y components of the sonar are flipped in the new coordinate frame, then rotate by theta
-                x = robotX + Math.cos(robotTheta)*BACK_SONAR_Y - Math.sin(robotTheta)*(message.range + BACK_SONAR_X);
-                y = robotY + Math.sin(robotTheta)*BACK_SONAR_Y + Math.cos(robotTheta)*(message.range + BACK_SONAR_X);
-            }
-        }
-
         //            Updating and replotting line
-        lineEstimator.updateTerms(x, y);
+        lineEstimator.updateTerms(ptMsg.x, ptMsg.y);
         GUILineMsg lineMsg = new GUILineMsg();
         lineMsg.lineA = lineEstimator.getA();
         lineMsg.lineB = lineEstimator.getB();
@@ -418,56 +416,96 @@ System.out.println("Error: " + error);
                 setState(State.FINDING_WALL);
             }
         }
-        //      going to need to construct a loop that will publish the velocities (rotational and translational) every time step
-        //        do the same type of controller to determine the rotational velocity and translational velocity
-        //        but not quite sure how to do this
-        //        distance too close need to rotate outwards so cw slightly
-        //        too far need to rotate inwards ccw slightly
-        //        for angle similar, need to compute angle from sonar sensors
-        //        double transError = d - lineEstimator.getPerpDist(robotX, robotY); // where d is the desired distance to remain from the wall
-        //
-        //        double obsSlope = Math.atan2(-lineEstimator.getA(), lineEstimator.getB());
-        //        double orientError = obsSlope - robotTheta;
-        //        may also want to also store each sonar value when an obstacle is detected
-        //        and then compute the angle from the triangle formed by their difference and the distance
-        //        between the sonars and add this in as a factor of the orientation error
-        //        orientError += (obsSlope - Math.atan2(frontSonarDist - backSonarDist, SONAR_DIST));
-        //        determine the translational and rotational velocities
 
         //        4.2
-        //        if (state == State.FINDING_WALL){
-        //            if (!obstacleDetected){
-        //                //            Robot moves forward slowly
-        //                MotionMsg msg = new MotionMsg();
-        //                msg.translationalVelocity = SLOW_FWD;
-        //                msg.rotationalVelocity = STOP;
-        //                motionPub.publish(msg);
-        //            } else {
-        //                setState(State.TRACKING_WALL);
-        //                //             TODO   current robot pose and sonar readings store in fields
-        //
-        //                lineEstimator.resetFilter();
-        //            }
-        //        }
-        //
-        //        if (state == State.TRACKING_WALL){
-        //            //            move slowly forward tracking wall with feedback controller, update linear filter, and SonarGUI see code above
-        //
-        //            if (!obstacleDetected){
-        //                motionPub.publish(stopMsg);
-        //                setState(State.WALL_ENDED);
-        //
-        //                //                erase wall fit line from SonarGUI, generate more accurate line segment
-        //            }
-        //        }
+        if (state == State.FINDING_WALL){
+            if (!(obsDetectFront || obsDetectBack)){
+                //            Robot moves forward slowly
+                MotionMsg msg = new MotionMsg();
+                msg.translationalVelocity = SLOW_FWD;
+                msg.rotationalVelocity = STOP;
+                motionPub.publish(msg);
+            } else {
+                setState(State.TRACKING_WALL);
+                //             TODO   current robot pose and sonar readings store in fields
+                startWallX = robotX;
+                startWallY = robotY;
+                startWallTheta = robotTheta;
+                lineEstimator.resetFilter();
+            }
+        }
+
+        if (state == State.TRACKING_WALL){
+            //            move slowly forward tracking wall with feedback controller, update linear filter, and SonarGUI see code above
+
+            if (!(obsDetectFront || obsDetectBack)){
+                motionPub.publish(stopMsg);
+                setState(State.WALL_ENDED);
+                endWallX = robotX;
+                endWallY = robotY;
+
+                
+                //erase screen
+                GUIEraseMsg eraseMsg = new GUIEraseMsg();
+              //  eraseMsg.std_msgs = "erase";
+                guiErasePub.publish(eraseMsg); //DOESN'T WORK YET...
+                
+                //                Using the points at the start and end of the wall
+                GUISegmentMsg msg = new GUISegmentMsg();
+                msg.endX = endWallX;
+                msg.endY = endWallY;
+                msg.startX = startWallX;
+                msg.startY = startWallY;
+                msg.color = blackMsg;
+                guiSegPub.publish(msg);
+   
+                
+            } else {
+                double transGain = 0.0625;
+                double rotGain = 0.125;
+
+                double transError = lineEstimator.getPerpDist(robotX, robotY) - distanceOffset; // where d is the desired distance to remain from the wall
+                // computing slope from the estimated line
+                double obsSlope = Math.atan2(-lineEstimator.getA(), lineEstimator.getB()); 
+                double orientError = obsSlope - robotTheta;
+                //        may also want to also store each sonar value when an obstacle is detected
+                //        and then compute the angle from the triangle formed by their difference and the distance
+                //        between the sonars and add this in as a factor of the orientation error 
+                //                orientError += (obsSlope - Math.atan2(frontSonarDist - backSonarDist, SONAR_DIST));
+                MotionMsg msg = new MotionMsg();
+                msg.translationalVelocity = SLOW_FWD;
+                //                Rotate CW away from the wall if too close, rotate CCW towards the wall if too far
+                msg.rotationalVelocity = transGain*transError + rotGain*orientError;
+                System.out.println("Translational Error "  + transError);
+                System.out.println("Orientation Error " + orientError);
+                System.out.println("Rotation Vel: " + msg.rotationalVelocity);
+
+                if (saveErrors){
+//                    dataLogger.write(System.currentTimeMillis(), transError, orientError);
+                }
+
+                motionPub.publish(msg);
+            }
+        }
 
         //        6
         if (state == State.WALL_ENDED){
             setState(State.ALIGN_ON_BUMP);
+            
+            MotionMsg msg = new MotionMsg();
+            msg.translationalVelocity = MED_FWD;
+            msg.rotationalVelocity = MED_FWD/2.0;//v=r omega		//MED_CCW;
             //            robot drives slowly ccw along circle radius d tangent to current heading
-            //            use random color generator to choose a new color
+            //            use random color generator to choose a new color...HOW?
+            
+            //How to access random colors?
+            
+
+            motionPub.publish(msg);
 
             //            if back at the original state, enter state done
+            //setState(State.DONE);
+            dataLogger.closeFile();
         }
 
     }
