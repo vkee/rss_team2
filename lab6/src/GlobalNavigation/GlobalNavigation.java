@@ -19,7 +19,7 @@ import org.ros.message.lab6_msgs.*;
 public class GlobalNavigation implements NodeMain{
     private Publisher<org.ros.message.lab6_msgs.GUIRectMsg> guiRectPub;
     private Publisher<org.ros.message.lab6_msgs.GUIPolyMsg> guiPolyPub;
-    private Publisher<org.ros.message.lab5_msgs.GUIEraseMsg> guiErasePub;
+//    private Publisher<org.ros.message.lab5_msgs.GUIEraseMsg> guiErasePub;
 
     private String mapFileName;
     private PolygonMap polyMap;
@@ -32,8 +32,8 @@ public class GlobalNavigation implements NodeMain{
     public void onStart(Node node) {
 
         guiRectPub = node.newPublisher("gui/Rect", "lab6_msgs/GUIRectMsg");
-        guiPolyPub = node.newPubscriber("gui/Poly", "lab6_msgs/GUIPolyMsg");
-        guiErasePub = node.newPublisher("gui/Erase", "lab5_msgs/GUIEraseMsg");
+        guiPolyPub = node.newPublisher("gui/Poly", "lab6_msgs/GUIPolyMsg");
+//        guiErasePub = node.newPublisher("gui/Erase", "lab5_msgs/GUIEraseMsg");
 
         //        Reading in a map file whose name is set as the parameter mapFileName
         ParameterTree paramTree = node.newParameterTree();
@@ -50,7 +50,7 @@ public class GlobalNavigation implements NodeMain{
         //        should be doing something similar to the below, from instanceMain in PolygonMap
         //        Based on instanceMain in PolygonMap
 
-        guiErasePub.publish(new GUIEraseMsg());
+//        guiErasePub.publish(new GUIEraseMsg());
 
         GUIRectMsg rectMsg = new GUIRectMsg();
         GlobalNavigation.fillRectMsg(rectMsg, polyMap.getWorldRect(), null, false);
@@ -63,18 +63,18 @@ public class GlobalNavigation implements NodeMain{
         }
     }
 
-    /**
-     * Given an empty GUIPointMsg and the appropriate parameters, fills in the message
-     * @param msg the empty GUIPointMsg to be filled
-     * @param point 
-     * @param color
-     * @param shape
-     */
-    public void fillPointMsg(GUIPointMsg msg, java.awt.geom.Point2D.Double point, 
-            java.awt.Color color, long shape) {
-        
-    }
-    
+//    /**
+//     * Given an empty GUIPointMsg and the appropriate parameters, fills in the message
+//     * @param msg the empty GUIPointMsg to be filled
+//     * @param point 
+//     * @param color
+//     * @param shape
+//     */
+//    public void fillPointMsg(GUIPointMsg msg, java.awt.geom.Point2D.Double point, 
+//            java.awt.Color color, long shape) {
+//        
+//    }
+//    
     /**
      * Given an empty GUIRectMsg and the appropriate parameters, fills in the message
      * @param msg the empty GUIRectMsg to be filled
