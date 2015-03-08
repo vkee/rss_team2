@@ -1,6 +1,7 @@
 package GlobalNavigation;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -147,6 +148,15 @@ public class GlobalNavigation implements NodeMain{
      */
     private void testConvexHull(){
         //TODO come up with more non trivial sets of test points to test convexHull
+    	List<Point2D.Double> points = new ArrayList<Point2D.Double>();
+    	Point2D.Double p1 = new Point2D.Double(0.0,0.0);
+    	Point2D.Double p2 = new Point2D.Double(0.0,3.0);
+    	Point2D.Double p3 = new Point2D.Double(3.0,3.0);
+    	Point2D.Double p4 = new Point2D.Double(3.0,0.0);
+    	points.add(p1);
+    	points.add(p2);
+    	points.add(p3);
+    	points.add(p4);
 
     }
 
