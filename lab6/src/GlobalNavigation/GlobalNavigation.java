@@ -20,7 +20,7 @@ import java.io.*;
 public class GlobalNavigation implements NodeMain{
     private Publisher<org.ros.message.lab6_msgs.GUIRectMsg> guiRectPub;
     private Publisher<org.ros.message.lab6_msgs.GUIPolyMsg> guiPolyPub;
-    //    private Publisher<org.ros.message.lab5_msgs.GUIEraseMsg> guiErasePub;
+    private Publisher<org.ros.message.lab5_msgs.GUIEraseMsg> guiErasePub;
 
     private String mapFileName;
     private PolygonMap polyMap;
