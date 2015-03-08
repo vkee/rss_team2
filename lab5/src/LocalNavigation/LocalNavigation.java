@@ -4,7 +4,6 @@ import org.ros.node.topic.Publisher;
 import org.ros.node.topic.Subscriber;
 import org.ros.message.rss_msgs.OdometryMsg;
 import org.ros.message.rss_msgs.MotionMsg;
-import org.ros.message.lab5_msgs.ColorMsg;
 import org.ros.node.Node;
 import org.ros.message.MessageListener;
 import org.ros.namespace.GraphName;

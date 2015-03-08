@@ -6,6 +6,7 @@ import java.util.List;
 import org.ros.node.NodeMain;
 import org.ros.namespace.GraphName;
 import org.ros.node.Node;
+import org.ros.message.lab5_msgs.*;
 import org.ros.message.lab6_msgs.*;
 
 import LocalNavigation.Publisher;
@@ -40,12 +41,12 @@ public class GlobalNavigation implements NodeMain{
      *  Displays all the contents of the map in MapGUI
      */
     private void displayMap(){
-        
-//        should be doing something similar to the below, from instanceMain in PolygonMap
-//        Based on instanceMain in PolygonMap
-        
+
+        //        should be doing something similar to the below, from instanceMain in PolygonMap
+        //        Based on instanceMain in PolygonMap
+
         guiErasePub.publish(new GUIEraseMsg());
-        
+
         GUIRectMsg rectMsg = new GUIRectMsg();
         GlobalNavigation.fillRectMsg(rectMsg, polyMap.getWorldRect(), null, false);
         guiRectPub.publish(rectMsg);
@@ -58,6 +59,18 @@ public class GlobalNavigation implements NodeMain{
     }
 
     /**
+     * Given an empty GUIPointMsg and the appropriate parameters, fills in the message
+     * @param msg the empty GUIPointMsg to be filled
+     * @param point 
+     * @param color
+     * @param shape
+     */
+    public void fillPointMsg(GUIPointMsg msg, java.awt.geom.Point2D.Double point, 
+            java.awt.Color color, long shape) {
+        
+    }
+    
+    /**
      * Given an empty GUIRectMsg and the appropriate parameters, fills in the message
      * @param msg the empty GUIRectMsg to be filled
      * @param r the rectangle as a Java Rectangle 2D double
@@ -66,16 +79,20 @@ public class GlobalNavigation implements NodeMain{
      */
     public static void fillRectMsg(GUIRectMsg msg, java.awt.geom.Rectangle2D.Double r, 
             java.awt.Color c, boolean filled) {
-        msg.x = r.getX();
-        msg.y = r.getY();
-        msg.width = r.getWidth();
-        msg.height = r.getHeight();
+        msg.x = (float) r.getX();
+        msg.y = (float) r.getY();
+        msg.width = (float) r.getWidth();
+        msg.height = (float) r.getHeight();
         msg.filled = filled ? 1 : 0;
         if (c != null) {
-            msg.c = c;
+            ColorMsg colorMsg = new ColorMsg();
+            colorMsg.r = c.getRed();
+            colorMsg.g = c.getGreen();
+            colorMsg.b = c.getBlue();
+            msg.c = colorMsg;
         }
     }
-    
+
     /**
      * Given an empty GUIPolyMsg and the appropriate parameters, fills in the message
      * @param msg the empty GUIPolyMsg to be filled
@@ -86,28 +103,33 @@ public class GlobalNavigation implements NodeMain{
      */
     public static void fillPolyMsg(GUIPolyMsg msg, PolygonObstacle obstacle, 
             java.awt.Color c, boolean filled, boolean closed) {
-        
+
         List<Point2D.Double> vertices = obstacle.getVertices();
         msg.numVertices = vertices.size();
-        double[] x = new double[msg.numVertices];
-        double[] y = new double[msg.numVertices];
-        
+        float[] x = new float[msg.numVertices];
+        float[] y = new float[msg.numVertices];
+
         for (int i = 0; i < msg.numVertices; i++) {
             Point2D.Double vertex = vertices.get(i);
-            x[i] = vertex.getX();
-            y[i] = vertex.getY();
+            x[i] = (float) vertex.getX();
+            y[i] = (float) vertex.getY();
         }
         msg.x = x;
         msg.y = y;
-        msg.c = c;
+        ColorMsg colorMsg = new ColorMsg();
+        colorMsg.r = c.getRed();
+        colorMsg.g = c.getGreen();
+        colorMsg.b = c.getBlue();
+        msg.c = colorMsg;
         msg.filled = filled ? 1 : 0; 
         msg.closed = closed ? 1 : 0;
     }
-    
+
     /**
      * Tests the convex hull algorithm in GeomUtils
      */
     private void testConvexHull(){
+        //TODO come up with more non trivial sets of test points to test convexHull
 
     }
 
