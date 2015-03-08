@@ -46,6 +46,7 @@ public class GlobalNavigation implements NodeMain{
         catch(Exception e){
 
         }
+        displayMap();
         //        
     }
 
