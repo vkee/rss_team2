@@ -20,7 +20,7 @@ import java.io.*;
 public class GlobalNavigation implements NodeMain{
     private Publisher<org.ros.message.lab6_msgs.GUIRectMsg> guiRectPub;
     private Publisher<org.ros.message.lab6_msgs.GUIPolyMsg> guiPolyPub;
-//    private Publisher<org.ros.message.lab5_msgs.GUIEraseMsg> guiErasePub;
+    private Publisher<org.ros.message.lab5_msgs.GUIEraseMsg> guiErasePub;
 
     private String mapFileName;
     private PolygonMap polyMap;
@@ -34,7 +34,7 @@ public class GlobalNavigation implements NodeMain{
 
         guiRectPub = node.newPublisher("gui/Rect", "lab6_msgs/GUIRectMsg");
         guiPolyPub = node.newPublisher("gui/Poly", "lab6_msgs/GUIPolyMsg");
-//        guiErasePub = node.newPublisher("gui/Erase", "lab5_msgs/GUIEraseMsg");
+        guiErasePub = node.newPublisher("gui/Erase", "lab5_msgs/GUIEraseMsg");
 
         //        Reading in a map file whose name is set as the parameter mapFileName
         ParameterTree paramTree = node.newParameterTree();
