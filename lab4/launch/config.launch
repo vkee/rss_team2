@@ -4,7 +4,7 @@
      <env name="ROS_HOSTNAME" value="workstation" />
   </machine>
 
-  <machine name="netbook" address="netbook" user="rss-student" password="hal9000" 
+  <machine name="netbook" address="netbook" user="rss-student" password="starwars2" 
   	   ros-root="$(env ROS_ROOT)" 
 	   ros-package-path="$(env ROS_PACKAGE_PATH)"> 
      <env name="ROS_MASTER_URI" value="http://netbook:11311" />
