@@ -11,7 +11,7 @@ import org.ros.node.parameter.ParameterTree;
 import org.ros.node.NodeMain;
 import org.ros.namespace.GraphName;
 import org.ros.node.Node;
-//import org.ros.message.lab5_msgs.*;
+import org.ros.message.lab5_msgs.*;
 import org.ros.message.lab6_msgs.*;
 
 //import LocalNavigation.Publisher;
@@ -20,7 +20,7 @@ import java.io.*;
 public class GlobalNavigation implements NodeMain{
     private Publisher<org.ros.message.lab6_msgs.GUIRectMsg> guiRectPub;
     private Publisher<org.ros.message.lab6_msgs.GUIPolyMsg> guiPolyPub;
-//    private Publisher<org.ros.message.lab5_msgs.GUIEraseMsg> guiErasePub;
+    //    private Publisher<org.ros.message.lab5_msgs.GUIEraseMsg> guiErasePub;
 
     private String mapFileName;
     private PolygonMap polyMap;
@@ -34,16 +34,16 @@ public class GlobalNavigation implements NodeMain{
 
         guiRectPub = node.newPublisher("gui/Rect", "lab6_msgs/GUIRectMsg");
         guiPolyPub = node.newPublisher("gui/Poly", "lab6_msgs/GUIPolyMsg");
-//        guiErasePub = node.newPublisher("gui/Erase", "lab5_msgs/GUIEraseMsg");
+        guiErasePub = node.newPublisher("gui/Erase", "lab5_msgs/GUIEraseMsg");
 
         //        Reading in a map file whose name is set as the parameter mapFileName
         ParameterTree paramTree = node.newParameterTree();
         mapFileName = paramTree.getString(node.resolveName("~/mapFileName"));   
         try{
-           polyMap = new PolygonMap(mapFileName);
+            polyMap = new PolygonMap(mapFileName);
         }
         catch(Exception e){
-        	
+
         }
         //        
     }
@@ -56,7 +56,7 @@ public class GlobalNavigation implements NodeMain{
         //        should be doing something similar to the below, from instanceMain in PolygonMap
         //        Based on instanceMain in PolygonMap
 
-//        guiErasePub.publish(new GUIEraseMsg());
+        guiErasePub.publish(new GUIEraseMsg());
 
         GUIRectMsg rectMsg = new GUIRectMsg();
         GlobalNavigation.fillRectMsg(rectMsg, polyMap.getWorldRect(), null, false);
@@ -69,18 +69,24 @@ public class GlobalNavigation implements NodeMain{
         }
     }
 
-//    /**
-//     * Given an empty GUIPointMsg and the appropriate parameters, fills in the message
-//     * @param msg the empty GUIPointMsg to be filled
-//     * @param point 
-//     * @param color
-//     * @param shape
-//     */
-//    public void fillPointMsg(GUIPointMsg msg, java.awt.geom.Point2D.Double point, 
-//            java.awt.Color color, long shape) {
-//        
-//    }
-//    
+    /**
+     * Given an empty GUIPointMsg and the appropriate parameters, fills in the message
+     * @param msg the empty GUIPointMsg to be filled
+     * @param point 
+     * @param color
+     * @param shape
+     */
+    public void fillPointMsg(GUIPointMsg msg, java.awt.geom.Point2D.Double point, 
+            java.awt.Color color, long shape) {
+        msg.x = (float) point.getX();
+        msg.y = (float) point.getY();
+        ColorMsg colorMsg = new ColorMsg();
+        colorMsg.r = c.getRed();
+        colorMsg.g = c.getGreen();
+        colorMsg.b = c.getBlue();
+        msg.color = colorMsg;
+    }
+
     /**
      * Given an empty GUIRectMsg and the appropriate parameters, fills in the message
      * @param msg the empty GUIRectMsg to be filled
@@ -96,11 +102,11 @@ public class GlobalNavigation implements NodeMain{
         msg.height = (float) r.getHeight();
         msg.filled = filled ? 1 : 0;
         if (c != null) {
-//            ColorMsg colorMsg = new ColorMsg();
-//            colorMsg.r = c.getRed();
-//            colorMsg.g = c.getGreen();
-//            colorMsg.b = c.getBlue();
-//            msg.c = colorMsg;
+            ColorMsg colorMsg = new ColorMsg();
+            colorMsg.r = c.getRed();
+            colorMsg.g = c.getGreen();
+            colorMsg.b = c.getBlue();
+            msg.c = colorMsg;
         }
     }
 
@@ -127,11 +133,11 @@ public class GlobalNavigation implements NodeMain{
         }
         msg.x = x;
         msg.y = y;
-//        ColorMsg colorMsg = new ColorMsg();
-//        colorMsg.r = c.getRed();
-//        colorMsg.g = c.getGreen();
-//        colorMsg.b = c.getBlue();
-//        msg.c = colorMsg;
+        ColorMsg colorMsg = new ColorMsg();
+        colorMsg.r = c.getRed();
+        colorMsg.g = c.getGreen();
+        colorMsg.b = c.getBlue();
+        msg.c = colorMsg;
         msg.filled = filled ? 1 : 0; 
         msg.closed = closed ? 1 : 0;
     }
