@@ -15,6 +15,7 @@ import org.ros.node.Node;
 import org.ros.message.lab6_msgs.*;
 
 //import LocalNavigation.Publisher;
+import java.io.*;
 
 public class GlobalNavigation implements NodeMain{
     private Publisher<org.ros.message.lab6_msgs.GUIRectMsg> guiRectPub;
@@ -37,8 +38,13 @@ public class GlobalNavigation implements NodeMain{
 
         //        Reading in a map file whose name is set as the parameter mapFileName
         ParameterTree paramTree = node.newParameterTree();
-        mapFileName = paramTree.getString(node.resolveName("~/mapFileName"));        
-        //polyMap = new PolygonMap(mapFileName);
+        mapFileName = paramTree.getString(node.resolveName("~/mapFileName"));   
+        try{
+           polyMap = new PolygonMap(mapFileName);
+        }
+        catch(IOException e){
+        	
+        }
         //        
     }
 
