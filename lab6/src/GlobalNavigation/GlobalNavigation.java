@@ -38,7 +38,7 @@ public class GlobalNavigation implements NodeMain{
         //        Reading in a map file whose name is set as the parameter mapFileName
         ParameterTree paramTree = node.newParameterTree();
         mapFileName = paramTree.getString(node.resolveName("~/mapFileName"));        
-        polyMap = new PolygonMap(mapFileName);
+        //polyMap = new PolygonMap(mapFileName);
         //        
     }
 
