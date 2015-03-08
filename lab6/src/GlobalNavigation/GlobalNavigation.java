@@ -14,7 +14,7 @@ import org.ros.node.Node;
 //import org.ros.message.lab5_msgs.*;
 import org.ros.message.lab6_msgs.*;
 
-import LocalNavigation.Publisher;
+//import LocalNavigation.Publisher;
 
 public class GlobalNavigation implements NodeMain{
     private Publisher<org.ros.message.lab6_msgs.GUIRectMsg> guiRectPub;
