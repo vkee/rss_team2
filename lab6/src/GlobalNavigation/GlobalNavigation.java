@@ -53,7 +53,7 @@ public class GlobalNavigation implements NodeMain{
         for (PolygonObstacle obstacle : polyMap.getObstacles()){
             polyMsg = new GUIPolyMsg();
             GlobalNavigation.fillPolyMsg(polyMsg, obstacle, MapGUI.makeRandomColor(), true, true);
-            polyPub.publish(polyMsg);
+            guiPolyPub.publish(polyMsg);
         }
     }
 
