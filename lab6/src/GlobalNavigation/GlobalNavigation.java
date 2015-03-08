@@ -90,11 +90,11 @@ public class GlobalNavigation implements NodeMain{
         msg.height = (float) r.getHeight();
         msg.filled = filled ? 1 : 0;
         if (c != null) {
-            ColorMsg colorMsg = new ColorMsg();
-            colorMsg.r = c.getRed();
-            colorMsg.g = c.getGreen();
-            colorMsg.b = c.getBlue();
-            msg.c = colorMsg;
+//            ColorMsg colorMsg = new ColorMsg();
+//            colorMsg.r = c.getRed();
+//            colorMsg.g = c.getGreen();
+//            colorMsg.b = c.getBlue();
+//            msg.c = colorMsg;
         }
     }
 
@@ -121,11 +121,11 @@ public class GlobalNavigation implements NodeMain{
         }
         msg.x = x;
         msg.y = y;
-        ColorMsg colorMsg = new ColorMsg();
-        colorMsg.r = c.getRed();
-        colorMsg.g = c.getGreen();
-        colorMsg.b = c.getBlue();
-        msg.c = colorMsg;
+//        ColorMsg colorMsg = new ColorMsg();
+//        colorMsg.r = c.getRed();
+//        colorMsg.g = c.getGreen();
+//        colorMsg.b = c.getBlue();
+//        msg.c = colorMsg;
         msg.filled = filled ? 1 : 0; 
         msg.closed = closed ? 1 : 0;
     }
