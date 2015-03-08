@@ -32,6 +32,12 @@ public class GlobalNavigation implements NodeMain{
 
     @Override
     public void onStart(Node node) {
+    	try{
+    	Thread.sleep(1000);
+    	}
+    	catch(Exception e){
+    		
+    	}
         System.out.println("In onstart of globalNav");
         guiRectPub = node.newPublisher("gui/Rect", "lab6_msgs/GUIRectMsg");
         guiPolyPub = node.newPublisher("gui/Poly", "lab6_msgs/GUIPolyMsg");
