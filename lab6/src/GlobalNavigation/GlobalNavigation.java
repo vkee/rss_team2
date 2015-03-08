@@ -81,9 +81,9 @@ public class GlobalNavigation implements NodeMain{
         msg.x = (float) point.getX();
         msg.y = (float) point.getY();
         ColorMsg colorMsg = new ColorMsg();
-        colorMsg.r = c.getRed();
-        colorMsg.g = c.getGreen();
-        colorMsg.b = c.getBlue();
+        colorMsg.r = color.getRed();
+        colorMsg.g = color.getGreen();
+        colorMsg.b = color.getBlue();
         msg.color = colorMsg;
     }
 
