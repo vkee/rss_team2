@@ -42,7 +42,7 @@ public class GlobalNavigation implements NodeMain{
         try{
            polyMap = new PolygonMap(mapFileName);
         }
-        catch(IOException e){
+        catch(Exception e){
         	
         }
         //        
