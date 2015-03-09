@@ -10,4 +10,8 @@
 /motion/
 /odometry/
 /sonar/
+<<<<<<< HEAD
+=======
+/VisualServo/
+>>>>>>> 72fbd9316ee5a681286b29dd6b1abb971b47ede5
 /utils/
