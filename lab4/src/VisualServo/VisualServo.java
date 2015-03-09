@@ -125,19 +125,31 @@ public class VisualServo implements NodeMain, Runnable {
 			double desiredAngle = 0;
 			double gainDistance = 0.5;
 			double gainAngle = 0.1;
-			if (blobTrack.targetDetected && !blobTrack.targetFar) {
-				System.out.println("tracking blob");
-				msg.translationalVelocity = 0.25* gainDistance
-						* (desiredDistance - distance);
+			if (abs(angle)>0.05 && !blobTrack.targetFar) {
+			 	System.out.println("Correcting angle only");
 				msg.rotationalVelocity = 0.5*gainAngle * (desiredAngle - angle);
-				// publish velocity messages to move the robot towards the
-				// target
-			} else if (blobTrack.targetDetected && blobTrack.targetFar) {
-				System.out.println("searching");
-				msg.translationalVelocity = 0.1;
-				msg.rotationalVelocity = 0;
-			} else {
-				System.out.println("stopping");
+				msg.translationalVelocity = 0;
+			}
+			else if (abs(angle)>0.05 && blobTrack.targetFar) {
+			 	System.out.println("Correcting angle and distance");
+				msg.rotationalVelocity = 0.5*gainAngle * (desiredAngle - angle);
+				msg.translationalVelocity = 0.25* gainDistance
+						* (desiredDistance - distance); 
+			}
+			// if (blobTrack.targetDetected && !blobTrack.targetFar) {
+			// 	System.out.println("tracking blob");
+			// 	msg.translationalVelocity = 0.25* gainDistance
+			// 			* (desiredDistance - distance);
+			// 	msg.rotationalVelocity = 0.5*gainAngle * (desiredAngle - angle);
+			// 	// publish velocity messages to move the robot towards the
+			// 	// target
+			// } else if (blobTrack.targetDetected && blobTrack.targetFar) {
+			// 	System.out.println("searching");
+			// 	msg.translationalVelocity = 0.1;
+			// 	msg.rotationalVelocity = 0;
+			// }
+			else {
+				System.out.println("Done");
 				msg.translationalVelocity = 0;
 				msg.rotationalVelocity = 0;
 			}
