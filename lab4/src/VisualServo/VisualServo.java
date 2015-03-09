@@ -127,7 +127,7 @@ public class VisualServo implements NodeMain, Runnable {
 			double gainAngle = 0.04;
 			if (blobTrack.targetDetected && !blobTrack.targetFar) {
 				System.out.println("tracking blob");
-				msg.translationalVelocity = 0.5* gainDistance
+				msg.translationalVelocity = 0.25* gainDistance
 						* (desiredDistance - distance);
 				msg.rotationalVelocity = 0.5*gainAngle * (desiredAngle - angle);
 				// publish velocity messages to move the robot towards the
