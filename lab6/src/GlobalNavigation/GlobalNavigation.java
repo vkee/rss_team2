@@ -53,6 +53,7 @@ public class GlobalNavigation implements NodeMain{
 
         }
         displayMap();
+        testConvexHull();
         //        
     }
 
