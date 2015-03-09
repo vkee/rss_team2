@@ -125,37 +125,40 @@ public class VisualServo implements NodeMain, Runnable {
 			double desiredAngle = 0;
 			double gainDistance = 0.5;
 			double gainAngle = 0.1;
-			double distanceError = desiredDistance-distance; 
+			double distanceError = desiredDistance - distance;
 			if (Math.abs(angle) > 0.05) {
-			 	System.out.println("Correcting angle only");
-				msg.rotationalVelocity = 0.25*gainAngle * (desiredAngle - angle);
+				System.out.println("Correcting angle only");
+				msg.rotationalVelocity = 0.25 * gainAngle
+						* (desiredAngle - angle);
 				msg.translationalVelocity = 0;
-			}
-			else if (Math.abs(distanceError) > 0.05){
-			 	System.out.println("Correcting distance only");
-				msg.translationalVelocity = 0.25* gainDistance
+			} else if (Math.abs(distanceError) > 0.05) {
+				System.out.println("Correcting distance only");
+				msg.translationalVelocity = 0.25 * gainDistance
 						* (desiredDistance - distance);
 				msg.rotationalVelocity = 0;
-			}
-			else{
+			} else {
 				System.out.println("Stopped");
 				msg.rotationalVelocity = 0;
-				msg.translationalVelocity = 0;				
+				msg.translationalVelocity = 0;
 			}
 			// if (blobTrack.targetDetected && !blobTrack.targetFar) {
-			// 	System.out.println("tracking blob");
-			// 	msg.translationalVelocity = 0.25* gainDistance
-			// 			* (desiredDistance - distance);
-			// 	msg.rotationalVelocity = 0.5*gainAngle * (desiredAngle - angle);
-			// 	// publish velocity messages to move the robot towards the
-			// 	// target
+			// System.out.println("tracking blob");
+			// msg.translationalVelocity = 0.25* gainDistance
+			// * (desiredDistance - distance);
+			// msg.rotationalVelocity = 0.5*gainAngle * (desiredAngle - angle);
+			// // publish velocity messages to move the robot towards the
+			// // target
 			// } else if (blobTrack.targetDetected && blobTrack.targetFar) {
-			// 	System.out.println("searching");
-			// 	msg.translationalVelocity = 0.1;
-			// 	msg.rotationalVelocity = 0;
+			// System.out.println("searching");
+			// msg.translationalVelocity = 0.1;
+			// msg.rotationalVelocity = 0;
 			// }
 			motionPub.publish(msg);
-			Thread.sleep(100);
+			try {
+				Thread.sleep(100);
+			} catch (Exception e) {
+
+			}
 			// End Student Code
 		}
 	}
