@@ -1,10 +1,10 @@
 <launch>
-  <machine name="workstation" address="workstation">
+  <machine name="workstation" address="workstation" output="screen">
      <env name="ROS_MASTER_URI" value="http://netbook:11311" />
      <env name="ROS_HOSTNAME" value="workstation" />
   </machine>
 
-  <machine name="netbook" address="netbook" user="rss-student" password="david2000" 
+  <machine name="netbook" address="netbook" user="rss-student" password="starwars2" output="screen" 
   	   ros-root="$(env ROS_ROOT)" 
 	   ros-package-path="$(env ROS_PACKAGE_PATH)"> 
      <env name="ROS_MASTER_URI" value="http://netbook:11311" />
