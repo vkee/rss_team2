@@ -53,7 +53,7 @@ public class GlobalNavigation implements NodeMain{
         }
 //        displayMapCSpace();
                 displayMap();
-                testConvexHull();
+//                testConvexHull();
     }
 
     /**
@@ -70,6 +70,8 @@ public class GlobalNavigation implements NodeMain{
         points.add(p2);
         points.add(p3);
         points.add(p4);
+        guiErasePub.publish(new GUIEraseMsg());
+        guiPolyPub.publish(GeomUtils.convexHull(points));
         
         System.out.println("Done running testConvexHull");
     }
