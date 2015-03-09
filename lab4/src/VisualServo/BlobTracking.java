@@ -40,6 +40,7 @@ public class BlobTracking {
 	public double targetArea = 0.0; // set in blobPresent()
 	public double targetRange = 0.0; // set in blobFix()
 	public double targetBearing = 0.0; // set in blobFix()
+	public boolean targetFar = false;
 
 	/**
 	 * <p>
@@ -141,6 +142,7 @@ public class BlobTracking {
 		if (red_pixel_counter > 300) {
 			targetArea = red_pixel_counter;
 			targetDetected = true;
+			targetFar = false;
 			// System.out.println("BALL IS IN IMAGE. DO SOMETHING CRAZY!");
 			int centroid_i = i_counter / red_pixel_counter;
 			int centroid_j = j_counter / red_pixel_counter;
@@ -163,7 +165,12 @@ public class BlobTracking {
 			}
 			blobFix();
 			System.out.println(targetArea);
+		} else if (red_pixel_counter < 300) {
+			targetFar = true;
+			targetDetected = true;
+			
 		} else {
+			targetFar = false;
 			targetDetected = false;
 
 		}
