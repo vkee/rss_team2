@@ -23,6 +23,7 @@ public class VisualServo implements NodeMain, Runnable {
 
 	private static final int height = 120;
 
+	private boolean done = false;
 	// protected Log log;
 
 	/**
@@ -124,20 +125,19 @@ public class VisualServo implements NodeMain, Runnable {
 			double desiredAngle = 0;
 			double gainDistance = 0.5;
 			double gainAngle = 0.04;
-			System.out.println(blobTrack.targetDetected);
-			if (blobTrack.targetDetected && !blobTrack.targetFar) {
-				msg.translationalVelocity = 0.1*gainDistance
+			if (blobTrack.targetDetected && !blobTrack.targetFar && !done) {
+				System.out.println("tracking blob");
+				msg.translationalVelocity = gainDistance
 						* (desiredDistance - distance);
-				msg.rotationalVelocity = 0.1*gainAngle * (desiredAngle - angle);
+				msg.rotationalVelocity = gainAngle * (desiredAngle - angle);
+				if (Math.abs(desiredAngle-angle) < 0.1 && Math.abs(desiredDistance-distance)<0.1){
+					done = true;
+				}
 				// publish velocity messages to move the robot towards the
 				// target
-				System.out.println("translational speed");
-				System.out.println(msg.translationalVelocity);
-				System.out.println("rotational speed");
-				System.out.println(msg.rotationalVelocity);
-			} else if (blobTrack.targetDetected && blobTrack.targetFar) {
+			} else if (blobTrack.targetDetected && blobTrack.targetFar && !done) {
 				System.out.println("searching");
-				msg.translationalVelocity = 0.01;
+				msg.translationalVelocity = 0.1;
 				msg.rotationalVelocity = 0;
 			} else {
 				System.out.println("stopping");
