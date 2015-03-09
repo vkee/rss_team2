@@ -141,8 +141,11 @@ public class VisualServo implements NodeMain, Runnable {
 				System.out.println("Stopped");
 				msg.rotationalVelocity = 0;
 				msg.translationalVelocity = 0;
-
 			}
+			System.out.println("Distance" + distance);
+			System.out.println("Desired Distance" + desiredDistance);
+			System.out.println("Distance Error" + distanceError);
+
 			// if (blobTrack.targetDetected && !blobTrack.targetFar) {
 			// System.out.println("tracking blob");
 			// msg.translationalVelocity = 0.25* gainDistance
