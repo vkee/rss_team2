@@ -128,7 +128,7 @@ public class VisualServo implements NodeMain, Runnable {
 			double distanceError = desiredDistance - distance;
 			if (Math.abs(angle) > 0.05) {
 				System.out.println("Correcting angle only");
-				msg.rotationalVelocity = 0.25 * gainAngle
+				msg.rotationalVelocity = 0.2 * gainAngle
 						* (desiredAngle - angle);
 				msg.translationalVelocity = 0;
 			} else if (Math.abs(distanceError) > 0.05) {
@@ -154,9 +154,6 @@ public class VisualServo implements NodeMain, Runnable {
 			// msg.rotationalVelocity = 0;
 			// }
 			motionPub.publish(msg);
-			try {
-				Thread.sleep(100);
-			} catch (Exception e) {
 
 			}
 			// End Student Code
