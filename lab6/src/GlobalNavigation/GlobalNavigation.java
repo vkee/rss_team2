@@ -70,6 +70,8 @@ public class GlobalNavigation implements NodeMain{
         points.add(p2);
         points.add(p3);
         points.add(p4);
+        
+        System.out.println("Done running testConvexHull");
     }
 
     /**
@@ -91,6 +93,8 @@ public class GlobalNavigation implements NodeMain{
             GlobalNavigation.fillPolyMsg(polyMsg, obstacle, MapGUI.makeRandomColor(), true, true);
             guiPolyPub.publish(polyMsg);
         }
+        
+        System.out.println("Done running displayMap");
     }
 
     /**
