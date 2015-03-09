@@ -13,6 +13,10 @@ import org.ros.node.Node;
 import org.ros.message.lab5_msgs.*;
 import org.ros.message.lab6_msgs.*;
 
+import LocalNavigation.ColorMsg;
+import LocalNavigation.GUIPointMsg;
+
+
 //import LocalNavigation.Publisher;
 import java.io.*;
 
@@ -20,6 +24,7 @@ public class GlobalNavigation implements NodeMain{
     private Publisher<org.ros.message.lab6_msgs.GUIRectMsg> guiRectPub;
     private Publisher<org.ros.message.lab6_msgs.GUIPolyMsg> guiPolyPub;
     private Publisher<org.ros.message.lab5_msgs.GUIEraseMsg> guiErasePub;
+    private Publisher<org.ros.message.lab5_msgs.GUIPointMsg> guiPtPub;
 
     private String mapFileName;
     private PolygonMap polyMap;
@@ -41,6 +46,7 @@ public class GlobalNavigation implements NodeMain{
         guiRectPub = node.newPublisher("gui/Rect", "lab6_msgs/GUIRectMsg");
         guiPolyPub = node.newPublisher("gui/Poly", "lab6_msgs/GUIPolyMsg");
         guiErasePub = node.newPublisher("gui/Erase", "lab5_msgs/GUIEraseMsg");
+        guiPtPub = node.newPublisher("gui/Point", "lab5_msgs/GUIPointMsg");
 
         //        Reading in a map file whose name is set as the parameter mapFileName
         ParameterTree paramTree = node.newParameterTree();
@@ -62,15 +68,42 @@ public class GlobalNavigation implements NodeMain{
     private void testConvexHull(){
         //TODO come up with more non trivial sets of test points to test convexHull
         List<Point2D.Double> points = new ArrayList<Point2D.Double>();
+        
+        guiErasePub.publish(new GUIEraseMsg());
+
+        GUIPointMsg ptMsg = new GUIPointMsg();
+        redMsg = new ColorMsg();
+        redMsg.r = 255;
+        redMsg.g = 0;
+        redMsg.b = 0;
+        ptMsg.color = redMsg;
+        
         Point2D.Double p1 = new Point2D.Double(0.0,0.0);
         Point2D.Double p2 = new Point2D.Double(0.0,3.0);
         Point2D.Double p3 = new Point2D.Double(3.0,3.0);
         Point2D.Double p4 = new Point2D.Double(3.0,0.0);
+        
         points.add(p1);
         points.add(p2);
         points.add(p3);
         points.add(p4);
-        guiErasePub.publish(new GUIEraseMsg());
+        
+        ptMsg.x = p1.getX();
+        ptMsg.y = p1.getY();
+        guiPtPub.publish(ptMsg);
+        
+        ptMsg.x = p2.getX();
+        ptMsg.y = p2.getY();
+        guiPtPub.publish(ptMsg);
+        
+        ptMsg.x = p3.getX();
+        ptMsg.y = p3.getY();
+        guiPtPub.publish(ptMsg);
+        
+        ptMsg.x = p4.getX();
+        ptMsg.y = p4.getY();
+        guiPtPub.publish(ptMsg);
+        
         guiPolyPub.publish(GeomUtils.convexHull(points));
         
         System.out.println("Done running testConvexHull");
