@@ -1,6 +1,9 @@
 package GlobalNavigation;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D.Double;
 
 /**
@@ -90,14 +93,39 @@ public class CSpace {
      * @return the obstacle configuration space
      */
     public PolygonObstacle obsCSpace(PolygonObstacle obsPoly, PolygonObstacle robotPoly, Point2D.Double refPoint) {
-        PolygonObstacle obsCSpace = new PolygonObstacle();
-
         //        Setting the robot at the origin
         PolygonObstacle shiftedRobotPoly = changeOrigin(robotPoly, refPoint);
         //        Shifting the obstacle by the same amount the robot polygon is shifted to keep everything the same
         PolygonObstacle shiftedObsPoly = shiftObs(obsPoly, robotXShift, robotYShift);
 
-//        To compute the config space of the obstacle, probably need to have the ref point at origin or else when compute minkowski sum, values may be off
+        //        To compute the config space of the obstacle, probably need to have the ref point at origin or else when compute minkowski sum, values may be off
         return computeMSum(shiftedRobotPoly, shiftedObsPoly);
+    }
+
+    /**
+     * Computes the configuration space of the provided map.
+     * @param polyMap the map of the environment to generate a configuration space of
+     * @return the configuration space obstacles of the map obstacles and the boundaries
+     */
+    public List<PolygonObstacle> envConfSpace(PolygonMap polyMap){
+        List<PolygonObstacle> obsCSpaces = new ArrayList<PolygonObstacle>();
+        
+        for (PolygonObstacle obstacle : polyMap.getObstacles()) {
+//            call obsCSpace on each obstacle, but want to make code more efficient as shiftedRobtoPoly only needs to be computed once
+        }
+        
+//        build obstacle for the boundaries
+        PolygonObstacle boundaryObs = new PolygonObstacle();
+        Rectangle2D.Double envBounds = polyMap.worldRect;
+        boundaryObs.addVertex(envBounds.getX(), envBounds.getY());
+        boundaryObs.addVertex(envBounds.getX() + envBounds.getWidth(), envBounds.getY());
+        boundaryObs.addVertex(envBounds.getX() + envBounds.getWidth(), envBounds.getY() + envBounds.getHeight());
+        boundaryObs.addVertex(envBounds.getX(), envBounds.getY() + envBounds.getHeight());
+
+//        now want to call obsCSpace on the boundary obs without having to recompute same stuff as above
+        
+        obsCSpaces.add(boundaryObs);
+        
+        return obsCSpaces;
     }
 }
