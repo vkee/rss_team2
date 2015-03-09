@@ -7,7 +7,7 @@ D1 = [0 0 0 0]; % before
 D2 = [0 0 0 0]; % after
 
 % Gabe
-G1 = [0 0 0 0]; % before
+G1 = [4 1 2 3]; % before
 G2 = [0 0 0 0]; % after
 
 % Syler
