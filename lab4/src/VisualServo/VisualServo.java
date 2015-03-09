@@ -95,6 +95,7 @@ public class VisualServo implements NodeMain, Runnable {
 	    System.out.format("Signal Centroid %f %n", centroidSignal);
 
 	    MotionMsg msg = new MotionMsg();
+	    
 	    if (blobTrack.targetDetected) {
 		if (Math.abs(rangeError) > RANGE_TOLERANCE)
 		    msg.translationalVelocity = rangeSignal;
@@ -114,6 +115,7 @@ public class VisualServo implements NodeMain, Runnable {
 	    double desiredAngle=0;
 	    double gainDistance = 0.5;
 	    double gainAngle=0.04;
+	    System.out.println(blobTrack.targetDetected);
 	    if (blobTrack.targetDetected){
 		msg.translationalVelocity=gainDistance*(desiredDistance-distance);
 		msg.rotationalVelocity=gainAngle*(desiredAngle-angle);
