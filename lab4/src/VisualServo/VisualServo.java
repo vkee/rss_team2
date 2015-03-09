@@ -90,16 +90,16 @@ public class VisualServo implements NodeMain, Runnable {
 			// update newly formed vision message
 			gui.setVisionImage(dest.toArray(), width, height);
 
-			// Get estimated range (in meters) and bearing (in signed radians)
-			double rangeError = desiredRange - blobTrack.targetRange;
-			double rangeSignal = RANGE_KP * rangeError;
-			System.out.format("Target Range %f %n", blobTrack.targetRange);
-			System.out.format("Signal Range %f %n", rangeSignal);
-
-			double centroidError = desiredCentroid - blobTrack.centroidX;
-			double centroidSignal = CENTROID_KP * centroidError;
-			System.out.format("Target CentroidX %f %n", blobTrack.centroidX);
-			System.out.format("Signal Centroid %f %n", centroidSignal);
+//			// Get estimated range (in meters) and bearing (in signed radians)
+//			double rangeError = desiredRange - blobTrack.targetRange;
+//			double rangeSignal = RANGE_KP * rangeError;
+//			System.out.format("Target Range %f %n", blobTrack.targetRange);
+//			System.out.format("Signal Range %f %n", rangeSignal);
+//
+//			double centroidError = desiredCentroid - blobTrack.centroidX;
+//			double centroidSignal = CENTROID_KP * centroidError;
+//			System.out.format("Target CentroidX %f %n", blobTrack.centroidX);
+//			System.out.format("Signal Centroid %f %n", centroidSignal);
 
 			MotionMsg msg = new MotionMsg();
 
