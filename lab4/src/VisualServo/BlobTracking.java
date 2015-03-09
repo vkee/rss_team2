@@ -164,7 +164,7 @@ public class BlobTracking {
 
 			}
 			blobFix();
-			System.out.println(targetArea);
+//			System.out.println(targetArea);
 		} else if (red_pixel_counter < 300) {
 			targetFar = true;
 			targetDetected = true;
@@ -303,11 +303,11 @@ public class BlobTracking {
 		// Writes the data
 		targetRange = ballRobotDistance;
 		targetBearing = ballRobotAngle;
-		System.out.println();
-		System.out.println(targetRange);
-		System.out.println(targetBearing);
-		System.out.println(ballImageX);
-		System.out.println();
+//		System.out.println();
+//		System.out.println(targetRange);
+//		System.out.println(targetBearing);
+//		System.out.println(ballImageX);
+//		System.out.println();
 		//
 
 	}
