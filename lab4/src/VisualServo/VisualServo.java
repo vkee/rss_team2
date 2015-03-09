@@ -134,7 +134,7 @@ public class VisualServo implements NodeMain, Runnable {
 				} else if (Math.abs(distanceError) > 0.05) {
 					System.out.println("Correcting distance only");
 					msg.translationalVelocity = 0.25 * gainDistance
-							* (desiredDistance - distance);
+							* (distance-desiredDistance);
 					msg.rotationalVelocity = 0;
 				}
 			} else {
