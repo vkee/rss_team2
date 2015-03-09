@@ -13,10 +13,23 @@ public class CSpace {
     public double robotXShift = 0.0;
     public double robotYShift = 0.0;
 
-    public PolygonObstacle shiftedRobotPoly;
+    //    Note that we are assuming that the robot rotates at its center of the square approximation
+    //    This will almost certainly need to be accounted for as the robot does not turn at its center
+    private final double ROBOT_WIDTH = 1.0; // in meters
+    private final double ROBOT_HEIGHT = 1.0; // in meters
+
+    private PolygonObstacle robotPoly;
 
     public CSpace() {
+        //        Generating the robot polygon
+        PolygonObstacle origRobotPoly = new PolygonObstacle();
+        origRobotPoly.addVertex(0.0, 0.0);
+        origRobotPoly.addVertex(ROBOT_WIDTH, 0.0);
+        origRobotPoly.addVertex(ROBOT_WIDTH, ROBOT_HEIGHT);
+        origRobotPoly.addVertex(0.0, ROBOT_HEIGHT);
+        origRobotPoly.close();
 
+        robotPoly = changeOrigin(origRobotPoly, new Point2D.Double(0.0, 0.0));
     }
 
     /**
@@ -30,7 +43,7 @@ public class CSpace {
 
         for (Point2D.Double vertex1 : poly1.getVertices()) {
             for (Point2D.Double vertex2 : poly2.getVertices()) {
-                mSum.addVertex(new Point2D.Double(vertex1.getX() + vertex2.getX(), vertex1.getY() + vertex2.getY()));
+                mSum.addVertex(vertex1.getX() + vertex2.getX(), vertex1.getY() + vertex2.getY());
             }
         }
 
@@ -97,14 +110,15 @@ public class CSpace {
     public PolygonObstacle obsCSpace(PolygonObstacle obsPoly, PolygonObstacle robotPoly, Point2D.Double refPoint, boolean computeRobotPoly) {
         if (computeRobotPoly) {
             //          Setting the robot at the origin
-            shiftedRobotPoly = changeOrigin(robotPoly, refPoint);
+            robotPoly = changeOrigin(robotPoly, refPoint);
         }
 
+        //        Actually probably don't need to shift the obstacle
         //        Shifting the obstacle by the same amount the robot polygon is shifted to keep everything the same
-        PolygonObstacle shiftedObsPoly = shiftObs(obsPoly, robotXShift, robotYShift);
+        //        PolygonObstacle shiftedObsPoly = shiftObs(obsPoly, robotXShift, robotYShift);
 
         //        To compute the config space of the obstacle, probably need to have the ref point at origin or else when compute minkowski sum, values may be off
-        return computeMSum(shiftedRobotPoly, shiftedObsPoly);
+        return computeMSum(robotPoly, obsPoly);
     }
 
     /**
@@ -117,7 +131,7 @@ public class CSpace {
 
         //        Computed the configuration spaces of the obstacle
         for (PolygonObstacle obstacle : polyMap.getObstacles()) {
-            obsCSpaces.add(obsCSpace(obstacle, null, null, false));
+            obsCSpaces.add(obsCSpace(obstacle, robotPoly, null, false));
         }
 
         //        build obstacle for the boundaries
@@ -127,7 +141,7 @@ public class CSpace {
         boundaryObs.addVertex(envBounds.getX() + envBounds.getWidth(), envBounds.getY());
         boundaryObs.addVertex(envBounds.getX() + envBounds.getWidth(), envBounds.getY() + envBounds.getHeight());
         boundaryObs.addVertex(envBounds.getX(), envBounds.getY() + envBounds.getHeight());
-        obsCSpaces.add(obsCSpace(boundaryObs, null, null, false));
+        obsCSpaces.add(obsCSpace(boundaryObs, robotPoly, null, false));
 
         return obsCSpaces;
     }
