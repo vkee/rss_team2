@@ -126,20 +126,22 @@ public class VisualServo implements NodeMain, Runnable {
 			double gainDistance = 0.5;
 			double gainAngle = 0.1;
 			double distanceError = desiredDistance - distance;
-			if (Math.abs(angle) > 0.05) {
-				System.out.println("Correcting angle only");
-				msg.rotationalVelocity = gainAngle
-						* (desiredAngle - angle);
-				msg.translationalVelocity = 0;
-			} else if (Math.abs(distanceError) > 0.05) {
-				System.out.println("Correcting distance only");
-				msg.translationalVelocity = 0.25 * gainDistance
-						* (desiredDistance - distance);
-				msg.rotationalVelocity = 0;
+			if (blobTrack.targetDetected) {
+				if (Math.abs(angle) > 0.05) {
+					System.out.println("Correcting angle only");
+					msg.rotationalVelocity = gainAngle * (desiredAngle - angle);
+					msg.translationalVelocity = 0;
+				} else if (Math.abs(distanceError) > 0.05) {
+					System.out.println("Correcting distance only");
+					msg.translationalVelocity = 0.25 * gainDistance
+							* (desiredDistance - distance);
+					msg.rotationalVelocity = 0;
+				}
 			} else {
 				System.out.println("Stopped");
 				msg.rotationalVelocity = 0;
 				msg.translationalVelocity = 0;
+
 			}
 			// if (blobTrack.targetDetected && !blobTrack.targetFar) {
 			// System.out.println("tracking blob");
