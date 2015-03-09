@@ -44,7 +44,7 @@ public class MotionPlanner {
         return Math.sqrt((pt1X - pt2X)*(pt1X - pt2X) + (pt1Y - pt2Y)*(pt1Y - pt2Y));
     }
     
-    public lineIntersects(PolygonObstacle p, Point2D.Double x1, Point2D.Double x2)
+    public boolean lineIntersects(PolygonObstacle p, Point2D.Double x1, Point2D.Double x2)
     	{
 			Line2D path = new Line2D.Double(100, 100, 200, 200);
 			List<Point2D.Double> verts = p.getVertices();
