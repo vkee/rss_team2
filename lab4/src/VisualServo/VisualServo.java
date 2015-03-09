@@ -134,9 +134,9 @@ public class VisualServo implements NodeMain, Runnable {
 				System.out.println("rotational speed");
 				System.out.println(msg.rotationalVelocity);
 			} else {
-				System.out.println("stopping");
-				msg.translationalVelocity = 0;
-				msg.rotationalVelocity = 0;
+				System.out.println("searching");
+				msg.translationalVelocity = 0.1;
+				msg.rotationalVelocity = 0.1;
 			}
 			motionPub.publish(msg);
 			// End Student Code
