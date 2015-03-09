@@ -154,8 +154,6 @@ public class VisualServo implements NodeMain, Runnable {
 			// msg.rotationalVelocity = 0;
 			// }
 			motionPub.publish(msg);
-
-			}
 			// End Student Code
 		}
 	}
