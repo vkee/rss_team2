@@ -51,9 +51,9 @@ public class GlobalNavigation implements NodeMain{
         catch(Exception e){
 
         }
-        displayMapCSpace();
-        //        displayMap();
-        //        testConvexHull();
+//        displayMapCSpace();
+                displayMap();
+                testConvexHull();
     }
 
     /**
