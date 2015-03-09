@@ -4,11 +4,9 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.ros.node.topic.Publisher;
 import org.ros.node.topic.Subscriber;
 import org.ros.node.parameter.ParameterTree;
-
 import org.ros.node.NodeMain;
 import org.ros.namespace.GraphName;
 import org.ros.node.Node;
@@ -25,20 +23,21 @@ public class GlobalNavigation implements NodeMain{
 
     private String mapFileName;
     private PolygonMap polyMap;
+    private CSpace cSpace;
 
     public GlobalNavigation(){
-
+        cSpace = new CSpace();
     }
 
     @Override
     public void onStart(Node node) {
-    	try{
-    	Thread.sleep(1000);
-    	}
-    	catch(Exception e){
-    		
-    	}
-        System.out.println("In onstart of globalNav");
+        try{
+            Thread.sleep(1000);
+        }
+        catch(Exception e){
+
+        }
+
         guiRectPub = node.newPublisher("gui/Rect", "lab6_msgs/GUIRectMsg");
         guiPolyPub = node.newPublisher("gui/Poly", "lab6_msgs/GUIPolyMsg");
         guiErasePub = node.newPublisher("gui/Erase", "lab5_msgs/GUIEraseMsg");
@@ -52,9 +51,25 @@ public class GlobalNavigation implements NodeMain{
         catch(Exception e){
 
         }
-        displayMap();
-        testConvexHull();
-        //        
+        displayMapCSpace();
+        //        displayMap();
+        //        testConvexHull();
+    }
+
+    /**
+     * Tests the convex hull algorithm in GeomUtils
+     */
+    private void testConvexHull(){
+        //TODO come up with more non trivial sets of test points to test convexHull
+        List<Point2D.Double> points = new ArrayList<Point2D.Double>();
+        Point2D.Double p1 = new Point2D.Double(0.0,0.0);
+        Point2D.Double p2 = new Point2D.Double(0.0,3.0);
+        Point2D.Double p3 = new Point2D.Double(3.0,3.0);
+        Point2D.Double p4 = new Point2D.Double(3.0,0.0);
+        points.add(p1);
+        points.add(p2);
+        points.add(p3);
+        points.add(p4);
     }
 
     /**
@@ -72,6 +87,26 @@ public class GlobalNavigation implements NodeMain{
         guiRectPub.publish(rectMsg);
         GUIPolyMsg polyMsg = new GUIPolyMsg();
         for (PolygonObstacle obstacle : polyMap.getObstacles()){
+            polyMsg = new GUIPolyMsg();
+            GlobalNavigation.fillPolyMsg(polyMsg, obstacle, MapGUI.makeRandomColor(), true, true);
+            guiPolyPub.publish(polyMsg);
+        }
+    }
+
+    /**
+     * Displays the configuration space of the environment.
+     */
+    private void displayMapCSpace() {
+        List<PolygonObstacle> obsCSpaces = cSpace.envConfSpace(polyMap);
+
+        //        Erase the GUI
+        guiErasePub.publish(new GUIEraseMsg());
+
+        GUIRectMsg rectMsg = new GUIRectMsg();
+        GlobalNavigation.fillRectMsg(rectMsg, polyMap.getWorldRect(), null, false);
+        guiRectPub.publish(rectMsg);
+        GUIPolyMsg polyMsg = new GUIPolyMsg();
+        for (PolygonObstacle obstacle : obsCSpaces){
             polyMsg = new GUIPolyMsg();
             GlobalNavigation.fillPolyMsg(polyMsg, obstacle, MapGUI.makeRandomColor(), true, true);
             guiPolyPub.publish(polyMsg);
@@ -149,24 +184,6 @@ public class GlobalNavigation implements NodeMain{
         msg.c = colorMsg;
         msg.filled = filled ? 1 : 0; 
         msg.closed = closed ? 1 : 0;
-    }
-
-    /**
-     * Tests the convex hull algorithm in GeomUtils
-     */
-    private void testConvexHull(){
-        //TODO come up with more non trivial sets of test points to test convexHull
-    	List<Point2D.Double> points = new ArrayList<Point2D.Double>();
-    	Point2D.Double p1 = new Point2D.Double(0.0,0.0);
-    	Point2D.Double p2 = new Point2D.Double(0.0,3.0);
-    	Point2D.Double p3 = new Point2D.Double(3.0,3.0);
-    	Point2D.Double p4 = new Point2D.Double(3.0,0.0);
-    	points.add(p1);
-    	points.add(p2);
-    	points.add(p3);
-    	points.add(p4);
-    	
-    	PolygonObstacle p_obs = GeomUtils.convexHull(points);
     }
 
     @Override
