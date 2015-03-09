@@ -117,7 +117,7 @@ public class VisualServo implements NodeMain, Runnable {
 			double angle;
 			distance = blobTrack.targetRange;
 			angle = blobTrack.targetBearing;
-			org.ros.message.rss_msgs.MotionMsg msg = new org.ros.message.rss_msgs.MotionMsg();
+//			org.ros.message.rss_msgs.MotionMsg msg = new org.ros.message.rss_msgs.MotionMsg();
 			double desiredDistance = 0.5;
 			double desiredAngle = 0;
 			double gainDistance = 0.5;
