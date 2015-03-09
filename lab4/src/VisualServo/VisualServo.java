@@ -90,40 +90,42 @@ public class VisualServo implements NodeMain, Runnable {
 			// update newly formed vision message
 			gui.setVisionImage(dest.toArray(), width, height);
 
-//			// Get estimated range (in meters) and bearing (in signed radians)
-//			double rangeError = desiredRange - blobTrack.targetRange;
-//			double rangeSignal = RANGE_KP * rangeError;
-//			System.out.format("Target Range %f %n", blobTrack.targetRange);
-//			System.out.format("Signal Range %f %n", rangeSignal);
-//
-//			double centroidError = desiredCentroid - blobTrack.centroidX;
-//			double centroidSignal = CENTROID_KP * centroidError;
-//			System.out.format("Target CentroidX %f %n", blobTrack.centroidX);
-//			System.out.format("Signal Centroid %f %n", centroidSignal);
+			// // Get estimated range (in meters) and bearing (in signed
+			// radians)
+			// double rangeError = desiredRange - blobTrack.targetRange;
+			// double rangeSignal = RANGE_KP * rangeError;
+			// System.out.format("Target Range %f %n", blobTrack.targetRange);
+			// System.out.format("Signal Range %f %n", rangeSignal);
+			//
+			// double centroidError = desiredCentroid - blobTrack.centroidX;
+			// double centroidSignal = CENTROID_KP * centroidError;
+			// System.out.format("Target CentroidX %f %n", blobTrack.centroidX);
+			// System.out.format("Signal Centroid %f %n", centroidSignal);
 
 			MotionMsg msg = new MotionMsg();
 
-//			if (blobTrack.targetDetected) {
-//				if (Math.abs(rangeError) > RANGE_TOLERANCE)
-//					msg.translationalVelocity = rangeSignal;
-//				if (Math.abs(centroidError) > CENTROID_TOLERANCE)
-//					msg.rotationalVelocity = centroidSignal;
-//			} else {
-//				msg.translationalVelocity = 0.0;
-//				msg.rotationalVelocity = 0.0;
-//			}
+			// if (blobTrack.targetDetected) {
+			// if (Math.abs(rangeError) > RANGE_TOLERANCE)
+			// msg.translationalVelocity = rangeSignal;
+			// if (Math.abs(centroidError) > CENTROID_TOLERANCE)
+			// msg.rotationalVelocity = centroidSignal;
+			// } else {
+			// msg.translationalVelocity = 0.0;
+			// msg.rotationalVelocity = 0.0;
+			// }
 			// Begin Student Code TODO
 			double distance;
 			double angle;
 			distance = blobTrack.targetRange;
 			angle = blobTrack.targetBearing;
-//			org.ros.message.rss_msgs.MotionMsg msg = new org.ros.message.rss_msgs.MotionMsg();
+			// org.ros.message.rss_msgs.MotionMsg msg = new
+			// org.ros.message.rss_msgs.MotionMsg();
 			double desiredDistance = 0.5;
 			double desiredAngle = 0;
 			double gainDistance = 0.5;
 			double gainAngle = 0.04;
 			System.out.println(blobTrack.targetDetected);
-			if (blobTrack.targetDetected) {
+			if (blobTrack.targetDetected && !blobTrack.targetFar) {
 				msg.translationalVelocity = gainDistance
 						* (desiredDistance - distance);
 				msg.rotationalVelocity = gainAngle * (desiredAngle - angle);
@@ -133,10 +135,14 @@ public class VisualServo implements NodeMain, Runnable {
 				System.out.println(msg.translationalVelocity);
 				System.out.println("rotational speed");
 				System.out.println(msg.rotationalVelocity);
-			} else {
+			} else if (blobTrack.targetDetected && blobTrack.targetFar) {
 				System.out.println("searching");
 				msg.translationalVelocity = 0.1;
-				msg.rotationalVelocity = 0.1;
+				msg.rotationalVelocity = 0;
+			} else {
+				System.out.println("stopping");
+				msg.translationalVelocity = 0;
+				msg.rotationalVelocity = 0;
 			}
 			motionPub.publish(msg);
 			// End Student Code
