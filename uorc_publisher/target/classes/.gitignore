@@ -4,8 +4,10 @@
 /Motor/
 /Publisher.class
 /Servo/
+/VisualServo/
 /analogIO/
 /digitalIO/
 /motion/
 /odometry/
 /sonar/
+/utils/

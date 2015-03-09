@@ -114,8 +114,8 @@ public class VisualServo implements NodeMain, Runnable {
 		if (Math.abs(centroidError) > CENTROID_TOLERANCE)
 		    msg.rotationalVelocity = centroidSignal;
 	    } else {
-		msg.translationalVelocity = 0.;
-		msg.rotationalVelocity = 0.;
+		msg.translationalVelocity = 0.0;
+		msg.rotationalVelocity = 0.0;
 	    }
 
 	    motionMsgPub.publish(msg);
