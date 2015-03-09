@@ -126,9 +126,9 @@ public class VisualServo implements NodeMain, Runnable {
 			double gainAngle = 0.04;
 			System.out.println(blobTrack.targetDetected);
 			if (blobTrack.targetDetected && !blobTrack.targetFar) {
-				msg.translationalVelocity = gainDistance
+				msg.translationalVelocity = 0.1*gainDistance
 						* (desiredDistance - distance);
-				msg.rotationalVelocity = gainAngle * (desiredAngle - angle);
+				msg.rotationalVelocity = 0.1*gainAngle * (desiredAngle - angle);
 				// publish velocity messages to move the robot towards the
 				// target
 				System.out.println("translational speed");
@@ -137,7 +137,7 @@ public class VisualServo implements NodeMain, Runnable {
 				System.out.println(msg.rotationalVelocity);
 			} else if (blobTrack.targetDetected && blobTrack.targetFar) {
 				System.out.println("searching");
-				msg.translationalVelocity = 0.1;
+				msg.translationalVelocity = 0.01;
 				msg.rotationalVelocity = 0;
 			} else {
 				System.out.println("stopping");
