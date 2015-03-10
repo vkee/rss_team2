@@ -15,6 +15,10 @@ public class CSpace {
 
     //    Note that we are assuming that the robot rotates at its center of the square approximation
     //    This will almost certainly need to be accounted for as the robot does not turn at its center
+    
+    //    This approximation needs to be changed when we navigate robot on the field. True center
+    //    of robot is "higher up" than the current estimated version 
+    
     private final double ROBOT_WIDTH = 1.0; // in meters
     private final double ROBOT_HEIGHT = 1.0; // in meters
 
@@ -108,11 +112,12 @@ public class CSpace {
      * @return the obstacle configuration space
      */
     public PolygonObstacle obsCSpace(PolygonObstacle obsPoly, PolygonObstacle robotPoly, Point2D.Double refPoint, boolean computeRobotPoly) {
-        if (computeRobotPoly) {
+  /*
+    	if (computeRobotPoly) {
             //          Setting the robot at the origin
             robotPoly = changeOrigin(robotPoly, refPoint);
         }
-
+*/
         //        Actually probably don't need to shift the obstacle
         //        Shifting the obstacle by the same amount the robot polygon is shifted to keep everything the same
         //        PolygonObstacle shiftedObsPoly = shiftObs(obsPoly, robotXShift, robotYShift);
