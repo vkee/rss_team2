@@ -1,6 +1,7 @@
 package GlobalNavigation;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Line2D;
 import java.util.List;
 
 /**
@@ -48,7 +49,7 @@ public class MotionPlanner {
     	{
 			Line2D path = new Line2D.Double(100, 100, 200, 200);
 			List<Point2D.Double> verts = p.getVertices();
-    	for (int i=0; i<verts.length; i++)
+    	for (int i=0; i<verts.size(); i++)
     		{
     		Point2D.Double point1 = verts.get(i);
     		Point2D.Double point2 = verts.get((i+1)%verts.length);
