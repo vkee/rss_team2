@@ -142,7 +142,7 @@ public class CSpace {
         
         
 //        PolygonObstacle obstacle = polyMap.getObstacles().get(0);
-        obsCSpaces.add(obsCSpace(obstacle, robotPoly, null, false));
+       // obsCSpaces.add(obsCSpace(obstacle, robotPoly, null, false));
 
 //        obsCSpaces.add(obsCSpace(obstacle, robotPoly, null, false));
 
