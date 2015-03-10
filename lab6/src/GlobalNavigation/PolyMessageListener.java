@@ -23,6 +23,7 @@ public class PolyMessageListener implements MessageListener<GUIPolyMsg> {
 			Point2D.Double p = new Point2D.Double(msg.x[i], msg.y[i]);
 			vertices.add(p);
 		}
+		System.out.println("Message Received");
 		boolean closed = msg.closed == 1;
 		boolean filled = msg.filled == 1;
 		Color c = new Color((int)msg.c.r, (int)msg.c.g, (int)msg.c.b); //gui.makeRandomColor();
