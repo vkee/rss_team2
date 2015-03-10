@@ -13,8 +13,9 @@ import org.ros.node.Node;
 import org.ros.message.lab5_msgs.*;
 import org.ros.message.lab6_msgs.*;
 
-import LocalNavigation;//.ColorMsg;
-/import LocalNavigation.GUIPointMsg;
+import LocalNavigation.*;
+//ColorMsg;
+//import LocalNavigation.GUIPointMsg;
 
 
 //import LocalNavigation.Publisher;
