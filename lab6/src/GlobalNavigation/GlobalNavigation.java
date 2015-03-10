@@ -13,8 +13,8 @@ import org.ros.node.Node;
 import org.ros.message.lab5_msgs.*;
 import org.ros.message.lab6_msgs.*;
 
-import LocalNavigation.ColorMsg;
-import LocalNavigation.GUIPointMsg;
+import LocalNavigation;//.ColorMsg;
+/import LocalNavigation.GUIPointMsg;
 
 
 //import LocalNavigation.Publisher;
@@ -72,7 +72,7 @@ public class GlobalNavigation implements NodeMain{
         guiErasePub.publish(new GUIEraseMsg());
 
         GUIPointMsg ptMsg = new GUIPointMsg();
-        redMsg = new ColorMsg();
+        redMsg = new LocalNavigation.ColorMsg();
         redMsg.r = 255;
         redMsg.g = 0;
         redMsg.b = 0;
