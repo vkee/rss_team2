@@ -52,7 +52,7 @@ public class MotionPlanner {
     	for (int i=0; i<verts.size(); i++)
     		{
     		Point2D.Double point1 = verts.get(i);
-    		Point2D.Double point2 = verts.get((i+1)%verts.length);
+    		Point2D.Double point2 = verts.get((i+1)%verts.size());
 				Line2D side = new Line2D.Double(point1.x, point1.y, point2.x, point2.y);
     		if (side.intersectsLine(path)) return true;
     		}

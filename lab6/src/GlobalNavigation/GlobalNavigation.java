@@ -109,11 +109,11 @@ public class GlobalNavigation implements NodeMain {
 
 		GUIPolyMsg gpm = new GUIPolyMsg();
 		PolygonObstacle po = GeomUtils.convexHull(points);
-		gpm.c = po.color;
+		//gpm.c = po.color;
 		gpm.numVertices = po.getVertices().size();
 		//gpm.x = ;
 		//gpm.y = ;
-		gpm.closed = po.closed;
+		//gpm.closed = po.closed;
 		//gpm.filled = ;
 		guiPolyPub.publish(gpm);
 
