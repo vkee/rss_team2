@@ -41,6 +41,8 @@ public class MotionPlanner {
 			Point2D.Double pt) {
 		// just check the distance between each of the points in the path and
 		// compare to the point and return the closest point
+		Point2D.Double pd = new Point2D.Double();
+		return pd;
 	}
 
 	/*
