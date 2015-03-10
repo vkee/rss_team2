@@ -58,10 +58,11 @@ public class GlobalNavigation implements NodeMain {
 		} catch (Exception e) {
 
 		}
-		//displayMapCSpace();
-		displayMap();
-		testConvexHull();
-	}
+		displayMapCSpace();
+		//displayMap(); //--Works: Remember to plug into Robot
+//		testConvexHull(); //-- Works need to find a set of "non-trivial" points. 
+		//Remember to turn off displayMap when testing
+		}
 
 	/**
 	 * Tests the convex hull algorithm in GeomUtils
