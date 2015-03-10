@@ -123,7 +123,7 @@ public class CSpace {
         //        PolygonObstacle shiftedObsPoly = shiftObs(obsPoly, robotXShift, robotYShift);
 
         //        To compute the config space of the obstacle, probably need to have the ref point at origin or else when compute minkowski sum, values may be off
-        return computeMSum(robotPoly, obsPoly);
+        return GeomUtils.convexHull(computeMSum(robotPoly, obsPoly).getVertices());
     }
 
     /**
