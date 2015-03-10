@@ -207,6 +207,7 @@ public class GlobalNavigation implements NodeMain {
 		msg.y = (float) r.getY();
 		msg.width = (float) r.getWidth();
 		msg.height = (float) r.getHeight();
+		msg.filled = 0;
 		msg.filled = filled ? 1 : 0;
 		if (c != null) {
 			ColorMsg colorMsg = new ColorMsg();

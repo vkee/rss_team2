@@ -112,12 +112,12 @@ public class CSpace {
      * @return the obstacle configuration space
      */
     public PolygonObstacle obsCSpace(PolygonObstacle obsPoly, PolygonObstacle robotPoly, Point2D.Double refPoint, boolean computeRobotPoly) {
-  /*
+ 
     	if (computeRobotPoly) {
             //          Setting the robot at the origin
             robotPoly = changeOrigin(robotPoly, refPoint);
         }
-*/
+
         //        Actually probably don't need to shift the obstacle
         //        Shifting the obstacle by the same amount the robot polygon is shifted to keep everything the same
         //        PolygonObstacle shiftedObsPoly = shiftObs(obsPoly, robotXShift, robotYShift);
@@ -135,18 +135,25 @@ public class CSpace {
         List<PolygonObstacle> obsCSpaces = new ArrayList<PolygonObstacle>();
 
         //        Computed the configuration spaces of the obstacle
+        /*
         for (PolygonObstacle obstacle : polyMap.getObstacles()) {
             obsCSpaces.add(obsCSpace(obstacle, robotPoly, null, false));
         }
+        */
+        
+        PolygonObstacle obstacle = polyMap.getObstacles().get(0);
+        obsCSpaces.add(obsCSpace(obstacle, robotPoly, null, false));
+
+//        obsCSpaces.add(obsCSpace(obstacle, robotPoly, null, false));
 
         //        build obstacle for the boundaries
-        PolygonObstacle boundaryObs = new PolygonObstacle();
-        Rectangle2D.Double envBounds = polyMap.worldRect;
-        boundaryObs.addVertex(envBounds.getX(), envBounds.getY());
-        boundaryObs.addVertex(envBounds.getX() + envBounds.getWidth(), envBounds.getY());
-        boundaryObs.addVertex(envBounds.getX() + envBounds.getWidth(), envBounds.getY() + envBounds.getHeight());
-        boundaryObs.addVertex(envBounds.getX(), envBounds.getY() + envBounds.getHeight());
-        obsCSpaces.add(obsCSpace(boundaryObs, robotPoly, null, false));
+//        PolygonObstacle boundaryObs = new PolygonObstacle();
+//        Rectangle2D.Double envBounds = polyMap.worldRect;
+//        boundaryObs.addVertex(envBounds.getX(), envBounds.getY());
+//        boundaryObs.addVertex(envBounds.getX() + envBounds.getWidth(), envBounds.getY());
+//        boundaryObs.addVertex(envBounds.getX() + envBounds.getWidth(), envBounds.getY() + envBounds.getHeight());
+//        boundaryObs.addVertex(envBounds.getX(), envBounds.getY() + envBounds.getHeight());
+//        obsCSpaces.add(obsCSpace(boundaryObs, robotPoly, null, false));
 
         return obsCSpaces;
     }
