@@ -58,9 +58,9 @@ public class GlobalNavigation implements NodeMain {
 		} catch (Exception e) {
 
 		}
-		displayMapCSpace();
+		//displayMapCSpace();
 		displayMap();
-		// testConvexHull();
+		testConvexHull();
 	}
 
 	/**
@@ -162,6 +162,8 @@ public class GlobalNavigation implements NodeMain {
 					MapGUI.makeRandomColor(), true, true);
 			guiPolyPub.publish(polyMsg);
 		}
+		System.out.println("Done running displayMapCSpace");
+
 	}
 
 	/**
