@@ -59,7 +59,7 @@ public class GlobalNavigation implements NodeMain {
 
 		}
 		displayMapCSpace();
-		//displayMap(); //--Works: Remember to plug into Robot
+		displayMap(); //--Works: Remember to plug into Robot
 //		testConvexHull(); //-- Works need to find a set of "non-trivial" points. 
 		//Remember to turn off displayMap when testing
 		}
@@ -207,7 +207,6 @@ public class GlobalNavigation implements NodeMain {
 		msg.y = (float) r.getY();
 		msg.width = (float) r.getWidth();
 		msg.height = (float) r.getHeight();
-		msg.filled = 0;
 		msg.filled = filled ? 1 : 0;
 		if (c != null) {
 			ColorMsg colorMsg = new ColorMsg();
@@ -253,7 +252,8 @@ public class GlobalNavigation implements NodeMain {
 		colorMsg.g = c.getGreen();
 		colorMsg.b = c.getBlue();
 		msg.c = colorMsg;
-		msg.filled = filled ? 1 : 0;
+		msg.filled = 0;
+//		msg.filled = filled ? 1 : 0;
 		msg.closed = closed ? 1 : 0;
 	}
 
