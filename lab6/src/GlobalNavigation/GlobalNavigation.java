@@ -73,7 +73,7 @@ public class GlobalNavigation implements NodeMain{
         guiErasePub.publish(new GUIEraseMsg());
 
         GUIPointMsg ptMsg = new GUIPointMsg();
-        redMsg = new LocalNavigation.ColorMsg();
+        LocalNavigation.redMsg redMsg = new LocalNavigation.ColorMsg();
         redMsg.r = 255;
         redMsg.g = 0;
         redMsg.b = 0;
