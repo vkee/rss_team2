@@ -160,7 +160,7 @@ public class GlobalNavigation implements NodeMain {
 		for (PolygonObstacle obstacle : obsCSpaces) {
 			polyMsg = new GUIPolyMsg();
 			GlobalNavigation.fillPolyMsg(polyMsg, obstacle,
-					MapGUI.makeRandomColor(), true, true);
+					MapGUI.makeRandomColor(), false, true);
 			guiPolyPub.publish(polyMsg);
 		}
 		System.out.println("Done running displayMapCSpace");
