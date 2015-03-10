@@ -153,7 +153,7 @@ public class GlobalNavigation implements NodeMain {
 		guiErasePub.publish(new GUIEraseMsg());
 
 		GUIRectMsg rectMsg = new GUIRectMsg();
-		GlobalNavigation.fillRectMsg(rectMsg, polyMap.getWorldRect(), null,
+		GlobalNavigation.fillRectMsg(rectMsg, polyMap.getWorldRect(), MapGUI.makeRandomColor(),
 				false);
 		guiRectPub.publish(rectMsg);
 		GUIPolyMsg polyMsg = new GUIPolyMsg();
