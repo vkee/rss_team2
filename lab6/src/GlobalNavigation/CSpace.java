@@ -135,13 +135,13 @@ public class CSpace {
         List<PolygonObstacle> obsCSpaces = new ArrayList<PolygonObstacle>();
 
         //        Computed the configuration spaces of the obstacle
-        /*
+        
         for (PolygonObstacle obstacle : polyMap.getObstacles()) {
             obsCSpaces.add(obsCSpace(obstacle, robotPoly, null, false));
         }
-        */
         
-        PolygonObstacle obstacle = polyMap.getObstacles().get(0);
+        
+//        PolygonObstacle obstacle = polyMap.getObstacles().get(0);
         obsCSpaces.add(obsCSpace(obstacle, robotPoly, null, false));
 
 //        obsCSpaces.add(obsCSpace(obstacle, robotPoly, null, false));
