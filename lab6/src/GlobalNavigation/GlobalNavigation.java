@@ -108,13 +108,9 @@ public class GlobalNavigation implements NodeMain {
 		guiPtPub.publish(ptMsg);
 
 		GUIPolyMsg gpm = new GUIPolyMsg();
-		PolygonObstacle po = GeomUtils.convexHull(points);
-		//gpm.c = po.color;
-		gpm.numVertices = po.getVertices().size();
-		//gpm.x = ;
-		//gpm.y = ;
-		//gpm.closed = po.closed;
-		//gpm.filled = ;
+		GlobalNavigation.fillPolyMsg(gpm, GeomUtils.convexHull(points),
+				MapGUI.makeRandomColor(), true, true);
+
 		guiPolyPub.publish(gpm);
 
 		System.out.println("Done running testConvexHull");
