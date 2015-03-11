@@ -119,7 +119,8 @@ public class GlobalNavigation implements NodeMain {
 		GUIPointMsg ptMsg = new GUIPointMsg();
 		Color color = MapGUI.makeRandomColor();
 		for (Point2D.Double point : points) {
-			guiPtPub.publish(fillPointMsg(ptMsg, point, color));
+		    fillPointMsg(ptMsg, point, color);
+			guiPtPub.publish(ptMsg);
 		}
 
 		//
