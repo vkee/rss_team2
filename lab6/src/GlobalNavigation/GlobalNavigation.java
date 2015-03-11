@@ -68,7 +68,7 @@ public class GlobalNavigation implements NodeMain {
 		// points.
 		// Remember to turn off displayMap when testing
 		List<Point2D.Double> mp = motionPlanner.getPath(
-				polyMap.getRobotStart(), polyMap.getRobotGoal(), .3);
+				polyMap.getRobotStart(), polyMap.getRobotGoal(), .2);
 		System.out.println(mp);
 		outputPath(mp, MapGUI.makeRandomColor());
 	}
