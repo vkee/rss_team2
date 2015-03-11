@@ -37,6 +37,8 @@ public class CSpace {
         origRobotPoly.addVertex(squareSideLength, squareSideLength);
         origRobotPoly.addVertex(squareSideLength, -squareSideLength);
         origRobotPoly.close();
+        
+        robotPoly = origRobotPoly;
 
         //		origRobotPoly.addVertex(0.0, 0.0);
         //		origRobotPoly.addVertex(ROBOT_WIDTH, 0.0);
