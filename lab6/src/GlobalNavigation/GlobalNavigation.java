@@ -1,5 +1,6 @@
 package GlobalNavigation;
 
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -116,11 +117,9 @@ public class GlobalNavigation implements NodeMain {
 		points.add(p7);
 
 		GUIPointMsg ptMsg = new GUIPointMsg();
-		
+		Color color = MapGUI.makeRandomColor();
 		for (Point2D.Double point : points) {
-			ptMsg.x = point.getX();
-			ptMsg.y = point.getY();
-			guiPtPub.publish(ptMsg);
+			guiPtPub.publish(fillPointMsg(ptMsg, point, color));
 		}
 
 		//
