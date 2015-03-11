@@ -58,11 +58,12 @@ public class GlobalNavigation implements NodeMain {
 		} catch (Exception e) {
 
 		}
-		displayMapCSpace();
-		displayMap(); //--Works: Remember to plug into Robot
-//		testConvexHull(); //-- Works need to find a set of "non-trivial" points. 
-		//Remember to turn off displayMap when testing
-		}
+		// displayMapCSpace();
+		// displayMap(); //--Works: Remember to plug into Robot
+		testConvexHull(); // -- Works need to find a set of "non-trivial"
+							// points.
+		// Remember to turn off displayMap when testing
+	}
 
 	/**
 	 * Tests the convex hull algorithm in GeomUtils
@@ -86,27 +87,36 @@ public class GlobalNavigation implements NodeMain {
 		Point2D.Double p2 = new Point2D.Double(0.0, 3.0);
 		Point2D.Double p3 = new Point2D.Double(3.0, 3.0);
 		Point2D.Double p4 = new Point2D.Double(3.0, 0.0);
+		Point2D.Double p5 = new Point2D.Double(1.0, 1.0);
+		Point2D.Double p6 = new Point2D.Double(2.0, 2.0);
+		Point2D.Double p7 = new Point2D.Double(4.0, 2.0);
 
 		points.add(p1);
 		points.add(p2);
 		points.add(p3);
 		points.add(p4);
+		points.add(p5);
+		points.add(p6);
+		points.add(p7);
 
-		ptMsg.x = p1.getX();
-		ptMsg.y = p1.getY();
-		guiPtPub.publish(ptMsg);
+		for (Point2D.Double point : points) {
+			ptMsg.x = point.getX();
+			ptMsg.y = point.getY();
+			guiPtPub.publish(ptMsg);
+		}
 
-		ptMsg.x = p2.getX();
-		ptMsg.y = p2.getY();
-		guiPtPub.publish(ptMsg);
-
-		ptMsg.x = p3.getX();
-		ptMsg.y = p3.getY();
-		guiPtPub.publish(ptMsg);
-
-		ptMsg.x = p4.getX();
-		ptMsg.y = p4.getY();
-		guiPtPub.publish(ptMsg);
+		//
+		// ptMsg.x = p2.getX();
+		// ptMsg.y = p2.getY();
+		// guiPtPub.publish(ptMsg);
+		//
+		// ptMsg.x = p3.getX();
+		// ptMsg.y = p3.getY();
+		// guiPtPub.publish(ptMsg);
+		//
+		// ptMsg.x = p4.getX();
+		// ptMsg.y = p4.getY();
+		// guiPtPub.publish(ptMsg);
 
 		GUIPolyMsg gpm = new GUIPolyMsg();
 		GlobalNavigation.fillPolyMsg(gpm, GeomUtils.convexHull(points),
@@ -153,8 +163,8 @@ public class GlobalNavigation implements NodeMain {
 		guiErasePub.publish(new GUIEraseMsg());
 
 		GUIRectMsg rectMsg = new GUIRectMsg();
-		GlobalNavigation.fillRectMsg(rectMsg, polyMap.getWorldRect(), MapGUI.makeRandomColor(),
-				false);
+		GlobalNavigation.fillRectMsg(rectMsg, polyMap.getWorldRect(),
+				MapGUI.makeRandomColor(), false);
 		guiRectPub.publish(rectMsg);
 		GUIPolyMsg polyMsg = new GUIPolyMsg();
 		for (PolygonObstacle obstacle : obsCSpaces) {
@@ -253,7 +263,7 @@ public class GlobalNavigation implements NodeMain {
 		colorMsg.b = c.getBlue();
 		msg.c = colorMsg;
 		msg.filled = 0;
-//		msg.filled = filled ? 1 : 0;
+		// msg.filled = filled ? 1 : 0;
 		msg.closed = closed ? 1 : 0;
 	}
 
