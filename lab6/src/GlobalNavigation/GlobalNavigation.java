@@ -74,12 +74,17 @@ public class GlobalNavigation implements NodeMain {
 	}
 
 	private void outputPath(List<Point2D.Double> points, java.awt.Color color) {
-		GUIPointMsg ptMsg = new GUIPointMsg();
-
-		for (Point2D.Double point : points) {
-			fillPointMsg(ptMsg, point, color);
-			guiPtPub.publish(ptMsg);
-		}
+		
+		//GUIPolyMsg poMsg = new GUIPolyMsg();
+		
+//		
+//		GUIPointMsg ptMsg = new GUIPointMsg();
+//
+//		for (Point2D.Double point : points) {
+//			//System.out.println(point);
+//			fillPointMsg(ptMsg, point, color);
+//			guiPtPub.publish(ptMsg);
+//		}
 	}
 
 	// /**
@@ -110,7 +115,74 @@ public class GlobalNavigation implements NodeMain {
 		// Point2D.Double(randomDoubles[6],randomDoubles[13]);
 		// Point2D.Double p7 = new
 		// Point2D.Double(randomDoubles[7],randomDoubles[14]);
-
+		// guiErasePub.publish(new GUIEraseMsg());
+		//
+		// GUIPointMsg ptMsg = new GUIPointMsg();
+		// // LocalNavigation ln = new LocalNavigation();
+		// redMsg = new ColorMsg();
+		// redMsg.r = 255;
+		// redMsg.g = 0;
+		// redMsg.b = 0;
+		// ptMsg.color = redMsg;
+		//
+		// // double rangeMin = 0;
+		// // double rangeMax = 4;
+		// //
+		// // Random r = new Random();
+		// // double randomDoubles[] = new double[15];
+		// // for (double d : randomDoubles)
+		// // d = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
+		//
+		// // Point2D.Double p1 = new
+		// Point2D.Double(randomDoubles[1],randomDoubles[8]);
+		// // Point2D.Double p2 = new
+		// Point2D.Double(randomDoubles[2],randomDoubles[9]);
+		// // Point2D.Double p3 = new
+		// Point2D.Double(randomDoubles[3],randomDoubles[10]);
+		// // Point2D.Double p4 = new
+		// Point2D.Double(randomDoubles[4],randomDoubles[11]);
+		// // Point2D.Double p5 = new
+		// Point2D.Double(randomDoubles[5],randomDoubles[12]);
+		// // Point2D.Double p6 = new
+		// Point2D.Double(randomDoubles[6],randomDoubles[13]);
+		// // Point2D.Double p7 = new
+		// Point2D.Double(randomDoubles[7],randomDoubles[14]);
+		//
+		// points.add(p1);
+		// points.add(p2);
+		// points.add(p3);
+		// points.add(p4);
+		// points.add(p5);
+		// points.add(p6);
+		// points.add(p7);
+		//
+		// for (Point2D.Double point : points) {
+		// ptMsg.x = point.getX();
+		// ptMsg.y = point.getY();
+		// guiPtPub.publish(ptMsg);
+		// }
+		//
+		// //
+		// // ptMsg.x = p2.getX();
+		// // ptMsg.y = p2.getY();
+		// // guiPtPub.publish(ptMsg);
+		// //
+		// // ptMsg.x = p3.getX();
+		// // ptMsg.y = p3.getY();
+		// // guiPtPub.publish(ptMsg);
+		// //
+		// // ptMsg.x = p4.getX();
+		// // ptMsg.y = p4.getY();
+		// // guiPtPub.publish(ptMsg);
+		//
+		// GUIPolyMsg gpm = new GUIPolyMsg();
+		// GlobalNavigation.fillPolyMsg(gpm, GeomUtils.convexHull(points),
+		// MapGUI.makeRandomColor(), false, true);
+		//
+		// guiPolyPub.publish(gpm);
+		//
+		// System.out.println("Done running testConvexHull");
+		// }
 		Point2D.Double p1 = new Point2D.Double(0.5, 0.8);
 		Point2D.Double p2 = new Point2D.Double(1.5, 2.2);
 		Point2D.Double p3 = new Point2D.Double(3.0, 3.2);
@@ -156,74 +228,7 @@ public class GlobalNavigation implements NodeMain {
 		System.out.println("Done running testConvexHull");
 	}
 
-	// guiErasePub.publish(new GUIEraseMsg());
-	//
-	// GUIPointMsg ptMsg = new GUIPointMsg();
-	// // LocalNavigation ln = new LocalNavigation();
-	// redMsg = new ColorMsg();
-	// redMsg.r = 255;
-	// redMsg.g = 0;
-	// redMsg.b = 0;
-	// ptMsg.color = redMsg;
-	//
-	// // double rangeMin = 0;
-	// // double rangeMax = 4;
-	// //
-	// // Random r = new Random();
-	// // double randomDoubles[] = new double[15];
-	// // for (double d : randomDoubles)
-	// // d = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
-	//
-	// // Point2D.Double p1 = new
-	// Point2D.Double(randomDoubles[1],randomDoubles[8]);
-	// // Point2D.Double p2 = new
-	// Point2D.Double(randomDoubles[2],randomDoubles[9]);
-	// // Point2D.Double p3 = new
-	// Point2D.Double(randomDoubles[3],randomDoubles[10]);
-	// // Point2D.Double p4 = new
-	// Point2D.Double(randomDoubles[4],randomDoubles[11]);
-	// // Point2D.Double p5 = new
-	// Point2D.Double(randomDoubles[5],randomDoubles[12]);
-	// // Point2D.Double p6 = new
-	// Point2D.Double(randomDoubles[6],randomDoubles[13]);
-	// // Point2D.Double p7 = new
-	// Point2D.Double(randomDoubles[7],randomDoubles[14]);
-	//
-	// points.add(p1);
-	// points.add(p2);
-	// points.add(p3);
-	// points.add(p4);
-	// points.add(p5);
-	// points.add(p6);
-	// points.add(p7);
-	//
-	// for (Point2D.Double point : points) {
-	// ptMsg.x = point.getX();
-	// ptMsg.y = point.getY();
-	// guiPtPub.publish(ptMsg);
-	// }
-	//
-	// //
-	// // ptMsg.x = p2.getX();
-	// // ptMsg.y = p2.getY();
-	// // guiPtPub.publish(ptMsg);
-	// //
-	// // ptMsg.x = p3.getX();
-	// // ptMsg.y = p3.getY();
-	// // guiPtPub.publish(ptMsg);
-	// //
-	// // ptMsg.x = p4.getX();
-	// // ptMsg.y = p4.getY();
-	// // guiPtPub.publish(ptMsg);
-	//
-	// GUIPolyMsg gpm = new GUIPolyMsg();
-	// GlobalNavigation.fillPolyMsg(gpm, GeomUtils.convexHull(points),
-	// MapGUI.makeRandomColor(), false, true);
-	//
-	// guiPolyPub.publish(gpm);
-	//
-	// System.out.println("Done running testConvexHull");
-	// }
+	
 
 	/**
 	 * Displays all the contents of the map in MapGUI
@@ -294,7 +299,7 @@ public class GlobalNavigation implements NodeMain {
 		colorMsg.g = color.getGreen();
 		colorMsg.b = color.getBlue();
 		msg.color = colorMsg;
-		msg.shape = 0L;
+		//msg.shape = 0L;
 	}
 
 	/**
