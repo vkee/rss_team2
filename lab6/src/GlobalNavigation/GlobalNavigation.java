@@ -129,7 +129,7 @@ public class GlobalNavigation implements NodeMain {
 
 		GUIPolyMsg gpm = new GUIPolyMsg();
 		GlobalNavigation.fillPolyMsg(gpm, GeomUtils.convexHull(points),
-				MapGUI.makeRandomColor(), true, true);
+				MapGUI.makeRandomColor(), false, true);
 
 		guiPolyPub.publish(gpm);
 
@@ -271,8 +271,8 @@ public class GlobalNavigation implements NodeMain {
 		colorMsg.g = c.getGreen();
 		colorMsg.b = c.getBlue();
 		msg.c = colorMsg;
-		msg.filled = 0;
-		// msg.filled = filled ? 1 : 0;
+		//msg.filled = 0;
+		msg.filled = filled ? 1 : 0;
 		msg.closed = closed ? 1 : 0;
 	}
 
