@@ -33,6 +33,7 @@ public class GlobalNavigation implements NodeMain {
 	private String mapFileName;
 	private PolygonMap polyMap;
 	private CSpace cSpace;
+	private MotionPlanner motionPlanner;
 
 	public GlobalNavigation() {
 		cSpace = new CSpace();
@@ -56,6 +57,7 @@ public class GlobalNavigation implements NodeMain {
 		mapFileName = paramTree.getString(node.resolveName("~/mapFileName"));
 		try {
 			polyMap = new PolygonMap(mapFileName);
+			motionPlanner = new MotionPlanner(polyMap);
 		} catch (Exception e) {
 
 		}
