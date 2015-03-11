@@ -55,6 +55,7 @@ public class MotionPlanner {
 		
 		while (!goalFound && tries < 1000000)
 			{
+			System.out.println(tries);
 			double testX = Math.random()*map.worldRect.width;
 			double testY = Math.random()*map.worldRect.height;;
 			Point2D.Double testPoint = new Point2D.Double(testX, testY);

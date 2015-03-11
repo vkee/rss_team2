@@ -66,7 +66,7 @@ public class GlobalNavigation implements NodeMain {
 //		testConvexHull(); // -- Works need to find a set of "non-trivial"
 							// points.
 		// Remember to turn off displayMap when testing
-		outputPath(motionPlanner.getPath(polyMap.getRobotStart(), polyMap.getRobotGoal(), .03), MapGUI.makeRandomColor());
+		outputPath(motionPlanner.getPath(polyMap.getRobotStart(), polyMap.getRobotGoal(), .9), MapGUI.makeRandomColor());
 	}
 
     private void outputPath(List<Point2D.Double> points, java.awt.Color color) {
@@ -81,12 +81,11 @@ public class GlobalNavigation implements NodeMain {
 //	/**
 //	 * Tests the convex hull algorithm in GeomUtils
 //	 */
-//	private void testConvexHull() {
+	private void testConvexHull() {
 //		// TODO come up with more non trivial sets of test points to test
 //		// convexHull
-//		List<Point2D.Double> points = new ArrayList<Point2D.Double>();
+		List<Point2D.Double> points = new ArrayList<Point2D.Double>();
 //
-<<<<<<< HEAD
 //        Random r = new Random();
 //        double randomDoubles[] = new double[15];
 //        for (double d : randomDoubles)
@@ -116,6 +115,8 @@ public class GlobalNavigation implements NodeMain {
 		points.add(p6);
 		points.add(p7);
 
+		GUIPointMsg ptMsg = new GUIPointMessage();
+		
 		for (Point2D.Double point : points) {
 			ptMsg.x = point.getX();
 			ptMsg.y = point.getY();
@@ -143,7 +144,6 @@ public class GlobalNavigation implements NodeMain {
 
 		System.out.println("Done running testConvexHull");
 	}
-=======
 //		guiErasePub.publish(new GUIEraseMsg());
 //
 //		GUIPointMsg ptMsg = new GUIPointMsg();
