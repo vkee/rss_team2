@@ -262,8 +262,8 @@ public class GlobalNavigation implements NodeMain {
 		colorMsg.g = c.getGreen();
 		colorMsg.b = c.getBlue();
 		msg.c = colorMsg;
-		msg.filled = 0;
-		// msg.filled = filled ? 1 : 0;
+		//msg.filled = 0;
+		msg.filled = filled ? 1 : 0;
 		msg.closed = closed ? 1 : 0;
 	}
 
