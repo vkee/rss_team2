@@ -205,7 +205,6 @@ public class GlobalNavigation implements NodeMain {
 //
 //		System.out.println("Done running testConvexHull");
 //	}
->>>>>>> f71dcc0b2da830fb5f630729c077fb1059e6e9e2
 
 	/**
 	 * Displays all the contents of the map in MapGUI
