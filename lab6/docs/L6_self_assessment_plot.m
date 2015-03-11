@@ -2,21 +2,22 @@ close all;
 
 lab = {'Programming','Computational Geometry','Motion Planning','Waypoint Navigation'};
 
-% David
-D1 = [4 3 2 2]; % before
-D2 = [4 4 4 3]; % after
+% Davids
+D1 = [4 2 2 2]; % before
+D2 = [4 3 4 3]; % after
 
 % Gabe
 G1 = [4 1 2 3]; % before
-G2 = [0 0 0 0]; % after
+G2 = [4 2 2 3]; % after
 
 % Syler
 S1 = [2.5 1 1 1]; % before
-S2 = [0 0 0 0]; % after
+S2 = [3 2.5 1.5 1]; % after
 
 % Vincent
 V1 = [4 1 2 1]; % before
-V2 = [0 0 0 0]; % after
+V2 = [4 2 3 2]; % after
+
 
 % bar x-axis labels
 n = length(lab);
