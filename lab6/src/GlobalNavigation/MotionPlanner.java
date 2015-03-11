@@ -79,7 +79,7 @@ public class MotionPlanner {
 			}
 
 			boolean canAdd = true;
-			for (PolygonObstacle p : map.obstacles) {
+			for (PolygonObstacle p : map.cspace_obstacles) {
 				if (lineIntersects(p, testPoint, closest.point)) {
 					canAdd = false;
 					break;

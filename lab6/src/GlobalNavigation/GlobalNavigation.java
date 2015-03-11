@@ -3,6 +3,7 @@ package GlobalNavigation;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -58,7 +59,10 @@ public class GlobalNavigation implements NodeMain {
 		mapFileName = paramTree.getString(node.resolveName("~/mapFileName"));
 		try {
 			polyMap = new PolygonMap(mapFileName);
+			List<PolygonObstacle> obsCSpaces = cSpace.envConfSpace(polyMap);
+			polyMap.addCSpace(obsCSpaces);
 			motionPlanner = new MotionPlanner(polyMap);
+
 		} catch (Exception e) {
 
 		}
