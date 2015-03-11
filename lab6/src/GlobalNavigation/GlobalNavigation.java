@@ -3,6 +3,7 @@ package GlobalNavigation;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.ros.node.topic.Publisher;
 import org.ros.node.topic.Subscriber;
@@ -83,13 +84,21 @@ public class GlobalNavigation implements NodeMain {
 		redMsg.b = 0;
 		ptMsg.color = redMsg;
 
-		Point2D.Double p1 = new Point2D.Double(0.0, 0.0);
-		Point2D.Double p2 = new Point2D.Double(0.0, 3.0);
-		Point2D.Double p3 = new Point2D.Double(3.0, 3.0);
-		Point2D.Double p4 = new Point2D.Double(3.0, 0.0);
-		Point2D.Double p5 = new Point2D.Double(1.0, 1.0);
-		Point2D.Double p6 = new Point2D.Double(2.0, 2.0);
-		Point2D.Double p7 = new Point2D.Double(4.0, 2.0);
+        double rangeMin = 0;
+        double rangeMax = 4;
+
+        Random r = new Random();
+        double randomDoubles[] = new double[14];
+        for (double d : randomDoubles)
+            d = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
+
+		Point2D.Double p1 = new Point2D.Double(randomDoubles[1],randomDoubles[8]);
+		Point2D.Double p2 = new Point2D.Double(randomDoubles[2],randomDoubles[9]);
+		Point2D.Double p3 = new Point2D.Double(randomDoubles[3],randomDoubles[10]);
+		Point2D.Double p4 = new Point2D.Double(randomDoubles[4],randomDoubles[11]);
+		Point2D.Double p5 = new Point2D.Double(randomDoubles[5],randomDoubles[12]);
+		Point2D.Double p6 = new Point2D.Double(randomDoubles[6],randomDoubles[13]);
+		Point2D.Double p7 = new Point2D.Double(randomDoubles[7],randomDoubles[14]);
 
 		points.add(p1);
 		points.add(p2);
