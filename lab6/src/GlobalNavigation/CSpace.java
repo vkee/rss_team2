@@ -32,8 +32,8 @@ public class CSpace {
         origRobotPoly.addVertex(ROBOT_WIDTH, ROBOT_HEIGHT);
         origRobotPoly.addVertex(0.0, ROBOT_HEIGHT);
         origRobotPoly.close();
-
-        robotPoly = changeOrigin(origRobotPoly, new Point2D.Double(0.0, 0.0));
+        robotPoly = origRobotPoly;
+//        robotPoly = changeOrigin(origRobotPoly, new Point2D.Double(0.0, 0.0));
     }
 
     /**
