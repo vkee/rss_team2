@@ -18,6 +18,7 @@ S2 = [3 2.5 1.5 1]; % after
 V1 = [4 1 2 1]; % before
 V2 = [0 0 0 0]; % after
 
+
 % bar x-axis labels
 n = length(lab);
 x = 1:n; 
