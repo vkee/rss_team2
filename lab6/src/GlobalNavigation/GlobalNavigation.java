@@ -78,75 +78,75 @@ public class GlobalNavigation implements NodeMain {
         }
     }
 	
-	/**
-	 * Tests the convex hull algorithm in GeomUtils
-	 */
-	private void testConvexHull() {
-		// TODO come up with more non trivial sets of test points to test
-		// convexHull
-		List<Point2D.Double> points = new ArrayList<Point2D.Double>();
-
-		guiErasePub.publish(new GUIEraseMsg());
-
-		GUIPointMsg ptMsg = new GUIPointMsg();
-		// LocalNavigation ln = new LocalNavigation();
-		redMsg = new ColorMsg();
-		redMsg.r = 255;
-		redMsg.g = 0;
-		redMsg.b = 0;
-		ptMsg.color = redMsg;
-
-//        double rangeMin = 0;
-//        double rangeMax = 4;
+//	/**
+//	 * Tests the convex hull algorithm in GeomUtils
+//	 */
+//	private void testConvexHull() {
+//		// TODO come up with more non trivial sets of test points to test
+//		// convexHull
+//		List<Point2D.Double> points = new ArrayList<Point2D.Double>();
 //
-//        Random r = new Random();
-//        double randomDoubles[] = new double[15];
-//        for (double d : randomDoubles)
-//            d = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
-
-//		Point2D.Double p1 = new Point2D.Double(randomDoubles[1],randomDoubles[8]);
-//		Point2D.Double p2 = new Point2D.Double(randomDoubles[2],randomDoubles[9]);
-//		Point2D.Double p3 = new Point2D.Double(randomDoubles[3],randomDoubles[10]);
-//		Point2D.Double p4 = new Point2D.Double(randomDoubles[4],randomDoubles[11]);
-//		Point2D.Double p5 = new Point2D.Double(randomDoubles[5],randomDoubles[12]);
-//		Point2D.Double p6 = new Point2D.Double(randomDoubles[6],randomDoubles[13]);
-//		Point2D.Double p7 = new Point2D.Double(randomDoubles[7],randomDoubles[14]);
-
-		points.add(p1);
-		points.add(p2);
-		points.add(p3);
-		points.add(p4);
-		points.add(p5);
-		points.add(p6);
-		points.add(p7);
-
-		for (Point2D.Double point : points) {
-			ptMsg.x = point.getX();
-			ptMsg.y = point.getY();
-			guiPtPub.publish(ptMsg);
-		}
-
-		//
-		// ptMsg.x = p2.getX();
-		// ptMsg.y = p2.getY();
-		// guiPtPub.publish(ptMsg);
-		//
-		// ptMsg.x = p3.getX();
-		// ptMsg.y = p3.getY();
-		// guiPtPub.publish(ptMsg);
-		//
-		// ptMsg.x = p4.getX();
-		// ptMsg.y = p4.getY();
-		// guiPtPub.publish(ptMsg);
-
-		GUIPolyMsg gpm = new GUIPolyMsg();
-		GlobalNavigation.fillPolyMsg(gpm, GeomUtils.convexHull(points),
-				MapGUI.makeRandomColor(), false, true);
-
-		guiPolyPub.publish(gpm);
-
-		System.out.println("Done running testConvexHull");
-	}
+//		guiErasePub.publish(new GUIEraseMsg());
+//
+//		GUIPointMsg ptMsg = new GUIPointMsg();
+//		// LocalNavigation ln = new LocalNavigation();
+//		redMsg = new ColorMsg();
+//		redMsg.r = 255;
+//		redMsg.g = 0;
+//		redMsg.b = 0;
+//		ptMsg.color = redMsg;
+//
+////        double rangeMin = 0;
+////        double rangeMax = 4;
+////
+////        Random r = new Random();
+////        double randomDoubles[] = new double[15];
+////        for (double d : randomDoubles)
+////            d = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
+//
+////		Point2D.Double p1 = new Point2D.Double(randomDoubles[1],randomDoubles[8]);
+////		Point2D.Double p2 = new Point2D.Double(randomDoubles[2],randomDoubles[9]);
+////		Point2D.Double p3 = new Point2D.Double(randomDoubles[3],randomDoubles[10]);
+////		Point2D.Double p4 = new Point2D.Double(randomDoubles[4],randomDoubles[11]);
+////		Point2D.Double p5 = new Point2D.Double(randomDoubles[5],randomDoubles[12]);
+////		Point2D.Double p6 = new Point2D.Double(randomDoubles[6],randomDoubles[13]);
+////		Point2D.Double p7 = new Point2D.Double(randomDoubles[7],randomDoubles[14]);
+//
+//		points.add(p1);
+//		points.add(p2);
+//		points.add(p3);
+//		points.add(p4);
+//		points.add(p5);
+//		points.add(p6);
+//		points.add(p7);
+//
+//		for (Point2D.Double point : points) {
+//			ptMsg.x = point.getX();
+//			ptMsg.y = point.getY();
+//			guiPtPub.publish(ptMsg);
+//		}
+//
+//		//
+//		// ptMsg.x = p2.getX();
+//		// ptMsg.y = p2.getY();
+//		// guiPtPub.publish(ptMsg);
+//		//
+//		// ptMsg.x = p3.getX();
+//		// ptMsg.y = p3.getY();
+//		// guiPtPub.publish(ptMsg);
+//		//
+//		// ptMsg.x = p4.getX();
+//		// ptMsg.y = p4.getY();
+//		// guiPtPub.publish(ptMsg);
+//
+//		GUIPolyMsg gpm = new GUIPolyMsg();
+//		GlobalNavigation.fillPolyMsg(gpm, GeomUtils.convexHull(points),
+//				MapGUI.makeRandomColor(), false, true);
+//
+//		guiPolyPub.publish(gpm);
+//
+//		System.out.println("Done running testConvexHull");
+//	}
 
 	/**
 	 * Displays all the contents of the map in MapGUI
