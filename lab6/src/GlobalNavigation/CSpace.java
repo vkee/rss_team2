@@ -169,7 +169,7 @@ public class CSpace {
 		// Computed the configuration spaces of the obstacle
 
 		for (PolygonObstacle obstacle : polyMap.getObstacles()) {
-			obsCSpaces.add(shiftObs(obsCSpace(obstacle, robotPoly, null, false), robotXShift, robotYShift));
+			obsCSpaces.add(obsCSpace(obstacle, robotPoly, null, false));
 		}
 
 		// PolygonObstacle obstacle = polyMap.getObstacles().get(0);
