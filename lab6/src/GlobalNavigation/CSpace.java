@@ -22,8 +22,8 @@ public class CSpace {
     // field. True center
     // of robot is "higher up" than the current estimated version
 
-    private final double ROBOT_WIDTH = .43; // in meters
-    private final double ROBOT_HEIGHT = .43; // in meters
+    private final double ROBOT_WIDTH = .2; // in meters
+    private final double ROBOT_HEIGHT = .2; // in meters
 
     private PolygonObstacle robotPoly;
 
