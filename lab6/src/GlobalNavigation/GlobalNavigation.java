@@ -67,10 +67,10 @@ public class GlobalNavigation implements NodeMain {
 		// testConvexHull(); // -- Works need to find a set of "non-trivial"
 		// points.
 		// Remember to turn off displayMap when testing
-
-		outputPath(
-				motionPlanner.getPath(polyMap.getRobotStart(),
-						polyMap.getRobotGoal(), .9), MapGUI.makeRandomColor());
+		List<Point2D.Double> mp = motionPlanner.getPath(
+				polyMap.getRobotStart(), polyMap.getRobotGoal(), .9);
+		System.out.println(mp);
+		outputPath(mp, MapGUI.makeRandomColor());
 	}
 
 	private void outputPath(List<Point2D.Double> points, java.awt.Color color) {
