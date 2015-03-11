@@ -136,9 +136,9 @@ public class GlobalNavigation implements NodeMain {
 		// ptMsg.y = p4.getY();
 		// guiPtPub.publish(ptMsg);
 
-		GUIPolyMsg gpm = new GUIPolyMsg();
-		GlobalNavigation.fillPolyMsg(gpm, GeomUtils.convexHull(points),
-				MapGUI.makeRandomColor(), false, true);
+//		GUIPolyMsg gpm = new GUIPolyMsg();
+//		GlobalNavigation.fillPolyMsg(gpm, GeomUtils.convexHull(points),
+//				MapGUI.makeRandomColor(), false, true);
 
 //		guiPolyPub.publish(gpm);
 
