@@ -74,7 +74,7 @@ public class GlobalNavigation implements NodeMain {
 	}
 
 	private void outputPath(List<Point2D.Double> points, java.awt.Color color) {
-		
+
 		GUIPolyMsg poMsg = new GUIPolyMsg();
 
 		PolygonObstacle poly = new PolygonObstacle();
@@ -82,17 +82,20 @@ public class GlobalNavigation implements NodeMain {
 		for (Point2D.Double point : points) {
 			poly.addVertex(point.x, point.y);
 		}
-		fillPolyMsg(poMsg,poly);
+		poly.close();
+
+		System.out.println(poly);
+		fillPolyMsg(poMsg, poly);
 		guiPolyPub.publish(poMsg);
-		
-//		
-//		GUIPointMsg ptMsg = new GUIPointMsg();
-//
-//		for (Point2D.Double point : points) {
-//			//System.out.println(point);
-//			fillPointMsg(ptMsg, point, color);
-//			guiPtPub.publish(ptMsg);
-//		}
+
+		//
+		// GUIPointMsg ptMsg = new GUIPointMsg();
+		//
+		// for (Point2D.Double point : points) {
+		// //System.out.println(point);
+		// fillPointMsg(ptMsg, point, color);
+		// guiPtPub.publish(ptMsg);
+		// }
 	}
 
 	// /**
@@ -236,8 +239,6 @@ public class GlobalNavigation implements NodeMain {
 		System.out.println("Done running testConvexHull");
 	}
 
-	
-
 	/**
 	 * Displays all the contents of the map in MapGUI
 	 */
@@ -307,7 +308,7 @@ public class GlobalNavigation implements NodeMain {
 		colorMsg.g = color.getGreen();
 		colorMsg.b = color.getBlue();
 		msg.color = colorMsg;
-		//msg.shape = 0L;
+		// msg.shape = 0L;
 	}
 
 	/**
