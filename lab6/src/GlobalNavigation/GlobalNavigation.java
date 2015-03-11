@@ -63,10 +63,10 @@ public class GlobalNavigation implements NodeMain {
 		}
 		 //displayMapCSpace();
 		 //displayMap(); //--Works: Remember to plug into Robot
-//		testConvexHull(); // -- Works need to find a set of "non-trivial"
+		testConvexHull(); // -- Works need to find a set of "non-trivial"
 							// points.
 		// Remember to turn off displayMap when testing
-		outputPath(motionPlanner.getPath(polyMap.getRobotStart(), polyMap.getRobotGoal(), .9), MapGUI.makeRandomColor());
+//		outputPath(motionPlanner.getPath(polyMap.getRobotStart(), polyMap.getRobotGoal(), .9), MapGUI.makeRandomColor());
 	}
 
     private void outputPath(List<Point2D.Double> points, java.awt.Color color) {
