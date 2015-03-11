@@ -3,8 +3,8 @@ close all;
 lab = {'Programming','Computational Geometry','Motion Planning','Waypoint Navigation'};
 
 % David
-D1 = [0 0 0 0]; % before
-D2 = [0 0 0 0]; % after
+D1 = [4 2 2 2]; % before
+D2 = [4 3 4 3]; % after
 
 % Gabe
 G1 = [4 1 2 3]; % before
@@ -12,7 +12,7 @@ G2 = [4 2 2 3]; % after
 
 % Syler
 S1 = [2.5 1 1 1]; % before
-S2 = [0 0 0 0]; % after
+S2 = [3 2.5 1.5 1]; % after
 
 % Vincent
 V1 = [4 1 2 1]; % before
