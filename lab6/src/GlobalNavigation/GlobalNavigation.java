@@ -88,7 +88,7 @@ public class GlobalNavigation implements NodeMain {
         double rangeMax = 4;
 
         Random r = new Random();
-        double randomDoubles[] = new double[14];
+        double randomDoubles[] = new double[15];
         for (double d : randomDoubles)
             d = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
 
