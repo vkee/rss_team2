@@ -176,7 +176,7 @@ public class CSpace {
     public List<PolygonObstacle> envConfSpace(PolygonMap polyMap) {
         List<PolygonObstacle> obsCSpaces = new ArrayList<PolygonObstacle>();
 
-        obsCSpaces.add(robotPoly);
+//        obsCSpaces.add(robotPoly);
         
         // Computed the configuration spaces of the obstacle
 
