@@ -115,7 +115,7 @@ public class GlobalNavigation implements NodeMain {
 		points.add(p6);
 		points.add(p7);
 
-		GUIPointMsg ptMsg = new GUIPointMessage();
+		GUIPointMsg ptMsg = new GUIPointMsg();
 		
 		for (Point2D.Double point : points) {
 			ptMsg.x = point.getX();
