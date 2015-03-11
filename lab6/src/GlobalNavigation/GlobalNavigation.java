@@ -68,6 +68,15 @@ public class GlobalNavigation implements NodeMain {
 		// Remember to turn off displayMap when testing
 	}
 
+    private void printPath(List<Point2D.Double> points, java.awt.Color color) {
+        GUIPointMsg ptMsg = new GUIPointMsg();
+
+        for (Point2D.Double point : points) {
+            fillPointMsg(ptMsg, point, color, null);
+            guiPtPub.publish(ptMsg);
+        }
+    }
+	
 	/**
 	 * Tests the convex hull algorithm in GeomUtils
 	 */
@@ -90,7 +99,7 @@ public class GlobalNavigation implements NodeMain {
         double rangeMax = 4;
 
         Random r = new Random();
-        double randomDoubles[] = new double[14];
+        double randomDoubles[] = new double[15];
         for (double d : randomDoubles)
             d = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
 
