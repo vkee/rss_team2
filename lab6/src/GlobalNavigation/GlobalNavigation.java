@@ -75,7 +75,15 @@ public class GlobalNavigation implements NodeMain {
 
 	private void outputPath(List<Point2D.Double> points, java.awt.Color color) {
 		
-		//GUIPolyMsg poMsg = new GUIPolyMsg();
+		GUIPolyMsg poMsg = new GUIPolyMsg();
+
+		PolygonObstacle poly = new PolygonObstacle();
+
+		for (Point2D.Double point : points) {
+			poly.addVertex(point.x, point.y);
+		}
+		fillPolyMsg(poMsg,poly);
+		guiPolyPub.publish(poMsg);
 		
 //		
 //		GUIPointMsg ptMsg = new GUIPointMsg();
