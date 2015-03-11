@@ -88,6 +88,7 @@ public class MotionPlanner {
 			
 			goalFound = goalRect.contains(testPoint);
 			goalNode = newNode;
+			//break;
 			
 			}
 		
