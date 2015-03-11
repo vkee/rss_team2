@@ -82,10 +82,10 @@ public class GlobalNavigation implements NodeMain {
 		for (Point2D.Double point : points) {
 			poly.addVertex(point.x, point.y);
 		}
-		poly.close();
+//		poly.close();
 
 		System.out.println(poly);
-		fillPolyMsg(poMsg, poly);
+		fillPolyMsg(poMsg, poly, color, false, false);
 		guiPolyPub.publish(poMsg);
 
 		//
