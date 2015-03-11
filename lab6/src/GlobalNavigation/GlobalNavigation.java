@@ -109,6 +109,14 @@ public class GlobalNavigation implements NodeMain {
 //		Point2D.Double p6 = new Point2D.Double(randomDoubles[6],randomDoubles[13]);
 //		Point2D.Double p7 = new Point2D.Double(randomDoubles[7],randomDoubles[14]);
 
+        Point2D.Double p1 = new Point2D.Double(0.5, 0.8);
+        Point2D.Double p2 = new Point2D.Double(1.5, 2.2);
+        Point2D.Double p3 = new Point2D.Double(3.0, 3.2);
+        Point2D.Double p4 = new Point2D.Double(3.3, 0.3);
+        Point2D.Double p5 = new Point2D.Double(1.0, 1.0);
+        Point2D.Double p6 = new Point2D.Double(2.7, 2.0);
+        Point2D.Double p7 = new Point2D.Double(4.2, 3.5);
+
 		points.add(p1);
 		points.add(p2);
 		points.add(p3);
