@@ -73,7 +73,7 @@ public class GlobalNavigation implements NodeMain {
         GUIPointMsg ptMsg = new GUIPointMsg();
 
         for (Point2D.Double point : points) {
-            fillPointMsg(ptMsg, point, color, null);
+            fillPointMsg(ptMsg, point, color);
             guiPtPub.publish(ptMsg);
         }
     }
@@ -209,7 +209,7 @@ public class GlobalNavigation implements NodeMain {
 	 * @param shape
 	 */
 	public void fillPointMsg(GUIPointMsg msg,
-			java.awt.geom.Point2D.Double point, java.awt.Color color, long shape) {
+			java.awt.geom.Point2D.Double point, java.awt.Color color) {
 		msg.x = (float) point.getX();
 		msg.y = (float) point.getY();
 		ColorMsg colorMsg = new ColorMsg();
