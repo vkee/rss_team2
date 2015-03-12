@@ -56,7 +56,8 @@ public class GlobalNavigation implements NodeMain {
 	private double thetaShift = 0.0; // in radians
 
 	// The waypoint tolerance defining whether the robot is at a waypoint
-	private final double WAYPT_TOL = 0.1; // in meters
+	private final double WAYPT_TOL = 0.05; // in meters
+	private final double WAYPT_TOL_THETA = 0.1; // in radians
 
 	double FWD_GAIN = .1;
 	double ROT_GAIN = .1;
@@ -198,7 +199,7 @@ public class GlobalNavigation implements NodeMain {
 		MotionMsg msg = new MotionMsg();
 
 		// adjust theta error first
-		if (Math.abs(thetaError) > WAYPT_TOL) {
+		if (Math.abs(thetaError) > WAYPT_TOL_THETA) {
 			msg.rotationalVelocity = -Math.min(ROT_GAIN * thetaError, 0.25);
 			msg.translationalVelocity = 0.0;
 			// only when theta has been reached, adjust translation
