@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import org.ros.message.rss_msgs.MotionMsg;
+import org.ros.message.MessageListener;
 
 import org.ros.node.topic.Publisher;
 import org.ros.node.topic.Subscriber;
@@ -26,7 +27,8 @@ public class GlobalNavigation implements NodeMain {
     private Publisher<org.ros.message.lab6_msgs.GUIPolyMsg> guiPolyPub;
     private Publisher<org.ros.message.lab5_msgs.GUIEraseMsg> guiErasePub;
     private Publisher<org.ros.message.lab5_msgs.GUIPointMsg> guiPtPub;
-    public Subscriber<OdometryMsg> odometrySub;
+    private Subscriber<OdometryMsg> odometrySub;
+    private Publisher<MotionMsg> motionPub;
 
     private ColorMsg redMsg;
     private ColorMsg greenMsg;
