@@ -90,7 +90,8 @@ public class GlobalNavigation implements NodeMain {
                 robotX = message.x;
                 robotY = message.y;
                 robotTheta = message.theta;
-
+                System.out.println("navWaypts state: " + navWaypts);
+                System.out.println("atGoal state: " + atGoal);
                 if (navWaypts && !atGoal) {
                     wayptNav();
                 }
