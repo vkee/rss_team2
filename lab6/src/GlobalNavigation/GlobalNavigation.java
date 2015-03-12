@@ -183,7 +183,7 @@ public class GlobalNavigation implements NodeMain {
 		// TODO make sure that this is actually the theta error
 		double thetaError = currTheta - thetaToPoint;
 
-		System.out.println("Theta Error: " + thetaError);
+		// System.out.println("Theta Error: " + thetaError);
 
 		// Keeping the theta error always in the range -pi to pi
 		if (thetaError < -Math.PI) {
@@ -192,7 +192,7 @@ public class GlobalNavigation implements NodeMain {
 			thetaError -= 2 * Math.PI;
 		}
 
-		System.out.println("Theta Error after correction: " + thetaError);
+		// System.out.println("Theta Error after correction: " + thetaError);
 
 		// While not at the current waypoint, adjust proportionally to the error
 
@@ -210,7 +210,9 @@ public class GlobalNavigation implements NodeMain {
 			msg.rotationalVelocity = 0;
 		} else {
 			if (currWaypt < (waypoints.size() - 1)) {
-				System.out.println("WAYPOINT: " + currWaypt + " REACHED." + " X:" + currX + " Y:"+ currY);
+				System.out.println("WAYPOINT: " + currWaypt + " REACHED at X: "
+						+ wayPoint.getX() + " Y: " + wayPoint.getY()
+						+ " ROBOT-X:" + currX + " ROBOT-Y:" + currY);
 				currWaypt += 1;
 				msg.translationalVelocity = 0.0;
 				msg.rotationalVelocity = 0;
@@ -222,8 +224,8 @@ public class GlobalNavigation implements NodeMain {
 		}
 		motionPub.publish(msg);
 
-		System.out.println("Trans Vel: " + msg.translationalVelocity);
-		System.out.println("Rot Vel: " + msg.rotationalVelocity);
+		// System.out.println("Trans Vel: " + msg.translationalVelocity);
+		// System.out.println("Rot Vel: " + msg.rotationalVelocity);
 
 	}
 
