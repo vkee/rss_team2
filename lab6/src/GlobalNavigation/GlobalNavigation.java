@@ -58,8 +58,8 @@ public class GlobalNavigation implements NodeMain {
 	// The waypoint tolerance defining whether the robot is at a waypoint
 	private final double WAYPT_TOL = 0.1; // in meters
 
-	double FWD_GAIN = 1.0;
-	double ROT_GAIN = 1.0;
+	double FWD_GAIN = .1;
+	double ROT_GAIN = .1;
 
 	private boolean navWaypts = false;
 	private boolean atGoal = false;
@@ -107,7 +107,7 @@ public class GlobalNavigation implements NodeMain {
 		try {
 			polyMap = new PolygonMap(mapFileName);
 			List<PolygonObstacle> obsCSpaces = cSpace.envConfSpace(polyMap);
-			//System.out.println("length of spaces " + obsCSpaces.size());
+			// System.out.println("length of spaces " + obsCSpaces.size());
 			polyMap.addCSpace(obsCSpaces);
 			motionPlanner = new MotionPlanner(polyMap);
 
@@ -184,7 +184,7 @@ public class GlobalNavigation implements NodeMain {
 
 		System.out.println("Theta Error: " + thetaError);
 
-		// Keeping the theta error always from -pi to pi
+		// Keeping the theta error always in the range -pi to pi
 		if (thetaError < -Math.PI) {
 			thetaError += 2 * Math.PI;
 		} else if (thetaError > Math.PI) {
@@ -196,6 +196,7 @@ public class GlobalNavigation implements NodeMain {
 		// While not at the current waypoint, adjust proportionally to the error
 		if ((xError > WAYPT_TOL) && (yError > WAYPT_TOL)) {
 			MotionMsg msg = new MotionMsg();
+			msg.rotationalVelocity = -Math.min(ROT_GAIN * thetaError, 0.25);
 
 			// If the theta error is too large, only rotate in place
 			if (Math.abs(thetaError) > Math.PI / 8) {
@@ -206,7 +207,6 @@ public class GlobalNavigation implements NodeMain {
 								* motionPlanner.getDist(0.0, 0.0, xError,
 										yError), 0.5);
 			}
-			msg.rotationalVelocity = -Math.min(ROT_GAIN * thetaError, 0.25);
 
 			System.out.println("Trans Vel: " + msg.translationalVelocity);
 			System.out.println("Rot Vel: " + msg.rotationalVelocity);
