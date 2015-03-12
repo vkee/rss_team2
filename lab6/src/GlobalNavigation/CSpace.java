@@ -191,14 +191,28 @@ public class CSpace {
 
 		// build obstacle for the boundaries
 		PolygonObstacle boundaryObs = new PolygonObstacle();
+
 		Rectangle2D.Double envBounds = polyMap.worldRect;
+		
 		boundaryObs.addVertex(envBounds.getX(), envBounds.getY());
+		obsCSpaces.add(obsCSpace(boundaryObs, robotPoly, null, false));
+
+		
+		boundaryObs = new PolygonObstacle();
 		boundaryObs.addVertex(envBounds.getX() + envBounds.getWidth(),
 				envBounds.getY());
+		obsCSpaces.add(obsCSpace(boundaryObs, robotPoly, null, false));
+
+		boundaryObs = new PolygonObstacle();
 		boundaryObs.addVertex(envBounds.getX() + envBounds.getWidth(),
 				envBounds.getY() + envBounds.getHeight());
+		obsCSpaces.add(obsCSpace(boundaryObs, robotPoly, null, false));
+
+		
+		boundaryObs = new PolygonObstacle();
 		boundaryObs.addVertex(envBounds.getX(),
 				envBounds.getY() + envBounds.getHeight());
+		
 		obsCSpaces.add(obsCSpace(boundaryObs, robotPoly, null, false));
 
 		return obsCSpaces;
