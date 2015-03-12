@@ -8,6 +8,6 @@
   <node name="odo" pkg="rosjava_bootstrap" type="run.py" args="odometry odometry.Odometry" machine="netbook" /> 
   <node name="vid" pkg="gscam" type="gscam" machine="netbook" /> 
   <node name="lis" pkg="rosjava_bootstrap" type="run.py" args="uorc_listener Listener" machine="netbook" /> 
-  <node name="grp" pkg="rosjava_bootstrap" type="run.py" args="lab7 Grasping.Grasping" machine="workstation" />
+  <node name="grp" pkg="rosjava_bootstrap" type="run.py" args="lab7 Grasping.Grasping" machine="workstation" output="screen"/>
 
 </launch>
