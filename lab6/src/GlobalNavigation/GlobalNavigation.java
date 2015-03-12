@@ -148,7 +148,7 @@ public class GlobalNavigation implements NodeMain {
 	 */
 	private void wayptNav() {
 		System.out.println("In waypt nav");
-		Point2D.Double currPoint = waypoints.get(currWaypt);
+		Point2D.Double wayPoint = waypoints.get(currWaypt);
 
 		double currX = robotX;
 		double currY = robotY;
@@ -164,8 +164,8 @@ public class GlobalNavigation implements NodeMain {
 		System.out.println("currY: " + currY);
 		System.out.println("currTheta: " + currTheta);
 
-		double xError = currPoint.getX() - currX;
-		double yError = currPoint.getY() - currY;
+		double xError = wayPoint.getX() - currX;
+		double yError = wayPoint.getY() - currY;
 		double thetaToPoint = Math.atan2(yError, xError);
 
 		// Keeping within 0 to 2PI
@@ -180,7 +180,7 @@ public class GlobalNavigation implements NodeMain {
 		// make sure currTheta is actual angle of robot, may need to play with
 		// thetashift
 		// TODO make sure that this is actually the theta error
-		double thetaError =  currTheta - thetaToPoint;
+		double thetaError = currTheta - thetaToPoint;
 
 		System.out.println("Theta Error: " + thetaError);
 
@@ -194,31 +194,35 @@ public class GlobalNavigation implements NodeMain {
 		System.out.println("Theta Error after correction: " + thetaError);
 
 		// While not at the current waypoint, adjust proportionally to the error
-		if ((xError > WAYPT_TOL) && (yError > WAYPT_TOL)) {
-			MotionMsg msg = new MotionMsg();
+
+		MotionMsg msg = new MotionMsg();
+
+		// adjust theta error first
+		if (Math.abs(thetaError) > WAYPT_TOL) {
 			msg.rotationalVelocity = -Math.min(ROT_GAIN * thetaError, 0.25);
-
-			// If the theta error is too large, only rotate in place
-			if (Math.abs(thetaError) > Math.PI / 8) {
-				msg.translationalVelocity = 0.0;
-			} else {
-				msg.translationalVelocity = Math.min(
-						FWD_GAIN
-								* motionPlanner.getDist(0.0, 0.0, xError,
-										yError), 0.5);
-			}
-
-			System.out.println("Trans Vel: " + msg.translationalVelocity);
-			System.out.println("Rot Vel: " + msg.rotationalVelocity);
-			motionPub.publish(msg);
+			msg.translationalVelocity = 0.0;
+			// only when theta has been reached, adjust translation
+		} else if ((xError > WAYPT_TOL) && (yError > WAYPT_TOL)) {
+			msg.translationalVelocity = Math.min(
+					FWD_GAIN * motionPlanner.getDist(0.0, 0.0, xError, yError),
+					0.5);
+			msg.rotationalVelocity = 0;
 		} else {
 			if (currWaypt < (waypoints.size() - 1)) {
 				currWaypt += 1;
+				msg.translationalVelocity = 0.0;
+				msg.rotationalVelocity = 0;
 			} else {
 				atGoal = true;
+				msg.translationalVelocity = 0.0;
 				System.out.println("At the goal!");
 			}
 		}
+		motionPub.publish(msg);
+
+		System.out.println("Trans Vel: " + msg.translationalVelocity);
+		System.out.println("Rot Vel: " + msg.rotationalVelocity);
+
 	}
 
 	/**
