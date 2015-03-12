@@ -31,6 +31,8 @@ public class GlobalNavigation implements NodeMain {
     private ColorMsg greenMsg;
     private ColorMsg blueMsg;
     private ColorMsg blackMsg;
+    private List<Point2D.Double> waypoints;
+    private int currWaypt = 0;
 
     private String mapFileName;
     private PolygonMap polyMap;
@@ -53,6 +55,9 @@ public class GlobalNavigation implements NodeMain {
 
     double FWD_GAIN = 1.0;
     double ROT_GAIN = 1.0;
+
+    private boolean navWaypts = false;
+    private boolean atGoal = false;
 
     public GlobalNavigation() {
         cSpace = new CSpace();
@@ -82,6 +87,10 @@ public class GlobalNavigation implements NodeMain {
                 robotX = message.x;
                 robotY = message.y;
                 robotTheta = message.theta;
+
+                if (navWaypts && !atGoal) {
+                    wayptNav();
+                }
             }
         });
 
@@ -103,44 +112,72 @@ public class GlobalNavigation implements NodeMain {
         // points.
         // Remember to turn off displayMap when testing
         Point2D.Double robotStart = polyMap.getRobotStart();
-        List<Point2D.Double> mp = motionPlanner.getPath(robotStart, polyMap.getRobotGoal(), .2);
-        System.out.println(mp);
+        waypoints = motionPlanner.getPath(robotStart, polyMap.getRobotGoal(), .2);
+        System.out.println(waypoints);
 
         //		Updating the shifts so that the robot is at 0,0 with 0 rad heading at start
         xShift = robotStart.getX() - robotX;
         yShift = robotStart.getY() - robotY;
         thetaShift = 0 - robotTheta;
+        //        TODO: worst case get rid of these shifts and just restart morcboard each run
 
-        outputPath(mp, MapGUI.makeRandomColor());
-        wayptNav(mp);
+        outputPath(waypoints, MapGUI.makeRandomColor());
+
+        navWaypts = true;
     }
 
     /**
-     * Navigates the robot from the first waypoint to the last waypoint.
+     * Navigates the robot from waypoint to waypoint, called by odometry handler
      * Assuming that the robot starts at the first waypoint
      * @param points the set of waypoints for the robot to navigate
      */
-    private void wayptNav(List<Point2D.Double> points) {
-        for (int i = 0; i < points.size(); i++) {
-            Point2D.Double currPoint = points.get(i);
-            double currX = robotX + xShift;
-            double currY = robotY + yShift;
-            double currTheta = robotTheta + thetaShift;
+    private void wayptNav() {
+        Point2D.Double currPoint = waypoints.get(currWaypt);
+        double currX = robotX + xShift;
+        double currY = robotY + yShift;
+        double currTheta = robotTheta + thetaShift;
 
-            double xError = currPoint.getX() - currX;
-            double yError = currPoint.getY() - currY;
-            double thetaError = Math.atan2(yError, xError);
+        double xError = currPoint.getX() - currX;
+        double yError = currPoint.getY() - currY;
+        double thetaToPoint = Math.atan2(yError, xError);
 
-            // While not at the current waypoint, adjust proportionally to the error
-            while ((xError > WAYPT_TOL) && (yError > WAYPT_TOL)) {
-                MotionMsg msg = new MotionMsg();
+        if (thetaToPoint < 0) {
+            thetaToPoint += 2*Math.PI;
+        }
+
+        // make sure currTheta is actual angle of robot, may need to play with thetashift
+        //          TODO  make sure that this is actually the theta error
+        double thetaError = thetaToPoint - currTheta;
+
+        System.out.println("Theta Error: " + thetaError);
+
+        //            Keeping the theta error always from -pi to pi
+        if (thetaError < -Math.PI) {
+            thetaError += 2 * Math.PI;
+        } else if (thetaError > Math.PI) {
+            thetaError -= 2 * Math.PI;
+        }
+
+        // While not at the current waypoint, adjust proportionally to the error
+        if ((xError > WAYPT_TOL) && (yError > WAYPT_TOL)) {
+            MotionMsg msg = new MotionMsg();
+
+            //                If the theta error is too large, only rotate in place
+            if (Math.abs(thetaError) > Math.PI/8) {
+                msg.translationalVelocity = 0.0;
+            } else {
                 msg.translationalVelocity = Math.min(FWD_GAIN * MotionPlanner.getDist(0.0, 0.0, xError, yError), 0.5);
-                msg.rotationalVelocity = -Math.min(ROT_GAIN * thetaError, 0.25);
-                motionPub.publish(msg);
+            }
+            msg.rotationalVelocity = -Math.min(ROT_GAIN * thetaError, 0.25);
+            motionPub.publish(msg);
+        } else {
+            if (currWaypt < (waypoints.size() - 1)) {
+                currWaypt += 1;   
+            } else {
+                atGoal = true;
+                System.out.println("At the goal!");
             }
         }
-        
-        System.out.println("At the goal!");
     }
 
     /**
