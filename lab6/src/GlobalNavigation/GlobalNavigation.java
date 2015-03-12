@@ -119,9 +119,9 @@ public class GlobalNavigation implements NodeMain {
         System.out.println(waypoints);
 
         //		Updating the shifts so that the robot is at 0,0 with 0 rad heading at start
-        xShift = robotStart.getX() - robotX;
-        yShift = robotStart.getY() - robotY;
-        thetaShift = 0 - robotTheta;
+//        xShift = robotStart.getX() - robotX;
+//        yShift = robotStart.getY() - robotY;
+//        thetaShift = 0 - robotTheta;
         //        TODO: worst case get rid of these shifts and just restart morcboard each run
 
         outputPath(waypoints, MapGUI.makeRandomColor());
@@ -136,17 +136,32 @@ public class GlobalNavigation implements NodeMain {
      */
     private void wayptNav() {
         Point2D.Double currPoint = waypoints.get(currWaypt);
-        double currX = robotX + xShift;
-        double currY = robotY + yShift;
-        double currTheta = robotTheta + thetaShift;
+        
+        double currX = robotX;
+        double currY = robotY;
+        double currTheta = robotTheta;
+        
+//        Accounting for robot initial position without restarting orcboard or reseting odometry
+//        double currX = robotX + xShift;
+//        double currY = robotY + yShift;
+//        double currTheta = robotTheta + thetaShift;
 
+        System.out.println("currX: " + currX);
+        System.out.println("currY: " + currY);
+        System.out.println("robotTheta: " + currY);
+        
         double xError = currPoint.getX() - currX;
         double yError = currPoint.getY() - currY;
         double thetaToPoint = Math.atan2(yError, xError);
-
+        
+//        Keeping within 0 to 2PI
         if (thetaToPoint < 0) {
             thetaToPoint += 2*Math.PI;
         }
+        
+        System.out.println("xError: " + xError);
+        System.out.println("yError: " + yError);
+        System.out.println("thetaToPoint: " + thetaToPoint);
 
         // make sure currTheta is actual angle of robot, may need to play with thetashift
         //          TODO  make sure that this is actually the theta error
@@ -160,6 +175,9 @@ public class GlobalNavigation implements NodeMain {
         } else if (thetaError > Math.PI) {
             thetaError -= 2 * Math.PI;
         }
+        
+        System.out.println("Theta Error after correction: " + thetaError);
+
 
         // While not at the current waypoint, adjust proportionally to the error
         if ((xError > WAYPT_TOL) && (yError > WAYPT_TOL)) {
@@ -172,6 +190,9 @@ public class GlobalNavigation implements NodeMain {
                 msg.translationalVelocity = Math.min(FWD_GAIN * MotionPlanner.getDist(0.0, 0.0, xError, yError), 0.5);
             }
             msg.rotationalVelocity = -Math.min(ROT_GAIN * thetaError, 0.25);
+            
+            System.out.println("Trans Vel: " + msg.translationalVelocity);
+            System.out.println("Rot Vel: " + msg.rotationalVelocity);
             motionPub.publish(msg);
         } else {
             if (currWaypt < (waypoints.size() - 1)) {
