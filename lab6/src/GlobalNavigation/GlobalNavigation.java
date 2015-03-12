@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import org.ros.message.rss_msgs.MotionMsg;
+import org.ros.message.rss_msgs.*;
 import org.ros.message.MessageListener;
 
 import org.ros.node.topic.Publisher;
