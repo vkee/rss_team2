@@ -190,29 +190,37 @@ public class CSpace {
 		// obsCSpaces.add(obsCSpace(obstacle, robotPoly, null, false));
 
 		// build obstacle for the boundaries
+		Rectangle2D.Double envBounds = polyMap.worldRect;
+
 		PolygonObstacle boundaryObs = new PolygonObstacle();
 
-		Rectangle2D.Double envBounds = polyMap.worldRect;
-		
+		// bottom
 		boundaryObs.addVertex(envBounds.getX(), envBounds.getY());
-		obsCSpaces.add(obsCSpace(boundaryObs, robotPoly, null, false));
-
-		
-		boundaryObs = new PolygonObstacle();
 		boundaryObs.addVertex(envBounds.getX() + envBounds.getWidth(),
 				envBounds.getY());
 		obsCSpaces.add(obsCSpace(boundaryObs, robotPoly, null, false));
 
+		// right
 		boundaryObs = new PolygonObstacle();
+		boundaryObs.addVertex(envBounds.getX() + envBounds.getWidth(),
+				envBounds.getY());
 		boundaryObs.addVertex(envBounds.getX() + envBounds.getWidth(),
 				envBounds.getY() + envBounds.getHeight());
 		obsCSpaces.add(obsCSpace(boundaryObs, robotPoly, null, false));
 
-		
+		// left
+		boundaryObs = new PolygonObstacle();
+		boundaryObs.addVertex(envBounds.getX(), envBounds.getY());
+		boundaryObs.addVertex(envBounds.getX(),
+				envBounds.getY() + envBounds.getHeight());
+		obsCSpaces.add(obsCSpace(boundaryObs, robotPoly, null, false));
+
+		// top
 		boundaryObs = new PolygonObstacle();
 		boundaryObs.addVertex(envBounds.getX(),
 				envBounds.getY() + envBounds.getHeight());
-		
+		boundaryObs.addVertex(envBounds.getX() + envBounds.getWidth(),
+				envBounds.getY() + envBounds.getHeight());
 		obsCSpaces.add(obsCSpace(boundaryObs, robotPoly, null, false));
 
 		return obsCSpaces;
