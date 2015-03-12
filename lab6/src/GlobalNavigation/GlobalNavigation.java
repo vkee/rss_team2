@@ -104,6 +104,7 @@ public class GlobalNavigation implements NodeMain {
         try {
             polyMap = new PolygonMap(mapFileName);
             List<PolygonObstacle> obsCSpaces = cSpace.envConfSpace(polyMap);
+            System.out.println("length of spaces " + obsCSpaces.size());
             polyMap.addCSpace(obsCSpaces);
             motionPlanner = new MotionPlanner(polyMap);
 
@@ -117,7 +118,9 @@ public class GlobalNavigation implements NodeMain {
         // Remember to turn off displayMap when testing
         Point2D.Double robotStart = polyMap.getRobotStart();
         waypoints = motionPlanner.getPath(robotStart, polyMap.getRobotGoal(), .2);
-        System.out.println(waypoints);
+        
+        
+        //System.out.println(waypoints);
 
         //		Updating the shifts so that the robot is at 0,0 with 0 rad heading at start
 //        xShift = robotStart.getX() - robotX;

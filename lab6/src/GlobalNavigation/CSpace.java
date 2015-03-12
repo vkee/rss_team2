@@ -183,6 +183,8 @@ public class CSpace {
         for (PolygonObstacle obstacle : polyMap.getObstacles()) {
             obsCSpaces.add(obsCSpace(obstacle, robotPoly, null, false));
         }
+        System.out.println("number of obstacles " + obsCSpaces.size());
+
 
         // PolygonObstacle obstacle = polyMap.getObstacles().get(0);
         // obsCSpaces.add(obsCSpace(obstacle, robotPoly, null, false));
