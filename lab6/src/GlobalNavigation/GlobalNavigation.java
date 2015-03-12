@@ -190,7 +190,7 @@ public class GlobalNavigation implements NodeMain {
             if (Math.abs(thetaError) > Math.PI/8) {
                 msg.translationalVelocity = 0.0;
             } else {
-                msg.translationalVelocity = Math.min(FWD_GAIN * MotionPlanner.getDist(0.0, 0.0, xError, yError), 0.5);
+                msg.translationalVelocity = Math.min(FWD_GAIN * motionPlanner.getDist(0.0, 0.0, xError, yError), 0.5);
             }
             msg.rotationalVelocity = -Math.min(ROT_GAIN * thetaError, 0.25);
             

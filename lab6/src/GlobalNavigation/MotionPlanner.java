@@ -120,7 +120,7 @@ public class MotionPlanner {
      * 
      * @param pt2Y the y coordinate of point 2
      */
-    public static double getDist(double pt1X, double pt1Y, double pt2X, double pt2Y) {
+    public double getDist(double pt1X, double pt1Y, double pt2X, double pt2Y) {
         return Math.sqrt((pt1X - pt2X) * (pt1X - pt2X) + (pt1Y - pt2Y)
                 * (pt1Y - pt2Y));
     }
