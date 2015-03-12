@@ -210,6 +210,7 @@ public class GlobalNavigation implements NodeMain {
 			msg.rotationalVelocity = 0;
 		} else {
 			if (currWaypt < (waypoints.size() - 1)) {
+				System.out.println("WAYPOINT: " + currWaypt);
 				currWaypt += 1;
 				msg.translationalVelocity = 0.0;
 				msg.rotationalVelocity = 0;
