@@ -127,6 +127,7 @@ public class GlobalNavigation implements NodeMain {
         outputPath(waypoints, MapGUI.makeRandomColor());
 
         navWaypts = true;
+        System.out.println("should be trying to navigate waypoints now");
     }
 
     /**
@@ -135,6 +136,7 @@ public class GlobalNavigation implements NodeMain {
      * @param points the set of waypoints for the robot to navigate
      */
     private void wayptNav() {
+        System.out.println("In waypt nav");
         Point2D.Double currPoint = waypoints.get(currWaypt);
         
         double currX = robotX;
@@ -148,7 +150,7 @@ public class GlobalNavigation implements NodeMain {
 
         System.out.println("currX: " + currX);
         System.out.println("currY: " + currY);
-        System.out.println("robotTheta: " + currY);
+        System.out.println("currTheta: " + currTheta);
         
         double xError = currPoint.getX() - currX;
         double yError = currPoint.getY() - currY;
