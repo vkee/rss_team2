@@ -180,7 +180,7 @@ public class GlobalNavigation implements NodeMain {
 		// make sure currTheta is actual angle of robot, may need to play with
 		// thetashift
 		// TODO make sure that this is actually the theta error
-		double thetaError = thetaToPoint - currTheta;
+		double thetaError =  currTheta - thetaToPoint;
 
 		System.out.println("Theta Error: " + thetaError);
 
