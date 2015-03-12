@@ -94,8 +94,8 @@ public class GlobalNavigation implements NodeMain {
 						robotX = message.x;
 						robotY = message.y;
 						robotTheta = message.theta;
-						System.out.println("navWaypts state: " + navWaypts);
-						System.out.println("atGoal state: " + atGoal);
+						// System.out.println("navWaypts state: " + navWaypts);
+						// System.out.println("atGoal state: " + atGoal);
 						if (navWaypts && !atGoal) {
 							wayptNav();
 						}
@@ -148,7 +148,7 @@ public class GlobalNavigation implements NodeMain {
 	 *            the set of waypoints for the robot to navigate
 	 */
 	private void wayptNav() {
-		System.out.println("In waypt nav");
+		// System.out.println("In waypt nav");
 		Point2D.Double wayPoint = waypoints.get(currWaypt);
 
 		double currX = robotX;
@@ -161,9 +161,9 @@ public class GlobalNavigation implements NodeMain {
 		// double currY = robotY + yShift;
 		// double currTheta = robotTheta + thetaShift;
 
-		System.out.println("currX: " + currX);
-		System.out.println("currY: " + currY);
-		System.out.println("currTheta: " + currTheta);
+		// System.out.println("currX: " + currX);
+		// System.out.println("currY: " + currY);
+		// System.out.println("currTheta: " + currTheta);
 
 		double xError = wayPoint.getX() - currX;
 		double yError = wayPoint.getY() - currY;
@@ -174,9 +174,9 @@ public class GlobalNavigation implements NodeMain {
 			thetaToPoint += 2 * Math.PI;
 		}
 
-		System.out.println("xError: " + xError);
-		System.out.println("yError: " + yError);
-		System.out.println("thetaToPoint: " + thetaToPoint);
+		// System.out.println("xError: " + xError);
+		// System.out.println("yError: " + yError);
+		// System.out.println("thetaToPoint: " + thetaToPoint);
 
 		// make sure currTheta is actual angle of robot, may need to play with
 		// thetashift
@@ -210,7 +210,7 @@ public class GlobalNavigation implements NodeMain {
 			msg.rotationalVelocity = 0;
 		} else {
 			if (currWaypt < (waypoints.size() - 1)) {
-				System.out.println("WAYPOINT: " + currWaypt);
+				System.out.println("WAYPOINT: " + currWaypt + " REACHED." + " X:" + currX + " Y:"+ currY);
 				currWaypt += 1;
 				msg.translationalVelocity = 0.0;
 				msg.rotationalVelocity = 0;
