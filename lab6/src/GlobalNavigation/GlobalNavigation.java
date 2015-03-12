@@ -203,7 +203,7 @@ public class GlobalNavigation implements NodeMain {
 			msg.rotationalVelocity = -Math.min(ROT_GAIN * thetaError, 0.25);
 			msg.translationalVelocity = 0.0;
 			// only when theta has been reached, adjust translation
-		} else if ((xError > WAYPT_TOL) && (yError > WAYPT_TOL)) {
+		} else if ((xError > WAYPT_TOL) || (yError > WAYPT_TOL)) {
 			msg.translationalVelocity = Math.min(
 					FWD_GAIN * motionPlanner.getDist(0.0, 0.0, xError, yError),
 					0.5);
