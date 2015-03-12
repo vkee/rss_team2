@@ -74,7 +74,7 @@ public class GlobalNavigation implements NodeMain {
         } catch (Exception e) {
 
         }
-
+ 
         guiRectPub = node.newPublisher("gui/Rect", "lab6_msgs/GUIRectMsg");
         guiPolyPub = node.newPublisher("gui/Poly", "lab6_msgs/GUIPolyMsg");
         guiErasePub = node.newPublisher("gui/Erase", "lab5_msgs/GUIEraseMsg");
