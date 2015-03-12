@@ -14,6 +14,7 @@ public class BumperPublisher implements Runnable {
 
 	private DigitalInput left;
 	private DigitalInput right;
+	private DigitalInput gripper;
 	private BumpMsg msg;
 	private Publisher<BumpMsg> pub;
 	private Object lock;
@@ -22,6 +23,7 @@ public class BumperPublisher implements Runnable {
 		this.lock = lock;
 		left = new DigitalInput(orc, 0, true, true);
 		right = new DigitalInput(orc, 1, true, true);
+		gripper = new DigitalInput(orc, 2, true, true);
 		pub = node.newPublisher(BUMP_CHANNEL, BUMP_MSG);
 	}
 
@@ -31,6 +33,7 @@ public class BumperPublisher implements Runnable {
 			synchronized(lock) {
 				msg.left = left.getValue();
 				msg.right = right.getValue();
+				msg.gripper = gripper.getValue();
 			}
 			pub.publish(msg);
 			try {
