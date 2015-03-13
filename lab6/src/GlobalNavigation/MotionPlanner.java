@@ -104,6 +104,8 @@ public class MotionPlanner {
         }
         
         RRTreeNode realGoalNode = new RRTreeNode(goalNode, goal);
+        nodes.add(realGoalNode);
+
         
         // try to connect the new point with the closest point in the tree (run
         // the algorithm david wrote to check if the point intersects any of the
