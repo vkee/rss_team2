@@ -12,6 +12,11 @@ import org.ros.message.lab7_msgs.*;
 public class Grasping implements NodeMain {
     private Publisher<ArmMsg> armPWMPub;
     private Subscriber<ArmMsg> armStatusSub;
+    
+//    States dividing up space so that no servo can move more than 1 radian per iteration
+    public enum State {
+        UP1, UP2, UP3, UP4, DOWN1, DOWN2, DOWN3, DOWN4
+    }
 
     public Grasping() {
 
@@ -26,13 +31,34 @@ public class Grasping implements NodeMain {
         .addMessageListener(new MessageListener<ArmMsg>() {
             @Override
             public void onNewMessage(ArmMsg msg) {
-//                Siply print out the PWM values
+//                Si/ply print out the PWM values
+//                long bigPWM = msg.pwms[0];
+//                long wristPWM = msg.pwms[1];
+//                long gripperPWM = msg.pwms[2];
                 int[] pwmVals = msg.pwm;
                 for (int i = 0; i < pwmVals.length; i++) {
                     System.out.println("PWM Value at Channel " + i + " is: " + pwmVals[i]);
                 }
             }
         });
+        
+//        rotateAllServos();
+    }
+    
+    /**
+     * Rotates all of the servos concurrently (the handle(ArmMsg msg) method)
+     */
+    private void rotateAllServos() {
+//        TODO: Not quite sure what supposed to be doing, check with the TA, makes no sense why should be publishing messages each time receive arm pwm msg
+//        clamped ff control step for each servo?  is this just moving at most 1 radian per control step?
+//        need to first see the range of motion of the servo, most likely 180 deg of rotation so only need 2 states for each direction
+//        or maybe publish a message to get to the endgoal if going up or down, feed into the controlle rthe current position and whether
+//        going up or down, and then it will return a pwm that is at most 1 radian max towards the max/min pwm at the end of the state?
+        
+//        public armMsg as follows
+//      long bigPWM = msg.pwms[0];
+//      long wristPWM = msg.pwms[1];
+//      long gripperPWM = msg.pwms[2];
     }
     
     @Override
