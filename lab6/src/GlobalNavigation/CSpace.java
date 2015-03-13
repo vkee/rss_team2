@@ -23,7 +23,7 @@ public class CSpace {
     // of robot is "higher up" than the current estimated version
 
     private final double ROBOT_LONGEST_DIM = 0.375; // Center to diagonal length in meters
-    private final int NUM_SIDES = 1000000; // number of sides of the n side polygon approximation of robot
+    private final int NUM_SIDES = 100; // number of sides of the n side polygon approximation of robot
     private PolygonObstacle robotPoly;
 
     public CSpace() {
