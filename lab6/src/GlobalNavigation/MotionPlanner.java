@@ -50,7 +50,7 @@ public class MotionPlanner {
         while (!goalFound && tries < NUM_TRIES) {
             // System.out.println(tries);
             if (tries % 1000 == 0)
-                System.out.println(tries);
+                System.out.println("Number of tries: " + tries);
 
             //			TODO: we may want to add a bias to selecting a point near the goal later on
             double testX = Math.random() * map.worldRect.width;

@@ -122,7 +122,7 @@ public class GlobalNavigation implements NodeMain {
 		// Remember to turn off displayMap when testing
 		Point2D.Double robotStart = polyMap.getRobotStart();
 		waypoints = motionPlanner.getPath(robotStart, polyMap.getRobotGoal(),
-				.2);
+				.05);
 
 		// System.out.println(waypoints);
 
