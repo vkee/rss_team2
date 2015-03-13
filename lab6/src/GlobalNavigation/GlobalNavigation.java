@@ -162,6 +162,8 @@ public class GlobalNavigation implements NodeMain {
 		Point2D.Double wayPoint = null;
 		if (currWaypt < waypoints.size()) {
 			wayPoint = waypoints.get(currWaypt);
+		} else {
+			wayPoint = polyMap.getRobotGoal();
 		}
 
 		double currX = robotX;
