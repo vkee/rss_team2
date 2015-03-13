@@ -159,8 +159,9 @@ public class GlobalNavigation implements NodeMain {
 	 */
 	private void wayptNav() {
 		// System.out.println("In waypt nav");
+		Point2D.Double wayPoint;
 		if (currWaypt < waypoints.size()) {
-			Point2D.Double wayPoint = waypoints.get(currWaypt);
+			wayPoint = waypoints.get(currWaypt);
 		}
 
 		double currX = robotX;
