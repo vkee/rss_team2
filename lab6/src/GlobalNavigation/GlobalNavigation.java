@@ -219,6 +219,8 @@ public class GlobalNavigation implements NodeMain {
                 currWaypt += 1;
 
             } else {
+                System.out.println("currWaypt " + currWaypt);
+                System.out.println("Num waypts " + waypoints.size());
                 atGoal = true;
                 System.out.println("At the goal!");
             }
