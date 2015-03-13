@@ -66,7 +66,7 @@ public class GlobalNavigation implements NodeMain {
 	private boolean navWaypts = false;
 	private boolean atGoal = false;
 
-	//change to true to get appropriate print statements
+	// change to true to get appropriate print statements
 	private boolean debug = false;
 	private boolean wayptNav_debug = false;
 	private boolean odometry_debug = false;
@@ -159,7 +159,9 @@ public class GlobalNavigation implements NodeMain {
 	 */
 	private void wayptNav() {
 		// System.out.println("In waypt nav");
-		Point2D.Double wayPoint = waypoints.get(currWaypt);
+		if (currWaypt < waypoints.size()) {
+			Point2D.Double wayPoint = waypoints.get(currWaypt);
+		}
 
 		double currX = robotX;
 		double currY = robotY;
@@ -228,8 +230,8 @@ public class GlobalNavigation implements NodeMain {
 				int way = currWaypt + 1;
 				System.out.println("WAYPOINT: " + way + " REACHED at X: "
 						+ wayPoint.getX() + " Y: " + wayPoint.getY()
-						+ " ROBOT-X:" + currX + " ROBOT-Y:" + currY + " out of "
-						+ waypoints.size() + " waypoints.");
+						+ " ROBOT-X:" + currX + " ROBOT-Y:" + currY
+						+ " out of " + waypoints.size() + " waypoints.");
 				currWaypt += 1;
 
 			} else {
