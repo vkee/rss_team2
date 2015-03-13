@@ -3,14 +3,21 @@ package Grasping;
 public class JointController {
     protected int MIN_PWM;
     protected int MAX_PWM;
+    protected double THETA_RANGE; // in radians
     protected int PWM_0; // PWM value at the 0 radians position
     protected int PWM_90; // PWM value at the PI/2 or 90 deg position
     protected double LINE_SLOPE; // slope of the line between PWM_90 and PWM_0
     protected double LINE_THETA_INTERCEPT; // intercept of the line between PWM_90 and PWM_0
 
-    public JointController() {
+    public JointController(int minPWM, int maxPWM, double thetaRange, int pwm0, int pwm90) {
+        this.MIN_PWM = minPWM;
+        this.MAX_PWM = maxPWM;
+        this.PWM_0 = pwm0;
+        this.PWM_90 = pwm90;
+        this.LINE_SLOPE = (Math.PI/2)/(PWM_90 - PWM_0);
+        this.LINE_THETA_INTERCEPT = 0 - LINE_SLOPE*PWM_90;
     }
-    
+
     /**
      * Computes the PWM value to move to the desired angle (in the joint's reference frame)
      * It uses the formula Theta_desired = LINE_SLOPE*PWM_desired + Theta_intercept,
@@ -32,14 +39,41 @@ public class JointController {
             return desiredPWM;
         }
     }
-    
-//    TODO: a method that will output a PWM for the servo to write to taking into account the current pwm,
-//    the desired direction,a nd the constraint of not moving more than 1 radian per iteration
-//    essentially need to compute how much remaining, and if can move the whole distance or cap it to the closest possible
-//    or just write out the same value if at the limit already where want to be
-    public int getPWMRange(int currPWM, boolean up) {
-        
+
+    /**
+     * Computes the PWM to write to the servo taking into the constraint of not moving more than 1 radian per control step
+     * @param currPWM the last PWM value written to the servo
+     * @param up whether the servo is moving up
+     * @return the PWM value to be written to the servo
+     */
+    public int fullRotation(int currPWM, boolean up) {
+        int correction;
+        //        Max PWM is 1 radian per iteration
+        int maxPWMChange = (int) (1/THETA_RANGE * (MAX_PWM - MIN_PWM));
+        if (up) {
+            correction = Math.min(MAX_PWM - currPWM, maxPWMChange);
+            return currPWM + correction;
+        } else {
+            correction = Math.min(currPWM - MIN_PWM, maxPWMChange);
+            return currPWM - correction;
+        }
+    }
+
+    /**
+     * Returns whether the servo is at the minimum position
+     * @param currPWM
+     * @return
+     */
+    public boolean atMin(int currPWM) {
+        return currPWM == MIN_PWM;
     }
     
-//    TODO: need a method to check if the current pwm fed in as a parameter is at the min or max depending on direction also fed in
+    /**
+     * Returns whether the servo is at the maximum position
+     * @param currPWM
+     * @return
+     */
+    public boolean atMax(int currPWM) {
+        return currPWM == MAX_PWM;
+    }
 }

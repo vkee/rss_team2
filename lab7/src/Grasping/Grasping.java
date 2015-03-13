@@ -12,6 +12,10 @@ import org.ros.message.lab7_msgs.*;
 public class Grasping implements NodeMain {
     private Publisher<ArmMsg> armPWMPub;
     private Subscriber<ArmMsg> armStatusSub;
+    private State currState;
+    private ShoulderController shoulderServo;
+    private WristController wristServo;
+    private GripperController gripperServo;
     
 //    States dividing up space so that no servo can move more than 1 radian per iteration
     public enum State {
@@ -19,7 +23,10 @@ public class Grasping implements NodeMain {
     }
 
     public Grasping() {
-
+        currState = State.UP;
+        shoulderServo = ShoulderController(minPWM, maxPWM, thetaRange, pwm0, pwm90);
+        wristServo = WristController(minPWM, maxPWM, thetaRange, pwm0, pwm90);
+        gripperServo = GripperController(minPWM, maxPWM, thetaRange, pwm0, pwm90);
     }
 
     @Override
@@ -31,18 +38,13 @@ public class Grasping implements NodeMain {
         .addMessageListener(new MessageListener<ArmMsg>() {
             @Override
             public void onNewMessage(ArmMsg msg) {
-//                Si/ply print out the PWM values
-//                long bigPWM = msg.pwms[0];
-//                long wristPWM = msg.pwms[1];
-//                long gripperPWM = msg.pwms[2];
+//                Simply printing out the PWM values
                 int[] pwmVals = msg.pwm;
                 for (int i = 0; i < pwmVals.length; i++) {
                     System.out.println("PWM Value at Channel " + i + " is: " + pwmVals[i]);
                 }
                 
-//                TODO: essentialyl based on the state, need to check if at desired position and then change state
-//                if not, then execute the computed pwm
-//              rotateAllServos();
+//              rotateAllServos(msg.pwms[0], msg.pwms[1], msg.pwms[2]);
 
             }
         });
@@ -52,7 +54,31 @@ public class Grasping implements NodeMain {
     /**
      * Rotates all of the servos concurrently (the handle(ArmMsg msg) method)
      */
-    private void rotateAllServos() {
+    private void rotateAllServos(int shoulderPWM, int wristPWM, int gripperPWM) {
+        if (currState == State.UP) {
+//            If all servos are at the UP state
+            if (shoulderServo.atMax(shoulderPWM) && wristServo.atMax(wristPWM) && gripperServo.atMax(gripperPWM)){
+                currState = State.DOWN;
+            } else {
+                ArmMsg msg = new ArmMsg();
+                msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, true);
+                msg.pwms[1] = wristServo.fullRotation(wristPWM, true);
+                msg.pwms[2] = gripperServo.fullRotation(gripperPWM, true);
+                armPWMPub.publish(msg);
+            }
+        } else if (currState == State.DOWN) {
+            
+//          If all servos are at the DOWN state
+            if (shoulderServo.atMin(shoulderPWM) && wristServo.atMin(wristPWM) && gripperServo.atMin(gripperPWM)){
+                currState = State.UP;
+            } else {
+                ArmMsg msg = new ArmMsg();
+                msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, false);
+                msg.pwms[1] = wristServo.fullRotation(wristPWM, false);
+                msg.pwms[2] = gripperServo.fullRotation(gripperPWM, false);
+                armPWMPub.publish(msg);
+            }
+        }
 //        TODO: Not quite sure what supposed to be doing, check with the TA, makes no sense why should be publishing messages each time receive arm pwm msg
 //        clamped ff control step for each servo?  is this just moving at most 1 radian per control step?
 //        need to first see the range of motion of the servo, most likely 180 deg of rotation so only need 2 states for each direction
