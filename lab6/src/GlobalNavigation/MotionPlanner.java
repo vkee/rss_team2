@@ -2,6 +2,7 @@ package GlobalNavigation;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -124,6 +125,9 @@ public class MotionPlanner {
 
 		// this should be a for loop with some defined max num of runs or else
 		// may run forever, if no solution found, return none
+		for (Point2D.Double n : realGoalNode.pathFromParent()){
+			System.out.println("X: " + n.getX() + " Y:" + n.getY());
+		}
 		return realGoalNode.pathFromParent();
 	}
 

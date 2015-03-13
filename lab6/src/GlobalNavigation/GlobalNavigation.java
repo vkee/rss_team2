@@ -201,7 +201,6 @@ public class GlobalNavigation implements NodeMain {
 		// TODO make sure that this is actually the theta error
 		double thetaError = currTheta - thetaToPoint;
 		if (wayptNav_debug == true) {
-
 			System.out.println("Theta Error: " + thetaError);
 		}
 		// Keeping the theta error always in the range -pi to pi
@@ -237,6 +236,7 @@ public class GlobalNavigation implements NodeMain {
 						+ wayPoint.getX() + " Y: " + wayPoint.getY()
 						+ " ROBOT-X:" + currX + " ROBOT-Y:" + currY
 						+ " out of " + waypoints.size() + " waypoints.");
+				System.out.println("xError " + xError + " yError " + yError);
 				currWaypt += 1;
 
 			} else {
