@@ -59,8 +59,8 @@ public class GlobalNavigation implements NodeMain {
     private final double WAYPT_TOL = 0.05; // in meters
     private final double WAYPT_TOL_THETA = 0.1; // in radians
 
-    double FWD_GAIN = .1;
-    double ROT_GAIN = .1;
+    double FWD_GAIN = .2; // may need to change to 0.1 if runs into things and off waypoints
+    double ROT_GAIN = .2;
 
     private boolean navWaypts = false;
     private boolean atGoal = false;
