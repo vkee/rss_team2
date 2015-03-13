@@ -159,7 +159,7 @@ public class GlobalNavigation implements NodeMain {
 	 */
 	private void wayptNav() {
 		// System.out.println("In waypt nav");
-		Point2D.Double wayPoint;
+		Point2D.Double wayPoint = null;
 		if (currWaypt < waypoints.size()) {
 			wayPoint = waypoints.get(currWaypt);
 		}
