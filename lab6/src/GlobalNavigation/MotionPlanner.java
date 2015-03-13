@@ -16,7 +16,7 @@ public class MotionPlanner {
 	// point to determine if the robot is at the goal point
 
 	private PolygonMap map;
-	private final int NUM_TRIES = 3000;
+	private final int NUM_TRIES = 2001;
 
 	public MotionPlanner(PolygonMap map) {
 		this.map = map;
