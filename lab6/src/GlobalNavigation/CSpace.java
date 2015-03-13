@@ -31,7 +31,7 @@ public class CSpace {
 		// Generating the robot polygon
 		PolygonObstacle origRobotPoly = new PolygonObstacle();
 		// manually defining robot polygon
-		double squareSideLength = .375;
+		double squareSideLength = .3;
 		origRobotPoly.addVertex(-squareSideLength, -squareSideLength);
 		origRobotPoly.addVertex(-squareSideLength, squareSideLength);
 		origRobotPoly.addVertex(squareSideLength, squareSideLength);
