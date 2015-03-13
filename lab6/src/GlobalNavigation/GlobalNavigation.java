@@ -56,8 +56,8 @@ public class GlobalNavigation implements NodeMain {
 	private double thetaShift = 0.0; // in radians
 
 	// The waypoint tolerance defining whether the robot is at a waypoint
-	private final double WAYPT_TOL = 0.1; // in meters
-	private final double WAYPT_TOL_THETA = Math.PI/8; // in radians
+	private final double WAYPT_TOL = 0.05; // in meters
+	private final double WAYPT_TOL_THETA = Math.PI/16; // in radians
 
 	double FWD_GAIN = .2;
 	double ROT_GAIN = .2;
