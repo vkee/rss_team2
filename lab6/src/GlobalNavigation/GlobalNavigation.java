@@ -215,7 +215,7 @@ public class GlobalNavigation implements NodeMain {
 			if (currWaypt < (waypoints.size() - 1)) {
 				System.out.println("WAYPOINT: " + currWaypt + " REACHED at X: "
 						+ wayPoint.getX() + " Y: " + wayPoint.getY()
-						+ " ROBOT-X:" + currX + " ROBOT-Y:" + currY);
+						+ " ROBOT-X:" + currX + " ROBOT-Y:" + currY + "out of " + waypoints.size() + " waypoints.");
 				currWaypt += 1;
 				
 			} else {
