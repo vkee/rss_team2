@@ -15,7 +15,7 @@ public class Grasping implements NodeMain {
     
 //    States dividing up space so that no servo can move more than 1 radian per iteration
     public enum State {
-        UP1, UP2, UP3, UP4, DOWN1, DOWN2, DOWN3, DOWN4
+        UP, DOWN
     }
 
     public Grasping() {
@@ -39,10 +39,14 @@ public class Grasping implements NodeMain {
                 for (int i = 0; i < pwmVals.length; i++) {
                     System.out.println("PWM Value at Channel " + i + " is: " + pwmVals[i]);
                 }
+                
+//                TODO: essentialyl based on the state, need to check if at desired position and then change state
+//                if not, then execute the computed pwm
+//              rotateAllServos();
+
             }
         });
         
-//        rotateAllServos();
     }
     
     /**
