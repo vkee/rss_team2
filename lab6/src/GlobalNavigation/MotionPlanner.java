@@ -104,8 +104,8 @@ public class MotionPlanner {
 
 			if (goalFound) {
 				goalNode = newNode;
+				break;
 			}
-			break;
 
 		}
 
