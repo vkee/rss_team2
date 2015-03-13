@@ -24,7 +24,7 @@ public class CSpace {
 
 	// REAL private final double ROBOT_LONGEST_DIM = 0.375; // Center to
 	// diagonal length in meters
-	private final double ROBOT_LONGEST_DIM = 0.25; // Center to diagonal length
+	private final double ROBOT_LONGEST_DIM = 0.201; // Center to diagonal length
 													// in meters
 	private final int NUM_SIDES = 1000; // number of sides of the n side polygon
 										// approximation of robot
