@@ -56,11 +56,11 @@ public class GlobalNavigation implements NodeMain {
 	private double thetaShift = 0.0; // in radians
 
 	// The waypoint tolerance defining whether the robot is at a waypoint
-	private final double WAYPT_TOL = 0.05; // in meters
-	private final double WAYPT_TOL_THETA = 0.1; // in radians
+	private final double WAYPT_TOL = 0.1; // in meters
+	private final double WAYPT_TOL_THETA = Math.PI/8; // in radians
 
-	double FWD_GAIN = .1;
-	double ROT_GAIN = .1;
+	double FWD_GAIN = .2;
+	double ROT_GAIN = .2;
 
 	private boolean navWaypts = false;
 	private boolean atGoal = false;
@@ -135,9 +135,10 @@ public class GlobalNavigation implements NodeMain {
 		// each run
 
 		outputPath(waypoints, MapGUI.makeRandomColor());
-
+		
+		System.out.println("Number of waypoints: " + waypoints.size());
+		
 		navWaypts = true;
-		// System.out.println("should be trying to navigate waypoints now");
 	}
 
 	/**
@@ -163,7 +164,7 @@ public class GlobalNavigation implements NodeMain {
 
 		// System.out.println("currX: " + currX);
 		// System.out.println("currY: " + currY);
-		// System.out.println("currTheta: " + currTheta);
+		 System.out.println("currTheta: " + currTheta);
 
 		double xError = wayPoint.getX() - currX;
 		double yError = wayPoint.getY() - currY;
@@ -176,14 +177,14 @@ public class GlobalNavigation implements NodeMain {
 
 		// System.out.println("xError: " + xError);
 		// System.out.println("yError: " + yError);
-		// System.out.println("thetaToPoint: " + thetaToPoint);
+		 System.out.println("thetaToPoint: " + thetaToPoint);
 
 		// make sure currTheta is actual angle of robot, may need to play with
 		// thetashift
 		// TODO make sure that this is actually the theta error
 		double thetaError = currTheta - thetaToPoint;
 
-		// System.out.println("Theta Error: " + thetaError);
+		 System.out.println("Theta Error: " + thetaError);
 
 		// Keeping the theta error always in the range -pi to pi
 		if (thetaError < -Math.PI) {
@@ -192,7 +193,7 @@ public class GlobalNavigation implements NodeMain {
 			thetaError -= 2 * Math.PI;
 		}
 
-		// System.out.println("Theta Error after correction: " + thetaError);
+		 System.out.println("Theta Error after correction: " + thetaError);
 
 		// While not at the current waypoint, adjust proportionally to the error
 
@@ -224,8 +225,8 @@ public class GlobalNavigation implements NodeMain {
 		}
 		motionPub.publish(msg);
 
-		// System.out.println("Trans Vel: " + msg.translationalVelocity);
-		// System.out.println("Rot Vel: " + msg.rotationalVelocity);
+		 System.out.println("Trans Vel: " + msg.translationalVelocity);
+		 System.out.println("Rot Vel: " + msg.rotationalVelocity);
 
 	}
 
