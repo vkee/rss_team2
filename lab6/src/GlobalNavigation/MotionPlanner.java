@@ -44,6 +44,9 @@ public class MotionPlanner {
         System.out.println("goal Rect width " + goalRect.getWidth());
         System.out.println("goal Rect height " + goalRect.getHeight());
         
+        System.out.println("Start Point " + start);
+        System.out.println("Goal Point " + goal);
+        
         RRTreeNode treeroot = new RRTreeNode(null, start);
         List<RRTreeNode> nodes = new ArrayList<RRTreeNode>();
         nodes.add(treeroot);
