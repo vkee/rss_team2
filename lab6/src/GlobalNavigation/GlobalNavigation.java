@@ -212,15 +212,13 @@ public class GlobalNavigation implements NodeMain {
         } else {
             msg.translationalVelocity = 0.0;
             msg.rotationalVelocity = 0.0;
-            if (currWaypt == waypoints.size()) {
+            if (currWaypt < (waypoints.size() + 1)) {
                 System.out.println("WAYPOINT: " + currWaypt + " REACHED at X: "
                         + wayPoint.getX() + " Y: " + wayPoint.getY()
                         + " ROBOT-X:" + currX + " ROBOT-Y:" + currY + "out of " + waypoints.size() + " waypoints.");
                 currWaypt += 1;
 
             } else {
-                System.out.println("currWaypt " + currWaypt);
-                System.out.println("Num waypts " + waypoints.size());
                 atGoal = true;
                 System.out.println("At the goal!");
             }
