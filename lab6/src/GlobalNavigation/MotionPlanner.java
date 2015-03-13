@@ -39,6 +39,11 @@ public class MotionPlanner {
                 - map.worldRect.height * tolerance / 2, map.worldRect.width
                 * tolerance, map.worldRect.height * tolerance);
 
+        System.out.println("map width " + map.worldRect.width);
+        System.out.println("map height " + map.worldRect.height);
+        System.out.println("goal Rect width " + goalRect.getWidth());
+        System.out.println("goal Rect height " + goalRect.getHeight());
+        
         RRTreeNode treeroot = new RRTreeNode(null, start);
         List<RRTreeNode> nodes = new ArrayList<RRTreeNode>();
         nodes.add(treeroot);
