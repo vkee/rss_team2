@@ -66,6 +66,7 @@ public class GlobalNavigation implements NodeMain {
 	private boolean navWaypts = false;
 	private boolean atGoal = false;
 
+	//change to true to get appropriate print statements
 	private boolean debug = false;
 	private boolean wayptNav_debug = false;
 	private boolean odometry_debug = false;
@@ -227,7 +228,7 @@ public class GlobalNavigation implements NodeMain {
 				int way = currWaypt + 1;
 				System.out.println("WAYPOINT: " + way + " REACHED at X: "
 						+ wayPoint.getX() + " Y: " + wayPoint.getY()
-						+ " ROBOT-X:" + currX + " ROBOT-Y:" + currY + "out of "
+						+ " ROBOT-X:" + currX + " ROBOT-Y:" + currY + " out of "
 						+ waypoints.size() + " waypoints.");
 				currWaypt += 1;
 
