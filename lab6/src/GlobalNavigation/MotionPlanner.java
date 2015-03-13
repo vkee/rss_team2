@@ -102,7 +102,9 @@ public class MotionPlanner {
             // break;
 
         }
-
+        
+        RRTreeNode realGoalNode = new RRTreeNode(goalNode, goal);
+        
         // try to connect the new point with the closest point in the tree (run
         // the algorithm david wrote to check if the point intersects any of the
         // obstacles in the map
@@ -114,7 +116,7 @@ public class MotionPlanner {
 
         // this should be a for loop with some defined max num of runs or else
         // may run forever, if no solution found, return none
-        return goalNode.pathFromParent();
+        return realGoalNode.pathFromParent();
     }
 
     /**
