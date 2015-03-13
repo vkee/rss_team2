@@ -164,6 +164,8 @@ public class GlobalNavigation implements NodeMain {
 			wayPoint = waypoints.get(currWaypt);
 		} else {
 			wayPoint = polyMap.getRobotGoal();
+			System.out.println("LAST POINT: X-" + wayPoint.getX() + " Y-"
+					+ wayPoint.getY());
 		}
 
 		double currX = robotX;
