@@ -127,7 +127,7 @@ public class GlobalNavigation implements NodeMain {
 		// points.
 		Point2D.Double robotStart = polyMap.getRobotStart();
 		waypoints = motionPlanner.getPath(robotStart, polyMap.getRobotGoal(),
-				.03);
+				.01);
 
 		// Updating the shifts so that the robot is at 0,0 with 0 rad heading at
 		// start
