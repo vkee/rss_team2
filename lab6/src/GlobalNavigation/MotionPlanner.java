@@ -64,8 +64,8 @@ public class MotionPlanner {
 			// goal later on
 			double testX = Math.random() * map.worldRect.width - .5;
 			double testY = Math.random() * map.worldRect.height - .5;
-			if (tries % 100 == 0)
-				System.out.println("testX: " + testX + " testY: " + testY);
+			// if (tries % 100 == 0)
+			// System.out.println("testX: " + testX + " testY: " + testY);
 			Point2D.Double testPoint = new Point2D.Double(testX, testY);
 
 			// The mininum distance between 2 nodes, initialized to the longest
