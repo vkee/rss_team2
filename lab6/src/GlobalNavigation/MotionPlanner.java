@@ -55,7 +55,7 @@ public class MotionPlanner {
 		boolean goalFound = false;
 		RRTreeNode goalNode = treeroot;
 		int tries = 0;
-		//while (tries < NUM_TRIES) {
+		// while (tries < NUM_TRIES) {
 		while (!goalFound && tries < NUM_TRIES) {
 			if (tries % 1000 == 0)
 				System.out.println("Number of tries: " + tries);
@@ -108,7 +108,7 @@ public class MotionPlanner {
 
 		}
 
-		RRTreeNode realGoalNode = new RRTreeNode(goalNode, goal);
+		// RRTreeNode realGoalNode = new RRTreeNode(goalNode, goal);
 
 		// try to connect the new point with the closest point in the tree (run
 		// the algorithm david wrote to check if the point intersects any of the
@@ -121,11 +121,12 @@ public class MotionPlanner {
 
 		// this should be a for loop with some defined max num of runs or else
 		// may run forever, if no solution found, return none
-		System.out.println("Waypoints");
-		for (Point2D.Double n : realGoalNode.pathFromParent()){
-			System.out.println("X: " + n.getX() + " Y:" + n.getY());
-		}
-		return realGoalNode.pathFromParent();
+		// System.out.println("Waypoints");
+		// for (Point2D.Double n : realGoalNode.pathFromParent()){
+		// System.out.println("X: " + n.getX() + " Y:" + n.getY());
+		// }
+		// return realGoalNode.pathFromParent();
+		return goalNode.pathFromParent();
 	}
 
 	/**
