@@ -17,7 +17,7 @@ public class MotionPlanner {
 	// point to determine if the robot is at the goal point
 
 	private PolygonMap map;
-	private final int NUM_TRIES = 2001;
+	private final int NUM_TRIES = 1000000;
 
 	public MotionPlanner(PolygonMap map) {
 		this.map = map;
@@ -55,9 +55,8 @@ public class MotionPlanner {
 		boolean goalFound = false;
 		RRTreeNode goalNode = treeroot;
 		int tries = 0;
-		while (tries < NUM_TRIES) {
-			// while (!goalFound && tries < NUM_TRIES) {
-			// System.out.println(tries);
+		//while (tries < NUM_TRIES) {
+		while (!goalFound && tries < NUM_TRIES) {
 			if (tries % 1000 == 0)
 				System.out.println("Number of tries: " + tries);
 
@@ -105,14 +104,11 @@ public class MotionPlanner {
 
 			if (goalFound) {
 				goalNode = newNode;
-				//break;
 			}
 
 		}
 
 		RRTreeNode realGoalNode = new RRTreeNode(goalNode, goal);
-		//nodes.add(realGoalNode);
-		System.out.println("realGoalNode " + realGoalNode.point);
 
 		// try to connect the new point with the closest point in the tree (run
 		// the algorithm david wrote to check if the point intersects any of the
@@ -125,6 +121,7 @@ public class MotionPlanner {
 
 		// this should be a for loop with some defined max num of runs or else
 		// may run forever, if no solution found, return none
+		System.out.println("Waypoints");
 		for (Point2D.Double n : realGoalNode.pathFromParent()){
 			System.out.println("X: " + n.getX() + " Y:" + n.getY());
 		}

@@ -101,9 +101,8 @@ public class GlobalNavigation implements NodeMain {
 						robotY = message.y;
 						robotTheta = message.theta;
 						if (odometry_debug == true) {
-							// System.out.println("navWaypts state: " +
-							// navWaypts);
-							// System.out.println("atGoal state: " + atGoal);
+							System.out.println("navWaypts state: " + navWaypts);
+							System.out.println("atGoal state: " + atGoal);
 						}
 						if (navWaypts && !atGoal) {
 							wayptNav();
@@ -117,10 +116,8 @@ public class GlobalNavigation implements NodeMain {
 		try {
 			polyMap = new PolygonMap(mapFileName);
 			List<PolygonObstacle> obsCSpaces = cSpace.envConfSpace(polyMap);
-			// System.out.println("length of spaces " + obsCSpaces.size());
 			polyMap.addCSpace(obsCSpaces);
 			motionPlanner = new MotionPlanner(polyMap);
-
 		} catch (Exception e) {
 
 		}
@@ -128,12 +125,9 @@ public class GlobalNavigation implements NodeMain {
 		displayMap(); // --Works: Remember to plug into Robot
 		// testConvexHull(); // -- Works need to find a set of "non-trivial"
 		// points.
-		// Remember to turn off displayMap when testing
 		Point2D.Double robotStart = polyMap.getRobotStart();
 		waypoints = motionPlanner.getPath(robotStart, polyMap.getRobotGoal(),
-				.2);
-
-		// System.out.println(waypoints);
+				.18);
 
 		// Updating the shifts so that the robot is at 0,0 with 0 rad heading at
 		// start
@@ -179,8 +173,8 @@ public class GlobalNavigation implements NodeMain {
 		// double currTheta = robotTheta + thetaShift;
 
 		if (wayptNav_debug == true) {
-			// System.out.println("currX: " + currX);
-			// System.out.println("currY: " + currY);
+			System.out.println("currX: " + currX);
+			System.out.println("currY: " + currY);
 			System.out.println("currTheta: " + currTheta);
 		}
 		double xError = wayPoint.getX() - currX;
@@ -192,8 +186,8 @@ public class GlobalNavigation implements NodeMain {
 			thetaToPoint += 2 * Math.PI;
 		}
 		if (wayptNav_debug == true) {
-			// System.out.println("xError: " + xError);
-			// System.out.println("yError: " + yError);
+			System.out.println("xError: " + xError);
+			System.out.println("yError: " + yError);
 			System.out.println("thetaToPoint: " + thetaToPoint);
 		}
 		// make sure currTheta is actual angle of robot, may need to play with
@@ -228,8 +222,6 @@ public class GlobalNavigation implements NodeMain {
 					0.5);
 			msg.rotationalVelocity = 0;
 		} else {
-			msg.translationalVelocity = 0.0;
-			msg.rotationalVelocity = 0.0;
 			if (currWaypt < waypoints.size()) {
 				int way = currWaypt + 1;
 				System.out.println("WAYPOINT: " + way + " REACHED at X: "
@@ -241,6 +233,8 @@ public class GlobalNavigation implements NodeMain {
 
 			} else {
 				atGoal = true;
+				msg.translationalVelocity = 0.0;
+				msg.rotationalVelocity = 0.0;
 				System.out.println("At the goal!");
 			}
 		}
