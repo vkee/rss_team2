@@ -6,7 +6,7 @@
 <!--
   	<param name="mapFileName" value="/home/rss-student/RSS-I-group/lab6/src/global-nav-maze-2011-med.map" /> 
 -->
-  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/lab6/src/global-nav-maze-2011-med.map" /> 
+  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/lab6/src/global-nav-maze-2011-basic.map" /> 
  
   </node>
 
