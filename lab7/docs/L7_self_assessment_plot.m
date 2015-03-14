@@ -1,22 +1,22 @@
 close all;
 
-lab = {'Programming','Computational Geometry','Motion Planning','Waypoint Navigation'};
+lab = {'Programming','Hardware','Mechanics of Manipulation','Visual Navigation'};
 
 % David
-D1 = [4 2 2 2]; % before
-D2 = [4 3 4 3]; % after
+D1 = [0 0 0 0]; % before
+D2 = [0 0 0 0]; % after
 
 % Gabe
-G1 = [4 1 2 3]; % before
-G2 = [4 2 2 3]; % after
+G1 = [0 0 0 0]; % before
+G2 = [0 0 0 0]; % after
 
 % Syler
-S1 = [2.5 1 1 1]; % before
-S2 = [3 2.5 1.5 1]; % after
+S1 = [3 1.5 1 1.5]; % before
+S2 = [0 0 0 0]; % after
 
 % Vincent
-V1 = [4 1 2 1]; % before
-V2 = [4 2 3 2]; % after
+V1 = [0 0 0 0]; % before
+V2 = [0 0 0 0]; % after
 
 
 % bar x-axis labels
@@ -87,4 +87,4 @@ title('Syler')
 
     set(gcf, 'PaperPosition', [0 0 30 18]); %Position plot at left hand corner with width 5 and height 5.
     set(gcf, 'PaperSize', [30 18]); %Set the paper to have width 5 and height 5.
-    saveas(gcf, './L6_self_assessment.png')
+    saveas(gcf, './lab7__self_assessment.png')
