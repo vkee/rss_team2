@@ -6,4 +6,12 @@ public class ShoulderController extends JointController {
         super(minPWM, maxPWM, thetaRange, pwm0, pwm90);
     }
     
+    /**
+     * Determines whether the shoulder joint is at the move up with a desired angle state
+     * @param currPWM the last PWM value written to the shoulder
+     */
+    public boolean isGymUp(int currPWM) {
+        return ()
+    }
+    
 }

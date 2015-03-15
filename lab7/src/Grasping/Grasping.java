@@ -15,10 +15,16 @@ public class Grasping implements NodeMain {
     public Subscriber<BumpMsg> bumpersSub;
 
     private State currState;
+    private ArmGymState gymState;
     private ShoulderController shoulderServo;
     private WristController wristServo;
     private GripperController gripperServo;
     protected boolean objectGrasped = false;
+
+    //    States for Arm Gymnastics
+    public enum ArmGymState {
+        OPEN_GRIPPER, CLOSE_GRIPPER, MOVE_UP, BEND_ELBOW, MOVE_TO_GROUND
+    }
 
     //    States dividing up space so that no servo can move more than 1 radian per iteration
     public enum State {
@@ -48,11 +54,61 @@ public class Grasping implements NodeMain {
                     System.out.println("PWM Value at Channel " + i + " is: " + pwmVals[i]);
                 }
 
+                int shoulderPWM = pwmVals[0];
+                int wristPWM = pwmVals[1];
+                int gripperPWM = pwmVals[2];
+
                 //              rotateAllServos(msg.pwms[0], msg.pwms[1], msg.pwms[2]);
                 //                if (!objectGrasped){
                 //                gripperServo.close(msg.pwms[2]);
                 //            }
                 //                moveArm(desX, desZ, msg.pwms[0], msg.pwms[1]);
+
+                //                Arm Gymnastics
+
+                //                TODO probably need to initialize everything to some positions
+                //                so will probably need to make an initialize state
+
+                if (gymState == ArmGymState.OPEN_GRIPPER) {
+                    if (gripperServo.isOpen(gripperPWM)) {
+                        gymState = ArmGymState.CLOSE_GRIPPER;
+                    } else {
+                        writeGripperPWM(gripperServo.open(gripperPWM));
+                    }
+                }
+
+                if (gymState == ArmGymState.CLOSE_GRIPPER) {
+                    if (gripperServo.isClosed(gripperPWM)) {
+                        gymState = ArmGymState.MOVE_UP;
+                    } else {
+                        writeGripperPWM(gripperServo.close(gripperPWM));
+                    }
+                }
+
+                if (gymState == ArmGymState.MOVE_UP) {
+                    if (shoulderServo.isGymUp(shoulderPWM)) {
+                        gymState = ArmGymState.BEND_ELBOW;
+                    } else {
+                        writeShoulderPWM(shoulderServo.moveGymUp(shoulderPWM));
+                    }
+                }
+
+                //                Assuming that bend elbow is bending wrist
+                if (gymState == ArmGymState.BEND_ELBOW) {
+                    if (wristServo.isGymBent(wristPWM)) {
+                        gymState = ArmGymState.MOVE_TO_GROUND;
+                    } else {
+                        writeWristPWM(wristServo.bendGym(wristPWM));
+                    }
+                }
+
+                if (gymState == ArmGymState.MOVE_TO_GROUND) {
+                    if (shoulderServo.onGround(shoulderPWM)) {
+//                        TODO: what to do here? just end?
+                    } else {
+                        writeShoulderPWM(shoulderServo.moveToGround(shoulderPWM));
+                    }
+                }
             }
         });
 
@@ -61,6 +117,7 @@ public class Grasping implements NodeMain {
             @Override
             public void onNewMessage(BumpMsg message) {
                 objectGrasped = message.gripper;
+
             }
         });
     }
@@ -123,6 +180,37 @@ public class Grasping implements NodeMain {
         //      long wristPWM = msg.pwms[1];
         //      long gripperPWM = msg.pwms[2];
     }
+
+    /**
+     * Writes the provided PWM value for the shoulder servo
+     * @param value the PWM value to write to the shoulder servo
+     */
+    private void writeShoulderPWM(int value) {
+        ArmMsg msg = new ArmMsg();
+        msg.pwms[0] = value;
+        armPWMPub.publish(msg);
+    }
+
+    /**
+     * Writes the provided PWM value for the wrist servo
+     * @param value the PWM value to write to the wrist servo
+     */
+    private void writeWristPWM(int value) {
+        ArmMsg msg = new ArmMsg();
+        msg.pwms[1] = value;
+        armPWMPub.publish(msg);
+    }
+
+    /**
+     * Writes the provided PWM value for the gripper servo
+     * @param value the PWM value to write to the gripper servo
+     */
+    private void writeGripperPWM(int value) {
+        ArmMsg msg = new ArmMsg();
+        msg.pwms[2] = value;
+        armPWMPub.publish(msg);
+    }
+
 
     @Override
     public void onShutdown(Node node) {
