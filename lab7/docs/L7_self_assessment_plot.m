@@ -15,7 +15,7 @@ S1 = [3 1.5 1 1.5]; % before
 S2 = [0 0 0 0]; % after
 
 % Vincent
-V1 = [0 0 0 0]; % before
+V1 = [4 2 1 3]; % before
 V2 = [0 0 0 0]; % after
 
 
