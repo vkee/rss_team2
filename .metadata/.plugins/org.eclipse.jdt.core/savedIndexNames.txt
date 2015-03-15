@@ -1,0 +1,11 @@
+INDEX VERSION 1.126+C:\Users\Lucky\Desktop\6.141\rss_team2\.metadata\.plugins\org.eclipse.jdt.core
+3437251303.index
+4153239311.index
+1862703905.index
+729762164.index
+3767742004.index
+3964833873.index
+2606080199.index
+1749643021.index
+1414894843.index
+39645565.index

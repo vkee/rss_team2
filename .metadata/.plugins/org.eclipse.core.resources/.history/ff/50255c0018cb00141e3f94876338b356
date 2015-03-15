@@ -1,0 +1,14 @@
+package Grasping;
+
+public class ArmGymnastics {
+
+	public ArmGymnastics()
+		{
+		AllArmControler arm = new AllArmControler();
+		}
+
+	public void dance()
+		{
+		arm
+		}
+}

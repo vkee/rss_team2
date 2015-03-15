@@ -1,0 +1,14 @@
+package GlobalNavigation;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class MotionPlannerTests {
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

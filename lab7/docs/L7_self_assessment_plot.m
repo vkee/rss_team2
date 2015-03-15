@@ -3,7 +3,7 @@ close all;
 lab = {'Programming','Hardware','Mechanics of Manipulation','Visual Navigation'};
 
 % David
-D1 = [0 0 0 0]; % before
+D1 = [4 3 2 3]; % before
 D2 = [0 0 0 0]; % after
 
 % Gabe
