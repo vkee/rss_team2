@@ -5,18 +5,18 @@ public class JointController {
     protected int MAX_PWM;
     protected double THETA_RANGE; // in radians
     protected int PWM_0; // PWM value at the 0 radians position
-    protected int PWM_90; // PWM value at the PI/2 or 90 deg position
+    protected int PWM_270; // PWM value at the -PI/2 or 270 deg position
     protected double LINE_SLOPE; // slope of the line between PWM_90 and PWM_0
     protected double LINE_THETA_INTERCEPT; // intercept of the line between PWM_90 and PWM_0
     protected int MAX_PWM_CHANGE; // the largest PWM change in value that can be safety written to the servo (for 1 radian of rotation)
 
-    public JointController(int minPWM, int maxPWM, double thetaRange, int pwm0, int pwm90) {
+    public JointController(int minPWM, int maxPWM, double thetaRange, int pwm0, int pwm270) {
         this.MIN_PWM = minPWM;
         this.MAX_PWM = maxPWM;
         this.PWM_0 = pwm0;
-        this.PWM_90 = pwm90;
-        this.LINE_SLOPE = (Math.PI/2)/(PWM_90 - PWM_0);
-        this.LINE_THETA_INTERCEPT = 0 - LINE_SLOPE*PWM_90;
+        this.PWM_270 = pwm270;
+        this.LINE_SLOPE = (-Math.PI/2)/(PWM_270 - PWM_0);
+        this.LINE_THETA_INTERCEPT = 0 - LINE_SLOPE*PWM_270;
         this.MAX_PWM_CHANGE = (int) (1/THETA_RANGE * (MAX_PWM - MIN_PWM));
     }
 

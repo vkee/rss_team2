@@ -39,9 +39,9 @@ public class Grasping implements NodeMain {
 
     public Grasping() {
         currState = State.UP;
-        shoulderServo = ShoulderController(minPWM, maxPWM, thetaRange, pwm0, pwm90);
-        wristServo = WristController(minPWM, maxPWM, thetaRange, pwm0, pwm90);
-        gripperServo = GripperController(minPWM, maxPWM, thetaRange, pwm0, pwm90);
+        shoulderServo = ShoulderController(1225, 2375, Math.PI, 2250, 1200);
+        wristServo = WristController(250, 2000, Math.PI, 900, 1800);
+        gripperServo = GripperController(1700, 2450, Math.PI, 1700, 2450);
     }
 
     @Override
@@ -173,9 +173,6 @@ public class Grasping implements NodeMain {
             @Override
             public void onNewMessage(BumpMsg message) {
                 objDetected = message.gripper;
-
-                
-                
             }
         });
     }
