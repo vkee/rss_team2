@@ -4,7 +4,7 @@ public class ArmGymnastics {
 
 	public ArmGymnastics()
 		{
-		AllArmController arm = AllArmController.getInstance();
+		ArmController arm = ArmController.getInstance();
 		}
 
 	public void dance()

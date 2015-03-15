@@ -8,6 +8,7 @@ public class JointController {
     protected int PWM_90; // PWM value at the PI/2 or 90 deg position
     protected double LINE_SLOPE; // slope of the line between PWM_90 and PWM_0
     protected double LINE_THETA_INTERCEPT; // intercept of the line between PWM_90 and PWM_0
+    protected int MAX_PWM_CHANGE; // the largest PWM change in value that can be safety written to the servo (for 1 radian of rotation)
 
     public JointController(int minPWM, int maxPWM, double thetaRange, int pwm0, int pwm90) {
         this.MIN_PWM = minPWM;
@@ -16,6 +17,7 @@ public class JointController {
         this.PWM_90 = pwm90;
         this.LINE_SLOPE = (Math.PI/2)/(PWM_90 - PWM_0);
         this.LINE_THETA_INTERCEPT = 0 - LINE_SLOPE*PWM_90;
+        this.MAX_PWM_CHANGE = (int) (1/THETA_RANGE * (MAX_PWM - MIN_PWM));
     }
 
     /**
@@ -43,18 +45,35 @@ public class JointController {
     /**
      * Computes the PWM to write to the servo taking into the constraint of not moving more than 1 radian per control step
      * @param currPWM the last PWM value written to the servo
+     * @param desPWM the PWM value desired that the servo ends up at
+     * @return the PWM value to be written to the servo
+     */
+    public int getSafePWM(int currPWM, int desPWM) {
+        int correction = desPWM - currPWM;
+
+//      May need to take the min of the correction and the max pwm value, and then the max of that and the min pwm value
+        if (correction > 0) {
+            correction = Math.min(correction, MAX_PWM_CHANGE);
+        } else {
+            correction = -Math.min(-correction, MAX_PWM_CHANGE);
+        }
+
+        return currPWM + correction;
+    }
+
+    /**
+     * Computes the PWM to write to the servo taking into the constraint of not moving more than 1 radian per control step
+     * @param currPWM the last PWM value written to the servo
      * @param up whether the servo is moving up
      * @return the PWM value to be written to the servo
      */
     public int fullRotation(int currPWM, boolean up) {
         int correction;
-        //        Max PWM is 1 radian per iteration
-        int maxPWMChange = (int) (1/THETA_RANGE * (MAX_PWM - MIN_PWM));
         if (up) {
-            correction = Math.min(MAX_PWM - currPWM, maxPWMChange);
+            correction = Math.min(MAX_PWM - currPWM, MAX_PWM_CHANGE);
             return currPWM + correction;
         } else {
-            correction = Math.min(currPWM - MIN_PWM, maxPWMChange);
+            correction = Math.min(currPWM - MIN_PWM, MAX_PWM_CHANGE);
             return currPWM - correction;
         }
     }
@@ -67,7 +86,7 @@ public class JointController {
     public boolean atMin(int currPWM) {
         return currPWM == MIN_PWM;
     }
-    
+
     /**
      * Returns whether the servo is at the maximum position
      * @param currPWM

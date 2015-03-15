@@ -45,10 +45,30 @@ public class Grasping implements NodeMain {
                 }
                 
 //              rotateAllServos(msg.pwms[0], msg.pwms[1], msg.pwms[2]);
-
+//                gripperServo.close();
+//                moveArm(desX, desZ, msg.pwms[0], msg.pwms[1]);
             }
         });
         
+    }
+    
+    /**
+     * Moves the arm to the desired x, z position in the robot frame
+     * @param desX the desired x coordinate for the end effector
+     * @param desZ the desired z coordinate for the end effector
+     */
+    public void moveArm(double desX, double desZ, int currShoulderPWM, int currWristPWM){
+//      Inverse Kinematic Equation
+//      TODO: don't know how to solve for the required angles
+//      Let shoulderTheta, wristTheta be the angles to write for the shoulder and wrist respectively
+                
+        int desShoulderPWM = shoulderServo.getPWM(shoulderTheta);
+        int desWristPWM = wristServo.getPWM(wristTheta);
+        
+        ArmMsg msg = new ArmMsg();
+        msg.pwms[0] = shoulderServo.getSafePWM(currShoulderPWM, desShoulderPWM);
+        msg.pwms[1] = wristServo.getSafePWM(currWristPWM, desWristPWM);
+        armPWMPub.publish(msg);
     }
     
     /**
