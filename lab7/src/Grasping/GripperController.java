@@ -8,17 +8,19 @@ public class GripperController extends JointController{
 
     /**
      * Closes the gripper
+     * @param currPWM the last PWM value written to the servo
+     * @return the PWM value to be written to the servo
      */
-    public void close() {
-        //        TODO are we supposed to use the bump sensors? if we are, just use this. 
-        //        o/w, call the full rotation as opening and closing is the full range of motion 
+    public int close(int currPWM) {
+        return fullRotation(currPWM, true);
     }
 
     /**
-     * Opens the gripper
+     * Closes the gripper
+     * @param currPWM the last PWM value written to the servo
+     * @return the PWM value to be written to the servo
      */
-    public void open() {
-        //        TODO are we supposed to use the bump sensors? if we are, just use this. 
-        //        o/w, call the full rotation as opening and closing is the full range of motion 
+    public int open(int currPWM) {
+        return fullRotation(currPWM, false);
     }
 }

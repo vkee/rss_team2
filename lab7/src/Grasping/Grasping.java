@@ -12,12 +12,15 @@ import org.ros.message.lab7_msgs.*;
 public class Grasping implements NodeMain {
     private Publisher<ArmMsg> armPWMPub;
     private Subscriber<ArmMsg> armStatusSub;
+    public Subscriber<BumpMsg> bumpersSub;
+
     private State currState;
     private ShoulderController shoulderServo;
     private WristController wristServo;
     private GripperController gripperServo;
-    
-//    States dividing up space so that no servo can move more than 1 radian per iteration
+    protected boolean objectGrasped = false;
+
+    //    States dividing up space so that no servo can move more than 1 radian per iteration
     public enum State {
         UP, DOWN
     }
@@ -33,50 +36,60 @@ public class Grasping implements NodeMain {
     public void onStart(Node node) {
         armPWMPub = node.newPublisher("command/Arm", "rss_msgs/ArmMsg");
         armStatusSub = node.newSubscriber("rss/ArmStatus", "rss_msgs/ArmMsg");
-    
+        bumpersSub = node.newSubscriber("/rss/BumpSensors", "rss_msgs/BumpMsg");
+
         armStatusSub
         .addMessageListener(new MessageListener<ArmMsg>() {
             @Override
             public void onNewMessage(ArmMsg msg) {
-//                Simply printing out the PWM values
+                //                Simply printing out the PWM values
                 int[] pwmVals = msg.pwm;
                 for (int i = 0; i < pwmVals.length; i++) {
                     System.out.println("PWM Value at Channel " + i + " is: " + pwmVals[i]);
                 }
-                
-//              rotateAllServos(msg.pwms[0], msg.pwms[1], msg.pwms[2]);
-//                gripperServo.close();
-//                moveArm(desX, desZ, msg.pwms[0], msg.pwms[1]);
+
+                //              rotateAllServos(msg.pwms[0], msg.pwms[1], msg.pwms[2]);
+                //                if (!objectGrasped){
+                //                gripperServo.close(msg.pwms[2]);
+                //            }
+                //                moveArm(desX, desZ, msg.pwms[0], msg.pwms[1]);
             }
         });
-        
+
+        bumpersSub
+        .addMessageListener(new MessageListener<BumpMsg>() {
+            @Override
+            public void onNewMessage(BumpMsg message) {
+                objectGrasped = message.gripper;
+            }
+        });
     }
-    
+
     /**
      * Moves the arm to the desired x, z position in the robot frame
      * @param desX the desired x coordinate for the end effector
      * @param desZ the desired z coordinate for the end effector
      */
     public void moveArm(double desX, double desZ, int currShoulderPWM, int currWristPWM){
-//      Inverse Kinematic Equation
-//      TODO: don't know how to solve for the required angles
-//      Let shoulderTheta, wristTheta be the angles to write for the shoulder and wrist respectively
-                
+        //      Inverse Kinematic Equation
+        //      TODO: don't know how to solve for the required angles
+        //      Let shoulderTheta, wristTheta be the angles to write for the shoulder and wrist respectively
+
         int desShoulderPWM = shoulderServo.getPWM(shoulderTheta);
         int desWristPWM = wristServo.getPWM(wristTheta);
-        
+
         ArmMsg msg = new ArmMsg();
         msg.pwms[0] = shoulderServo.getSafePWM(currShoulderPWM, desShoulderPWM);
         msg.pwms[1] = wristServo.getSafePWM(currWristPWM, desWristPWM);
         armPWMPub.publish(msg);
     }
-    
+
     /**
      * Rotates all of the servos concurrently (the handle(ArmMsg msg) method)
      */
     private void rotateAllServos(int shoulderPWM, int wristPWM, int gripperPWM) {
         if (currState == State.UP) {
-//            If all servos are at the UP state
+            //            If all servos are at the UP state
             if (shoulderServo.atMax(shoulderPWM) && wristServo.atMax(wristPWM) && gripperServo.atMax(gripperPWM)){
                 currState = State.DOWN;
             } else {
@@ -87,8 +100,8 @@ public class Grasping implements NodeMain {
                 armPWMPub.publish(msg);
             }
         } else if (currState == State.DOWN) {
-            
-//          If all servos are at the DOWN state
+
+            //          If all servos are at the DOWN state
             if (shoulderServo.atMin(shoulderPWM) && wristServo.atMin(wristPWM) && gripperServo.atMin(gripperPWM)){
                 currState = State.UP;
             } else {
@@ -99,18 +112,18 @@ public class Grasping implements NodeMain {
                 armPWMPub.publish(msg);
             }
         }
-//        TODO: Not quite sure what supposed to be doing, check with the TA, makes no sense why should be publishing messages each time receive arm pwm msg
-//        clamped ff control step for each servo?  is this just moving at most 1 radian per control step?
-//        need to first see the range of motion of the servo, most likely 180 deg of rotation so only need 2 states for each direction
-//        or maybe publish a message to get to the endgoal if going up or down, feed into the controlle rthe current position and whether
-//        going up or down, and then it will return a pwm that is at most 1 radian max towards the max/min pwm at the end of the state?
-        
-//        public armMsg as follows
-//      long bigPWM = msg.pwms[0];
-//      long wristPWM = msg.pwms[1];
-//      long gripperPWM = msg.pwms[2];
+        //        TODO: Not quite sure what supposed to be doing, check with the TA, makes no sense why should be publishing messages each time receive arm pwm msg
+        //        clamped ff control step for each servo?  is this just moving at most 1 radian per control step?
+        //        need to first see the range of motion of the servo, most likely 180 deg of rotation so only need 2 states for each direction
+        //        or maybe publish a message to get to the endgoal if going up or down, feed into the controlle rthe current position and whether
+        //        going up or down, and then it will return a pwm that is at most 1 radian max towards the max/min pwm at the end of the state?
+
+        //        public armMsg as follows
+        //      long bigPWM = msg.pwms[0];
+        //      long wristPWM = msg.pwms[1];
+        //      long gripperPWM = msg.pwms[2];
     }
-    
+
     @Override
     public void onShutdown(Node node) {
         if (node != null) {
