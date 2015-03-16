@@ -222,6 +222,8 @@ public class Grasping implements NodeMain {
 		// TODO: don't know how to solve for the required angles
 		// Let shoulderTheta, wristTheta be the angles to write for the shoulder
 		// and wrist respectively
+	    
+//	    InverseKinematics.getThetaPhi(desX, desZ);
 
 //		int desShoulderPWM = shoulderServo.getPWM(shoulderTheta);
 //		int desWristPWM = wristServo.getPWM(wristTheta);
@@ -250,7 +252,12 @@ public class Grasping implements NodeMain {
               msg.pwms[0] = Math.min(shoulderPWM + (shoulderServo.MAX_PWM - shoulderServo.MIN_PWM)/SHIFT_AMOUNT, shoulderServo.MAX_PWM);
               msg.pwms[1] = Math.min(wristPWM + (wristServo.MAX_PWM - wristServo.MIN_PWM)/SHIFT_AMOUNT, wristServo.MAX_PWM);
               msg.pwms[2] = Math.min(gripperPWM + (gripperServo.MAX_PWM - gripperServo.MIN_PWM)/SHIFT_AMOUNT, gripperServo.MAX_PWM);
-				//				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, true);
+				
+              System.out.println("Shoulder Theta: " + shoulderServo.getTheta(msg.pwms[0]));
+              System.out.println("Wrist Theta: " + wristServo.getTheta(msg.pwms[1]));
+
+              
+              //				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, true);
 //				msg.pwms[1] = wristServo.fullRotation(wristPWM, true);
 //				msg.pwms[2] = gripperServo.fullRotation(gripperPWM, true);
 //				System.out.println("Shoulder PWM: " + msg.pwms[0]);

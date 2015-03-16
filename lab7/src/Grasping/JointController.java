@@ -19,6 +19,10 @@ public class JointController {
         this.LINE_THETA_INTERCEPT = 0 - LINE_SLOPE*PWM_0;
         this.MAX_PWM_CHANGE = (int) (1/THETA_RANGE * (MAX_PWM - MIN_PWM));
     }
+    
+    public double getTheta(double PWM) {
+        return 180/Math.PI*(LINE_SLOPE*PWM + LINE_THETA_INTERCEPT);
+    }
 
     /**
      * Computes the PWM value to move to the desired angle (in the joint's reference frame)
