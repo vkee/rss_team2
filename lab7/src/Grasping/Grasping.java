@@ -7,7 +7,7 @@ import org.ros.node.topic.Subscriber;
 import org.ros.message.rss_msgs.*;
 import org.ros.message.MessageListener;
 import org.ros.node.Node;
-import org.ros.message.lab7_msgs.*;
+//import org.ros.message.lab7_msgs.*;
 
 public class Grasping implements NodeMain {
 	private Publisher<ArmMsg> armPWMPub;
