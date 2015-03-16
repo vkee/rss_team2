@@ -22,23 +22,25 @@ public class CSpace {
 	// field. True center
 	// of robot is "higher up" than the current estimated version
 
-	private final double ROBOT_WIDTH = .2; // in meters
-	private final double ROBOT_HEIGHT = .2; // in meters
-
+	private final double ROBOT_LONGEST_DIM = 0.375; // Center to
+	// diagonal length in meters
+	
+	private final int NUM_SIDES = 8; // number of sides of the n side polygon
+										// approximation of robot
 	private PolygonObstacle robotPoly;
 
 	public CSpace() {
 		// Generating the robot polygon
-		PolygonObstacle origRobotPoly = new PolygonObstacle();
+		robotPoly = new PolygonObstacle();
 		// manually defining robot polygon
-		double squareSideLength = .2;
-		origRobotPoly.addVertex(-squareSideLength, -squareSideLength);
-		origRobotPoly.addVertex(-squareSideLength, squareSideLength);
-		origRobotPoly.addVertex(squareSideLength, squareSideLength);
-		origRobotPoly.addVertex(squareSideLength, -squareSideLength);
-		origRobotPoly.close();
 
-		robotPoly = origRobotPoly;
+		for (int i = 0; i < NUM_SIDES; i++) {
+			double theta = 2 * Math.PI / NUM_SIDES * i;
+			robotPoly.addVertex(ROBOT_LONGEST_DIM * Math.cos(theta),
+					ROBOT_LONGEST_DIM * Math.sin(theta));
+		}
+
+		robotPoly.close();
 
 		// origRobotPoly.addVertex(0.0, 0.0);
 		// origRobotPoly.addVertex(ROBOT_WIDTH, 0.0);

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/rss/!svn/ver/3761/data/spring2015/pub/labs/rss_msgs
+END
+manifest.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/rss/!svn/ver/3688/data/spring2015/pub/labs/rss_msgs/manifest.xml
+END
+mainpage.dox
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/rss/!svn/ver/3688/data/spring2015/pub/labs/rss_msgs/mainpage.dox
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/rss/!svn/ver/3688/data/spring2015/pub/labs/rss_msgs/CMakeLists.txt
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/rss/!svn/ver/3688/data/spring2015/pub/labs/rss_msgs/Makefile
+END

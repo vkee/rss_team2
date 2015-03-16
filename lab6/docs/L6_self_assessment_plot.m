@@ -2,7 +2,7 @@ close all;
 
 lab = {'Programming','Computational Geometry','Motion Planning','Waypoint Navigation'};
 
-% Davids
+% David
 D1 = [4 2 2 2]; % before
 D2 = [4 3 4 3]; % after
 

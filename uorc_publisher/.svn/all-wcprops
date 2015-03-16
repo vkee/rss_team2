@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/rss/!svn/ver/3761/data/spring2015/pub/labs/uorc_publisher
+END
+.project
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/rss/!svn/ver/3688/data/spring2015/pub/labs/uorc_publisher/.project
+END
+manifest.xml
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/rss/!svn/ver/3688/data/spring2015/pub/labs/uorc_publisher/manifest.xml
+END
+mainpage.dox
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/rss/!svn/ver/3688/data/spring2015/pub/labs/uorc_publisher/mainpage.dox
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/rss/!svn/ver/3688/data/spring2015/pub/labs/uorc_publisher/CMakeLists.txt
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/rss/!svn/ver/3688/data/spring2015/pub/labs/uorc_publisher/Makefile
+END
+build.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/rss/!svn/ver/3688/data/spring2015/pub/labs/uorc_publisher/build.xml
+END

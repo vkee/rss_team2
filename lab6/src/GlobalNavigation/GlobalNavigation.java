@@ -56,13 +56,20 @@ public class GlobalNavigation implements NodeMain {
 	private double thetaShift = 0.0; // in radians
 
 	// The waypoint tolerance defining whether the robot is at a waypoint
-	private final double WAYPT_TOL = 0.1; // in meters
+	private final double WAYPT_TOL = 0.05; // in meters
+	private final double WAYPT_TOL_THETA = 0.1; // in radians
 
-	double FWD_GAIN = 1.0;
-	double ROT_GAIN = 1.0;
+	double FWD_GAIN = .2; // may need to change to 0.1 if runs into things and
+							// off waypoints
+	double ROT_GAIN = .2;
 
 	private boolean navWaypts = false;
 	private boolean atGoal = false;
+
+	// change to true to get appropriate print statements
+	private boolean debug = false;
+	private boolean wayptNav_debug = false;
+	private boolean odometry_debug = false;
 
 	public GlobalNavigation() {
 		cSpace = new CSpace();
@@ -93,8 +100,10 @@ public class GlobalNavigation implements NodeMain {
 						robotX = message.x;
 						robotY = message.y;
 						robotTheta = message.theta;
-						System.out.println("navWaypts state: " + navWaypts);
-						System.out.println("atGoal state: " + atGoal);
+						if (odometry_debug == true) {
+							System.out.println("navWaypts state: " + navWaypts);
+							System.out.println("atGoal state: " + atGoal);
+						}
 						if (navWaypts && !atGoal) {
 							wayptNav();
 						}
@@ -107,10 +116,8 @@ public class GlobalNavigation implements NodeMain {
 		try {
 			polyMap = new PolygonMap(mapFileName);
 			List<PolygonObstacle> obsCSpaces = cSpace.envConfSpace(polyMap);
-			//System.out.println("length of spaces " + obsCSpaces.size());
 			polyMap.addCSpace(obsCSpaces);
 			motionPlanner = new MotionPlanner(polyMap);
-
 		} catch (Exception e) {
 
 		}
@@ -118,12 +125,9 @@ public class GlobalNavigation implements NodeMain {
 		displayMap(); // --Works: Remember to plug into Robot
 		// testConvexHull(); // -- Works need to find a set of "non-trivial"
 		// points.
-		// Remember to turn off displayMap when testing
 		Point2D.Double robotStart = polyMap.getRobotStart();
 		waypoints = motionPlanner.getPath(robotStart, polyMap.getRobotGoal(),
-				.2);
-
-		// System.out.println(waypoints);
+				.02);
 
 		// Updating the shifts so that the robot is at 0,0 with 0 rad heading at
 		// start
@@ -135,8 +139,9 @@ public class GlobalNavigation implements NodeMain {
 
 		outputPath(waypoints, MapGUI.makeRandomColor());
 
+		System.out.println("Number of waypoints: " + waypoints.size());
+
 		navWaypts = true;
-		// System.out.println("should be trying to navigate waypoints now");
 	}
 
 	/**
@@ -147,8 +152,15 @@ public class GlobalNavigation implements NodeMain {
 	 *            the set of waypoints for the robot to navigate
 	 */
 	private void wayptNav() {
-		System.out.println("In waypt nav");
-		Point2D.Double currPoint = waypoints.get(currWaypt);
+		// System.out.println("In waypt nav");
+		Point2D.Double wayPoint = null;
+		if (currWaypt < waypoints.size()) {
+			wayPoint = waypoints.get(currWaypt);
+		} else {
+			wayPoint = polyMap.getRobotGoal();
+			System.out.println("LAST POINT: X-" + wayPoint.getX() + " Y-"
+					+ wayPoint.getY());
+		}
 
 		double currX = robotX;
 		double currY = robotY;
@@ -160,64 +172,76 @@ public class GlobalNavigation implements NodeMain {
 		// double currY = robotY + yShift;
 		// double currTheta = robotTheta + thetaShift;
 
-		System.out.println("currX: " + currX);
-		System.out.println("currY: " + currY);
-		System.out.println("currTheta: " + currTheta);
-
-		double xError = currPoint.getX() - currX;
-		double yError = currPoint.getY() - currY;
+		if (wayptNav_debug == true) {
+			System.out.println("currX: " + currX);
+			System.out.println("currY: " + currY);
+			System.out.println("currTheta: " + currTheta);
+		}
+		double xError = wayPoint.getX() - currX;
+		double yError = wayPoint.getY() - currY;
 		double thetaToPoint = Math.atan2(yError, xError);
 
 		// Keeping within 0 to 2PI
 		if (thetaToPoint < 0) {
 			thetaToPoint += 2 * Math.PI;
 		}
-
-		System.out.println("xError: " + xError);
-		System.out.println("yError: " + yError);
-		System.out.println("thetaToPoint: " + thetaToPoint);
-
+		if (wayptNav_debug == true) {
+			System.out.println("xError: " + xError);
+			System.out.println("yError: " + yError);
+			System.out.println("thetaToPoint: " + thetaToPoint);
+		}
 		// make sure currTheta is actual angle of robot, may need to play with
 		// thetashift
 		// TODO make sure that this is actually the theta error
-		double thetaError = thetaToPoint - currTheta;
-
-		System.out.println("Theta Error: " + thetaError);
-
-		// Keeping the theta error always from -pi to pi
+		double thetaError = currTheta - thetaToPoint;
+		if (wayptNav_debug == true) {
+			System.out.println("Theta Error: " + thetaError);
+		}
+		// Keeping the theta error always in the range -pi to pi
 		if (thetaError < -Math.PI) {
 			thetaError += 2 * Math.PI;
 		} else if (thetaError > Math.PI) {
 			thetaError -= 2 * Math.PI;
 		}
 
-		System.out.println("Theta Error after correction: " + thetaError);
-
+		if (wayptNav_debug == true) {
+			System.out.println("Theta Error after correction: " + thetaError);
+		}
 		// While not at the current waypoint, adjust proportionally to the error
-		if ((xError > WAYPT_TOL) && (yError > WAYPT_TOL)) {
-			MotionMsg msg = new MotionMsg();
 
-			// If the theta error is too large, only rotate in place
-			if (Math.abs(thetaError) > Math.PI / 8) {
-				msg.translationalVelocity = 0.0;
-			} else {
-				msg.translationalVelocity = Math.min(
-						FWD_GAIN
-								* motionPlanner.getDist(0.0, 0.0, xError,
-										yError), 0.5);
-			}
+		MotionMsg msg = new MotionMsg();
+
+		// adjust theta error first
+		if (Math.abs(thetaError) > WAYPT_TOL_THETA) {
 			msg.rotationalVelocity = -Math.min(ROT_GAIN * thetaError, 0.25);
-
-			System.out.println("Trans Vel: " + msg.translationalVelocity);
-			System.out.println("Rot Vel: " + msg.rotationalVelocity);
-			motionPub.publish(msg);
+			msg.translationalVelocity = 0.0;
+			// only when theta has been reached, adjust translation
+		} else if ((xError > WAYPT_TOL) || (yError > WAYPT_TOL)) {
+			msg.translationalVelocity = Math.min(
+					FWD_GAIN * motionPlanner.getDist(0.0, 0.0, xError, yError),
+					0.5);
+			msg.rotationalVelocity = 0.0;
 		} else {
-			if (currWaypt < (waypoints.size() - 1)) {
+			if (currWaypt < waypoints.size()) {
+				int way = currWaypt + 1;
+				System.out.println("WAYPOINT: " + way + " REACHED at X: "
+						+ wayPoint.getX() + " Y: " + wayPoint.getY()
+						+ " ROBOT-X:" + currX + " ROBOT-Y:" + currY
+						+ " out of " + waypoints.size() + " waypoints.");
+				System.out.println("xError " + xError + " yError " + yError);
 				currWaypt += 1;
+
 			} else {
 				atGoal = true;
+				msg.translationalVelocity = 0.0;
+				msg.rotationalVelocity = 0.0;
 				System.out.println("At the goal!");
 			}
+		}
+		motionPub.publish(msg);
+		if (wayptNav_debug == true) {
+			System.out.println("Trans Vel: " + msg.translationalVelocity);
+			System.out.println("Rot Vel: " + msg.rotationalVelocity);
 		}
 	}
 

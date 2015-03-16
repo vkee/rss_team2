@@ -10,8 +10,6 @@ import org.ros.node.NodeMain;
 import org.ros.node.topic.Publisher;
 import org.ros.node.topic.Subscriber;
 
-//import org.apache.commons.logging.Log;
-
 /**
  * 
  * @author previous TA's, prentice, vona
@@ -23,15 +21,28 @@ public class VisualServo implements NodeMain, Runnable {
 
 	private static final int height = 120;
 
-	private boolean done = false;
-	// protected Log log;
+	private Publisher<MotionMsg> publisher; //(Solution)
 
 	/**
-	 * <p>
-	 * The blob tracker.
-	 * </p>
+	 * <p>The blob tracker.</p>
 	 **/
 	private BlobTracking blobTrack = null;
+
+	private double target_hue_level = 0.475; //(Solution)
+	private double hue_threshold = 0.08; //(Solution)
+	private double saturation_level = 0.5; //(Solution)
+	//// Units are fraction of total number of pixels detected in blob // (Solution)
+	private double blob_size_threshold = 0.005; //(Solution)
+	private double target_radius = 0.1; //(Solution)
+	private double desired_fixation_distance = .5; //(Solution)
+	private double translation_error_tolerance = .05;//(Solution)
+	private double translation_velocity_gain = .75;//(Solution)
+	private double translation_velocity_max = .75;//(Solution)
+	private double rotation_error_tolerance = 0.2; //(Solution)
+	private double rotation_velocity_gain = 0.15; //(Solution)
+	private double rotation_velocity_max = 0.15; //(Solution)
+	private boolean use_gaussian_blur = true;//(Solution)
+	private boolean approximate_gaussian = false;//(Solution)
 
 	private VisionGUI gui;
 	private ArrayBlockingQueue<byte[]> visionImage = new ArrayBlockingQueue<byte[]>(
@@ -41,12 +52,9 @@ public class VisualServo implements NodeMain, Runnable {
 
 	public Subscriber<org.ros.message.sensor_msgs.Image> vidSub;
 	public Subscriber<org.ros.message.rss_msgs.OdometryMsg> odoSub;
-	public Publisher<org.ros.message.rss_msgs.MotionMsg> motionPub;
 
 	/**
-	 * <p>
-	 * Create a new VisualServo object.
-	 * </p>
+	 * <p>Create a new VisualServo object.</p>
 	 */
 	public VisualServo() {
 
@@ -60,13 +68,10 @@ public class VisualServo implements NodeMain, Runnable {
 	}
 
 	/**
-	 * <p>
-	 * Handle a CameraMessage. Perform blob tracking and servo robot towards
-	 * target.
-	 * </p>
+	 * <p>Handle a CameraMessage. Perform blob tracking and
+	 * servo robot towards target.</p>
 	 * 
-	 * @param rawImage
-	 *            a received camera message
+	 * @param rawImage a received camera message
 	 */
 	public void handle(byte[] rawImage) {
 
@@ -91,74 +96,14 @@ public class VisualServo implements NodeMain, Runnable {
 			// update newly formed vision message
 			gui.setVisionImage(dest.toArray(), width, height);
 
-			// // Get estimated range (in meters) and bearing (in signed
-			// radians)
-			// double rangeError = desiredRange - blobTrack.targetRange;
-			// double rangeSignal = RANGE_KP * rangeError;
-			// System.out.format("Target Range %f %n", blobTrack.targetRange);
-			// System.out.format("Signal Range %f %n", rangeSignal);
-			//
-			// double centroidError = desiredCentroid - blobTrack.centroidX;
-			// double centroidSignal = CENTROID_KP * centroidError;
-			// System.out.format("Target CentroidX %f %n", blobTrack.centroidX);
-			// System.out.format("Signal Centroid %f %n", centroidSignal);
+			// Begin Student Code
 
-			MotionMsg msg = new MotionMsg();
+			// publish velocity messages to move the robot towards the target
+			MotionMsg msg = new MotionMsg(); // (Solution)
+			msg.translationalVelocity = blobTrack.translationVelocityCommand; // (Solution)
+			msg.rotationalVelocity = blobTrack.rotationVelocityCommand; // (Solution)
+			publisher.publish(msg); // (Solution)
 
-			// if (blobTrack.targetDetected) {
-			// if (Math.abs(rangeError) > RANGE_TOLERANCE)
-			// msg.translationalVelocity = rangeSignal;
-			// if (Math.abs(centroidError) > CENTROID_TOLERANCE)
-			// msg.rotationalVelocity = centroidSignal;
-			// } else {
-			// msg.translationalVelocity = 0.0;
-			// msg.rotationalVelocity = 0.0;
-			// }
-			// Begin Student Code TODO
-			double distance;
-			double angle;
-			distance = blobTrack.targetRange;
-			angle = blobTrack.targetBearing;
-			// org.ros.message.rss_msgs.MotionMsg msg = new
-			// org.ros.message.rss_msgs.MotionMsg();
-			double desiredDistance = 0.75;
-			double desiredAngle = 0;
-			double gainDistance = 0.5;
-			double gainAngle = 0.1;
-			double distanceError = desiredDistance - distance;
-			if (blobTrack.targetDetected) {
-				if (Math.abs(angle) > 0.1) {
-					System.out.println("Correcting angle only");
-					msg.rotationalVelocity = gainAngle * (desiredAngle - angle);
-					msg.translationalVelocity = 0;
-				} else if (Math.abs(distanceError) > 0.1) {
-					System.out.println("Correcting distance only");
-					msg.translationalVelocity = 0.25 * gainDistance
-							* (distance-desiredDistance);
-					msg.rotationalVelocity = 0;
-				}
-			} else {
-				System.out.println("Stopped");
-				msg.rotationalVelocity = 0;
-				msg.translationalVelocity = 0;
-			}
-			System.out.println("Distance" + distance);
-			System.out.println("Desired Distance" + desiredDistance);
-			System.out.println("Distance Error" + distanceError);
-
-			// if (blobTrack.targetDetected && !blobTrack.targetFar) {
-			// System.out.println("tracking blob");
-			// msg.translationalVelocity = 0.25* gainDistance
-			// * (desiredDistance - distance);
-			// msg.rotationalVelocity = 0.5*gainAngle * (desiredAngle - angle);
-			// // publish velocity messages to move the robot towards the
-			// // target
-			// } else if (blobTrack.targetDetected && blobTrack.targetFar) {
-			// System.out.println("searching");
-			// msg.translationalVelocity = 0.1;
-			// msg.rotationalVelocity = 0;
-			// }
-			motionPub.publish(msg);
 			// End Student Code
 		}
 	}
@@ -168,8 +113,7 @@ public class VisualServo implements NodeMain, Runnable {
 	 * Run the VisualServo process
 	 * </p>
 	 * 
-	 * @param node
-	 *            optional command-line argument containing hostname
+	 * @param node optional command-line argument containing hostname
 	 */
 	@Override
 	public void onStart(Node node) {
@@ -179,23 +123,65 @@ public class VisualServo implements NodeMain, Runnable {
 
 		// set parameters on blobTrack as you desire
 
+		blobTrack.targetHueLevel = target_hue_level;//(Solution)
+		blobTrack.hueThreshold = hue_threshold;//(Solution)
+		blobTrack.saturationLevel = saturation_level;//(Solution)
+		blobTrack.blobSizeThreshold = blob_size_threshold;//(Solution)
+		blobTrack.targetRadius = target_radius;//(Solution)
+		blobTrack.desiredFixationDistance = desired_fixation_distance;//(Solution)
+		blobTrack.translationErrorTolerance = translation_error_tolerance;//(Solution)
+		blobTrack.translationVelocityGain = translation_velocity_gain;//(Solution)
+		blobTrack.translationVelocityMax = translation_velocity_max;//(Solution)
+		blobTrack.rotationErrorTolerance = rotation_error_tolerance;//(Solution)
+		blobTrack.rotationVelocityGain = rotation_velocity_gain;//(Solution)
+		blobTrack.rotationVelocityMax = rotation_velocity_max;//(Solution)
+		blobTrack.useGaussianBlur = use_gaussian_blur;//(Solution)
+		blobTrack.approximateGaussian = approximate_gaussian;//(Solution)
+
+		System.err.println("  target hue level: " + blobTrack.targetHueLevel); //(Solution)
+		System.err.println("  hue threshold: " + blobTrack.hueThreshold); //(Solution)
+		System.err.println("  saturation level: " + blobTrack.saturationLevel); //(Solution)
+		System.err.println("  blob size threshold: " + //(Solution)
+				blobTrack.blobSizeThreshold); //(Solution)
+		System.err.println("  target radius: " + blobTrack.targetRadius); //(Solution)
+		System.err.println("  desired fixation distance: " + //(Solution)
+				blobTrack.desiredFixationDistance); //(Solution)
+		System.err.println("  translation error tolerance: " + //(Solution)
+				blobTrack.translationErrorTolerance); //(Solution)
+		System.err.println("  translation velocity gain: " + //(Solution)
+				blobTrack.translationVelocityGain); //(Solution)
+		System.err.println("  translation velocity max: " + //(Solution)
+				blobTrack.translationVelocityMax); //(Solution)
+		System.err.println("  rotation error tolerance: " + //(Solution)
+				blobTrack.rotationErrorTolerance); //(Solution)
+		System.err.println("  rotation velocity gain: " + //(Solution)
+				blobTrack.rotationVelocityGain); //(Solution)
+		System.err.println("  rotation velocity max: " + //(Solution)
+				blobTrack.rotationVelocityMax); //(Solution)
+		System.err.println("  use gaussian blur: " + blobTrack.useGaussianBlur); //(Solution)
+		System.err.println("  approximate gaussian: " + blobTrack.approximateGaussian); //(Solution)
+
 		// initialize the ROS publication to command/Motors
-		motionPub = node.newPublisher("command/Motors", "rss_msgs/MotionMsg");
+
+		publisher = node.newPublisher("command/Motors", "rss_msgs/MotionMsg"); //(Solution)
 
 		// End Student Code
 
-		final boolean reverseRGB = node.newParameterTree().getBoolean(
-				"reverse_rgb", false);
+
+		final boolean reverseRGB = node.newParameterTree().getBoolean("reverse_rgb", false);
 
 		vidSub = node.newSubscriber("/rss/video", "sensor_msgs/Image");
-		vidSub.addMessageListener(new MessageListener<org.ros.message.sensor_msgs.Image>() {
+		vidSub
+		.addMessageListener(new MessageListener<org.ros.message.sensor_msgs.Image>() {
 			@Override
-			public void onNewMessage(org.ros.message.sensor_msgs.Image message) {
+			public void onNewMessage(
+					org.ros.message.sensor_msgs.Image message) {
 				byte[] rgbData;
 				if (reverseRGB) {
-					rgbData = Image.RGB2BGR(message.data, (int) message.width,
-							(int) message.height);
-				} else {
+					rgbData = Image.RGB2BGR(message.data,
+							(int) message.width, (int) message.height);
+				}
+				else {
 					rgbData = message.data;
 				}
 				assert ((int) message.width == width);
@@ -205,7 +191,8 @@ public class VisualServo implements NodeMain, Runnable {
 		});
 
 		odoSub = node.newSubscriber("/rss/odometry", "rss_msgs/OdometryMsg");
-		odoSub.addMessageListener(new MessageListener<org.ros.message.rss_msgs.OdometryMsg>() {
+		odoSub
+		.addMessageListener(new MessageListener<org.ros.message.rss_msgs.OdometryMsg>() {
 			@Override
 			public void onNewMessage(
 					org.ros.message.rss_msgs.OdometryMsg message) {

@@ -1,0 +1,18 @@
+package Grasping;
+
+public class AllArmControler {
+	
+	//private static AllArmControler singleton;
+	
+	GripperController grip;
+	WristController wrist;
+	ShoulderController shoulder;
+	
+	public AllArmControler() 
+		{
+		grip = new GripperController(minPWM, maxPWM, thetaRange, pwm0, pwm90);
+		wrist = new WristControler(minPWM, maxPWM, thetaRange, pwm0, pwm90);
+		shoulder = new ShoulderController(minPWM, maxPWM, thetaRange, pwm0, pwm90);
+		}
+
+}

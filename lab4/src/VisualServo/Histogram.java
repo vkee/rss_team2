@@ -102,7 +102,7 @@ public class Histogram {
 			}
 			for (;numBlue > 0; numBlue--) {
 				destination.setPixel(w,h--,
-						(byte) 0, (byte) 0, (byte) 0xff);
+						(byte) 0, (byte) 0xff, (byte) 0);
 			}
 		}
 	}
@@ -130,8 +130,7 @@ public class Histogram {
 		// 256 pixels wide.
 		double scale;
 		if(width < 256) {
-			//scale = (double)256 / width;
-			scale = width/256.;
+			scale = (double)256 / width;
 		}
 		else {
 			// just limit it to 256 bins
@@ -145,90 +144,47 @@ public class Histogram {
 
 		//Give the histogram some default values, this can be removed when
 		//working on your own solution
-
+		/* //(Solution)
     for (int i = 0; i < histogram.length;i++) {
-      histogram[i][0] = 0;
-      histogram[i][1] = 0;
-      histogram[i][2] = 0;
+      histogram[i][0] = i;
+      histogram[i][1] = 50;
+      histogram[i][2] = i%50;
     }
-
+		 */ //(Solution)
 
 		// Tally pixel-channel values in histogram bins.  If hsbHistogram
 		// is true make it an hsb histogram, else an rgb histogram.
-
-if (hsbHistogram == false){
-    for (int i = 0; i < width; i++) {
-     	for (int j = 0; j < height; j++) {
-		int red = source.getPixelRed(i,j);
-		int green = source.getPixelGreen(i,j);
-		int blue = source.getPixelBlue(i,j);
-		if (red < 0){
-		red += 256;
-		}
-		if (green < 0){
-		green += 256;
-		}
-		if (blue < 0){
-		blue += 256;
-		}
-	histogram[(int) (scale * red)][0] += 1; 
-    	histogram[(int) (scale * green)][1] += 1;
-	histogram[(int) (scale * blue)][2]  += 1;
-		}
-}
-}
-else{
-	    for (int i = 0; i < width; i++) {
-        for (int j = 0; j < height; j++) {
-                int red = source.getPixelRed(i,j);
-                int green = source.getPixelGreen(i,j);
-                int blue = source.getPixelBlue(i,j);
-                if (red < 0){
-                red += 256;
-                }
-                if (green < 0){
-                green += 256;
-                }
-                if (blue < 0){
-                blue += 256;
-                }
-
-        float [] hsb = java.awt.Color.RGBtoHSB(red,green,blue,null);
-
-        histogram[(int)(width*hsb[0])][0] += 1;
-       histogram[(int)(hsb[1])][1] += 1;
-    histogram[(int)(hsb[2])][2] += 1;
-/*	System.out.print("HSB: ");
-        System.out.println(hsb);
-        histogram[(int) (scale * red)][0] += 1; 
-        histogram[(int) (scale * green)][1] += 1;
-        histogram[(int) (scale * blue)][2]  += 1;
-*/
-                }
-}
-
-}
-
-					/*int pix = source.getPixel(x,y);
+		if (hsbHistogram) { //(Solution)
+			for (int y = 0; y < height; y++) { //(Solution)
+				for (int x = 0; x < width; x++) { //(Solution)
+					int pix = source.getPixel(x,y);
 					float[] hsb = Color.RGBtoHSB(Image.pixelRed(pix),
 							Image.pixelGreen(pix),
 							Image.pixelBlue(pix),
 							null);
-					int pix = source.getPixel(x, y);*/
+					histogram[(int) (hsb[0]/scale)][0] += 1; //(Solution)
+					histogram[(int) (hsb[1]/scale)][1] += 1; //(Solution)
+					histogram[(int) (hsb[2]/scale)][2] += 1; //(Solution)
+				} //(Solution)
+			} //(Solution)
+		} else { //(Solution)
+			int r, g, b; //(Solution)
+			for (int y = 0; y < height; y++) { //(Solution)
+				for (int x = 0; x < width; x++) { //(Solution)
+					int pix = source.getPixel(x, y);
+					r = Image.pixelRed(pix); //(Solution)
+					g = Image.pixelGreen(pix); //(Solution)
+					b = Image.pixelBlue(pix); //(Solution)
+					histogram[(int) (r/scale)][0] += 1; //(Solution)
+					histogram[(int) (g/scale)][1] += 1; //(Solution)
+					histogram[(int) (b/scale)][2] += 1; //(Solution)
+				} //(Solution)
+			} //(Solution)
+		} //(Solution)
 		// End Student Code
- 
-		return histogram;
-}
 
-	private static int clamp(int min, int max, int value) {
-  	if (value < min) {
-		return min;
+		return histogram;
 	}
-	if (value > max) {
-		return max;
-	}
-	return value;
-  }
 
 	/**
 	 * <p>Normalizes the 2D histograms by the maximum sum of
