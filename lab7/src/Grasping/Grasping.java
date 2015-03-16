@@ -93,7 +93,7 @@ public class Grasping implements NodeMain {
 
                 //				 rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
                 if (objGrasped){
-                    gripperServo.close(msg.pwms[2]);
+                    gripperServo.close((int)msg.pwms[2]);
                 }
                 
                 System.out.println("Obj Grasped: " + objGrasped);
