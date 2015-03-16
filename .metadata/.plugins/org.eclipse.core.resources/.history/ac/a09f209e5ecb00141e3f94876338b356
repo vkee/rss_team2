@@ -1,0 +1,14 @@
+package Grasping;
+
+public class InverseKinematics {
+
+	protected double ARM_LENGTH = 0.245;
+	protected double WRIST_LENGTH = 0.18;
+	
+	public double getTheta(double xsol, double ysol)
+		{
+		double theta = Math.acos(xsol/ARM_LENGTH);		//check that x and y give same solution??
+		return theta;
+		}
+	
+}
