@@ -1,3 +1,11 @@
 /Grasping/
 /GlobalNavigation/
 /VisualServo/
+/Motor/
+/Servo/
+/analogIO/
+/digitalIO/
+/motion/
+/odometry/
+/sonar/
+/utils/
