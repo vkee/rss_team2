@@ -82,10 +82,10 @@ public class Grasping implements NodeMain {
 			public void onNewMessage(ArmMsg msg) {
 				// Simply printing out the PWM values
 				long[] pwmVals = msg.pwms;
-				for (int i = 0; i < 3; i++) {
-					System.out.println("PWM Value at Channel " + i + " is: "
-							+ pwmVals[i]);
-				}
+//				for (int i = 0; i < 3; i++) {
+//					System.out.println("PWM Value at Channel " + i + " is: "
+//							+ pwmVals[i]);
+//				}
 
 				int shoulderPWM = (int) pwmVals[0];
 				int wristPWM = (int) pwmVals[1];
@@ -245,9 +245,9 @@ public class Grasping implements NodeMain {
 			} else {
 				ArmMsg msg = new ArmMsg();
 				
-              msg.pwms[0] = ++shoulderPWM;
-              msg.pwms[1] = ++wristPWM;
-              msg.pwms[2] = ++gripperPWM;
+              msg.pwms[0] = Math.min(++shoulderPWM, shoulderServo.MAX_PWM);
+              msg.pwms[1] = Math.min(++wristPWM, wristServo.MAX_PWM);
+              msg.pwms[2] = Math.min(++gripperPWM, gripperServo.MAX_PWM);
 				//				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, true);
 //				msg.pwms[1] = wristServo.fullRotation(wristPWM, true);
 //				msg.pwms[2] = gripperServo.fullRotation(gripperPWM, true);
@@ -263,9 +263,9 @@ public class Grasping implements NodeMain {
 				currState = State.UP;
 			} else {
 				ArmMsg msg = new ArmMsg();
-                msg.pwms[0] = --shoulderPWM;
-                msg.pwms[1] = --wristPWM;
-                msg.pwms[2] = --gripperPWM;
+                msg.pwms[0] = Math.max(--shoulderPWM, shoulderServo.MIN_PWM);
+                msg.pwms[1] = Math.max(--wristPWM, wristServo.MIN_PWM);
+                msg.pwms[2] = Math.max(--gripperPWM, gripperServo.MIN_PWM);
 //				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, false);
 //				msg.pwms[1] = wristServo.fullRotation(wristPWM, false);
 //				msg.pwms[2] = gripperServo.fullRotation(gripperPWM, false);
