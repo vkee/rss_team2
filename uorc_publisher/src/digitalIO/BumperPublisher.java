@@ -34,6 +34,7 @@ public class BumperPublisher implements Runnable {
 				msg.left = left.getValue();
 				msg.right = right.getValue();
 				msg.gripper = gripper.getValue();
+				System.out.println("Gripper Value: " + msg.gripper);
 			}
 			pub.publish(msg);
 			try {
