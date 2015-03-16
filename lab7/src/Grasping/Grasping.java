@@ -237,7 +237,7 @@ public class Grasping implements NodeMain {
 	 */
 	private void rotateAllServos(int shoulderPWM, int wristPWM, int gripperPWM) {
 	    
-	    int SHIFT_AMOUNT = 50;
+	    int SHIFT_AMOUNT = 100;
 		if (currState == State.UP) {
 			// If all servos are at the UP state
 			if (shoulderServo.atMax(shoulderPWM) && wristServo.atMax(wristPWM)
