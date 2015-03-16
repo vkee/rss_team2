@@ -82,7 +82,7 @@ public class Grasping implements NodeMain {
 			public void onNewMessage(ArmMsg msg) {
 				// Simply printing out the PWM values
 				long[] pwmVals = msg.pwms;
-				for (int i = 0; i < pwmVals.length; i++) {
+				for (int i = 0; i < 3; i++) {
 					System.out.println("PWM Value at Channel " + i + " is: "
 							+ pwmVals[i]);
 				}
@@ -246,6 +246,7 @@ public class Grasping implements NodeMain {
 				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, true);
 				msg.pwms[1] = wristServo.fullRotation(wristPWM, true);
 				msg.pwms[2] = gripperServo.fullRotation(gripperPWM, true);
+				System.out.println("Shoulder PWM: " + msg.pwms[0]);
 				armPWMPub.publish(msg);
 			}
 		} else if (currState == State.DOWN) {
