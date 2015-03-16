@@ -236,6 +236,8 @@ public class Grasping implements NodeMain {
 	 * Rotates all of the servos concurrently (the handle(ArmMsg msg) method)
 	 */
 	private void rotateAllServos(int shoulderPWM, int wristPWM, int gripperPWM) {
+	    
+	    int SHIFT_AMOUNT = 75;
 		if (currState == State.UP) {
 			// If all servos are at the UP state
 			if (shoulderServo.atMax(shoulderPWM) && wristServo.atMax(wristPWM)
@@ -245,9 +247,9 @@ public class Grasping implements NodeMain {
 			} else {
 				ArmMsg msg = new ArmMsg();
 				
-              msg.pwms[0] = Math.min(shoulderPWM + (shoulderServo.MAX_PWM - shoulderServo.MIN_PWM)/40, shoulderServo.MAX_PWM);
-              msg.pwms[1] = Math.min(wristPWM + (wristServo.MAX_PWM - wristServo.MIN_PWM)/40, wristServo.MAX_PWM);
-              msg.pwms[2] = Math.min(gripperPWM + (gripperServo.MAX_PWM - gripperServo.MIN_PWM)/40, gripperServo.MAX_PWM);
+              msg.pwms[0] = Math.min(shoulderPWM + (shoulderServo.MAX_PWM - shoulderServo.MIN_PWM)/SHIFT_AMOUNT, shoulderServo.MAX_PWM);
+              msg.pwms[1] = Math.min(wristPWM + (wristServo.MAX_PWM - wristServo.MIN_PWM)/SHIFT_AMOUNT, wristServo.MAX_PWM);
+              msg.pwms[2] = Math.min(gripperPWM + (gripperServo.MAX_PWM - gripperServo.MIN_PWM)/SHIFT_AMOUNT, gripperServo.MAX_PWM);
 				//				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, true);
 //				msg.pwms[1] = wristServo.fullRotation(wristPWM, true);
 //				msg.pwms[2] = gripperServo.fullRotation(gripperPWM, true);
@@ -263,9 +265,9 @@ public class Grasping implements NodeMain {
 				currState = State.UP;
 			} else {
 				ArmMsg msg = new ArmMsg();
-                msg.pwms[0] = Math.max(shoulderPWM + (shoulderServo.MAX_PWM - shoulderServo.MIN_PWM)/40, shoulderServo.MIN_PWM);
-                msg.pwms[1] = Math.max(wristPWM + (wristServo.MAX_PWM - wristServo.MIN_PWM)/40, wristServo.MIN_PWM);
-                msg.pwms[2] = Math.max(gripperPWM + (gripperServo.MAX_PWM - gripperServo.MIN_PWM)/40, gripperServo.MIN_PWM);
+                msg.pwms[0] = Math.max(shoulderPWM - (shoulderServo.MAX_PWM - shoulderServo.MIN_PWM)/SHIFT_AMOUNT, shoulderServo.MIN_PWM);
+                msg.pwms[1] = Math.max(wristPWM - (wristServo.MAX_PWM - wristServo.MIN_PWM)/SHIFT_AMOUNT, wristServo.MIN_PWM);
+                msg.pwms[2] = Math.max(gripperPWM - (gripperServo.MAX_PWM - gripperServo.MIN_PWM)/SHIFT_AMOUNT, gripperServo.MIN_PWM);
 //				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, false);
 //				msg.pwms[1] = wristServo.fullRotation(wristPWM, false);
 //				msg.pwms[2] = gripperServo.fullRotation(gripperPWM, false);
