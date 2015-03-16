@@ -1,17 +1,1 @@
-/GlobalNavigation/
-/Listener.class
-/LocalNavigation/
-/Motor/
-/Publisher.class
-/Servo/
-/VisualServo/
-/analogIO/
-/digitalIO/
-/motion/
-/odometry/
-/sonar/
-<<<<<<< HEAD
-=======
-/VisualServo/
->>>>>>> 72fbd9316ee5a681286b29dd6b1abb971b47ede5
-/utils/
+/Grasping/

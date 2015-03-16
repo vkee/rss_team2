@@ -9,6 +9,7 @@ public class GripperController{
     protected double LINE_SLOPE; // slope of the line between PWM_90 and PWM_0
     protected double LINE_THETA_INTERCEPT; // intercept of the line between PWM_90 and PWM_0
     protected int MAX_PWM_CHANGE; // the largest PWM change in value that can be safety written to the servo (for 1 radian of rotation)
+    protected int SHIFT_AMOUNT = 100; // number of divisions of the rotation
 
     public GripperController(int minPWM, int maxPWM, double thetaRange, int pwm0, int pwm270) {
         this.MIN_PWM = minPWM;
@@ -27,15 +28,17 @@ public class GripperController{
      * @return the PWM value to be written to the servo
      */
     public int fullRotation(int currPWM, boolean up) {
-        int correction;
-        if (up) {
-            correction = Math.min(MAX_PWM - currPWM, MAX_PWM_CHANGE);
-            return currPWM + correction;
-        } else {
-            correction = Math.min(currPWM - MIN_PWM, MAX_PWM_CHANGE);
-            return currPWM - correction;
-        }
-    }
+//      int correction;
+      if (up) {
+          return Math.min(currPWM + (MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MAX_PWM);
+//          correction = Math.min(MAX_PWM - currPWM, MAX_PWM_CHANGE);
+//          return currPWM + correction;
+      } else {
+          return Math.max(currPWM - (MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MIN_PWM);
+//          correction = Math.min(currPWM - MIN_PWM, MAX_PWM_CHANGE);
+//          return currPWM - correction;
+      }
+  }
     
     /**
      * Closes the gripper

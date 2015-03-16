@@ -9,7 +9,7 @@ public class JointController {
     protected double LINE_SLOPE; // slope of the line between PWM_90 and PWM_0
     protected double LINE_THETA_INTERCEPT; // intercept of the line between PWM_90 and PWM_0
     protected int MAX_PWM_CHANGE; // the largest PWM change in value that can be safety written to the servo (for 1 radian of rotation)
-protected int SHIFT_AMOUNT = 100; // number of divisions of the rotation
+    protected int SHIFT_AMOUNT = 100; // number of divisions of the rotation
 
     public JointController(int minPWM, int maxPWM, double thetaRange, int pwm0, int pwm270) {
         this.MIN_PWM = minPWM;
@@ -21,7 +21,7 @@ protected int SHIFT_AMOUNT = 100; // number of divisions of the rotation
         this.LINE_THETA_INTERCEPT = 0 - LINE_SLOPE*PWM_0;
         this.MAX_PWM_CHANGE = (int) (1/THETA_RANGE * (MAX_PWM - MIN_PWM));
     }
-    
+
     public double getThetaDeg(double PWM) {
         return 180/Math.PI*(LINE_SLOPE*PWM + LINE_THETA_INTERCEPT);
     }
@@ -29,7 +29,7 @@ protected int SHIFT_AMOUNT = 100; // number of divisions of the rotation
     public double getThetaRad(double PWM) {
         return (LINE_SLOPE*PWM + LINE_THETA_INTERCEPT);
     }
-    
+
     /**
      * Computes the PWM value to move to the desired angle (in the joint's reference frame)
      * It uses the formula Theta_desired = LINE_SLOPE*PWM_desired + Theta_intercept,
@@ -61,7 +61,7 @@ protected int SHIFT_AMOUNT = 100; // number of divisions of the rotation
     public int getSafePWM(int currPWM, int desPWM) {
         int correction = desPWM - currPWM;
 
-//      May need to take the min of the correction and the max pwm value, and then the max of that and the min pwm value
+        //      May need to take the min of the correction and the max pwm value, and then the max of that and the min pwm value
         if (correction > 0) {
             correction = Math.min(correction, MAX_PWM_CHANGE);
         } else {
@@ -78,15 +78,15 @@ protected int SHIFT_AMOUNT = 100; // number of divisions of the rotation
      * @return the PWM value to be written to the servo
      */
     public int fullRotation(int currPWM, boolean up) {
-//        int correction;
+        //        int correction;
         if (up) {
             return Math.min(currPWM + (MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MAX_PWM);
-//            correction = Math.min(MAX_PWM - currPWM, MAX_PWM_CHANGE);
-//            return currPWM + correction;
+            //            correction = Math.min(MAX_PWM - currPWM, MAX_PWM_CHANGE);
+            //            return currPWM + correction;
         } else {
             return Math.max(currPWM - (MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MIN_PWM);
-//            correction = Math.min(currPWM - MIN_PWM, MAX_PWM_CHANGE);
-//            return currPWM - correction;
+            //            correction = Math.min(currPWM - MIN_PWM, MAX_PWM_CHANGE);
+            //            return currPWM - correction;
         }
     }
 
