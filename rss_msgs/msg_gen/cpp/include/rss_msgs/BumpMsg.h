@@ -24,12 +24,14 @@ struct BumpMsg_ {
   BumpMsg_()
   : left(false)
   , right(false)
+  , gripper(false)
   {
   }
 
   BumpMsg_(const ContainerAllocator& _alloc)
   : left(false)
   , right(false)
+  , gripper(false)
   {
   }
 
@@ -38,6 +40,9 @@ struct BumpMsg_ {
 
   typedef uint8_t _right_type;
   uint8_t right;
+
+  typedef uint8_t _gripper_type;
+  uint8_t gripper;
 
 
 private:
@@ -48,7 +53,7 @@ public:
   ROS_DEPRECATED const std::string __getDataType() const { return __s_getDataType_(); }
 
 private:
-  static const char* __s_getMD5Sum_() { return "0544cac0b98e92509d14f758d50cf24b"; }
+  static const char* __s_getMD5Sum_() { return "4ad52800b0ed4e859da7531bd4962980"; }
 public:
   ROS_DEPRECATED static const std::string __s_getMD5Sum() { return __s_getMD5Sum_(); }
 
@@ -57,6 +62,8 @@ public:
 private:
   static const char* __s_getMessageDefinition_() { return "bool left\n\
 bool right\n\
+bool gripper\n\
+\n\
 "; }
 public:
   ROS_DEPRECATED static const std::string __s_getMessageDefinition() { return __s_getMessageDefinition_(); }
@@ -68,6 +75,7 @@ public:
     ros::serialization::OStream stream(write_ptr, 1000000000);
     ros::serialization::serialize(stream, left);
     ros::serialization::serialize(stream, right);
+    ros::serialization::serialize(stream, gripper);
     return stream.getData();
   }
 
@@ -76,6 +84,7 @@ public:
     ros::serialization::IStream stream(read_ptr, 1000000000);
     ros::serialization::deserialize(stream, left);
     ros::serialization::deserialize(stream, right);
+    ros::serialization::deserialize(stream, gripper);
     return stream.getData();
   }
 
@@ -84,6 +93,7 @@ public:
     uint32_t size = 0;
     size += ros::serialization::serializationLength(left);
     size += ros::serialization::serializationLength(right);
+    size += ros::serialization::serializationLength(gripper);
     return size;
   }
 
@@ -115,12 +125,12 @@ template<class ContainerAllocator>
 struct MD5Sum< ::rss_msgs::BumpMsg_<ContainerAllocator> > {
   static const char* value() 
   {
-    return "0544cac0b98e92509d14f758d50cf24b";
+    return "4ad52800b0ed4e859da7531bd4962980";
   }
 
   static const char* value(const  ::rss_msgs::BumpMsg_<ContainerAllocator> &) { return value(); } 
-  static const uint64_t static_value1 = 0x0544cac0b98e9250ULL;
-  static const uint64_t static_value2 = 0x9d14f758d50cf24bULL;
+  static const uint64_t static_value1 = 0x4ad52800b0ed4e85ULL;
+  static const uint64_t static_value2 = 0x9da7531bd4962980ULL;
 };
 
 template<class ContainerAllocator>
@@ -139,6 +149,8 @@ struct Definition< ::rss_msgs::BumpMsg_<ContainerAllocator> > {
   {
     return "bool left\n\
 bool right\n\
+bool gripper\n\
+\n\
 ";
   }
 
@@ -160,6 +172,7 @@ template<class ContainerAllocator> struct Serializer< ::rss_msgs::BumpMsg_<Conta
   {
     stream.next(m.left);
     stream.next(m.right);
+    stream.next(m.gripper);
   }
 
   ROS_DECLARE_ALLINONE_SERIALIZER;
@@ -181,6 +194,8 @@ struct Printer< ::rss_msgs::BumpMsg_<ContainerAllocator> >
     Printer<uint8_t>::stream(s, indent + "  ", v.left);
     s << indent << "right: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.right);
+    s << indent << "gripper: ";
+    Printer<uint8_t>::stream(s, indent + "  ", v.gripper);
   }
 };
 

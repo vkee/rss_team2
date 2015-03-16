@@ -41,6 +41,10 @@ public class Grasping implements NodeMain {
     private double robotTheta = 0.0; // in radians
 
     // Start Positions of the Move 
+    private double startX = 0.0; // in meters
+    private double startY = 0.0; // in meters
+    private double startTheta = 0.0; // in radians
+    // Goal Positions of the Move 
     private double goalX = 0.0; // in meters
     private double goalY = 0.0; // in meters
     private double goalTheta = 0.0; // in radians
@@ -49,9 +53,11 @@ public class Grasping implements NodeMain {
 
     double FWD_GAIN = .2;
     double ROT_GAIN = .2;
+    double DIST_TOL = 0.01; // tolerance to move MOVE_DIST in meters
 
     public enum ArmGraspState {
-        INIT_WRIST, INIT_GRIPPER, INIT_SHOULDER, GRASP, LIFT, MOVE, DEPOSIT, RETURN
+        INIT_WRIST, INIT_GRIPPER, INIT_SHOULDER, GRASP, LIFT, MOVE, 
+        DEPOSIT_WRIST, DEPOSIT_SHOULDER, DEPOSIT_GRIPPER, RETURN
     }
 
     // States for Arm Gymnastics
@@ -249,6 +255,9 @@ public class Grasping implements NodeMain {
                 // } else {
                 // if (shoulderServo.isGymUp(shoulderPWM)) {
                 // graspState = ArmGraspState.MOVE;
+                //                startX = robotX;
+                //                startY = robotY;
+                //                startTheta = robotTheta;
                 //                goalX = robotX + MOVE_DIST*Math.cos(robotTheta);
                 //                goalY = robotY + MOVE_DIST*Math.sin(robotTheta);
                 //                goalTheta = robotTheta;
@@ -259,16 +268,56 @@ public class Grasping implements NodeMain {
                 // }
                 // }
                 //
-
+                //
                 //                if (graspState == ArmGraspState.MOVE) {
-                //                    MotionMsg msg = new MotionMsg();
-                //                    msg.translationalVelocity = Math.min(
-                //                            FWD_GAIN * (1 ),
-                //                            0.5);
-                //                    msg.rotationalVelocity = -Math.min(ROT_GAIN * thetaError, 0.25);
-                //                    motionPub.publish(msg);
+                //                    double remDist = getDist(robotX, robotY, goalX, goalY);
+                //
+                //                    if (remDist > DIST_TOL) {
+                //                        MotionMsg msg = new MotionMsg();
+                //                        msg.translationalVelocity = Math.min(FWD_GAIN * remDist, 0.5);
+                //                        msg.rotationalVelocity = Math.min(ROT_GAIN * (goalTheta - robotTheta), 0.25);
+                //                        motionPub.publish(msg);
+                //                    } else {
+                //                        graspState = ArmGraspState.DEPOSIT_WRIST;
+                //                    }
                 //                }
-                // // TODO: move and the rest of grasp and transport
+                //
+                //                if (graspState == ArmGraspState.DEPOSIT_WRIST) {
+                //                    if (wristServo.isGymBent(wristPWM)) {
+                //                        graspState = ArmGraspState.DEPOSIT_SHOULDER;
+                //                    } else {
+                //                        writeWristPWM(wristServo.bendGym(wristPWM));
+                //                    }
+                //                }
+                //
+                //                if (graspState == ArmGraspState.DEPOSIT_SHOULDER) {
+                //                    if (shoulderServo.onGround(shoulderPWM)) {
+                //                        graspState = ArmGraspState.DEPOSIT_GRIPPER;
+                //                    } else {
+                //                        writeShoulderPWM(shoulderServo.moveToGround(shoulderPWM));
+                //                    }
+                //                }
+                //
+                //                if (graspState == ArmGraspState.DEPOSIT_GRIPPER) {
+                //                    if (gripperServo.isOpen(gripperPWM)) {
+                //                        graspState = ArmGraspState.RETURN;
+                //                    } else {
+                //                        writeGripperPWM(gripperServo.open(gripperPWM));
+                //                    }
+                //                }
+                //
+                //                if (graspState == ArmGraspState.RETURN) {
+                //                    double remDist = getDist(robotX, robotY, startX, startY);
+                //
+                //                    if (remDist > DIST_TOL) {
+                //                        MotionMsg msg = new MotionMsg();
+                //                        msg.translationalVelocity = Math.min(FWD_GAIN * remDist, 0.5);
+                //                        msg.rotationalVelocity = Math.min(ROT_GAIN * (startTheta - robotTheta), 0.25);
+                //                        motionPub.publish(msg);
+                //                    } else {
+                //                        //                        what to do now?
+                //                    }
+                //                }
             }
         });
 
@@ -415,6 +464,26 @@ public class Grasping implements NodeMain {
         ArmMsg msg = new ArmMsg();
         msg.pwms[2] = value;
         armPWMPub.publish(msg);
+    }
+
+    /**
+     * Returns the distance between two points
+     * 
+     * @param pt1X
+     *            the x coordinate of point 1
+     * 
+     * @param pt1Y
+     *            the y coordinate of point 1
+     * 
+     * @param pt2X
+     *            the x coordinate of point 2
+     * 
+     * @param pt2Y
+     *            the y coordinate of point 2
+     */
+    public double getDist(double pt1X, double pt1Y, double pt2X, double pt2Y) {
+        return Math.sqrt((pt1X - pt2X) * (pt1X - pt2X) + (pt1Y - pt2Y)
+                * (pt1Y - pt2Y));
     }
 
     @Override
