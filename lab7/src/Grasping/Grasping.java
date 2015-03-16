@@ -92,12 +92,12 @@ public class Grasping implements NodeMain {
                 int gripperPWM = (int) pwmVals[2];
 
                 //				 rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
-                // if (!objectGrasped){
-                // gripperServo.close(msg.pwms[2]);
-                // }
-                System.out.println("Shoulder Max PWM Change " + shoulderServo.MAX_PWM_CHANGE);
-                double sum = InverseKinematics.ARM_LENGTH + InverseKinematics.WRIST_LENGTH;
-                moveArm(sum*Math.cos(-Math.PI/4), sum*Math.sin(-Math.PI/4), (int) msg.pwms[0], (int) msg.pwms[1]);
+                if (!objGrasped){
+                    gripperServo.close(msg.pwms[2]);
+                }
+                //                System.out.println("Shoulder Max PWM Change " + shoulderServo.MAX_PWM_CHANGE);
+                //                double sum = InverseKinematics.ARM_LENGTH + InverseKinematics.WRIST_LENGTH;
+                //                moveArm(sum*Math.cos(-Math.PI/4), sum*Math.sin(-Math.PI/4), (int) msg.pwms[0], (int) msg.pwms[1]);
 
                 // // Arm Gymnastics
                 //
@@ -205,7 +205,7 @@ public class Grasping implements NodeMain {
         bumpersSub.addMessageListener(new MessageListener<BumpMsg>() {
             @Override
             public void onNewMessage(BumpMsg msg) {
-                //				objDetected = msg.gripper;
+                objDetected = msg.gripper;
             }
         });
     }
@@ -251,17 +251,17 @@ public class Grasping implements NodeMain {
             } else {
                 ArmMsg msg = new ArmMsg();
 
-                msg.pwms[0] = Math.min(shoulderPWM + (shoulderServo.MAX_PWM - shoulderServo.MIN_PWM)/SHIFT_AMOUNT, shoulderServo.MAX_PWM);
-                msg.pwms[1] = Math.min(wristPWM + (wristServo.MAX_PWM - wristServo.MIN_PWM)/SHIFT_AMOUNT, wristServo.MAX_PWM);
-                msg.pwms[2] = Math.min(gripperPWM + (gripperServo.MAX_PWM - gripperServo.MIN_PWM)/SHIFT_AMOUNT, gripperServo.MAX_PWM);
+                //                msg.pwms[0] = Math.min(shoulderPWM + (shoulderServo.MAX_PWM - shoulderServo.MIN_PWM)/SHIFT_AMOUNT, shoulderServo.MAX_PWM);
+                //                msg.pwms[1] = Math.min(wristPWM + (wristServo.MAX_PWM - wristServo.MIN_PWM)/SHIFT_AMOUNT, wristServo.MAX_PWM);
+                //                msg.pwms[2] = Math.min(gripperPWM + (gripperServo.MAX_PWM - gripperServo.MIN_PWM)/SHIFT_AMOUNT, gripperServo.MAX_PWM);
 
                 //              System.out.println("Shoulder Theta: " + shoulderServo.getThetaDeg(msg.pwms[0]));
                 //              System.out.println("Wrist Theta: " + wristServo.getThetaDeg(msg.pwms[1]));
 
 
-                //				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, true);
-                //				msg.pwms[1] = wristServo.fullRotation(wristPWM, true);
-                //				msg.pwms[2] = gripperServo.fullRotation(gripperPWM, true);
+                msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, true);
+                msg.pwms[1] = wristServo.fullRotation(wristPWM, true);
+                msg.pwms[2] = gripperServo.fullRotation(gripperPWM, true);
                 //				System.out.println("Shoulder PWM: " + msg.pwms[0]);
                 armPWMPub.publish(msg);
             }
@@ -274,12 +274,12 @@ public class Grasping implements NodeMain {
                 currState = State.UP;
             } else {
                 ArmMsg msg = new ArmMsg();
-                msg.pwms[0] = Math.max(shoulderPWM - (shoulderServo.MAX_PWM - shoulderServo.MIN_PWM)/SHIFT_AMOUNT, shoulderServo.MIN_PWM);
-                msg.pwms[1] = Math.max(wristPWM - (wristServo.MAX_PWM - wristServo.MIN_PWM)/SHIFT_AMOUNT, wristServo.MIN_PWM);
-                msg.pwms[2] = Math.max(gripperPWM - (gripperServo.MAX_PWM - gripperServo.MIN_PWM)/SHIFT_AMOUNT, gripperServo.MIN_PWM);
-                //				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, false);
-                //				msg.pwms[1] = wristServo.fullRotation(wristPWM, false);
-                //				msg.pwms[2] = gripperServo.fullRotation(gripperPWM, false);
+                //                msg.pwms[0] = Math.max(shoulderPWM - (shoulderServo.MAX_PWM - shoulderServo.MIN_PWM)/SHIFT_AMOUNT, shoulderServo.MIN_PWM);
+                //                msg.pwms[1] = Math.max(wristPWM - (wristServo.MAX_PWM - wristServo.MIN_PWM)/SHIFT_AMOUNT, wristServo.MIN_PWM);
+                //                msg.pwms[2] = Math.max(gripperPWM - (gripperServo.MAX_PWM - gripperServo.MIN_PWM)/SHIFT_AMOUNT, gripperServo.MIN_PWM);
+                msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, false);
+                msg.pwms[1] = wristServo.fullRotation(wristPWM, false);
+                msg.pwms[2] = gripperServo.fullRotation(gripperPWM, false);
 
                 //                System.out.println("Shoulder Theta: " + shoulderServo.getThetaDeg(msg.pwms[0]));
                 //                System.out.println("Wrist Theta: " + wristServo.getThetaDeg(msg.pwms[1]));
