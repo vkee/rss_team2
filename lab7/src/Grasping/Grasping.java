@@ -207,6 +207,7 @@ public class Grasping implements NodeMain {
         bumpersSub.addMessageListener(new MessageListener<BumpMsg>() {
             @Override
             public void onNewMessage(BumpMsg msg) {
+                System.out.println("msg.gripper state: " + msg.gripper);
                 objDetected = msg.gripper;
             }
         });
