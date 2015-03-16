@@ -4,14 +4,16 @@ import struct
 
 
 class BumpMsg(roslib.message.Message):
-  _md5sum = "0544cac0b98e92509d14f758d50cf24b"
+  _md5sum = "4ad52800b0ed4e859da7531bd4962980"
   _type = "rss_msgs/BumpMsg"
   _has_header = False #flag to mark the presence of a Header object
   _full_text = """bool left
 bool right
+bool gripper
+
 """
-  __slots__ = ['left','right']
-  _slot_types = ['bool','bool']
+  __slots__ = ['left','right','gripper']
+  _slot_types = ['bool','bool','bool']
 
   def __init__(self, *args, **kwds):
     """
@@ -21,7 +23,7 @@ bool right
     changes.  You cannot mix in-order arguments and keyword arguments.
     
     The available fields are:
-       left,right
+       left,right,gripper
     
     @param args: complete set of field values, in .msg order
     @param kwds: use keyword arguments corresponding to message field names
@@ -34,9 +36,12 @@ bool right
         self.left = False
       if self.right is None:
         self.right = False
+      if self.gripper is None:
+        self.gripper = False
     else:
       self.left = False
       self.right = False
+      self.gripper = False
 
   def _get_types(self):
     """
@@ -52,7 +57,7 @@ bool right
     """
     try:
       _x = self
-      buff.write(_struct_2B.pack(_x.left, _x.right))
+      buff.write(_struct_3B.pack(_x.left, _x.right, _x.gripper))
     except struct.error as se: self._check_types(se)
     except TypeError as te: self._check_types(te)
 
@@ -66,10 +71,11 @@ bool right
       end = 0
       _x = self
       start = end
-      end += 2
-      (_x.left, _x.right,) = _struct_2B.unpack(str[start:end])
+      end += 3
+      (_x.left, _x.right, _x.gripper,) = _struct_3B.unpack(str[start:end])
       self.left = bool(self.left)
       self.right = bool(self.right)
+      self.gripper = bool(self.gripper)
       return self
     except struct.error as e:
       raise roslib.message.DeserializationError(e) #most likely buffer underfill
@@ -85,7 +91,7 @@ bool right
     """
     try:
       _x = self
-      buff.write(_struct_2B.pack(_x.left, _x.right))
+      buff.write(_struct_3B.pack(_x.left, _x.right, _x.gripper))
     except struct.error as se: self._check_types(se)
     except TypeError as te: self._check_types(te)
 
@@ -101,13 +107,14 @@ bool right
       end = 0
       _x = self
       start = end
-      end += 2
-      (_x.left, _x.right,) = _struct_2B.unpack(str[start:end])
+      end += 3
+      (_x.left, _x.right, _x.gripper,) = _struct_3B.unpack(str[start:end])
       self.left = bool(self.left)
       self.right = bool(self.right)
+      self.gripper = bool(self.gripper)
       return self
     except struct.error as e:
       raise roslib.message.DeserializationError(e) #most likely buffer underfill
 
 _struct_I = roslib.message.struct_I
-_struct_2B = struct.Struct("<2B")
+_struct_3B = struct.Struct("<3B")

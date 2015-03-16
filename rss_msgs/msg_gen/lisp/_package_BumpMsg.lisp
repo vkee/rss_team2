@@ -3,4 +3,6 @@
           LEFT
           RIGHT-VAL
           RIGHT
+          GRIPPER-VAL
+          GRIPPER
 ))
