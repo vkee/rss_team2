@@ -92,7 +92,7 @@ public class Grasping implements NodeMain {
                 int gripperPWM = (int) pwmVals[2];
 
                 //				 rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
-                if (!objGrasped){
+                if (objGrasped){
                     gripperServo.close(msg.pwms[2]);
                 }
                 //                System.out.println("Shoulder Max PWM Change " + shoulderServo.MAX_PWM_CHANGE);
