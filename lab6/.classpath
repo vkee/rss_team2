@@ -30,6 +30,5 @@
 	<classpathentry kind="lib" path="/home/rss-student/.m2/repository/org/apache/commons/com.springsource.org.apache.commons.net/2.0.0/com.springsource.org.apache.commons.net-2.0.0.jar"/>
 	<classpathentry kind="lib" path="/home/rss-student/.m2/repository/org/apache/commons/com.springsource.org.apache.commons.httpclient/3.1.0/com.springsource.org.apache.commons.httpclient-3.1.0.jar"/>
 	<classpathentry kind="lib" path="/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.sensor_msgs-0.0.0.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
