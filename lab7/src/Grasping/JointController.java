@@ -16,7 +16,7 @@ public class JointController {
         this.PWM_0 = pwm0;
         this.PWM_270 = pwm270;
         this.LINE_SLOPE = (-Math.PI/2)/(PWM_270 - PWM_0);
-        this.LINE_THETA_INTERCEPT = 0 - LINE_SLOPE*PWM_270;
+        this.LINE_THETA_INTERCEPT = 0 - LINE_SLOPE*PWM_0;
         this.MAX_PWM_CHANGE = (int) (1/THETA_RANGE * (MAX_PWM - MIN_PWM));
     }
 
