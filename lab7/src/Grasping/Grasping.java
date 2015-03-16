@@ -243,9 +243,13 @@ public class Grasping implements NodeMain {
 				currState = State.DOWN;
 			} else {
 				ArmMsg msg = new ArmMsg();
-				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, true);
-				msg.pwms[1] = wristServo.fullRotation(wristPWM, true);
-				msg.pwms[2] = gripperServo.fullRotation(gripperPWM, true);
+				
+              msg.pwms[0] = ++shoulderPWM;
+              msg.pwms[1] = ++wristPWM;
+              msg.pwms[2] = ++gripperPWM;
+				//				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, true);
+//				msg.pwms[1] = wristServo.fullRotation(wristPWM, true);
+//				msg.pwms[2] = gripperServo.fullRotation(gripperPWM, true);
 				System.out.println("Shoulder PWM: " + msg.pwms[0]);
 				armPWMPub.publish(msg);
 			}
@@ -257,9 +261,12 @@ public class Grasping implements NodeMain {
 				currState = State.UP;
 			} else {
 				ArmMsg msg = new ArmMsg();
-				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, false);
-				msg.pwms[1] = wristServo.fullRotation(wristPWM, false);
-				msg.pwms[2] = gripperServo.fullRotation(gripperPWM, false);
+                msg.pwms[0] = --shoulderPWM;
+                msg.pwms[1] = --wristPWM;
+                msg.pwms[2] = --gripperPWM;
+//				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, false);
+//				msg.pwms[1] = wristServo.fullRotation(wristPWM, false);
+//				msg.pwms[2] = gripperServo.fullRotation(gripperPWM, false);
 				armPWMPub.publish(msg);
 			}
 		}
