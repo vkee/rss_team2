@@ -45,9 +45,9 @@ public class Grasping implements NodeMain {
 
 	public Grasping() {
 		currState = State.UP;
-		shoulderServo = ShoulderController(1225, 2375, Math.PI, 2250, 1200);
-		wristServo = WristController(250, 2000, Math.PI, 900, 1800);
-		gripperServo = GripperController(1700, 2450, Math.PI, 1700, 2450);
+		shoulderServo = new ShoulderController(1225, 2375, Math.PI, 2250, 1200);
+		wristServo = new WristController(250, 2000, Math.PI, 900, 1800);
+		gripperServo = new GripperController(1700, 2450, Math.PI, 1700, 2450);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class Grasping implements NodeMain {
 			@Override
 			public void onNewMessage(ArmMsg msg) {
 				// Simply printing out the PWM values
-				int[] pwmVals = msg.pwm;
+				int[] pwmVals = msg.pwms;
 				for (int i = 0; i < pwmVals.length; i++) {
 					System.out.println("PWM Value at Channel " + i + " is: "
 							+ pwmVals[i]);
@@ -91,7 +91,7 @@ public class Grasping implements NodeMain {
 				int wristPWM = pwmVals[1];
 				int gripperPWM = pwmVals[2];
 
-				 rotateAllServos(msg.pwms[0], msg.pwms[1], msg.pwms[2]);
+				 rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
 				// if (!objectGrasped){
 				// gripperServo.close(msg.pwms[2]);
 				// }
@@ -223,13 +223,13 @@ public class Grasping implements NodeMain {
 		// Let shoulderTheta, wristTheta be the angles to write for the shoulder
 		// and wrist respectively
 
-		int desShoulderPWM = shoulderServo.getPWM(shoulderTheta);
-		int desWristPWM = wristServo.getPWM(wristTheta);
-
-		ArmMsg msg = new ArmMsg();
-		msg.pwms[0] = shoulderServo.getSafePWM(currShoulderPWM, desShoulderPWM);
-		msg.pwms[1] = wristServo.getSafePWM(currWristPWM, desWristPWM);
-		armPWMPub.publish(msg);
+//		int desShoulderPWM = shoulderServo.getPWM(shoulderTheta);
+//		int desWristPWM = wristServo.getPWM(wristTheta);
+//
+//		ArmMsg msg = new ArmMsg();
+//		msg.pwms[0] = shoulderServo.getSafePWM(currShoulderPWM, desShoulderPWM);
+//		msg.pwms[1] = wristServo.getSafePWM(currWristPWM, desWristPWM);
+//		armPWMPub.publish(msg);
 	}
 
 	/**
