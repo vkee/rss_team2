@@ -245,13 +245,13 @@ public class Grasping implements NodeMain {
 			} else {
 				ArmMsg msg = new ArmMsg();
 				
-              msg.pwms[0] = Math.min(++shoulderPWM, shoulderServo.MAX_PWM);
-              msg.pwms[1] = Math.min(++wristPWM, wristServo.MAX_PWM);
-              msg.pwms[2] = Math.min(++gripperPWM, gripperServo.MAX_PWM);
+              msg.pwms[0] = Math.min(shoulderPWM + (shoulderServo.MAX_PWM - shoulderServo.MIN_PWM)/40, shoulderServo.MAX_PWM);
+              msg.pwms[1] = Math.min(wristPWM + (wristServo.MAX_PWM - wristServo.MIN_PWM)/40, wristServo.MAX_PWM);
+              msg.pwms[2] = Math.min(gripperPWM + (gripperServo.MAX_PWM - gripperServo.MIN_PWM)/40, gripperServo.MAX_PWM);
 				//				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, true);
 //				msg.pwms[1] = wristServo.fullRotation(wristPWM, true);
 //				msg.pwms[2] = gripperServo.fullRotation(gripperPWM, true);
-				System.out.println("Shoulder PWM: " + msg.pwms[0]);
+//				System.out.println("Shoulder PWM: " + msg.pwms[0]);
 				armPWMPub.publish(msg);
 			}
 		} else if (currState == State.DOWN) {
@@ -263,9 +263,9 @@ public class Grasping implements NodeMain {
 				currState = State.UP;
 			} else {
 				ArmMsg msg = new ArmMsg();
-                msg.pwms[0] = Math.max(--shoulderPWM, shoulderServo.MIN_PWM);
-                msg.pwms[1] = Math.max(--wristPWM, wristServo.MIN_PWM);
-                msg.pwms[2] = Math.max(--gripperPWM, gripperServo.MIN_PWM);
+                msg.pwms[0] = Math.max(shoulderPWM + (shoulderServo.MAX_PWM - shoulderServo.MIN_PWM)/40, shoulderServo.MIN_PWM);
+                msg.pwms[1] = Math.max(wristPWM + (wristServo.MAX_PWM - wristServo.MIN_PWM)/40, wristServo.MIN_PWM);
+                msg.pwms[2] = Math.max(gripperPWM + (gripperServo.MAX_PWM - gripperServo.MIN_PWM)/40, gripperServo.MIN_PWM);
 //				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, false);
 //				msg.pwms[1] = wristServo.fullRotation(wristPWM, false);
 //				msg.pwms[2] = gripperServo.fullRotation(gripperPWM, false);
