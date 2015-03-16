@@ -44,7 +44,7 @@ public class Grasping implements NodeMain {
 	}
 
 	public Grasping() {
-		currState = State.UP;
+		currState = State.DOWN;
 		shoulderServo = new ShoulderController(1225, 2375, Math.PI, 2250, 1200);
 		wristServo = new WristController(250, 2000, Math.PI, 900, 1800);
 		gripperServo = new GripperController(1700, 2450, Math.PI, 1700, 2450);
@@ -240,6 +240,7 @@ public class Grasping implements NodeMain {
 			// If all servos are at the UP state
 			if (shoulderServo.atMax(shoulderPWM) && wristServo.atMax(wristPWM)
 					&& gripperServo.isClosed(gripperPWM)) {
+			    System.out.println("Switching to Down");
 				currState = State.DOWN;
 			} else {
 				ArmMsg msg = new ArmMsg();
@@ -258,6 +259,7 @@ public class Grasping implements NodeMain {
 			// If all servos are at the DOWN state
 			if (shoulderServo.atMin(shoulderPWM) && wristServo.atMin(wristPWM)
 					&& gripperServo.isOpen(gripperPWM)) {
+			    System.out.println("Switching to Up");
 				currState = State.UP;
 			} else {
 				ArmMsg msg = new ArmMsg();
