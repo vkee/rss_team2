@@ -91,7 +91,7 @@ public class Grasping implements NodeMain {
 				int wristPWM = pwmVals[1];
 				int gripperPWM = pwmVals[2];
 
-				// rotateAllServos(msg.pwms[0], msg.pwms[1], msg.pwms[2]);
+				 rotateAllServos(msg.pwms[0], msg.pwms[1], msg.pwms[2]);
 				// if (!objectGrasped){
 				// gripperServo.close(msg.pwms[2]);
 				// }
@@ -144,59 +144,59 @@ public class Grasping implements NodeMain {
 				// }
 				// }
 
-				// Grasp and Transport
-				if (graspState == ArmGraspState.INIT_WRIST) {
-					if (wristServo.isGymBent(wristPWM)) {
-						graspState = ArmGraspState.INIT_GRIPPER;
-					} else {
-						writeWristPWM(wristServo.bendGym(wristPWM));
-					}
-				}
-
-				if (graspState == ArmGraspState.INIT_GRIPPER) {
-					if (gripperServo.isOpen(gripperPWM)) {
-						graspState = ArmGraspState.GRASP;
-					} else {
-						writeGripperPWM(gripperServo.open(gripperPWM));
-					}
-				}
-
-				if (graspState == ArmGraspState.INIT_SHOULDER) {
-					if (shoulderServo.onGround(shoulderPWM)) {
-						graspState = ArmGraspState.GRASP;
-					} else {
-						writeShoulderPWM(shoulderServo
-								.moveToGround(shoulderPWM));
-					}
-				}
-
-				if (graspState == ArmGraspState.GRASP) {
-					// TODO: may need to do stuff with camera to make sure that
-					// the object is grasped
-					if (gripperServo.isClosed(gripperPWM) && objDetected) {
-						graspState = ArmGraspState.LIFT;
-					} else if (objDetected) {
-						writeGripperPWM(gripperServo.close(gripperPWM));
-					}
-				}
-
-				if (graspState == ArmGraspState.LIFT) {
-					// TODO: will need to have recovery methods
-					if (!objDetected) {
-						// Attempting recovery by restarting but probably need a
-						// recovery state and then align with block
-						graspState = ArmGraspState.INIT_WRIST;
-					} else {
-						if (shoulderServo.isGymUp(shoulderPWM)) {
-							graspState = ArmGraspState.MOVE;
-						} else {
-							writeShoulderPWM(shoulderServo
-									.moveGymUp(shoulderPWM));
-						}
-					}
-				}
-
-				// TODO: move and the rest of grasp and transport
+//				// Grasp and Transport
+//				if (graspState == ArmGraspState.INIT_WRIST) {
+//					if (wristServo.isGymBent(wristPWM)) {
+//						graspState = ArmGraspState.INIT_GRIPPER;
+//					} else {
+//						writeWristPWM(wristServo.bendGym(wristPWM));
+//					}
+//				}
+//
+//				if (graspState == ArmGraspState.INIT_GRIPPER) {
+//					if (gripperServo.isOpen(gripperPWM)) {
+//						graspState = ArmGraspState.GRASP;
+//					} else {
+//						writeGripperPWM(gripperServo.open(gripperPWM));
+//					}
+//				}
+//
+//				if (graspState == ArmGraspState.INIT_SHOULDER) {
+//					if (shoulderServo.onGround(shoulderPWM)) {
+//						graspState = ArmGraspState.GRASP;
+//					} else {
+//						writeShoulderPWM(shoulderServo
+//								.moveToGround(shoulderPWM));
+//					}
+//				}
+//
+//				if (graspState == ArmGraspState.GRASP) {
+//					// TODO: may need to do stuff with camera to make sure that
+//					// the object is grasped
+//					if (gripperServo.isClosed(gripperPWM) && objDetected) {
+//						graspState = ArmGraspState.LIFT;
+//					} else if (objDetected) {
+//						writeGripperPWM(gripperServo.close(gripperPWM));
+//					}
+//				}
+//
+//				if (graspState == ArmGraspState.LIFT) {
+//					// TODO: will need to have recovery methods
+//					if (!objDetected) {
+//						// Attempting recovery by restarting but probably need a
+//						// recovery state and then align with block
+//						graspState = ArmGraspState.INIT_WRIST;
+//					} else {
+//						if (shoulderServo.isGymUp(shoulderPWM)) {
+//							graspState = ArmGraspState.MOVE;
+//						} else {
+//							writeShoulderPWM(shoulderServo
+//									.moveGymUp(shoulderPWM));
+//						}
+//					}
+//				}
+//
+//				// TODO: move and the rest of grasp and transport
 			}
 		});
 
@@ -239,7 +239,7 @@ public class Grasping implements NodeMain {
 		if (currState == State.UP) {
 			// If all servos are at the UP state
 			if (shoulderServo.atMax(shoulderPWM) && wristServo.atMax(wristPWM)
-					&& gripperServo.atMax(gripperPWM)) {
+					&& gripperServo.isClosed(gripperPWM)) {
 				currState = State.DOWN;
 			} else {
 				ArmMsg msg = new ArmMsg();
@@ -252,7 +252,7 @@ public class Grasping implements NodeMain {
 
 			// If all servos are at the DOWN state
 			if (shoulderServo.atMin(shoulderPWM) && wristServo.atMin(wristPWM)
-					&& gripperServo.atMin(gripperPWM)) {
+					&& gripperServo.isOpen(gripperPWM)) {
 				currState = State.UP;
 			} else {
 				ArmMsg msg = new ArmMsg();
