@@ -1,11 +1,7 @@
-/Grasping/
+/.svn/
 /GlobalNavigation/
-/VisualServo/
+/Grasping/
+/Listener.class
+/LocalNavigation/
 /Motor/
-/Servo/
-/analogIO/
-/digitalIO/
-/motion/
-/odometry/
-/sonar/
-/utils/
+/Publisher.class

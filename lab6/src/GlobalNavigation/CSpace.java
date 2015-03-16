@@ -22,7 +22,7 @@ public class CSpace {
 	// field. True center
 	// of robot is "higher up" than the current estimated version
 
-	private final double ROBOT_LONGEST_DIM = 0.375; // Center to
+	private final double ROBOT_LONGEST_DIM = 0.38; // Center to
 	// diagonal length in meters
 	
 	private final int NUM_SIDES = 8; // number of sides of the n side polygon
