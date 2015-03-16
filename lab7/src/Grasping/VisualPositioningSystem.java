@@ -1,6 +1,8 @@
 package Grasping;
 
-public class VisualPositioningSystem {
+import VisualServo.BlobTracking;
+
+public class VisualPositioningSystem extends BlobTracking {
 	/**
 	 * Description:
 	 * 
@@ -17,6 +19,28 @@ public class VisualPositioningSystem {
 	 * 
 	 * 
 	 */
+
+	public VisualPositioningSystem(int width, int height) {
+		super(width, height);
+	}
+
+	protected void changeFixationDistance(double distance) {
+		desiredFixationDistance = distance;
+	}
+
+	protected void trackRed() {
+		double hue = 0.48; // CHANGE COLOR
+		trackColor(hue);
+	}
+
+	/**
+	 * TODO ADD API-Like calls to find various configurations of blocks when
+	 * given an image
+	 */
+
+	protected void trackColor(double hue) {
+		targetHueLevel = hue;
+	}
 
 	public static void getPosition() {
 
