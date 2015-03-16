@@ -1,0 +1,28 @@
+package Grasping;
+
+import java.awt.geom.Point2D;
+import java.util.List;
+
+public class InverseKinematics {
+
+	protected double ARM_LENGTH = 0.245;
+	protected double WRIST_LENGTH = 0.18;
+	
+	public double getTheta(double xsol, double zsol)
+		{
+		double theta = Math.acos(xsol/ARM_LENGTH);		//check that x and y give same solution??
+		return theta;
+		}
+	
+	public double getPhi(double xsol, double zsol, double xtarg, double ztarg)
+		{
+		double phi = Math.acos((xsol-xtarg)/WRIST_LENGTH);
+		return phi;
+		}
+	
+	public List<Point2D.Double> getPositions(double X, double Z)
+		{
+		
+		}
+	
+}
