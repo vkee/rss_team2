@@ -81,15 +81,15 @@ public class Grasping implements NodeMain {
 			@Override
 			public void onNewMessage(ArmMsg msg) {
 				// Simply printing out the PWM values
-				int[] pwmVals = msg.pwms;
+				long[] pwmVals = msg.pwms;
 				for (int i = 0; i < pwmVals.length; i++) {
 					System.out.println("PWM Value at Channel " + i + " is: "
 							+ pwmVals[i]);
 				}
 
-				int shoulderPWM = pwmVals[0];
-				int wristPWM = pwmVals[1];
-				int gripperPWM = pwmVals[2];
+				int shoulderPWM = (int) pwmVals[0];
+				int wristPWM = (int) pwmVals[1];
+				int gripperPWM = (int) pwmVals[2];
 
 				 rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
 				// if (!objectGrasped){
@@ -202,8 +202,8 @@ public class Grasping implements NodeMain {
 
 		bumpersSub.addMessageListener(new MessageListener<BumpMsg>() {
 			@Override
-			public void onNewMessage(BumpMsg message) {
-				objDetected = message.gripper;
+			public void onNewMessage(BumpMsg msg) {
+//				objDetected = msg.gripper;
 			}
 		});
 	}
