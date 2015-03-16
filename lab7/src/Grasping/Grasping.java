@@ -91,11 +91,11 @@ public class Grasping implements NodeMain {
 				int wristPWM = (int) pwmVals[1];
 				int gripperPWM = (int) pwmVals[2];
 
-				 rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
+//				 rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
 				// if (!objectGrasped){
 				// gripperServo.close(msg.pwms[2]);
 				// }
-				// moveArm(desX, desZ, msg.pwms[0], msg.pwms[1]);
+				 moveArm(InverseKinematics.ARM_LENGTH + InverseKinematics.WRIST_LENGTH, 0, msg.pwms[0], msg.pwms[1]);
 
 				// // Arm Gymnastics
 				//
@@ -223,15 +223,15 @@ public class Grasping implements NodeMain {
 		// Let shoulderTheta, wristTheta be the angles to write for the shoulder
 		// and wrist respectively
 	    
-//	    InverseKinematics.getThetaPhi(desX, desZ);
+	    double[] angles = InverseKinematics.getThetaPhi(desX, desZ, shoulderServo.getThetaRad(currShoulderPWM), wristServo.getThetaRad(currWristPWM));
 
-//		int desShoulderPWM = shoulderServo.getPWM(shoulderTheta);
-//		int desWristPWM = wristServo.getPWM(wristTheta);
-//
-//		ArmMsg msg = new ArmMsg();
-//		msg.pwms[0] = shoulderServo.getSafePWM(currShoulderPWM, desShoulderPWM);
-//		msg.pwms[1] = wristServo.getSafePWM(currWristPWM, desWristPWM);
-//		armPWMPub.publish(msg);
+		int desShoulderPWM = shoulderServo.getPWM(angles[0]);
+		int desWristPWM = wristServo.getPWM(angles[1]);
+
+		ArmMsg msg = new ArmMsg();
+		msg.pwms[0] = shoulderServo.getSafePWM(currShoulderPWM, desShoulderPWM);
+		msg.pwms[1] = wristServo.getSafePWM(currWristPWM, desWristPWM);
+		armPWMPub.publish(msg);
 	}
 
 	/**
@@ -253,8 +253,8 @@ public class Grasping implements NodeMain {
               msg.pwms[1] = Math.min(wristPWM + (wristServo.MAX_PWM - wristServo.MIN_PWM)/SHIFT_AMOUNT, wristServo.MAX_PWM);
               msg.pwms[2] = Math.min(gripperPWM + (gripperServo.MAX_PWM - gripperServo.MIN_PWM)/SHIFT_AMOUNT, gripperServo.MAX_PWM);
 				
-              System.out.println("Shoulder Theta: " + shoulderServo.getTheta(msg.pwms[0]));
-              System.out.println("Wrist Theta: " + wristServo.getTheta(msg.pwms[1]));
+//              System.out.println("Shoulder Theta: " + shoulderServo.getThetaDeg(msg.pwms[0]));
+//              System.out.println("Wrist Theta: " + wristServo.getThetaDeg(msg.pwms[1]));
 
               
               //				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, true);
@@ -278,6 +278,9 @@ public class Grasping implements NodeMain {
 //				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, false);
 //				msg.pwms[1] = wristServo.fullRotation(wristPWM, false);
 //				msg.pwms[2] = gripperServo.fullRotation(gripperPWM, false);
+                
+//                System.out.println("Shoulder Theta: " + shoulderServo.getThetaDeg(msg.pwms[0]));
+//                System.out.println("Wrist Theta: " + wristServo.getThetaDeg(msg.pwms[1]));
 				armPWMPub.publish(msg);
 			}
 		}
