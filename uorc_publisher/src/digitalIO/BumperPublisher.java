@@ -23,7 +23,7 @@ public class BumperPublisher implements Runnable {
 		this.lock = lock;
 		left = new DigitalInput(orc, 0, true, true);
 		right = new DigitalInput(orc, 1, true, true);
-		gripper = new DigitalInput(orc, 2, true, true);
+		gripper = new DigitalInput(orc, 3, true, true);
 		pub = node.newPublisher(BUMP_CHANNEL, BUMP_MSG);
 	}
 
