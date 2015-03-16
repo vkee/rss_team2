@@ -95,7 +95,8 @@ public class Grasping implements NodeMain {
 				// if (!objectGrasped){
 				// gripperServo.close(msg.pwms[2]);
 				// }
-				 moveArm(InverseKinematics.ARM_LENGTH + InverseKinematics.WRIST_LENGTH, 0, msg.pwms[0], msg.pwms[1]);
+				System.out.println("Shoulder Max PWM Change " + shoulderServo.MAX_PWM_CHANGE);
+				 moveArm(InverseKinematics.ARM_LENGTH + InverseKinematics.WRIST_LENGTH, 0., (int) msg.pwms[0], (int) msg.pwms[1]);
 
 				// // Arm Gymnastics
 				//
