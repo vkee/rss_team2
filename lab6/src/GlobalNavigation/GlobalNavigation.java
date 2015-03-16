@@ -220,7 +220,7 @@ public class GlobalNavigation implements NodeMain {
 			msg.translationalVelocity = Math.min(
 					FWD_GAIN * motionPlanner.getDist(0.0, 0.0, xError, yError),
 					0.5);
-			msg.rotationalVelocity = 0;
+			msg.rotationalVelocity = 0.0;
 		} else {
 			if (currWaypt < waypoints.size()) {
 				int way = currWaypt + 1;

@@ -1,4 +1,4 @@
-package VisualServoSolution;
+package VisualServo;
 
 /**
  * Edsinger: from http://homepages.inf.ed.ac.uk/rbf/HIPR2/flatjavasrc/ImageLabel.java

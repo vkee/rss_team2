@@ -1,4 +1,4 @@
-package VisualServoSolution;
+package VisualServo;
 
 
 /**

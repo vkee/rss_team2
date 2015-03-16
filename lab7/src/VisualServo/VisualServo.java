@@ -1,4 +1,4 @@
-package VisualServoSolution;
+package VisualServo;
 
 import java.util.concurrent.ArrayBlockingQueue;
 
