@@ -56,7 +56,7 @@ public class Grasping implements NodeMain {
 	double DIST_TOL = 0.01; // tolerance to move MOVE_DIST in meters
 
 	public enum ArmGraspState {
-		INIT_WRIST, INIT_GRIPPER, INIT_SHOULDER, GRASP, LIFT, MOVE, DEPOSIT_WRIST, DEPOSIT_SHOULDER, DEPOSIT_GRIPPER, RETURN
+		INITIALIZE, OPEN_GRIPPER, FIND_OBJ, GRASP, LIFT, MOVE, DEPOSIT_WRIST, DEPOSIT_SHOULDER, DEPOSIT_GRIPPER, RETURN
 	}
 
 	// States for Arm Gymnastics
@@ -73,6 +73,8 @@ public class Grasping implements NodeMain {
 	public Grasping() {
 		currState = State.DOWN;
 		gymState = ArmGymState.INITIALIZE; // gymnastics
+		graspState = ArmGraspState.INITIALIZE; // gymnastics
+
 		shoulderServo = new ShoulderController(525, 2375, Math.PI, 1500, 525);
 		wristServo = new WristController(350, 2250, Math.PI, 1250, 2025);
 		gripperServo = new GripperController(1700, 2450, Math.PI, 1700, 2450);
@@ -164,7 +166,7 @@ public class Grasping implements NodeMain {
 
 				}
 
-				//BEGIN GYMNASTICS
+				// BEGIN GYMNASTICS
 				// TO DO MAKE INTO STATIC METHOD IF IT PLEASES YOU
 				// /////////////////////////////////////////////////////////////////////////////////////////////
 				// // Arm Gymnastics COMPLETED 3/17/15. If you do not like the
@@ -265,10 +267,34 @@ public class Grasping implements NodeMain {
 				// }
 				// END OF
 				// GYNMNASTICS///////////////////////////////////////////////////////////////////////////////////////////
-				
-				
-				
-				
+
+				System.out.println("Current State: " + graspState);
+				if (graspState == ArmGraspState.INITIALIZE) {
+					System.out.println("going to initialization state...");
+					int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
+					int wrist_init_value = wristServo.MIN_PWM;
+					int gripper_init_value = gripperServo.MIN_PWM;
+					initializeServos(shoulder_init_value, wrist_init_value,
+							gripper_init_value);
+					try {
+						Thread.sleep(1000);
+					} catch (Exception e) {
+
+					}
+					System.out.println("at initilization state...");
+					graspState = ArmGraspState.OPEN_GRIPPER;
+				} else if (graspState == ArmGraspState.OPEN_GRIPPER) {
+					// Opens gripper
+					writeGripperPWM(2450);
+					graspState = ArmGraspState.FIND_OBJ;
+					// Bump sensor
+					if (objDetected) {
+						System.out.println("closing gripper");
+						writeGripperPWM(gripperServo.close((int) msg.pwms[2]));
+					}
+
+				}
+
 				// rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
 
 				// Bump sensor
@@ -316,7 +342,7 @@ public class Grasping implements NodeMain {
 				// }
 				// }
 				//
-				//
+
 				// if (graspState == ArmGraspState.MOVE) {
 				// double remDist = getDist(robotX, robotY, goalX, goalY);
 				//
