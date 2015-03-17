@@ -171,6 +171,7 @@ public class Grasping implements NodeMain {
                 // so will probably need to make an initialize state
 
                 if (gymState == ArmGymState.OPEN_GRIPPER) {
+                    System.out.println("Open Gripper");
                     if (gripperServo.isOpen(gripperPWM)) {
                         gymState = ArmGymState.CLOSE_GRIPPER;
                     } else {
@@ -179,6 +180,7 @@ public class Grasping implements NodeMain {
                 }
 
                 if (gymState == ArmGymState.CLOSE_GRIPPER) {
+                    System.out.println("Close Gripper");
                     if (gripperServo.isClosed(gripperPWM)) {
                         gymState = ArmGymState.MOVE_UP;
                     } else {
@@ -187,6 +189,7 @@ public class Grasping implements NodeMain {
                 }
 
                 if (gymState == ArmGymState.MOVE_UP) {
+                    System.out.println("Move Up");
                     if (shoulderServo.isGymUp(shoulderPWM)) {
                         gymState = ArmGymState.BEND_ELBOW;
                     } else {
@@ -196,6 +199,7 @@ public class Grasping implements NodeMain {
 
                 // Assuming that bend elbow is bending wrist
                 if (gymState == ArmGymState.BEND_ELBOW) {
+                    System.out.println("Bend Elbow");
                     if (wristServo.isGymBent(wristPWM)) {
                         gymState = ArmGymState.MOVE_TO_GROUND;
                     } else {
@@ -204,6 +208,7 @@ public class Grasping implements NodeMain {
                 }
 
                 if (gymState == ArmGymState.MOVE_TO_GROUND) {
+                    System.out.println("Move to Ground");
                     if (shoulderServo.onGround(shoulderPWM)) {
                         // TODO: what to do here? just end?
                     } else {
@@ -327,7 +332,7 @@ public class Grasping implements NodeMain {
             public void onNewMessage(BumpMsg msg) {
                 //                System.out.println("msg.left state: " + msg.left);
                 //                System.out.println("msg.right state: " + msg.right);
-                System.out.println("msg.gripper state: " + msg.gripper);
+//                System.out.println("msg.gripper state: " + msg.gripper);
                 objDetected = msg.gripper;
 
 
