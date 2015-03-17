@@ -152,6 +152,7 @@ public class Grasping implements NodeMain {
 
                 //                 rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
                 if (objGrasped) {
+                    System.out.println("closing gripper");
                     gripperServo.close((int) msg.pwms[2]);
                 }
 
@@ -328,6 +329,7 @@ public class Grasping implements NodeMain {
                 //                System.out.println("msg.right state: " + msg.right);
                 System.out.println("msg.gripper state: " + msg.gripper);
                 objDetected = msg.gripper;
+                
             }
         });
 
