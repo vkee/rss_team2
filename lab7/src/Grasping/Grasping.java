@@ -151,10 +151,10 @@ public class Grasping implements NodeMain {
                 int gripperPWM = (int) pwmVals[2];
 
                 //                 rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
-                if (objDetected) {
-                    System.out.println("closing gripper");
-                    writeGripperPWM(gripperServo.close((int) msg.pwms[2]));
-                }
+                //                if (objDetected) {
+                //                    System.out.println("closing gripper");
+                //                    writeGripperPWM(gripperServo.close((int) msg.pwms[2]));
+                //                }
 
                 // System.out.println("Obj Grasped: " + objGrasped);
                 // System.out.println("Shoulder Max PWM Change " +
@@ -164,52 +164,52 @@ public class Grasping implements NodeMain {
                 //                moveArm(sum*Math.cos(0), sum*Math.sin(0),
                 //                        (int) msg.pwms[0], (int) msg.pwms[1]);
 
-                //                // Arm Gymnastics
-                //
-                //                // TODO probably need to initialize everything to some
-                //                //                 positions
-                //                // so will probably need to make an initialize state
-                //
-                //                if (gymState == ArmGymState.OPEN_GRIPPER) {
-                //                    if (gripperServo.isOpen(gripperPWM)) {
-                //                        gymState = ArmGymState.CLOSE_GRIPPER;
-                //                    } else {
-                //                        writeGripperPWM(gripperServo.open(gripperPWM));
-                //                    }
-                //                }
-                //
-                //                if (gymState == ArmGymState.CLOSE_GRIPPER) {
-                //                    if (gripperServo.isClosed(gripperPWM)) {
-                //                        gymState = ArmGymState.MOVE_UP;
-                //                    } else {
-                //                        writeGripperPWM(gripperServo.close(gripperPWM));
-                //                    }
-                //                }
-                //
-                //                if (gymState == ArmGymState.MOVE_UP) {
-                //                    if (shoulderServo.isGymUp(shoulderPWM)) {
-                //                        gymState = ArmGymState.BEND_ELBOW;
-                //                    } else {
-                //                        writeShoulderPWM(shoulderServo.moveGymUp(shoulderPWM));
-                //                    }
-                //                }
-                //
-                //                // Assuming that bend elbow is bending wrist
-                //                if (gymState == ArmGymState.BEND_ELBOW) {
-                //                    if (wristServo.isGymBent(wristPWM)) {
-                //                        gymState = ArmGymState.MOVE_TO_GROUND;
-                //                    } else {
-                //                        writeWristPWM(wristServo.bendGym(wristPWM));
-                //                    }
-                //                }
-                //
-                //                if (gymState == ArmGymState.MOVE_TO_GROUND) {
-                //                    if (shoulderServo.onGround(shoulderPWM)) {
-                //                        // TODO: what to do here? just end?
-                //                    } else {
-                //                        writeShoulderPWM(shoulderServo.moveToGround(shoulderPWM));
-                //                    }
-                //                }
+                // Arm Gymnastics
+
+                // TODO probably need to initialize everything to some
+                //                 positions
+                // so will probably need to make an initialize state
+
+                if (gymState == ArmGymState.OPEN_GRIPPER) {
+                    if (gripperServo.isOpen(gripperPWM)) {
+                        gymState = ArmGymState.CLOSE_GRIPPER;
+                    } else {
+                        writeGripperPWM(gripperServo.open(gripperPWM));
+                    }
+                }
+
+                if (gymState == ArmGymState.CLOSE_GRIPPER) {
+                    if (gripperServo.isClosed(gripperPWM)) {
+                        gymState = ArmGymState.MOVE_UP;
+                    } else {
+                        writeGripperPWM(gripperServo.close(gripperPWM));
+                    }
+                }
+
+                if (gymState == ArmGymState.MOVE_UP) {
+                    if (shoulderServo.isGymUp(shoulderPWM)) {
+                        gymState = ArmGymState.BEND_ELBOW;
+                    } else {
+                        writeShoulderPWM(shoulderServo.moveGymUp(shoulderPWM));
+                    }
+                }
+
+                // Assuming that bend elbow is bending wrist
+                if (gymState == ArmGymState.BEND_ELBOW) {
+                    if (wristServo.isGymBent(wristPWM)) {
+                        gymState = ArmGymState.MOVE_TO_GROUND;
+                    } else {
+                        writeWristPWM(wristServo.bendGym(wristPWM));
+                    }
+                }
+
+                if (gymState == ArmGymState.MOVE_TO_GROUND) {
+                    if (shoulderServo.onGround(shoulderPWM)) {
+                        // TODO: what to do here? just end?
+                    } else {
+                        writeShoulderPWM(shoulderServo.moveToGround(shoulderPWM));
+                    }
+                }
 
                 // // Grasp and Transport
                 // if (graspState == ArmGraspState.INIT_WRIST) {
@@ -329,9 +329,9 @@ public class Grasping implements NodeMain {
                 //                System.out.println("msg.right state: " + msg.right);
                 System.out.println("msg.gripper state: " + msg.gripper);
                 objDetected = msg.gripper;
-                
-                
-                
+
+
+
             }
         });
 
