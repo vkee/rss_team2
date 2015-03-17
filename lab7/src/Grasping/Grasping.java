@@ -113,6 +113,7 @@ public class Grasping implements NodeMain {
 
 		//Initialization State
 		
+		Thread.sleep(1000);
 		System.out.println("going to initialization state...");
 		int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
 		int wrist_init_value = wristServo.MIN_PWM;
