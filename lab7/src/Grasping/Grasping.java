@@ -198,13 +198,12 @@ public class Grasping implements NodeMain {
 					gymState = ArmGymState.OPEN_GRIPPER;
 
 				} else if (gymState == ArmGymState.OPEN_GRIPPER) {
-					System.out.println("Opening Gripper - Curr PWM: "
-							+ gripperPWM);
+					System.out.println("Opening Gripper");
 					System.out.println(gripperServo.isOpen(gripperPWM));
 					if (gripperServo.isOpen(gripperPWM)) {
 						gymState = ArmGymState.CLOSE_GRIPPER;
 					} else {
-						writeGripperPWM(gripperServo.open(gripperPWM));
+						writeGripperPWM(gripperServo.getPWM(gripperServo.MAX_PWM));
 					}
 				}
 
