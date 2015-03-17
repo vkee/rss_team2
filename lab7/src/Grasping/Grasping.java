@@ -150,10 +150,10 @@ public class Grasping implements NodeMain {
                 int wristPWM = (int) pwmVals[1];
                 int gripperPWM = (int) pwmVals[2];
 
-                // rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
-                if (objGrasped) {
-                    gripperServo.close((int) msg.pwms[2]);
-                }
+                 rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
+//                if (objGrasped) {
+//                    gripperServo.close((int) msg.pwms[2]);
+//                }
 
                 // System.out.println("Obj Grasped: " + objGrasped);
                 // System.out.println("Shoulder Max PWM Change " +
@@ -324,8 +324,8 @@ public class Grasping implements NodeMain {
         bumpersSub.addMessageListener(new MessageListener<BumpMsg>() {
             @Override
             public void onNewMessage(BumpMsg msg) {
-                System.out.println("msg.left state: " + msg.left);
-                System.out.println("msg.right state: " + msg.right);
+//                System.out.println("msg.left state: " + msg.left);
+//                System.out.println("msg.right state: " + msg.right);
                 System.out.println("msg.gripper state: " + msg.gripper);
                 objDetected = msg.gripper;
             }
