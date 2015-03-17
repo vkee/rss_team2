@@ -65,7 +65,7 @@ public class GripperController{
      */
     public boolean isOpen(int currPWM) {
         //        may need to change this to max pwm depending on values
-        return (currPWM == MIN_PWM);
+        return (currPWM == MAX_PWM);
     }
 
     /**
@@ -74,6 +74,6 @@ public class GripperController{
      */
     public boolean isClosed(int currPWM) {
         //        may need to change this to min pwm depending on values
-        return (currPWM == MAX_PWM);
+        return (currPWM == MIN_PWM);
     }
 }
