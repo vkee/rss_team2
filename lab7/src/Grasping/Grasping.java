@@ -164,90 +164,79 @@ public class Grasping implements NodeMain {
 
 				}
 
-				// rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
-
-				// Bump sensor
-				// if (objDetected) {
-				// System.out.println("closing gripper");
-				// writeGripperPWM(gripperServo.close((int) msg.pwms[2]));
+				//BEGIN GYMNASTICS
+				// TO DO MAKE INTO STATIC METHOD IF IT PLEASES YOU
+				// /////////////////////////////////////////////////////////////////////////////////////////////
+				// // Arm Gymnastics COMPLETED 3/17/15. If you do not like the
+				// // video, adjust the ranges to the appropriate section and
+				// rerun
+				// System.out.println("Current State: " + gymState);
+				// if (gymState == ArmGymState.INITIALIZE) {
+				// System.out.println("going to initialization state...");
+				// int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
+				// int wrist_init_value = wristServo.MIN_PWM;
+				// int gripper_init_value = gripperServo.MIN_PWM;
+				// initializeServos(shoulder_init_value, wrist_init_value,
+				// gripper_init_value);
+				// try {
+				// Thread.sleep(1000);
+				// } catch (Exception e) {
+				//
 				// }
-
-				// System.out.println("Obj Grasped: " + objGrasped);
-				// System.out.println("Shoulder Max PWM Change " +
-				// shoulderServo.MAX_PWM_CHANGE);
-				// double sum = InverseKinematics.ARM_LENGTH +
-				// InverseKinematics.WRIST_LENGTH;
-				// moveArm(sum*Math.cos(0), sum*Math.sin(0),
-				// (int) msg.pwms[0], (int) msg.pwms[1]);
-
-				// Arm Gymnastics
-				System.out.println("Current State: " + gymState);
-				if (gymState == ArmGymState.INITIALIZE) {
-					System.out.println("going to initialization state...");
-					int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
-					int wrist_init_value = wristServo.MIN_PWM;
-					int gripper_init_value = gripperServo.MIN_PWM;
-					initializeServos(shoulder_init_value, wrist_init_value,
-							gripper_init_value);
-					try {
-						Thread.sleep(1000);
-					} catch (Exception e) {
-
-					}
-					System.out.println("at initilization state...");
-					gymState = ArmGymState.OPEN_GRIPPER;
-
-				} else if (gymState == ArmGymState.OPEN_GRIPPER) {
-					//#1
-					System.out.println("Opening Gripper");
-					System.out.println(gripperServo.isOpen(gripperPWM));
-					if (gripperServo.isOpen(gripperPWM)) {
-						gymState = ArmGymState.CLOSE_GRIPPER;
-					} else {
-						writeGripperPWM(2450);
-					}
-				}
-
-				else if (gymState == ArmGymState.CLOSE_GRIPPER) {
-					//#2
-					System.out.println("Close Gripper");
-					if (gripperServo.isClosed(gripperPWM)) {
-						gymState = ArmGymState.MOVE_UP;
-					} else {
-						writeGripperPWM(1700);
-					}
-				}
-
-				else if (gymState == ArmGymState.MOVE_UP) {
-					//#3
-					System.out.println("Move Arm Up");
-					if (shoulderServo.isGymUp(shoulderPWM)) {
-						gymState = ArmGymState.BEND_ELBOW;
-					} else {
-						writeShoulderPWM(shoulderServo.moveGymUp(shoulderPWM));
-					}
-				}
-
-				else if (gymState == ArmGymState.BEND_ELBOW) {
-					//#4
-					System.out.println("Bend Elbow");
-					if (wristServo.isGymBent(wristPWM)) {
-						gymState = ArmGymState.MOVE_TO_GROUND;
-					} else {
-						writeWristPWM(wristServo.bendGym(wristPWM));
-					}
-				}
-
-				else if (gymState == ArmGymState.MOVE_TO_GROUND) {
-					//#5
-					System.out.println("Move to Ground");
-					if (shoulderServo.onGround(shoulderPWM)) {
-						gymState = ArmGymState.OPEN_GRIPPER;
-					} else {
-						writeShoulderPWM(shoulderServo
-								.moveToGround(shoulderPWM));
-					}
-				}
+				// System.out.println("at initilization state...");
+				// gymState = ArmGymState.OPEN_GRIPPER;
+				//
+				// } else if (gymState == ArmGymState.OPEN_GRIPPER) {
+				// // #1
+				// System.out.println("Opening Gripper");
+				// System.out.println(gripperServo.isOpen(gripperPWM));
+				// if (gripperServo.isOpen(gripperPWM)) {
+				// gymState = ArmGymState.CLOSE_GRIPPER;
+				// } else {
+				// writeGripperPWM(2450);
+				// }
+				// }
+				//
+				// else if (gymState == ArmGymState.CLOSE_GRIPPER) {
+				// // #2
+				// System.out.println("Close Gripper");
+				// if (gripperServo.isClosed(gripperPWM)) {
+				// gymState = ArmGymState.MOVE_UP;
+				// } else {
+				// writeGripperPWM(1700);
+				// }
+				// }
+				//
+				// else if (gymState == ArmGymState.MOVE_UP) {
+				// // #3
+				// System.out.println("Move Arm Up");
+				// if (shoulderServo.isGymUp(shoulderPWM)) {
+				// gymState = ArmGymState.BEND_ELBOW;
+				// } else {
+				// writeShoulderPWM(shoulderServo.moveGymUp(shoulderPWM));
+				// }
+				// }
+				//
+				// else if (gymState == ArmGymState.BEND_ELBOW) {
+				// // #4
+				// System.out.println("Bend Elbow");
+				// if (wristServo.isGymBent(wristPWM)) {
+				// gymState = ArmGymState.MOVE_TO_GROUND;
+				// } else {
+				// writeWristPWM(wristServo.bendGym(wristPWM));
+				// }
+				// }
+				//
+				// else if (gymState == ArmGymState.MOVE_TO_GROUND) {
+				// // #5
+				// System.out.println("Move to Ground");
+				// if (shoulderServo.onGround(shoulderPWM)) {
+				// gymState = ArmGymState.OPEN_GRIPPER;
+				// } else {
+				// writeShoulderPWM(shoulderServo
+				// .moveToGround(shoulderPWM));
+				// }
+				// }
 
 				// // Grasp and Transport
 				// if (graspState == ArmGraspState.INIT_WRIST) {
@@ -274,7 +263,27 @@ public class Grasping implements NodeMain {
 				// .moveToGround(shoulderPWM));
 				// }
 				// }
-				//
+				// END OF
+				// GYNMNASTICS///////////////////////////////////////////////////////////////////////////////////////////
+				
+				
+				
+				
+				// rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
+
+				// Bump sensor
+				// if (objDetected) {
+				// System.out.println("closing gripper");
+				// writeGripperPWM(gripperServo.close((int) msg.pwms[2]));
+				// }
+
+				// System.out.println("Obj Grasped: " + objGrasped);
+				// System.out.println("Shoulder Max PWM Change " +
+				// shoulderServo.MAX_PWM_CHANGE);
+				// double sum = InverseKinematics.ARM_LENGTH +
+				// InverseKinematics.WRIST_LENGTH;
+				// moveArm(sum*Math.cos(0), sum*Math.sin(0),
+				// (int) msg.pwms[0], (int) msg.pwms[1]);
 				// if (graspState == ArmGraspState.GRASP) {
 				// // TODO: may need to do stuff with camera to make sure that
 				// // the object is grasped
