@@ -73,7 +73,7 @@ public class Grasping implements NodeMain {
 
     public Grasping() {
         currState = State.DOWN;
-        shoulderServo = new ShoulderController(1225, 2375, Math.PI, 1500, 525);
+        shoulderServo = new ShoulderController(525, 2375, Math.PI, 1500, 525);
         wristServo = new WristController(250, 2000, Math.PI, 1250, 2025);
         gripperServo = new GripperController(1700, 2450, Math.PI, 1700, 2450);
     }
