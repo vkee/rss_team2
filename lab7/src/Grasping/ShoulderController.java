@@ -3,7 +3,7 @@ package Grasping;
 public class ShoulderController extends JointController {
     private final double GYM_UP_ANGLE = Math.PI/4;
     private final int GYM_UP_PWM = 950;// hardcoded for now
-    proected final double GYM_GROUND_ANGLE = -Math.PI/4;
+    protected final double GYM_GROUND_ANGLE = -Math.PI/4;
     protected final int GYM_GROUND_PWM = 525; // hardcoded for now
     
     public ShoulderController(int minPWM, int maxPWM, double thetaRange, int pwm0, int pwm270) {
