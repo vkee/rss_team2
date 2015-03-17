@@ -203,7 +203,7 @@ public class Grasping implements NodeMain {
 					if (gripperServo.isOpen(gripperPWM)) {
 						gymState = ArmGymState.CLOSE_GRIPPER;
 					} else {
-						writeGripperPWM(gripperServo.getPWM(gripperServo.MAX_PWM));
+						writeGripperPWM(2450);
 					}
 				}
 
@@ -212,7 +212,7 @@ public class Grasping implements NodeMain {
 					if (gripperServo.isClosed(gripperPWM)) {
 						gymState = ArmGymState.MOVE_UP;
 					} else {
-						writeGripperPWM(gripperServo.close(gripperPWM));
+						writeGripperPWM(1700);
 					}
 				}
 
