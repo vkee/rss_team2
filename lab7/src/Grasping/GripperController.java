@@ -18,14 +18,14 @@ public class GripperController extends JointController {
 			int pwm0, int pwm270) {
 		super(minPWM, maxPWM, thetaRange, pwm0, pwm270);
 
-		this.MIN_PWM = minPWM;
+		/*this.MIN_PWM = minPWM;
 		this.MAX_PWM = maxPWM;
 		this.PWM_0 = pwm0;
 		this.PWM_270 = pwm270;
 		this.THETA_RANGE = thetaRange;
 		this.LINE_SLOPE = (-Math.PI / 2) / (PWM_270 - PWM_0);
 		this.LINE_THETA_INTERCEPT = 0 - LINE_SLOPE * PWM_0;
-		this.MAX_PWM_CHANGE = (int) (1 / THETA_RANGE * (MAX_PWM - MIN_PWM));
+		this.MAX_PWM_CHANGE = (int) (1 / THETA_RANGE * (MAX_PWM - MIN_PWM));*/
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class GripperController extends JointController {
 	 * @return the PWM value to be written to the servo
 	 */
 	public int close(int currPWM) {
-		return fullRotation(currPWM, false);
+		return rotateToPWM(MIN_PWM, currPWM);//fullRotation(currPWM, false);
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class GripperController extends JointController {
 	 * @return the PWM value to be written to the servo
 	 */
 	public int open(int currPWM) {
-		return fullRotation(currPWM, true);
+		return rotateToPWM(MAX_PWM, currPWM);//fullRotation(currPWM, true);
 	}
 
 	/**
