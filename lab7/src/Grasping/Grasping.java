@@ -61,7 +61,7 @@ public class Grasping implements NodeMain {
 
 	// States for Arm Gymnastics
 	public enum ArmGymState {
-		OPEN_GRIPPER, CLOSE_GRIPPER, MOVE_UP, BEND_ELBOW, MOVE_TO_GROUND
+		INITIALIZE, OPEN_GRIPPER, CLOSE_GRIPPER, MOVE_UP, BEND_ELBOW, MOVE_TO_GROUND
 	}
 
 	// States dividing up space so that no servo can move more than 1 radian per
@@ -132,7 +132,7 @@ public class Grasping implements NodeMain {
 		// vidPub = node.newPublisher("/rss/blobVideo", "sensor_msgs/Image");
 		// vidSub = node.newSubscriber("/rss/video","sensor_msgs/Image");
 		// Image dest = new Image(src);
-		;
+		// ;
 		/*
 		 * vidSub.addMessageListener(new
 		 * MessageListener<org.ros.message.sensor_msgs.Image>() {
@@ -153,28 +153,17 @@ public class Grasping implements NodeMain {
 		armStatusSub.addMessageListener(new MessageListener<ArmMsg>() {
 			@Override
 			public void onNewMessage(ArmMsg msg) {
-				// Simply printing out the PWM values
 				long[] pwmVals = msg.pwms;
-				// for (int i = 0; i < 3; i++) {
-				// System.out.println("PWM Value at Channel " + i + " is: "
-				// + pwmVals[i]);
-				// }
-
 				int shoulderPWM = (int) pwmVals[0];
 				int wristPWM = (int) pwmVals[1];
 				int gripperPWM = (int) pwmVals[2];
+
 				try {
 					Thread.sleep(1000);
 				} catch (Exception e) {
 
 				}
-				System.out.println("going to initialization state...");
-				int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
-				int wrist_init_value = wristServo.MIN_PWM;
-				int gripper_init_value = gripperServo.MIN_PWM;
-				initializeServos(shoulder_init_value, wrist_init_value,
-						gripper_init_value);
-				System.out.println("at initilization state...");
+
 				// rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
 
 				// Bump sensor
@@ -192,11 +181,17 @@ public class Grasping implements NodeMain {
 				// (int) msg.pwms[0], (int) msg.pwms[1]);
 
 				// Arm Gymnastics
-
-				// TODO probably need to initialize everything to some
-				// positions
-
-				System.out.println("beginning gymanstics...");
+				System.out.println("Current State: " + gymState);
+				if (gymState == ArmGymState.INITIALIZE) {
+					System.out.println("going to initialization state...");
+					int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
+					int wrist_init_value = wristServo.MIN_PWM;
+					int gripper_init_value = gripperServo.MIN_PWM;
+					initializeServos(shoulder_init_value, wrist_init_value,
+							gripper_init_value);
+					System.out.println("at initilization state...");
+					gymState = ArmGymState.OPEN_GRIPPER;
+				}
 				if (gymState == ArmGymState.OPEN_GRIPPER) {
 					System.out
 							.println("Open Gripper - Curr PWM: " + gripperPWM);
@@ -225,7 +220,6 @@ public class Grasping implements NodeMain {
 					}
 				}
 
-				// Assuming that bend elbow is bending wrist if (gymState ==
 				if (gymState == ArmGymState.BEND_ELBOW) {
 					System.out.println("Bend Elbow - Curr PWM: " + wristPWM);
 					if (wristServo.isGymBent(wristPWM)) {
