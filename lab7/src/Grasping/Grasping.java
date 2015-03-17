@@ -288,12 +288,21 @@ public class Grasping implements NodeMain {
 					writeGripperPWM(2450);
 					graspState = ArmGraspState.FIND_OBJ;
 				}
-				// Bump sensor
-				else if (graspState == ArmGraspState.FIND_OBJ && objDetected) {
-					System.out.println("closing gripper");
-					writeGripperPWM(gripperServo.close((int) msg.pwms[2]));
-					graspState = ArmGraspState.GRASP;
-
+				
+				else if (graspState == ArmGraspState.FIND_OBJ)
+					{if (objDetected) { // Bump sensor
+						graspState = ArmGraspState.GRASP;
+						}
+					}
+				
+				else if (graspState == ArmGraspState.GRASP)
+					{if (!gripperServo.isClosed((int) msg.pwms[2]))
+						{
+						System.out.println("closing gripper");
+						writeGripperPWM(gripperServo.close((int) msg.pwms[2]));
+						}
+					else
+						{graspState = ArmGraspState.LIFT;}
 					}
 
 
@@ -406,7 +415,7 @@ public class Grasping implements NodeMain {
 			public void onNewMessage(BumpMsg msg) {
 				// System.out.println("msg.left state: " + msg.left);
 				// System.out.println("msg.right state: " + msg.right);
-				System.out.println("msg.gripper state: " + msg.gripper);
+				// System.out.println("msg.gripper state: " + msg.gripper);
 				objDetected = msg.gripper;
 
 			}
