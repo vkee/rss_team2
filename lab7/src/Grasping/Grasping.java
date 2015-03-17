@@ -298,7 +298,7 @@ public class Grasping implements NodeMain {
 				else if (graspState == ArmGraspState.GRASP)
 					{if (!gripperServo.isClosed(wristPWM))
 						{
-						//System.out.println("closing gripper");
+						System.out.println("closing gripper" + wristPWM + " of "+gripperServo.MIN_PWM);
 						writeGripperPWM(gripperServo.close(wristPWM));
 						}
 					else
