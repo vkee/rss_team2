@@ -149,15 +149,18 @@ public class Grasping implements NodeMain {
             public void onNewMessage(ArmMsg msg) {
                 // Simply printing out the PWM values
                 long[] pwmVals = msg.pwms;
-                // for (int i = 0; i < 3; i++) {
-                // System.out.println("PWM Value at Channel " + i + " is: "
-                // + pwmVals[i]);
-                // }
+//                 for (int i = 0; i < 3; i++) {
+//                 System.out.println("PWM Value at Channel " + i + " is: "
+//                 + pwmVals[i]);
+//                 }
 
                 int shoulderPWM = (int) pwmVals[0];
                 int wristPWM = (int) pwmVals[1];
                 int gripperPWM = (int) pwmVals[2];
-
+                System.out.println("sholderPWM: " + shoulderPWM);
+                System.out.println("wristPWM: " + wristPWM);
+                System.out.println("gripperPWM: " + gripperPWM);
+                
                 //                 rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
                 //                if (objDetected) {
                 //                    System.out.println("closing gripper");
@@ -180,6 +183,7 @@ public class Grasping implements NodeMain {
 
 //                first try to even open the gripper
                 
+                /*
                 if (gymState == ArmGymState.OPEN_GRIPPER) {
                     System.out.println("Open Gripper - Curr PWM: " + gripperPWM);
                     if (gripperServo.isOpen(gripperPWM)) {
@@ -220,12 +224,12 @@ public class Grasping implements NodeMain {
                 if (gymState == ArmGymState.MOVE_TO_GROUND) {
                     System.out.println("Move to Ground - Curr PWM: " + shoulderPWM);
                     if (shoulderServo.onGround(shoulderPWM)) {
-                    	 gymState = ArmGymState.MOVE_UP;
+                    	 gymState = ArmGymState.OPEN_GRIPPER;
                     	 } else {
                         writeShoulderPWM(shoulderServo.moveToGround(shoulderPWM));
                     }
                 }
-
+*/
                 // // Grasp and Transport
                 // if (graspState == ArmGraspState.INIT_WRIST) {
                 // if (wristServo.isGymBent(wristPWM)) {
