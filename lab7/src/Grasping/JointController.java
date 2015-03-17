@@ -51,6 +51,9 @@ public class JointController {
             return desiredPWM;
         }
     }
+    
+    public boolean atTarget(double angle, int currentPWM)
+    	{return getPWM(angle)==currentPWM;}
 
     /**
      * Computes the PWM to write to the servo taking into the constraint of not moving more than 1 radian per control step
@@ -89,6 +92,15 @@ public class JointController {
             //            return currPWM - correction;
         }
     }
+    
+    public int rotateTo(double angle, int currPWM) {
+        //        int correction;
+    	int diff = (getPWM(angle)-currPWM);
+        if (diff!=0)
+        	{int direction = diff/Math.abs(diff);
+        	return Math.max(Math.min(currPWM + direction*(MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MAX_PWM), MIN_PWM);}
+        else return currPWM;
+        } 
 
     /**
      * Returns whether the servo is at the minimum position
