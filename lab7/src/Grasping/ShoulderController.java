@@ -10,6 +10,8 @@ public class ShoulderController extends JointController {
         super(minPWM, maxPWM, thetaRange, pwm0, pwm270);
         GYM_UP_PWM = getPWM(GYM_UP_ANGLE);
         GYM_GROUND_PWM = getPWM(GYM_GROUND_ANGLE);
+        System.out.println("Gym Up PWM: " + GYM_UP_PWM);
+        System.out.println("Gym Ground PWM: " + GYM_GROUND_PWM);
     }
     
     /**

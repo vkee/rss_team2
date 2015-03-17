@@ -7,6 +7,7 @@ public class WristController extends JointController{
     public WristController(int minPWM, int maxPWM, double thetaRange, int pwm0, int pwm90) {
         super(minPWM, maxPWM, thetaRange, pwm0, pwm90);
         GYM_BEND_PWM = getPWM(GYM_BEND_ANGLE);
+        System.out.println("Gym Up PWM: " + GYM_BEND_PWM);
     }
     
     /**
