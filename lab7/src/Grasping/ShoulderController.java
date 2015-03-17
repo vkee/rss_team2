@@ -6,8 +6,8 @@ public class ShoulderController extends JointController {
     private final double GYM_GROUND_ANGLE = -Math.PI/4;
     private final int GYM_GROUND_PWM;
     
-    public ShoulderController(int minPWM, int maxPWM, double thetaRange, int pwm0, int pwm90) {
-        super(minPWM, maxPWM, thetaRange, pwm0, pwm90);
+    public ShoulderController(int minPWM, int maxPWM, double thetaRange, int pwm0, int pwm270) {
+        super(minPWM, maxPWM, thetaRange, pwm0, pwm270);
         GYM_UP_PWM = getPWM(GYM_UP_ANGLE);
         GYM_GROUND_PWM = getPWM(GYM_GROUND_ANGLE);
     }
