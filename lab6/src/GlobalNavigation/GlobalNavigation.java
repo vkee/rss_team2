@@ -65,6 +65,7 @@ public class GlobalNavigation implements NodeMain {
 
     private boolean navWaypts = false;
     private boolean atGoal = false;
+    private boolean completelyDone = false;
 
     // change to true to get appropriate print statements
     private boolean debug = false;
