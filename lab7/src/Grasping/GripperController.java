@@ -47,7 +47,7 @@ public class GripperController{
      * @return the PWM value to be written to the servo
      */
     public int close(int currPWM) {
-        return fullRotation(currPWM, true);
+        return fullRotation(currPWM, false);
     }
 
     /**
@@ -56,7 +56,7 @@ public class GripperController{
      * @return the PWM value to be written to the servo
      */
     public int open(int currPWM) {
-        return fullRotation(currPWM, false);
+        return fullRotation(currPWM, true);
     }
 
     /**
