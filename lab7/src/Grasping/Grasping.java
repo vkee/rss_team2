@@ -111,14 +111,19 @@ public class Grasping implements NodeMain {
 		odometrySub = node.newSubscriber("/rss/odometry",
 				"rss_msgs/OdometryMsg");
 
-		//Initialization State
-		
-		Thread.sleep(1000);
+		// Initialization State
+
+		try {
+			Thread.sleep(1000);
+		} catch (Exception e) {
+
+		}
 		System.out.println("going to initialization state...");
 		int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
 		int wrist_init_value = wristServo.MIN_PWM;
 		int gripper_init_value = gripperServo.MIN_PWM;
-		initializeServos(shoulder_init_value, wrist_init_value, gripper_init_value);
+		initializeServos(shoulder_init_value, wrist_init_value,
+				gripper_init_value);
 		System.out.println("at initilization state...");
 
 		// For debugging
@@ -192,8 +197,6 @@ public class Grasping implements NodeMain {
 
 				// TODO probably need to initialize everything to some
 				// positions
-					
-				
 
 				/*
 				 * if (gymState == ArmGymState.OPEN_GRIPPER) {
@@ -364,7 +367,8 @@ public class Grasping implements NodeMain {
 		});
 	}
 
-	protected void initializeServos(int shoulder_value, int wrist_value, int gripper_value) {
+	protected void initializeServos(int shoulder_value, int wrist_value,
+			int gripper_value) {
 		ArmMsg msg = new ArmMsg();
 		msg.pwms[0] = shoulder_value;
 		msg.pwms[1] = wrist_value;
