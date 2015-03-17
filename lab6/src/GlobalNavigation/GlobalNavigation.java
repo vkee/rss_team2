@@ -127,7 +127,7 @@ public class GlobalNavigation implements NodeMain {
         // points.
         Point2D.Double robotStart = polyMap.getRobotStart();
         waypoints = motionPlanner.getPath(robotStart, polyMap.getRobotGoal(),
-                .02);
+                .2);
 
         // Updating the shifts so that the robot is at 0,0 with 0 rad heading at
         // start
@@ -137,16 +137,18 @@ public class GlobalNavigation implements NodeMain {
         // TODO: worst case get rid of these shifts and just restart morcboard
         // each run
 
+        
+        
         outputPath(waypoints, MapGUI.makeRandomColor());
 
         System.out.println("Number of waypoints: " + waypoints.size());
         // To wait for the GUI
-        try {
-            Thread.sleep(2000);
-        } catch (Exception e) {
-
-        }		
-        navWaypts = true;
+//        try {
+//            Thread.sleep(2000);
+//        } catch (Exception e) {
+//
+//        }		
+//        navWaypts = true;
     }
 
     /**
