@@ -189,10 +189,15 @@ public class Grasping implements NodeMain {
 					int gripper_init_value = gripperServo.MIN_PWM;
 					initializeServos(shoulder_init_value, wrist_init_value,
 							gripper_init_value);
+					try {
+						Thread.sleep(1000);
+					} catch (Exception e) {
+
+					}
 					System.out.println("at initilization state...");
 					gymState = ArmGymState.OPEN_GRIPPER;
-				}
-				if (gymState == ArmGymState.OPEN_GRIPPER) {
+
+				} else if (gymState == ArmGymState.OPEN_GRIPPER) {
 					System.out.println("Opening Gripper - Curr PWM: "
 							+ gripperPWM);
 					System.out.println(gripperServo.isOpen(gripperPWM));
@@ -203,7 +208,7 @@ public class Grasping implements NodeMain {
 					}
 				}
 
-				if (gymState == ArmGymState.CLOSE_GRIPPER) {
+				else if (gymState == ArmGymState.CLOSE_GRIPPER) {
 					System.out.println("Close Gripper");
 					if (gripperServo.isClosed(gripperPWM)) {
 						gymState = ArmGymState.MOVE_UP;
@@ -212,7 +217,7 @@ public class Grasping implements NodeMain {
 					}
 				}
 
-				if (gymState == ArmGymState.MOVE_UP) {
+				else if (gymState == ArmGymState.MOVE_UP) {
 					System.out.println("Move Up - Curr PWM: " + shoulderPWM);
 					if (shoulderServo.isGymUp(shoulderPWM)) {
 						gymState = ArmGymState.BEND_ELBOW;
@@ -221,7 +226,7 @@ public class Grasping implements NodeMain {
 					}
 				}
 
-				if (gymState == ArmGymState.BEND_ELBOW) {
+				else if (gymState == ArmGymState.BEND_ELBOW) {
 					System.out.println("Bend Elbow - Curr PWM: " + wristPWM);
 					if (wristServo.isGymBent(wristPWM)) {
 						gymState = ArmGymState.MOVE_TO_GROUND;
@@ -230,7 +235,7 @@ public class Grasping implements NodeMain {
 					}
 				}
 
-				if (gymState == ArmGymState.MOVE_TO_GROUND) {
+				else if (gymState == ArmGymState.MOVE_TO_GROUND) {
 					System.out.println("Move to Ground - Curr PWM: "
 							+ shoulderPWM);
 					if (shoulderServo.onGround(shoulderPWM)) {
