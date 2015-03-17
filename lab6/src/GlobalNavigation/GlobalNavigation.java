@@ -68,7 +68,7 @@ public class GlobalNavigation implements NodeMain {
 
     // change to true to get appropriate print statements
     private boolean debug = false;
-    private boolean wayptNav_debug = true;
+    private boolean wayptNav_debug = false;
     private boolean odometry_debug = false;
 
     public GlobalNavigation() {
