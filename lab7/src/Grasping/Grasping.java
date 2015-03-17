@@ -171,6 +171,8 @@ public class Grasping implements NodeMain {
                 //                 positions
                 // so will probably need to make an initialize state
 
+//                first try to even open the gripper
+                
                 if (gymState == ArmGymState.OPEN_GRIPPER) {
                     System.out.println("Open Gripper");
                     if (gripperServo.isOpen(gripperPWM)) {
