@@ -61,8 +61,8 @@ public class MotionPlanner {
                 System.out.println("Number of tries: " + tries);
 
             //          TODO: we may want to add a bias to selecting a point near the goal later on
-            double testX = Math.random() * map.worldRect.width;
-            double testY = Math.random() * map.worldRect.height;
+            double testX = Math.random() * map.worldRect.width - .5;
+            double testY = Math.random() * map.worldRect.height - .5;
             Point2D.Double testPoint = new Point2D.Double(testX, testY);
 
             //          The mininum distance between 2 nodes, initialized to the longest distance possible in the map
