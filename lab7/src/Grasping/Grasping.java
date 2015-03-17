@@ -150,18 +150,18 @@ public class Grasping implements NodeMain {
                 int wristPWM = (int) pwmVals[1];
                 int gripperPWM = (int) pwmVals[2];
 
-                 rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
-//                if (objGrasped) {
-//                    gripperServo.close((int) msg.pwms[2]);
-//                }
+                //                 rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
+                //                if (objGrasped) {
+                //                    gripperServo.close((int) msg.pwms[2]);
+                //                }
 
                 // System.out.println("Obj Grasped: " + objGrasped);
                 // System.out.println("Shoulder Max PWM Change " +
                 // shoulderServo.MAX_PWM_CHANGE);
-                // double sum = InverseKinematics.ARM_LENGTH +
-                // InverseKinematics.WRIST_LENGTH;
-                // moveArm(sum*Math.cos(-Math.PI/4), sum*Math.sin(-Math.PI/4),
-                // (int) msg.pwms[0], (int) msg.pwms[1]);
+                double sum = InverseKinematics.ARM_LENGTH +
+                        InverseKinematics.WRIST_LENGTH;
+                moveArm(sum*Math.cos(-Math.PI/4), sum*Math.sin(-Math.PI/4),
+                        (int) msg.pwms[0], (int) msg.pwms[1]);
 
                 //                // Arm Gymnastics
                 //
@@ -324,8 +324,8 @@ public class Grasping implements NodeMain {
         bumpersSub.addMessageListener(new MessageListener<BumpMsg>() {
             @Override
             public void onNewMessage(BumpMsg msg) {
-//                System.out.println("msg.left state: " + msg.left);
-//                System.out.println("msg.right state: " + msg.right);
+                //                System.out.println("msg.left state: " + msg.left);
+                //                System.out.println("msg.right state: " + msg.right);
                 System.out.println("msg.gripper state: " + msg.gripper);
                 objDetected = msg.gripper;
             }
@@ -351,10 +351,6 @@ public class Grasping implements NodeMain {
      */
     public void moveArm(double desX, double desZ, int currShoulderPWM,
             int currWristPWM) {
-        // Inverse Kinematic Equation
-        // TODO: don't know how to solve for the required angles
-        // Let shoulderTheta, wristTheta be the angles to write for the shoulder
-        // and wrist respectively
 
         double[] angles = InverseKinematics.getThetaPhi(desX, desZ,
                 shoulderServo.getThetaRad(currShoulderPWM),
