@@ -180,7 +180,6 @@ public class Grasping implements NodeMain {
 
 //                first try to even open the gripper
                 
-                System.out.println(gymState);
                 if (gymState == ArmGymState.OPEN_GRIPPER) {
                     System.out.println("Open Gripper - Curr PWM: " + gripperPWM);
                     if (gripperServo.isOpen(gripperPWM)) {
@@ -221,8 +220,8 @@ public class Grasping implements NodeMain {
                 if (gymState == ArmGymState.MOVE_TO_GROUND) {
                     System.out.println("Move to Ground - Curr PWM: " + shoulderPWM);
                     if (shoulderServo.onGround(shoulderPWM)) {
-                        // TODO: what to do here? just end?
-                    } else {
+                    	 gymState = ArmGymState.MOVE_UP;
+                    	 } else {
                         writeShoulderPWM(shoulderServo.moveToGround(shoulderPWM));
                     }
                 }
