@@ -113,18 +113,7 @@ public class Grasping implements NodeMain {
 
 		// Initialization State
 
-		try {
-			Thread.sleep(1000);
-		} catch (Exception e) {
 
-		}
-		System.out.println("going to initialization state...");
-		int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
-		int wrist_init_value = wristServo.MIN_PWM;
-		int gripper_init_value = gripperServo.MIN_PWM;
-		initializeServos(shoulder_init_value, wrist_init_value,
-				gripper_init_value);
-		System.out.println("at initilization state...");
 
 		// For debugging
 		/*
@@ -176,7 +165,18 @@ public class Grasping implements NodeMain {
 				int shoulderPWM = (int) pwmVals[0];
 				int wristPWM = (int) pwmVals[1];
 				int gripperPWM = (int) pwmVals[2];
+				try {
+					Thread.sleep(1000);
+				} catch (Exception e) {
 
+				}
+				System.out.println("going to initialization state...");
+				int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
+				int wrist_init_value = wristServo.MIN_PWM;
+				int gripper_init_value = gripperServo.MIN_PWM;
+				initializeServos(shoulder_init_value, wrist_init_value,
+						gripper_init_value);
+				System.out.println("at initilization state...");
 				// rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
 
 				// Bump sensor
