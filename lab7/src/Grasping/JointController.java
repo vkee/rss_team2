@@ -80,11 +80,11 @@ public class JointController {
     public int fullRotation(int currPWM, boolean up) {
         //        int correction;
         if (up) {
-            return Math.min(currPWM + (MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MAX_PWM);
+            return Math.max(Math.min(currPWM + (MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MAX_PWM), MIN_PWM);
             //            correction = Math.min(MAX_PWM - currPWM, MAX_PWM_CHANGE);
             //            return currPWM + correction;
         } else {
-            return Math.max(currPWM - (MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MIN_PWM);
+            return Math.min(Math.max(currPWM - (MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MIN_PWM), MAX_PWM);
             //            correction = Math.min(currPWM - MIN_PWM, MAX_PWM_CHANGE);
             //            return currPWM - correction;
         }

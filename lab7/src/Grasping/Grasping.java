@@ -192,7 +192,7 @@ public class Grasping implements NodeMain {
                 }
 
                 if (gymState == ArmGymState.MOVE_UP) {
-                    System.out.println("Move Up");
+                    System.out.println("Move Up - Curr PWM: " + shoulderPWM);
                     if (shoulderServo.isGymUp(shoulderPWM)) {
                         gymState = ArmGymState.BEND_ELBOW;
                     } else {
@@ -202,7 +202,7 @@ public class Grasping implements NodeMain {
 
                 // Assuming that bend elbow is bending wrist
                 if (gymState == ArmGymState.BEND_ELBOW) {
-                    System.out.println("Bend Elbow");
+                    System.out.println("Bend Elbow - Curr PWM: " + wristPWM);
                     if (wristServo.isGymBent(wristPWM)) {
                         gymState = ArmGymState.MOVE_TO_GROUND;
                     } else {
@@ -211,7 +211,7 @@ public class Grasping implements NodeMain {
                 }
 
                 if (gymState == ArmGymState.MOVE_TO_GROUND) {
-                    System.out.println("Move to Ground");
+                    System.out.println("Move to Ground - Curr PWM: " + shoulderPWM);
                     if (shoulderServo.onGround(shoulderPWM)) {
                         // TODO: what to do here? just end?
                     } else {
