@@ -15,509 +15,518 @@ import org.ros.node.Node;
 //import VisualServo.*;
 
 public class Grasping implements NodeMain {
-    private Publisher<ArmMsg> armPWMPub;
-    private Subscriber<ArmMsg> armStatusSub;
-    private Subscriber<BumpMsg> bumpersSub;
-    private Publisher<MotionMsg> motionPub;
-    private Subscriber<OdometryMsg> odometrySub;
+	private Publisher<ArmMsg> armPWMPub;
+	private Subscriber<ArmMsg> armStatusSub;
+	private Subscriber<BumpMsg> bumpersSub;
+	private Publisher<MotionMsg> motionPub;
+	private Subscriber<OdometryMsg> odometrySub;
 
-    // PART 4
-    // public Subscriber<org.ros.message.sensor_msgs.Image> vidSub;
-    // public Publisher<org.ros.message.sensor_msgs.Image> vidPub;
-    // END PART 4
+	// PART 4
+	// public Subscriber<org.ros.message.sensor_msgs.Image> vidSub;
+	// public Publisher<org.ros.message.sensor_msgs.Image> vidPub;
+	// END PART 4
 
-    private State currState;
-    private ArmGymState gymState;
-    private ArmGraspState graspState;
-    private ShoulderController shoulderServo;
-    private WristController wristServo;
-    private GripperController gripperServo;
-    protected boolean objDetected = false;
-    protected boolean objGrasped = false;
+	private State currState;
+	private ArmGymState gymState;
+	private ArmGraspState graspState;
+	private ShoulderController shoulderServo;
+	private WristController wristServo;
+	private GripperController gripperServo;
+	protected boolean objDetected = false;
+	protected boolean objGrasped = false;
 
-    // Robot Odometry
-    private double robotX = 0.0; // in meters
-    private double robotY = 0.0; // in meters
-    private double robotTheta = 0.0; // in radians
+	// Robot Odometry
+	private double robotX = 0.0; // in meters
+	private double robotY = 0.0; // in meters
+	private double robotTheta = 0.0; // in radians
 
-    // Start Positions of the Move 
-    private double startX = 0.0; // in meters
-    private double startY = 0.0; // in meters
-    private double startTheta = 0.0; // in radians
-    // Goal Positions of the Move 
-    private double goalX = 0.0; // in meters
-    private double goalY = 0.0; // in meters
-    private double goalTheta = 0.0; // in radians
+	// Start Positions of the Move
+	private double startX = 0.0; // in meters
+	private double startY = 0.0; // in meters
+	private double startTheta = 0.0; // in radians
+	// Goal Positions of the Move
+	private double goalX = 0.0; // in meters
+	private double goalY = 0.0; // in meters
+	private double goalTheta = 0.0; // in radians
 
-    private double MOVE_DIST = 0.5; // in meters
+	private double MOVE_DIST = 0.5; // in meters
 
-    double FWD_GAIN = .2;
-    double ROT_GAIN = .2;
-    double DIST_TOL = 0.01; // tolerance to move MOVE_DIST in meters
+	double FWD_GAIN = .2;
+	double ROT_GAIN = .2;
+	double DIST_TOL = 0.01; // tolerance to move MOVE_DIST in meters
 
-    public enum ArmGraspState {
-        INIT_WRIST, INIT_GRIPPER, INIT_SHOULDER, GRASP, LIFT, MOVE, 
-        DEPOSIT_WRIST, DEPOSIT_SHOULDER, DEPOSIT_GRIPPER, RETURN
-    }
+	public enum ArmGraspState {
+		INIT_WRIST, INIT_GRIPPER, INIT_SHOULDER, GRASP, LIFT, MOVE, DEPOSIT_WRIST, DEPOSIT_SHOULDER, DEPOSIT_GRIPPER, RETURN
+	}
 
-    // States for Arm Gymnastics
-    public enum ArmGymState {
-        OPEN_GRIPPER, CLOSE_GRIPPER, MOVE_UP, BEND_ELBOW, MOVE_TO_GROUND
-    }
+	// States for Arm Gymnastics
+	public enum ArmGymState {
+		OPEN_GRIPPER, CLOSE_GRIPPER, MOVE_UP, BEND_ELBOW, MOVE_TO_GROUND
+	}
 
-    // States dividing up space so that no servo can move more than 1 radian per
-    // iteration
-    public enum State {
-        UP, DOWN
-    }
+	// States dividing up space so that no servo can move more than 1 radian per
+	// iteration
+	public enum State {
+		UP, DOWN
+	}
 
-    public Grasping() {
-        currState = State.DOWN;
-        gymState = ArmGymState.OPEN_GRIPPER; // gymnastics
-        shoulderServo = new ShoulderController(525, 2375, Math.PI, 1500, 525);
-        wristServo = new WristController(250, 2250, Math.PI, 1250, 2025);
-        gripperServo = new GripperController(1700, 2450, Math.PI, 1700, 2450);
-        
-    }
+	public Grasping() {
+		currState = State.DOWN;
+		gymState = ArmGymState.OPEN_GRIPPER; // gymnastics
+		shoulderServo = new ShoulderController(525, 2375, Math.PI, 1500, 525);
+		wristServo = new WristController(250, 2250, Math.PI, 1250, 2025);
+		gripperServo = new GripperController(1700, 2450, Math.PI, 1700, 2450);
 
-    /*
-     * @Override public void run() { while (true) { Image src = null; try { src
-     * = new Image(visionImage.take(), width, height); } catch
-     * (InterruptedException e) { e.printStackTrace(); continue; }
-     * 
-     * Image dest = new Image(src);
-     * 
-     * blobTrack.apply(src, dest);
-     * 
-     * // update newly formed vision message gui.setVisionImage(dest.toArray(),
-     * width, height);
-     * 
-     * // Begin Student Code
-     * 
-     * // publish velocity messages to move the robot towards the target
-     * MotionMsg msg = new MotionMsg(); // (Solution) msg.translationalVelocity
-     * = blobTrack.translationVelocityCommand; // (Solution)
-     * msg.rotationalVelocity = blobTrack.rotationVelocityCommand; // (Solution)
-     * publisher.publish(msg); // (Solution)
-     * 
-     * // End Student Code } }
-     */
+	}
 
-    @Override
-    public void onStart(Node node) {
-        armPWMPub = node.newPublisher("command/Arm", "rss_msgs/ArmMsg");
-        armStatusSub = node.newSubscriber("rss/ArmStatus", "rss_msgs/ArmMsg");
-        bumpersSub = node.newSubscriber("/rss/BumpSensors", "rss_msgs/BumpMsg");
-        motionPub = node.newPublisher("command/Motors", "rss_msgs/MotionMsg");
-        odometrySub = node.newSubscriber("/rss/odometry", "rss_msgs/OdometryMsg");
+	/*
+	 * @Override public void run() { while (true) { Image src = null; try { src
+	 * = new Image(visionImage.take(), width, height); } catch
+	 * (InterruptedException e) { e.printStackTrace(); continue; }
+	 * 
+	 * Image dest = new Image(src);
+	 * 
+	 * blobTrack.apply(src, dest);
+	 * 
+	 * // update newly formed vision message gui.setVisionImage(dest.toArray(),
+	 * width, height);
+	 * 
+	 * // Begin Student Code
+	 * 
+	 * // publish velocity messages to move the robot towards the target
+	 * MotionMsg msg = new MotionMsg(); // (Solution) msg.translationalVelocity
+	 * = blobTrack.translationVelocityCommand; // (Solution)
+	 * msg.rotationalVelocity = blobTrack.rotationVelocityCommand; // (Solution)
+	 * publisher.publish(msg); // (Solution)
+	 * 
+	 * // End Student Code } }
+	 */
 
-//        For debugging
-        System.out.println("Shoulder Servo Slope: " + shoulderServo.LINE_SLOPE);
-        System.out.println("Shoulder Servo Intercept: " + shoulderServo.LINE_THETA_INTERCEPT);
-        System.out.println("Wrist Servo Slope: " + wristServo.LINE_SLOPE);
-        System.out.println("Wrist Servo Intercept: " + wristServo.LINE_THETA_INTERCEPT);
-        
-        // PART 4
+	@Override
+	public void onStart(Node node) {
+		armPWMPub = node.newPublisher("command/Arm", "rss_msgs/ArmMsg");
+		armStatusSub = node.newSubscriber("rss/ArmStatus", "rss_msgs/ArmMsg");
+		bumpersSub = node.newSubscriber("/rss/BumpSensors", "rss_msgs/BumpMsg");
+		motionPub = node.newPublisher("command/Motors", "rss_msgs/MotionMsg");
+		odometrySub = node.newSubscriber("/rss/odometry",
+				"rss_msgs/OdometryMsg");
 
-        // blobTrack = new BlobTracking(width, height);
+		// For debugging
+		/*
+		 * System.out.println("Shoulder Servo Slope: " +
+		 * shoulderServo.LINE_SLOPE);
+		 * System.out.println("Shoulder Servo Intercept: " +
+		 * shoulderServo.LINE_THETA_INTERCEPT);
+		 * System.out.println("Wrist Servo Slope: " + wristServo.LINE_SLOPE);
+		 * System.out.println("Wrist Servo Intercept: " +
+		 * wristServo.LINE_THETA_INTERCEPT);
+		 */
+		// PART 4
 
-        // blobTrack.targetHueLevel = target_hue_level;
+		// blobTrack = new BlobTracking(width, height);
 
-        // vidPub = node.newPublisher("/rss/blobVideo", "sensor_msgs/Image");
-        // vidSub = node.newSubscriber("/rss/video","sensor_msgs/Image");
-        // Image dest = new Image(src);
-        ;
-        /*
-         * vidSub.addMessageListener(new
-         * MessageListener<org.ros.message.sensor_msgs.Image>() {
-         * 
-         * @Override public void onNewMessage(org.ros.message.sensor_msgs.Image
-         * message) {
-         * 
-         * 
-         * org.ros.message.sensor_msgs.Image pubImage = new
-         * org.ros.message.sensor_msgs.Image(); pubImage.width = width;
-         * pubImage.height = height; pubImage.encoding = "rgb8";
-         * pubImage.is_bigendian = 0; pubImage.step = width*3; pubImage.data =
-         * dest.toArray(); vidPub.publish(pubImage); } });
-         */
+		// blobTrack.targetHueLevel = target_hue_level;
 
-        // END PART 4
+		// vidPub = node.newPublisher("/rss/blobVideo", "sensor_msgs/Image");
+		// vidSub = node.newSubscriber("/rss/video","sensor_msgs/Image");
+		// Image dest = new Image(src);
+		;
+		/*
+		 * vidSub.addMessageListener(new
+		 * MessageListener<org.ros.message.sensor_msgs.Image>() {
+		 * 
+		 * @Override public void onNewMessage(org.ros.message.sensor_msgs.Image
+		 * message) {
+		 * 
+		 * 
+		 * org.ros.message.sensor_msgs.Image pubImage = new
+		 * org.ros.message.sensor_msgs.Image(); pubImage.width = width;
+		 * pubImage.height = height; pubImage.encoding = "rgb8";
+		 * pubImage.is_bigendian = 0; pubImage.step = width*3; pubImage.data =
+		 * dest.toArray(); vidPub.publish(pubImage); } });
+		 */
 
-        armStatusSub.addMessageListener(new MessageListener<ArmMsg>() {
-            @Override
-            public void onNewMessage(ArmMsg msg) {
-                // Simply printing out the PWM values
-                long[] pwmVals = msg.pwms;
-//                 for (int i = 0; i < 3; i++) {
-//                 System.out.println("PWM Value at Channel " + i + " is: "
-//                 + pwmVals[i]);
-//                 }
+		// END PART 4
 
-                int shoulderPWM = (int) pwmVals[0];
-                int wristPWM = (int) pwmVals[1];
-                int gripperPWM = (int) pwmVals[2];
-                System.out.println("sholderPWM: " + shoulderPWM);
-                System.out.println("wristPWM: " + wristPWM);
-                System.out.println("gripperPWM: " + gripperPWM);
-                
-                //                 rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
-                //                if (objDetected) {
-                //                    System.out.println("closing gripper");
-                //                    writeGripperPWM(gripperServo.close((int) msg.pwms[2]));
-                //                }
+		armStatusSub.addMessageListener(new MessageListener<ArmMsg>() {
+			@Override
+			public void onNewMessage(ArmMsg msg) {
+				// Simply printing out the PWM values
+				long[] pwmVals = msg.pwms;
+				// for (int i = 0; i < 3; i++) {
+				// System.out.println("PWM Value at Channel " + i + " is: "
+				// + pwmVals[i]);
+				// }
 
-                // System.out.println("Obj Grasped: " + objGrasped);
-                // System.out.println("Shoulder Max PWM Change " +
-                // shoulderServo.MAX_PWM_CHANGE);
-                //                double sum = InverseKinematics.ARM_LENGTH +
-                //                        InverseKinematics.WRIST_LENGTH;
-                //                moveArm(sum*Math.cos(0), sum*Math.sin(0),
-                //                        (int) msg.pwms[0], (int) msg.pwms[1]);
+				int shoulderPWM = (int) pwmVals[0];
+				int wristPWM = (int) pwmVals[1];
+				int gripperPWM = (int) pwmVals[2];
 
-                // Arm Gymnastics
+				// rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
 
-                // TODO probably need to initialize everything to some
-                //                 positions
-                // so will probably need to make an initialize state
+				// Bump sensor
+				// if (objDetected) {
+				// System.out.println("closing gripper");
+				// writeGripperPWM(gripperServo.close((int) msg.pwms[2]));
+				// }
 
-//                first try to even open the gripper
-                
-                /*
-                if (gymState == ArmGymState.OPEN_GRIPPER) {
-                    System.out.println("Open Gripper - Curr PWM: " + gripperPWM);
-                    if (gripperServo.isOpen(gripperPWM)) {
-                        gymState = ArmGymState.CLOSE_GRIPPER;
-                    } else {
-                        writeGripperPWM(gripperServo.open(gripperPWM));
-                    }
-                }
+				// System.out.println("Obj Grasped: " + objGrasped);
+				// System.out.println("Shoulder Max PWM Change " +
+				// shoulderServo.MAX_PWM_CHANGE);
+				// double sum = InverseKinematics.ARM_LENGTH +
+				// InverseKinematics.WRIST_LENGTH;
+				// moveArm(sum*Math.cos(0), sum*Math.sin(0),
+				// (int) msg.pwms[0], (int) msg.pwms[1]);
 
-                if (gymState == ArmGymState.CLOSE_GRIPPER) {
-                    System.out.println("Close Gripper");
-                    if (gripperServo.isClosed(gripperPWM)) {
-                        gymState = ArmGymState.MOVE_UP;
-                    } else {
-                        writeGripperPWM(gripperServo.close(gripperPWM));
-                    }
-                }
+				// Arm Gymnastics
 
-                if (gymState == ArmGymState.MOVE_UP) {
-                    System.out.println("Move Up - Curr PWM: " + shoulderPWM);
-                    if (shoulderServo.isGymUp(shoulderPWM)) {
-                        gymState = ArmGymState.BEND_ELBOW;
-                    } else {
-                        writeShoulderPWM(shoulderServo.moveGymUp(shoulderPWM));
-                    }
-                }
+				// TODO probably need to initialize everything to some
+				// positions
+				
+				//Initialization State
+				System.out.println("going to initialization state...");
+				int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
+				int wrist_init_value = wristServo.MIN_PWM;
+				int gripper_init_value = gripperServo.MIN_PWM;
+				initializeServos(shoulder_init_value, wrist_init_value, gripper_init_value);
+				System.out.println("at initilization state...");
+				
+				
+				System.out.println("starting arm gymnastics...");
+				//Arm Gymanstics goes here
+				System.out.println("completed arm gymanstics...");
+				
+				
 
-                // Assuming that bend elbow is bending wrist
-                if (gymState == ArmGymState.BEND_ELBOW) {
-                    System.out.println("Bend Elbow - Curr PWM: " + wristPWM);
-                    if (wristServo.isGymBent(wristPWM)) {
-                        gymState = ArmGymState.MOVE_TO_GROUND;
-                    } else {
-                        writeWristPWM(wristServo.bendGym(wristPWM));
-                    }
-                }
+				/*
+				 * if (gymState == ArmGymState.OPEN_GRIPPER) {
+				 * System.out.println("Open Gripper - Curr PWM: " + gripperPWM);
+				 * if (gripperServo.isOpen(gripperPWM)) { gymState =
+				 * ArmGymState.CLOSE_GRIPPER; } else {
+				 * writeGripperPWM(gripperServo.open(gripperPWM)); } }
+				 * 
+				 * if (gymState == ArmGymState.CLOSE_GRIPPER) {
+				 * System.out.println("Close Gripper"); if
+				 * (gripperServo.isClosed(gripperPWM)) { gymState =
+				 * ArmGymState.MOVE_UP; } else {
+				 * writeGripperPWM(gripperServo.close(gripperPWM)); } }
+				 * 
+				 * if (gymState == ArmGymState.MOVE_UP) {
+				 * System.out.println("Move Up - Curr PWM: " + shoulderPWM); if
+				 * (shoulderServo.isGymUp(shoulderPWM)) { gymState =
+				 * ArmGymState.BEND_ELBOW; } else {
+				 * writeShoulderPWM(shoulderServo.moveGymUp(shoulderPWM)); } }
+				 * 
+				 * // Assuming that bend elbow is bending wrist if (gymState ==
+				 * ArmGymState.BEND_ELBOW) {
+				 * System.out.println("Bend Elbow - Curr PWM: " + wristPWM); if
+				 * (wristServo.isGymBent(wristPWM)) { gymState =
+				 * ArmGymState.MOVE_TO_GROUND; } else {
+				 * writeWristPWM(wristServo.bendGym(wristPWM)); } }
+				 * 
+				 * if (gymState == ArmGymState.MOVE_TO_GROUND) {
+				 * System.out.println("Move to Ground - Curr PWM: " +
+				 * shoulderPWM); if (shoulderServo.onGround(shoulderPWM)) {
+				 * gymState = ArmGymState.OPEN_GRIPPER; } else {
+				 * writeShoulderPWM(shoulderServo.moveToGround(shoulderPWM)); }
+				 * }
+				 */
+				// // Grasp and Transport
+				// if (graspState == ArmGraspState.INIT_WRIST) {
+				// if (wristServo.isGymBent(wristPWM)) {
+				// graspState = ArmGraspState.INIT_GRIPPER;
+				// } else {
+				// writeWristPWM(wristServo.bendGym(wristPWM));
+				// }
+				// }
+				//
+				// if (graspState == ArmGraspState.INIT_GRIPPER) {
+				// if (gripperServo.isOpen(gripperPWM)) {
+				// graspState = ArmGraspState.GRASP;
+				// } else {
+				// writeGripperPWM(gripperServo.open(gripperPWM));
+				// }
+				// }
+				//
+				// if (graspState == ArmGraspState.INIT_SHOULDER) {
+				// if (shoulderServo.onGround(shoulderPWM)) {
+				// graspState = ArmGraspState.GRASP;
+				// } else {
+				// writeShoulderPWM(shoulderServo
+				// .moveToGround(shoulderPWM));
+				// }
+				// }
+				//
+				// if (graspState == ArmGraspState.GRASP) {
+				// // TODO: may need to do stuff with camera to make sure that
+				// // the object is grasped
+				// if (gripperServo.isClosed(gripperPWM) && objDetected) {
+				// graspState = ArmGraspState.LIFT;
+				// } else if (objDetected) {
+				// writeGripperPWM(gripperServo.close(gripperPWM));
+				// }
+				// }
+				//
+				// if (graspState == ArmGraspState.LIFT) {
+				// // TODO: will need to have recovery methods
+				// if (!objDetected) {
+				// // Attempting recovery by restarting but probably need a
+				// // recovery state and then align with block
+				// graspState = ArmGraspState.INIT_WRIST;
+				// } else {
+				// if (shoulderServo.isGymUp(shoulderPWM)) {
+				// graspState = ArmGraspState.MOVE;
+				// startX = robotX;
+				// startY = robotY;
+				// startTheta = robotTheta;
+				// goalX = robotX + MOVE_DIST*Math.cos(robotTheta);
+				// goalY = robotY + MOVE_DIST*Math.sin(robotTheta);
+				// goalTheta = robotTheta;
+				// } else {
+				// writeShoulderPWM(shoulderServo
+				// .moveGymUp(shoulderPWM));
+				// }
+				// }
+				// }
+				//
+				//
+				// if (graspState == ArmGraspState.MOVE) {
+				// double remDist = getDist(robotX, robotY, goalX, goalY);
+				//
+				// if (remDist > DIST_TOL) {
+				// MotionMsg msg = new MotionMsg();
+				// msg.translationalVelocity = Math.min(FWD_GAIN * remDist,
+				// 0.5);
+				// msg.rotationalVelocity = Math.min(ROT_GAIN * (goalTheta -
+				// robotTheta), 0.25);
+				// motionPub.publish(msg);
+				// } else {
+				// graspState = ArmGraspState.DEPOSIT_WRIST;
+				// }
+				// }
+				//
+				// if (graspState == ArmGraspState.DEPOSIT_WRIST) {
+				// if (wristServo.isGymBent(wristPWM)) {
+				// graspState = ArmGraspState.DEPOSIT_SHOULDER;
+				// } else {
+				// writeWristPWM(wristServo.bendGym(wristPWM));
+				// }
+				// }
+				//
+				// if (graspState == ArmGraspState.DEPOSIT_SHOULDER) {
+				// if (shoulderServo.onGround(shoulderPWM)) {
+				// graspState = ArmGraspState.DEPOSIT_GRIPPER;
+				// } else {
+				// writeShoulderPWM(shoulderServo.moveToGround(shoulderPWM));
+				// }
+				// }
+				//
+				// if (graspState == ArmGraspState.DEPOSIT_GRIPPER) {
+				// if (gripperServo.isOpen(gripperPWM)) {
+				// graspState = ArmGraspState.RETURN;
+				// } else {
+				// writeGripperPWM(gripperServo.open(gripperPWM));
+				// }
+				// }
+				//
+				// if (graspState == ArmGraspState.RETURN) {
+				// double remDist = getDist(robotX, robotY, startX, startY);
+				//
+				// if (remDist > DIST_TOL) {
+				// MotionMsg msg = new MotionMsg();
+				// msg.translationalVelocity = Math.min(FWD_GAIN * remDist,
+				// 0.5);
+				// msg.rotationalVelocity = Math.min(ROT_GAIN * (startTheta -
+				// robotTheta), 0.25);
+				// motionPub.publish(msg);
+				// } else {
+				// // what to do now?
+				// }
+				// }
+			}
+		});
 
-                if (gymState == ArmGymState.MOVE_TO_GROUND) {
-                    System.out.println("Move to Ground - Curr PWM: " + shoulderPWM);
-                    if (shoulderServo.onGround(shoulderPWM)) {
-                    	 gymState = ArmGymState.OPEN_GRIPPER;
-                    	 } else {
-                        writeShoulderPWM(shoulderServo.moveToGround(shoulderPWM));
-                    }
-                }
-*/
-                // // Grasp and Transport
-                // if (graspState == ArmGraspState.INIT_WRIST) {
-                // if (wristServo.isGymBent(wristPWM)) {
-                // graspState = ArmGraspState.INIT_GRIPPER;
-                // } else {
-                // writeWristPWM(wristServo.bendGym(wristPWM));
-                // }
-                // }
-                //
-                // if (graspState == ArmGraspState.INIT_GRIPPER) {
-                // if (gripperServo.isOpen(gripperPWM)) {
-                // graspState = ArmGraspState.GRASP;
-                // } else {
-                // writeGripperPWM(gripperServo.open(gripperPWM));
-                // }
-                // }
-                //
-                // if (graspState == ArmGraspState.INIT_SHOULDER) {
-                // if (shoulderServo.onGround(shoulderPWM)) {
-                // graspState = ArmGraspState.GRASP;
-                // } else {
-                // writeShoulderPWM(shoulderServo
-                // .moveToGround(shoulderPWM));
-                // }
-                // }
-                //
-                // if (graspState == ArmGraspState.GRASP) {
-                // // TODO: may need to do stuff with camera to make sure that
-                // // the object is grasped
-                // if (gripperServo.isClosed(gripperPWM) && objDetected) {
-                // graspState = ArmGraspState.LIFT;
-                // } else if (objDetected) {
-                // writeGripperPWM(gripperServo.close(gripperPWM));
-                // }
-                // }
-                //
-                // if (graspState == ArmGraspState.LIFT) {
-                // // TODO: will need to have recovery methods
-                // if (!objDetected) {
-                // // Attempting recovery by restarting but probably need a
-                // // recovery state and then align with block
-                // graspState = ArmGraspState.INIT_WRIST;
-                // } else {
-                // if (shoulderServo.isGymUp(shoulderPWM)) {
-                // graspState = ArmGraspState.MOVE;
-                //                startX = robotX;
-                //                startY = robotY;
-                //                startTheta = robotTheta;
-                //                goalX = robotX + MOVE_DIST*Math.cos(robotTheta);
-                //                goalY = robotY + MOVE_DIST*Math.sin(robotTheta);
-                //                goalTheta = robotTheta;
-                // } else {
-                // writeShoulderPWM(shoulderServo
-                // .moveGymUp(shoulderPWM));
-                // }
-                // }
-                // }
-                //
-                //
-                //                if (graspState == ArmGraspState.MOVE) {
-                //                    double remDist = getDist(robotX, robotY, goalX, goalY);
-                //
-                //                    if (remDist > DIST_TOL) {
-                //                        MotionMsg msg = new MotionMsg();
-                //                        msg.translationalVelocity = Math.min(FWD_GAIN * remDist, 0.5);
-                //                        msg.rotationalVelocity = Math.min(ROT_GAIN * (goalTheta - robotTheta), 0.25);
-                //                        motionPub.publish(msg);
-                //                    } else {
-                //                        graspState = ArmGraspState.DEPOSIT_WRIST;
-                //                    }
-                //                }
-                //
-                //                if (graspState == ArmGraspState.DEPOSIT_WRIST) {
-                //                    if (wristServo.isGymBent(wristPWM)) {
-                //                        graspState = ArmGraspState.DEPOSIT_SHOULDER;
-                //                    } else {
-                //                        writeWristPWM(wristServo.bendGym(wristPWM));
-                //                    }
-                //                }
-                //
-                //                if (graspState == ArmGraspState.DEPOSIT_SHOULDER) {
-                //                    if (shoulderServo.onGround(shoulderPWM)) {
-                //                        graspState = ArmGraspState.DEPOSIT_GRIPPER;
-                //                    } else {
-                //                        writeShoulderPWM(shoulderServo.moveToGround(shoulderPWM));
-                //                    }
-                //                }
-                //
-                //                if (graspState == ArmGraspState.DEPOSIT_GRIPPER) {
-                //                    if (gripperServo.isOpen(gripperPWM)) {
-                //                        graspState = ArmGraspState.RETURN;
-                //                    } else {
-                //                        writeGripperPWM(gripperServo.open(gripperPWM));
-                //                    }
-                //                }
-                //
-                //                if (graspState == ArmGraspState.RETURN) {
-                //                    double remDist = getDist(robotX, robotY, startX, startY);
-                //
-                //                    if (remDist > DIST_TOL) {
-                //                        MotionMsg msg = new MotionMsg();
-                //                        msg.translationalVelocity = Math.min(FWD_GAIN * remDist, 0.5);
-                //                        msg.rotationalVelocity = Math.min(ROT_GAIN * (startTheta - robotTheta), 0.25);
-                //                        motionPub.publish(msg);
-                //                    } else {
-                //                        //                        what to do now?
-                //                    }
-                //                }
-            }
-        });
+		bumpersSub.addMessageListener(new MessageListener<BumpMsg>() {
+			@Override
+			public void onNewMessage(BumpMsg msg) {
+				// System.out.println("msg.left state: " + msg.left);
+				// System.out.println("msg.right state: " + msg.right);
+				// System.out.println("msg.gripper state: " + msg.gripper);
+				objDetected = msg.gripper;
 
-        bumpersSub.addMessageListener(new MessageListener<BumpMsg>() {
-            @Override
-            public void onNewMessage(BumpMsg msg) {
-                //                System.out.println("msg.left state: " + msg.left);
-                //                System.out.println("msg.right state: " + msg.right);
-//                System.out.println("msg.gripper state: " + msg.gripper);
-                objDetected = msg.gripper;
+			}
+		});
 
+		odometrySub.addMessageListener(new MessageListener<OdometryMsg>() {
+			@Override
+			public void onNewMessage(OdometryMsg msg) {
+				robotX = msg.x;
+				robotY = msg.y;
+				robotTheta = msg.theta;
+			}
+		});
+	}
 
+	protected void initializeServos(int shoulder_value, int wrist_value, int gripper_value) {
+		writeShoulderPWM(shoulder_value);
+		writeWristPWM(wrist_value);
+		writeGripperPWM(gripper_value);
+	}
 
-            }
-        });
+	/**
+	 * Moves the arm to the desired x, z position in the robot frame
+	 * 
+	 * @param desX
+	 *            the desired x coordinate for the end effector
+	 * @param desZ
+	 *            the desired z coordinate for the end effector
+	 */
+	public void moveArm(double desX, double desZ, int currShoulderPWM,
+			int currWristPWM) {
 
-        odometrySub.addMessageListener(new MessageListener<OdometryMsg>() {
-            @Override
-            public void onNewMessage(OdometryMsg msg) {
-                robotX = msg.x;
-                robotY = msg.y;
-                robotTheta = msg.theta;
-            }
-        });
-    }
+		double[] angles = InverseKinematics.getThetaPhi(desX, desZ,
+				shoulderServo.getThetaRad(currShoulderPWM),
+				wristServo.getThetaRad(currWristPWM));
 
-    /**
-     * Moves the arm to the desired x, z position in the robot frame
-     * 
-     * @param desX
-     *            the desired x coordinate for the end effector
-     * @param desZ
-     *            the desired z coordinate for the end effector
-     */
-    public void moveArm(double desX, double desZ, int currShoulderPWM,
-            int currWristPWM) {
+		int desShoulderPWM = shoulderServo.getPWM(angles[0]);
+		int desWristPWM = wristServo.getPWM(angles[1]);
 
-        double[] angles = InverseKinematics.getThetaPhi(desX, desZ,
-                shoulderServo.getThetaRad(currShoulderPWM),
-                wristServo.getThetaRad(currWristPWM));
+		ArmMsg msg = new ArmMsg();
+		msg.pwms[0] = shoulderServo.getSafePWM(currShoulderPWM, desShoulderPWM);
+		msg.pwms[1] = wristServo.getSafePWM(currWristPWM, desWristPWM);
+		armPWMPub.publish(msg);
+	}
 
-        int desShoulderPWM = shoulderServo.getPWM(angles[0]);
-        int desWristPWM = wristServo.getPWM(angles[1]);
+	/**
+	 * Rotates all of the servos concurrently (the handle(ArmMsg msg) method)
+	 */
+	private void rotateAllServos(int shoulderPWM, int wristPWM, int gripperPWM) {
 
-        ArmMsg msg = new ArmMsg();
-        msg.pwms[0] = shoulderServo.getSafePWM(currShoulderPWM, desShoulderPWM);
-        msg.pwms[1] = wristServo.getSafePWM(currWristPWM, desWristPWM);
-        armPWMPub.publish(msg);
-    }
+		int SHIFT_AMOUNT = 100;
+		if (currState == State.UP) {
+			// If all servos are at the UP state
+			if (shoulderServo.atMax(shoulderPWM) && wristServo.atMax(wristPWM)
+					&& gripperServo.isClosed(gripperPWM)) {
+				System.out.println("Switching to Down");
+				currState = State.DOWN;
+			} else {
+				ArmMsg msg = new ArmMsg();
 
-    /**
-     * Rotates all of the servos concurrently (the handle(ArmMsg msg) method)
-     */
-    private void rotateAllServos(int shoulderPWM, int wristPWM, int gripperPWM) {
+				// msg.pwms[0] = Math.min(shoulderPWM + (shoulderServo.MAX_PWM -
+				// shoulderServo.MIN_PWM)/SHIFT_AMOUNT, shoulderServo.MAX_PWM);
+				// msg.pwms[1] = Math.min(wristPWM + (wristServo.MAX_PWM -
+				// wristServo.MIN_PWM)/SHIFT_AMOUNT, wristServo.MAX_PWM);
+				// msg.pwms[2] = Math.min(gripperPWM + (gripperServo.MAX_PWM -
+				// gripperServo.MIN_PWM)/SHIFT_AMOUNT, gripperServo.MAX_PWM);
 
-        int SHIFT_AMOUNT = 100;
-        if (currState == State.UP) {
-            // If all servos are at the UP state
-            if (shoulderServo.atMax(shoulderPWM) && wristServo.atMax(wristPWM)
-                    && gripperServo.isClosed(gripperPWM)) {
-                System.out.println("Switching to Down");
-                currState = State.DOWN;
-            } else {
-                ArmMsg msg = new ArmMsg();
+				// System.out.println("Shoulder Theta: " +
+				// shoulderServo.getThetaDeg(msg.pwms[0]));
+				// System.out.println("Wrist Theta: " +
+				// wristServo.getThetaDeg(msg.pwms[1]));
 
-                // msg.pwms[0] = Math.min(shoulderPWM + (shoulderServo.MAX_PWM -
-                // shoulderServo.MIN_PWM)/SHIFT_AMOUNT, shoulderServo.MAX_PWM);
-                // msg.pwms[1] = Math.min(wristPWM + (wristServo.MAX_PWM -
-                // wristServo.MIN_PWM)/SHIFT_AMOUNT, wristServo.MAX_PWM);
-                // msg.pwms[2] = Math.min(gripperPWM + (gripperServo.MAX_PWM -
-                // gripperServo.MIN_PWM)/SHIFT_AMOUNT, gripperServo.MAX_PWM);
+				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, true);
+				msg.pwms[1] = wristServo.fullRotation(wristPWM, true);
+				msg.pwms[2] = gripperServo.fullRotation(gripperPWM, true);
+				// System.out.println("Shoulder PWM: " + msg.pwms[0]);
+				armPWMPub.publish(msg);
+			}
+		} else if (currState == State.DOWN) {
 
-                // System.out.println("Shoulder Theta: " +
-                // shoulderServo.getThetaDeg(msg.pwms[0]));
-                // System.out.println("Wrist Theta: " +
-                // wristServo.getThetaDeg(msg.pwms[1]));
+			// If all servos are at the DOWN state
+			if (shoulderServo.atMin(shoulderPWM) && wristServo.atMin(wristPWM)
+					&& gripperServo.isOpen(gripperPWM)) {
+				System.out.println("Switching to Up");
+				currState = State.UP;
+			} else {
+				ArmMsg msg = new ArmMsg();
+				// msg.pwms[0] = Math.max(shoulderPWM - (shoulderServo.MAX_PWM -
+				// shoulderServo.MIN_PWM)/SHIFT_AMOUNT, shoulderServo.MIN_PWM);
+				// msg.pwms[1] = Math.max(wristPWM - (wristServo.MAX_PWM -
+				// wristServo.MIN_PWM)/SHIFT_AMOUNT, wristServo.MIN_PWM);
+				// msg.pwms[2] = Math.max(gripperPWM - (gripperServo.MAX_PWM -
+				// gripperServo.MIN_PWM)/SHIFT_AMOUNT, gripperServo.MIN_PWM);
+				msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, false);
+				msg.pwms[1] = wristServo.fullRotation(wristPWM, false);
+				msg.pwms[2] = gripperServo.fullRotation(gripperPWM, false);
 
-                msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, true);
-                msg.pwms[1] = wristServo.fullRotation(wristPWM, true);
-                msg.pwms[2] = gripperServo.fullRotation(gripperPWM, true);
-                // System.out.println("Shoulder PWM: " + msg.pwms[0]);
-                armPWMPub.publish(msg);
-            }
-        } else if (currState == State.DOWN) {
+				// System.out.println("Shoulder Theta: " +
+				// shoulderServo.getThetaDeg(msg.pwms[0]));
+				// System.out.println("Wrist Theta: " +
+				// wristServo.getThetaDeg(msg.pwms[1]));
+				armPWMPub.publish(msg);
+			}
+		}
+	}
 
-            // If all servos are at the DOWN state
-            if (shoulderServo.atMin(shoulderPWM) && wristServo.atMin(wristPWM)
-                    && gripperServo.isOpen(gripperPWM)) {
-                System.out.println("Switching to Up");
-                currState = State.UP;
-            } else {
-                ArmMsg msg = new ArmMsg();
-                // msg.pwms[0] = Math.max(shoulderPWM - (shoulderServo.MAX_PWM -
-                // shoulderServo.MIN_PWM)/SHIFT_AMOUNT, shoulderServo.MIN_PWM);
-                // msg.pwms[1] = Math.max(wristPWM - (wristServo.MAX_PWM -
-                // wristServo.MIN_PWM)/SHIFT_AMOUNT, wristServo.MIN_PWM);
-                // msg.pwms[2] = Math.max(gripperPWM - (gripperServo.MAX_PWM -
-                // gripperServo.MIN_PWM)/SHIFT_AMOUNT, gripperServo.MIN_PWM);
-                msg.pwms[0] = shoulderServo.fullRotation(shoulderPWM, false);
-                msg.pwms[1] = wristServo.fullRotation(wristPWM, false);
-                msg.pwms[2] = gripperServo.fullRotation(gripperPWM, false);
+	/**
+	 * Writes the provided PWM value for the shoulder servo
+	 * 
+	 * @param value
+	 *            the PWM value to write to the shoulder servo
+	 */
+	private void writeShoulderPWM(int value) {
+		ArmMsg msg = new ArmMsg();
+		msg.pwms[0] = value;
+		armPWMPub.publish(msg);
+	}
 
-                // System.out.println("Shoulder Theta: " +
-                // shoulderServo.getThetaDeg(msg.pwms[0]));
-                // System.out.println("Wrist Theta: " +
-                // wristServo.getThetaDeg(msg.pwms[1]));
-                armPWMPub.publish(msg);
-            }
-        }
-    }
+	/**
+	 * Writes the provided PWM value for the wrist servo
+	 * 
+	 * @param value
+	 *            the PWM value to write to the wrist servo
+	 */
+	private void writeWristPWM(int value) {
+		ArmMsg msg = new ArmMsg();
+		msg.pwms[1] = value;
+		armPWMPub.publish(msg);
+	}
 
-    /**
-     * Writes the provided PWM value for the shoulder servo
-     * 
-     * @param value
-     *            the PWM value to write to the shoulder servo
-     */
-    private void writeShoulderPWM(int value) {
-        ArmMsg msg = new ArmMsg();
-        msg.pwms[0] = value;
-        armPWMPub.publish(msg);
-    }
+	/**
+	 * Writes the provided PWM value for the gripper servo
+	 * 
+	 * @param value
+	 *            the PWM value to write to the gripper servo
+	 */
+	private void writeGripperPWM(int value) {
+		ArmMsg msg = new ArmMsg();
+		msg.pwms[2] = value;
+		armPWMPub.publish(msg);
+	}
 
-    /**
-     * Writes the provided PWM value for the wrist servo
-     * 
-     * @param value
-     *            the PWM value to write to the wrist servo
-     */
-    private void writeWristPWM(int value) {
-        ArmMsg msg = new ArmMsg();
-        msg.pwms[1] = value;
-        armPWMPub.publish(msg);
-    }
+	/**
+	 * Returns the distance between two points
+	 * 
+	 * @param pt1X
+	 *            the x coordinate of point 1
+	 * 
+	 * @param pt1Y
+	 *            the y coordinate of point 1
+	 * 
+	 * @param pt2X
+	 *            the x coordinate of point 2
+	 * 
+	 * @param pt2Y
+	 *            the y coordinate of point 2
+	 */
+	public double getDist(double pt1X, double pt1Y, double pt2X, double pt2Y) {
+		return Math.sqrt((pt1X - pt2X) * (pt1X - pt2X) + (pt1Y - pt2Y)
+				* (pt1Y - pt2Y));
+	}
 
-    /**
-     * Writes the provided PWM value for the gripper servo
-     * 
-     * @param value
-     *            the PWM value to write to the gripper servo
-     */
-    private void writeGripperPWM(int value) {
-        ArmMsg msg = new ArmMsg();
-        msg.pwms[2] = value;
-        armPWMPub.publish(msg);
-    }
+	@Override
+	public void onShutdown(Node node) {
+		if (node != null) {
+			node.shutdown();
+		}
+	}
 
-    /**
-     * Returns the distance between two points
-     * 
-     * @param pt1X
-     *            the x coordinate of point 1
-     * 
-     * @param pt1Y
-     *            the y coordinate of point 1
-     * 
-     * @param pt2X
-     *            the x coordinate of point 2
-     * 
-     * @param pt2Y
-     *            the y coordinate of point 2
-     */
-    public double getDist(double pt1X, double pt1Y, double pt2X, double pt2Y) {
-        return Math.sqrt((pt1X - pt2X) * (pt1X - pt2X) + (pt1Y - pt2Y)
-                * (pt1Y - pt2Y));
-    }
+	@Override
+	public void onShutdownComplete(Node node) {
+	}
 
-    @Override
-    public void onShutdown(Node node) {
-        if (node != null) {
-            node.shutdown();
-        }
-    }
-
-    @Override
-    public void onShutdownComplete(Node node) {
-    }
-
-    @Override
-    public GraphName getDefaultNodeName() {
-        return new GraphName("rss/grasping");
-    }
+	@Override
+	public GraphName getDefaultNodeName() {
+		return new GraphName("rss/grasping");
+	}
 }
