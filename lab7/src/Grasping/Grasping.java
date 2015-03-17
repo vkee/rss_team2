@@ -72,7 +72,7 @@ public class Grasping implements NodeMain {
 
 	public Grasping() {
 		currState = State.DOWN;
-		gymState = ArmGymState.OPEN_GRIPPER; // gymnastics
+		gymState = ArmGymState.INITIALIZE; // gymnastics
 		shoulderServo = new ShoulderController(525, 2375, Math.PI, 1500, 525);
 		wristServo = new WristController(350, 2250, Math.PI, 1250, 2025);
 		gripperServo = new GripperController(1700, 2450, Math.PI, 1700, 2450);
@@ -193,8 +193,9 @@ public class Grasping implements NodeMain {
 					gymState = ArmGymState.OPEN_GRIPPER;
 				}
 				if (gymState == ArmGymState.OPEN_GRIPPER) {
-					System.out
-							.println("Open Gripper - Curr PWM: " + gripperPWM);
+					System.out.println("Opening Gripper - Curr PWM: "
+							+ gripperPWM);
+					System.out.println(gripperServo.isOpen(gripperPWM));
 					if (gripperServo.isOpen(gripperPWM)) {
 						gymState = ArmGymState.CLOSE_GRIPPER;
 					} else {
