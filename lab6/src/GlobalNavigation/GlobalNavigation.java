@@ -161,12 +161,14 @@ public class GlobalNavigation implements NodeMain {
     private void wayptNav() {
         // System.out.println("In waypt nav");
         Point2D.Double wayPoint = null;
+        boolean finalWaypt = false;
         if (currWaypt < waypoints.size()) {
             wayPoint = waypoints.get(currWaypt);
         } else {
             wayPoint = polyMap.getRobotGoal();
             System.out.println("LAST POINT: X-" + wayPoint.getX() + " Y-"
                     + wayPoint.getY());
+            finalWaypt = true;
         }
 
         double currX = robotX;
@@ -179,7 +181,7 @@ public class GlobalNavigation implements NodeMain {
         // double currY = robotY + yShift;
         // double currTheta = robotTheta + thetaShift;
 
-        if (wayptNav_debug == true) {
+        if (wayptNav_debug == true || finalWaypt ) {
             System.out.println("currX: " + currX);
             System.out.println("currY: " + currY);
             System.out.println("currTheta: " + currTheta);
@@ -192,7 +194,7 @@ public class GlobalNavigation implements NodeMain {
         if (thetaToPoint < 0) {
             thetaToPoint += 2 * Math.PI;
         }
-        if (wayptNav_debug == true) {
+        if (wayptNav_debug == true || finalWaypt ) {
             System.out.println("xError: " + xError);
             System.out.println("yError: " + yError);
             System.out.println("thetaToPoint: " + thetaToPoint);
@@ -201,7 +203,7 @@ public class GlobalNavigation implements NodeMain {
         // thetashift
         // TODO make sure that this is actually the theta error
         double thetaError = currTheta - thetaToPoint;
-        if (wayptNav_debug == true) {
+        if (wayptNav_debug == true || finalWaypt ) {
             System.out.println("Theta Error: " + thetaError);
         }
         // Keeping the theta error always in the range -pi to pi
@@ -211,7 +213,7 @@ public class GlobalNavigation implements NodeMain {
             thetaError -= 2 * Math.PI;
         }
 
-        if (wayptNav_debug == true) {
+        if (wayptNav_debug == true || finalWaypt ) {
             System.out.println("Theta Error after correction: " + thetaError);
         }
         // While not at the current waypoint, adjust proportionally to the error
