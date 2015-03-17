@@ -364,9 +364,11 @@ public class Grasping implements NodeMain {
 	}
 
 	protected void initializeServos(int shoulder_value, int wrist_value, int gripper_value) {
-		writeShoulderPWM(shoulder_value);
-		writeWristPWM(wrist_value);
-		writeGripperPWM(gripper_value);
+		ArmMsg msg = new ArmMsg();
+		msg.pwms[0] = shoulder_value;
+		msg.pwms[1] = wrist_value;
+		msg.pwms[2] = gripper_value;
+		armPWMPub.publish(msg);
 	}
 
 	/**
