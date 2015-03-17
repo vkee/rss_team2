@@ -148,7 +148,7 @@ public class GlobalNavigation implements NodeMain {
 //        } catch (Exception e) {
 //
 //        }		
-//        navWaypts = true;
+        navWaypts = true;
     }
 
     /**
