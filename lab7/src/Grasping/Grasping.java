@@ -51,7 +51,7 @@ public class Grasping implements NodeMain {
     private double goalY = 0.0; // in meters
     private double goalTheta = 0.0; // in radians
 
-    private double MOVE_DIST = 0.5; // in meters
+    private double MOVE_DIST = 0.25; // in meters
 
     double FWD_GAIN = .2;
     double ROT_GAIN = .2;
@@ -365,14 +365,50 @@ public class Grasping implements NodeMain {
                         MotionMsg moveMsg = new MotionMsg();
                         moveMsg.translationalVelocity = Math.min(FWD_GAIN * remDist, 0.25);
                         moveMsg.rotationalVelocity = 0.0;
-                        
+
                         System.out.println("Trans Vel: " + moveMsg.translationalVelocity);
                         motionPub.publish(moveMsg);
                     } else {
-                        System.out.println("Robot should have moved 0.5 m");
-                        //                        graspState = ArmGraspState.DEPOSIT_WRIST;
+                        MotionMsg moveMsg = new MotionMsg();
+                        moveMsg.translationalVelocity = 0.0;
+                        moveMsg.rotationalVelocity = 0.0;                        
+                        motionPub.publish(moveMsg);
+                        graspState = ArmGraspState.DEPOSIT_WRIST;
                     }
-                }
+                } else if (graspState == ArmGraspState.DEPOSIT_WRIST) {
+                    // Opens gripper
+                    if (!gripperServo.isOpen(gripperPWM)) {
+                        gripper = gripperServo.open(gripperPWM);
+                    } else {
+                        graspState = ArmGraspState.RETURN;
+                        graspState = ArmGraspState.MOVE;
+                        startX = robotX;
+                        startY = robotY;
+                        startTheta = robotTheta;
+                        goalX = robotX - MOVE_DIST*Math.cos(robotTheta);
+                        goalY = robotY - MOVE_DIST*Math.sin(robotTheta);
+                        goalTheta = robotTheta;
+                    }
+                } else if (graspState == ArmGraspState.RETURN) {
+                    double remDist = getDist(robotX, robotY, goalX, goalY);
+                    System.out.println("RobotX: " + robotX + " RobotY: " + robotY + " GoalX: " + goalX + " GoalY: " + goalY);
+                    System.out.println("Rem Dist: " + remDist);
+
+                    if (remDist > DIST_TOL) {
+                        MotionMsg moveMsg = new MotionMsg();
+                        moveMsg.translationalVelocity = -Math.min(FWD_GAIN * remDist, 0.25);
+                        moveMsg.rotationalVelocity = 0.0;
+
+                        System.out.println("Trans Vel: " + moveMsg.translationalVelocity);
+                        motionPub.publish(moveMsg);
+                    } else {
+                        MotionMsg moveMsg = new MotionMsg();
+                        moveMsg.translationalVelocity = 0.0;
+                        moveMsg.rotationalVelocity = 0.0;                        
+                        motionPub.publish(moveMsg);
+                        System.out.println("DONE with Grasp and Transport");
+                    }
+                } 
 
                 sendCommands();
 
