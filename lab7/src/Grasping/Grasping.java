@@ -347,7 +347,7 @@ public class Grasping implements NodeMain {
                     if (!shoulderServo.isGymUp(shoulderPWM)) {
                         shoulder = shoulderServo.moveGymUp(shoulderPWM);
                     } else {
-                        System.out.println("Arm should be at 45 degrees");
+                        System.out.println("Arm should be at 45 degrees and now switching into move");
                         //                      graspState = ArmGraspState.MOVE;
                     }
                     // gymState = ArmGymState.BEND_ELBOW;
