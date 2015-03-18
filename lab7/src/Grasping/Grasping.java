@@ -157,10 +157,30 @@ public class Grasping implements NodeMain {
 
 		armStatusSub.addMessageListener(new MessageListener<ArmMsg>() {
 			
+			int[] pwm_stat = new int[3];
+			int wrist = 0;
+			int shoulder = 0;
+			int gripper = 0;
+			
+			public void sendCommands()
+				{
+				pwm_stat[0] = shoulder;
+				pwm_stat[1] = wrist;
+				pwm_stat[2] = gripper;
+				
+				ArmMsg msg = new ArmMsg();
+				msg.pwms[0] = pwm_stat[0];
+				msg.pwms[1] = pwm_stat[1];
+				msg.pwms[2] = pwm_stat[2];
+				armPWMPub.publish(msg);
+				}
+			
+			
 			@Override
 			public void onNewMessage(ArmMsg msg) {
 				
-				long[] pwmVals = msg.pwms;
+				//long[] pwmVals = msg.pwms;
+				int[] pwmVals = pwm_stat;
 				int shoulderPWM = (int) pwmVals[0];
 				int wristPWM = (int) pwmVals[1];
 				int gripperPWM = (int) pwmVals[2];
@@ -281,10 +301,15 @@ public class Grasping implements NodeMain {
 					int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
 					int wrist_init_value = wristServo.MIN_PWM;
 					int gripper_init_value = gripperServo.MIN_PWM;
-					System.out.println("0 " + wristPWM);
 
-					initializeServos(shoulder_init_value, wrist_init_value,
-							gripper_init_value);
+					//initializeServos(shoulder_init_value, wrist_init_value,
+							//gripper_init_value);
+					
+					gripper = gripper_init_value;
+					wrist = wrist_init_value;
+					shoulder = shoulder_init_value;
+					
+					
 					// try {
 					// Thread.sleep(1000);
 					// } catch (Exception e) {
@@ -301,7 +326,7 @@ public class Grasping implements NodeMain {
 						if (!gripperServo.isOpen(wristPWM)) {
 							// System.out.println("opening gripper" + wristPWM +
 							// " of "+gripperServo.MAX_PWM);
-							writeGripperPWM(gripperServo.open(wristPWM));
+							gripper = gripperServo.open(wristPWM);
 						} else {
 							graspState = ArmGraspState.FIND_OBJ;
 						}
@@ -318,7 +343,7 @@ public class Grasping implements NodeMain {
 					if (!gripperServo.isClosed(wristPWM)) {
 						System.out.println("closing gripper" + wristPWM
 								+ " of " + gripperServo.MIN_PWM);
-						writeGripperPWM(gripperServo.close(wristPWM));
+						gripper = gripperServo.close(wristPWM);
 					} else {
 						graspState = ArmGraspState.LIFT;
 					}
@@ -326,11 +351,15 @@ public class Grasping implements NodeMain {
 
 				else if (graspState == ArmGraspState.LIFT) {
 					if (!shoulderServo.atTarget(Math.PI / 2, shoulderPWM)) {
-						writeShoulderPWM(shoulderServo.rotateTo(Math.PI / 2,
-								shoulderPWM));
+						shoulder = shoulderServo.rotateTo(Math.PI / 2,
+								shoulderPWM);
 					} else {
 						graspState = ArmGraspState.MOVE;
 					}
+				
+				
+				sendCommands();
+				
 				}
 
 				// rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
@@ -458,14 +487,14 @@ public class Grasping implements NodeMain {
 		});
 	}
 
-	protected void initializeServos(int shoulder_value, int wrist_value,
+	/*protected void initializeServos(int shoulder_value, int wrist_value,
 			int gripper_value) {
 		ArmMsg msg = new ArmMsg();
 		msg.pwms[0] = shoulder_value;
 		msg.pwms[1] = wrist_value;
 		msg.pwms[2] = gripper_value;
 		armPWMPub.publish(msg);
-	}
+	}*/
 
 	/**
 	 * Moves the arm to the desired x, z position in the robot frame
@@ -559,11 +588,11 @@ public class Grasping implements NodeMain {
 	 * @param value
 	 *            the PWM value to write to the shoulder servo
 	 */
-	private void writeShoulderPWM(int value) {
+	/*private void writeShoulderPWM(int value) {
 		ArmMsg msg = new ArmMsg();
 		msg.pwms[0] = value;
 		armPWMPub.publish(msg);
-	}
+	}*/
 
 	/**
 	 * Writes the provided PWM value for the wrist servo
@@ -571,11 +600,11 @@ public class Grasping implements NodeMain {
 	 * @param value
 	 *            the PWM value to write to the wrist servo
 	 */
-	private void writeWristPWM(int value) {
+	/*private void writeWristPWM(int value) {
 		ArmMsg msg = new ArmMsg();
 		msg.pwms[1] = value;
 		armPWMPub.publish(msg);
-	}
+	}*/
 
 	/**
 	 * Writes the provided PWM value for the gripper servo
@@ -583,11 +612,11 @@ public class Grasping implements NodeMain {
 	 * @param value
 	 *            the PWM value to write to the gripper servo
 	 */
-	private void writeGripperPWM(int value) {
+	/*private void writeGripperPWM(int value) {
 		ArmMsg msg = new ArmMsg();
 		msg.pwms[2] = value;
 		armPWMPub.publish(msg);
-	}
+	}*/
 
 	/**
 	 * Returns the distance between two points
