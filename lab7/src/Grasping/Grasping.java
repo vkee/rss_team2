@@ -309,12 +309,14 @@ public class Grasping implements NodeMain {
                     wrist = wrist_init_value;
                     shoulder = shoulder_init_value;
 
+                    System.out.println("Gripper Init Value: " + gripper);
+                    
                     // try {
                     // Thread.sleep(1000);
                     // } catch (Exception e) {
                     //
                     // }
-                    System.out.println("at initilization state...");
+                    System.out.println("at initialization state...");
                     graspState = ArmGraspState.OPEN_GRIPPER;
                     System.out.println("1 " + wristPWM);
 
@@ -348,7 +350,6 @@ public class Grasping implements NodeMain {
                     } else {
                         graspState = ArmGraspState.MOVE;
                     }
-
                 }
 
                 sendCommands();
