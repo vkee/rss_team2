@@ -24,7 +24,7 @@ public class Grasping implements NodeMain {
     private Publisher<MotionMsg> motionPub;
     private Subscriber<OdometryMsg> odometrySub;
     private Subscriber<org.ros.message.sensor_msgs.Image> vidSub;
-    private Subscriber<org.ros.message.sensor_msgs.Image> vidPub;
+    private Publisher<org.ros.message.sensor_msgs.Image> vidPub;
 
     private State currState;
     private ArmGymState gymState;
@@ -133,6 +133,7 @@ public class Grasping implements NodeMain {
 
         final boolean reverseRGB = node.newParameterTree().getBoolean(
                 "reverse_rgb", false);
+        
         vidPub = node.newPublisher("/rss/blobVideo", "sensor_msgs/Image");
 
         vidSub = node.newSubscriber("/rss/video", "sensor_msgs/Image");
