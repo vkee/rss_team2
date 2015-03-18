@@ -7,14 +7,15 @@ import org.ros.node.topic.Subscriber;
 import org.ros.message.rss_msgs.*;
 import org.ros.message.MessageListener;
 import org.ros.node.Node;
+import org.ros.node.NodeMain;
+
+import VisualServo.BlobTracking;
+import VisualServo.Image;
+import VisualServo.VisionGUI;
 
 import java.util.Arrays;
+import java.util.concurrent.ArrayBlockingQueue;
 
-//import org.ros.message.lab7_msgs.*;
-
-//import VisualServo.Image;
-//import VisualServo.MotionMsg;
-//import VisualServo.*;
 
 public class Grasping implements NodeMain {
     private Publisher<ArmMsg> armPWMPub;
@@ -22,11 +23,8 @@ public class Grasping implements NodeMain {
     private Subscriber<BumpMsg> bumpersSub;
     private Publisher<MotionMsg> motionPub;
     private Subscriber<OdometryMsg> odometrySub;
-
-    // PART 4
-    // public Subscriber<org.ros.message.sensor_msgs.Image> vidSub;
-    // public Publisher<org.ros.message.sensor_msgs.Image> vidPub;
-    // END PART 4
+    private Subscriber<org.ros.message.sensor_msgs.Image> vidSub;
+    private VisionGUI gui;
 
     private State currState;
     private ArmGymState gymState;
@@ -57,6 +55,32 @@ public class Grasping implements NodeMain {
     double ROT_GAIN = .2;
     double DIST_TOL = 0.05; // tolerance to move MOVE_DIST in meters
 
+    //    For Part 4
+    protected BlobTracking blobTrack = null;
+
+    protected static final int width = 160;
+
+    protected static final int height = 120;
+
+    private double target_hue_level = 0.475; // (Solution)
+    private double hue_threshold = 0.08; // (Solution)
+    private double saturation_level = 0.5; // (Solution)
+    // // Units are fraction of total number of pixels detected in blob //
+    // (Solution)
+    private double blob_size_threshold = 0.005; // (Solution)
+    private double target_radius = 0.1; // (Solution)
+    private double desired_fixation_distance = .5; // (Solution)
+    private double translation_error_tolerance = .05;// (Solution)
+    private double translation_velocity_gain = .75;// (Solution)
+    private double translation_velocity_max = .75;// (Solution)
+    private double rotation_error_tolerance = 0.2; // (Solution)
+    private double rotation_velocity_gain = 0.15; // (Solution)
+    private double rotation_velocity_max = 0.15; // (Solution)
+    private boolean use_gaussian_blur = true;// (Solution)
+    private boolean approximate_gaussian = false;// (Solution)
+    protected ArrayBlockingQueue<byte[]> visionImage = new ArrayBlockingQueue<byte[]>(
+            1);
+
     public enum ArmGraspState {
         INITIALIZE, OPEN_GRIPPER, FIND_OBJ, GRASP, LIFT, MOVE, DEPOSIT_WRIST, DEPOSIT_SHOULDER, DEPOSIT_GRIPPER, RETURN
     }
@@ -79,30 +103,27 @@ public class Grasping implements NodeMain {
         shoulderServo = new ShoulderController(525, 2375, Math.PI, 1500, 525);
         wristServo = new WristController(350, 2250, Math.PI, 1250, 2025);
         gripperServo = new GripperController(1700, 2450, Math.PI, 1700, 2450);
-    }
+        blobTrack = new BlobTracking(width, height);
 
-    /*
-     * @Override public void run() { while (true) { Image src = null; try { src
-     * = new Image(visionImage.take(), width, height); } catch
-     * (InterruptedException e) { e.printStackTrace(); continue; }
-     * 
-     * Image dest = new Image(src);
-     * 
-     * blobTrack.apply(src, dest);
-     * 
-     * // update newly formed vision message gui.setVisionImage(dest.toArray(),
-     * width, height);
-     * 
-     * // Begin Student Code
-     * 
-     * // publish velocity messages to move the robot towards the target
-     * MotionMsg msg = new MotionMsg(); // (Solution) msg.translationalVelocity
-     * = blobTrack.translationVelocityCommand; // (Solution)
-     * msg.rotationalVelocity = blobTrack.rotationVelocityCommand; // (Solution)
-     * publisher.publish(msg); // (Solution)
-     * 
-     * // End Student Code } }
-     */
+        //    For Part 4
+        blobTrack.targetHueLevel = target_hue_level;// (Solution)
+        blobTrack.hueThreshold = hue_threshold;// (Solution)
+        blobTrack.saturationLevel = saturation_level;// (Solution)
+        blobTrack.blobSizeThreshold = blob_size_threshold;// (Solution)
+        blobTrack.targetRadius = target_radius;// (Solution)
+        blobTrack.desiredFixationDistance = desired_fixation_distance;// (Solution)
+        blobTrack.translationErrorTolerance = translation_error_tolerance;// (Solution)
+        blobTrack.translationVelocityGain = translation_velocity_gain;// (Solution)
+        blobTrack.translationVelocityMax = translation_velocity_max;// (Solution)
+        blobTrack.rotationErrorTolerance = rotation_error_tolerance;// (Solution)
+        blobTrack.rotationVelocityGain = rotation_velocity_gain;// (Solution)
+        blobTrack.rotationVelocityMax = rotation_velocity_max;// (Solution)
+        blobTrack.useGaussianBlur = use_gaussian_blur;// (Solution)
+        blobTrack.approximateGaussian = approximate_gaussian;// (Solution)
+
+        gui = new VisionGUI();
+
+    }
 
     @Override
     public void onStart(Node node) {
@@ -112,6 +133,26 @@ public class Grasping implements NodeMain {
         motionPub = node.newPublisher("command/Motors", "rss_msgs/MotionMsg");
         odometrySub = node.newSubscriber("/rss/odometry",
                 "rss_msgs/OdometryMsg");
+
+        final boolean reverseRGB = node.newParameterTree().getBoolean(
+                "reverse_rgb", false);
+
+        vidSub = node.newSubscriber("/rss/video", "sensor_msgs/Image");
+        vidSub.addMessageListener(new MessageListener<org.ros.message.sensor_msgs.Image>() {
+            @Override
+            public void onNewMessage(org.ros.message.sensor_msgs.Image message) {
+                byte[] rgbData;
+                if (reverseRGB) {
+                    rgbData = Image.RGB2BGR(message.data, (int) message.width,
+                            (int) message.height);
+                } else {
+                    rgbData = message.data;
+                }
+                assert ((int) message.width == width);
+                assert ((int) message.height == height);
+                handle(rgbData);
+            }
+        });
 
         // Initialization State
 
@@ -185,114 +226,6 @@ public class Grasping implements NodeMain {
 
                 System.out.println(Arrays.toString(pwmVals));
 
-                // try {
-                // Thread.sleep(1000);
-                // } catch (Exception e) {
-                //
-                // }
-
-                // BEGIN GYMNASTICS
-                // TO DO MAKE INTO STATIC METHOD IF IT PLEASES YOU
-                // /////////////////////////////////////////////////////////////////////////////////////////////
-                // // Arm Gymnastics COMPLETED 3/17/15. If you do not like the
-                // // video, adjust the ranges to the appropriate section and
-                // rerun
-                // System.out.println("Current State: " + gymState);
-                // if (gymState == ArmGymState.INITIALIZE) {
-                // System.out.println("going to initialization state...");
-                // int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
-                // int wrist_init_value = wristServo.MIN_PWM;
-                // int gripper_init_value = gripperServo.MIN_PWM;
-                // initializeServos(shoulder_init_value, wrist_init_value,
-                // gripper_init_value);
-                // try {
-                // Thread.sleep(1000);
-                // } catch (Exception e) {
-                //
-                // }
-                // System.out.println("at initilization state...");
-                // gymState = ArmGymState.OPEN_GRIPPER;
-                //
-                // } else if (gymState == ArmGymState.OPEN_GRIPPER) {
-                // // #1
-                // System.out.println("Opening Gripper");
-                // System.out.println(gripperServo.isOpen(gripperPWM));
-                // if (gripperServo.isOpen(gripperPWM)) {
-                // gymState = ArmGymState.CLOSE_GRIPPER;
-                // } else {
-                // writeGripperPWM(2450);
-                // }
-                // }
-                //
-                // else if (gymState == ArmGymState.CLOSE_GRIPPER) {
-                // // #2
-                // System.out.println("Close Gripper");
-                // if (gripperServo.isClosed(gripperPWM)) {
-                // gymState = ArmGymState.MOVE_UP;
-                // } else {
-                // writeGripperPWM(1700);
-                // }
-                // }
-                //
-                // else if (gymState == ArmGymState.MOVE_UP) {
-                // // #3
-                // System.out.println("Move Arm Up");
-                // if (shoulderServo.isGymUp(shoulderPWM)) {
-                // gymState = ArmGymState.BEND_ELBOW;
-                // } else {
-                // writeShoulderPWM(shoulderServo.moveGymUp(shoulderPWM));
-                // }
-                // }
-                //
-                // else if (gymState == ArmGymState.BEND_ELBOW) {
-                // // #4
-                // System.out.println("Bend Elbow");
-                // if (wristServo.isGymBent(wristPWM)) {
-                // gymState = ArmGymState.MOVE_TO_GROUND;
-                // } else {
-                // writeWristPWM(wristServo.bendGym(wristPWM));
-                // }
-                // }
-                //
-                // else if (gymState == ArmGymState.MOVE_TO_GROUND) {
-                // // #5
-                // System.out.println("Move to Ground");
-                // if (shoulderServo.onGround(shoulderPWM)) {
-                // gymState = ArmGymState.OPEN_GRIPPER;
-                // } else {
-                // writeShoulderPWM(shoulderServo
-                // .moveToGround(shoulderPWM));
-                // }
-                // }
-
-                // // Grasp and Transport
-                // if (graspState == ArmGraspState.INIT_WRIST) {
-                // if (wristServo.isGymBent(wristPWM)) {
-                // graspState = ArmGraspState.INIT_GRIPPER;
-                // } else {
-                // writeWristPWM(wristServo.bendGym(wristPWM));
-                // }
-                // }
-                //
-                // if (graspState == ArmGraspState.INIT_GRIPPER) {
-                // if (gripperServo.isOpen(gripperPWM)) {
-                // graspState = ArmGraspState.GRASP;
-                // } else {
-                // writeGripperPWM(gripperServo.open(gripperPWM));
-                // }
-                // }
-                //
-                // if (graspState == ArmGraspState.INIT_SHOULDER) {
-                // if (shoulderServo.onGround(shoulderPWM)) {
-                // graspState = ArmGraspState.GRASP;
-                // } else {
-                // writeShoulderPWM(shoulderServo
-                // .moveToGround(shoulderPWM));
-                // }
-                // }
-                // END OF
-                // GYNMNASTICS///////////////////////////////////////////////////////////////////////////////////////////
-
                 System.out.println("Current State: " + graspState);
                 if (graspState == ArmGraspState.INITIALIZE) {
                     int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
@@ -306,11 +239,9 @@ public class Grasping implements NodeMain {
                     System.out.println("Gripper Init Value: " + gripper);
 
                     graspState = ArmGraspState.OPEN_GRIPPER;
-                    System.out.println("1 " + wristPWM);
 
                 } else if (graspState == ArmGraspState.OPEN_GRIPPER) {
                     // Opens gripper
-                    System.out.println("2 " + gripperPWM);
                     if (!gripperServo.isOpen(gripperPWM)) {
                         gripper = gripperServo.open(gripperPWM);
                     } else {
@@ -325,10 +256,35 @@ public class Grasping implements NodeMain {
                         System.out.println("Object Detected!");
                         graspState = ArmGraspState.GRASP;
                     } else {
-                        MotionMsg moveMsg = new MotionMsg();
-                        moveMsg.translationalVelocity = 0.15;
-                        moveMsg.rotationalVelocity = 0.0;
-                        motionPub.publish(moveMsg);
+                        System.out.println("trying to find the block");
+                        //                        Part 4 Stuff
+                        Image src = null;
+                        try {
+                            src = new Image(visionImage.take(), width, height);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                            continue;
+                        }
+
+                        Image dest = new Image(src);
+
+                        blobTrack.apply(src, dest);
+
+                        // update newly formed vision message
+                        gui.setVisionImage(dest.toArray(), width, height);
+
+                        // Begin Student Code
+
+                        // publish velocity messages to move the robot towards the target
+                        MotionMsg vidMsg = new MotionMsg(); // (Solution)
+                        vidMsg.translationalVelocity = blobTrack.translationVelocityCommand; // (Solution)
+                        vidMsg.rotationalVelocity = blobTrack.rotationVelocityCommand; // (Solution)
+                        System.out.println("Trans Vel: " + vidMsg.translationalVelocity);
+                        System.out.println("Rot Vel: " + vidMsg.rotationalVelocity);
+
+                        motionPub.publish(msg); // (Solution)
+
+                        // End Student Code
                     }
                 } else if (graspState == ArmGraspState.GRASP) {
                     if (!gripperServo.isClosed(gripperPWM)) {
@@ -415,6 +371,7 @@ public class Grasping implements NodeMain {
                 } 
 
                 sendCommands();
+
             }
         });
 
@@ -442,13 +399,6 @@ public class Grasping implements NodeMain {
             }
         });
     }
-
-    /*
-     * protected void initializeServos(int shoulder_value, int wrist_value, int
-     * gripper_value) { ArmMsg msg = new ArmMsg(); msg.pwms[0] = shoulder_value;
-     * msg.pwms[1] = wrist_value; msg.pwms[2] = gripper_value;
-     * armPWMPub.publish(msg); }
-     */
 
     /**
      * Moves the arm to the desired x, z position in the robot frame
@@ -568,6 +518,20 @@ public class Grasping implements NodeMain {
      * private void writeGripperPWM(int value) { ArmMsg msg = new ArmMsg();
      * msg.pwms[2] = value; armPWMPub.publish(msg); }
      */
+
+    /**
+     * <p>
+     * Handle a CameraMessage. Perform blob tracking and servo robot towards
+     * target.
+     * </p>
+     * 
+     * @param rawImage
+     *            a received camera message
+     */
+    public void handle(byte[] rawImage) {
+
+        visionImage.offer(rawImage);
+    }
 
     /**
      * Returns the distance between two points
