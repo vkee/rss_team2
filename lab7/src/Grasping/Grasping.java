@@ -172,8 +172,8 @@ public class Grasping implements NodeMain {
 				msg.pwms[2] = pwm_stat[2];
 				armPWMPub.publish(msg);
 
-				System.out.println("message sent");
-				System.out.println(Arrays.toString(pwm_stat));
+				//System.out.println("message sent");
+				//System.out.println(Arrays.toString(pwm_stat));
 			}
 
 			@Override
@@ -295,7 +295,7 @@ public class Grasping implements NodeMain {
 				// END OF
 				// GYNMNASTICS///////////////////////////////////////////////////////////////////////////////////////////
 
-				// System.out.println("Current State: " + graspState);
+				 System.out.println("Current State: " + graspState);
 				if (graspState == ArmGraspState.INITIALIZE) {
 					System.out.println("going to initialization state...");
 					int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
