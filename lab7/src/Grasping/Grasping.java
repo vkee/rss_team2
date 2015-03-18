@@ -364,11 +364,9 @@ public class Grasping implements NodeMain {
                         MotionMsg moveMsg = new MotionMsg();
                         moveMsg.translationalVelocity = Math.min(FWD_GAIN * remDist,
                                 0.25);
-                        moveMsg.rotationalVelocity = Math.min(ROT_GAIN * (goalTheta -
-                                robotTheta), 0.25);
+                        moveMsg.rotationalVelocity = 0.0;
                         
                         System.out.println("Trans Vel: " + moveMsg.translationalVelocity);
-                        System.out.println("Rot Vel: " + moveMsg.rotationalVelocity);
                         motionPub.publish(moveMsg);
                     } else {
                         System.out.println("Robot should have moved 0.5 m");
