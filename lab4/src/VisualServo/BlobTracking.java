@@ -375,7 +375,7 @@ public class BlobTracking {
 			} // (Solution)
 			src = new Image(destArray, src.getWidth(), src.getHeight()); // (Solution)
 		}
-		blobPixel(src, blobPixelMask); //(Solution)
+		blobPixel(src, blobPixelMask); //(Solution) 
 		blobPresent(blobPixelMask, imageConnected, blobMask); //(Solution)
 		if (targetDetected) { // (Solution)
 			blobFix(); // (Solution)
