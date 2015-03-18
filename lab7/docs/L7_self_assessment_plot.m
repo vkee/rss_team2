@@ -16,7 +16,7 @@ S2 = [0 0 0 0]; % after
 
 % Vincent
 V1 = [4 2 1 3]; % before
-V2 = [0 0 0 0]; % after
+V2 = [4 2 2 3]; % after
 
 
 % bar x-axis labels
