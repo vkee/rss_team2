@@ -368,7 +368,7 @@ public class Grasping implements NodeMain {
                                 robotTheta), 0.25);
                         
                         System.out.println("Trans Vel: " + moveMsg.translationalVelocity);
-                        System.out.println("Rot Vel: " + moveMsg.rotationalVelocity)
+                        System.out.println("Rot Vel: " + moveMsg.rotationalVelocity);
                         motionPub.publish(moveMsg);
                     } else {
                         System.out.println("Robot should have moved 0.5 m");
