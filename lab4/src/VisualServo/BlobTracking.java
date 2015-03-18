@@ -375,7 +375,7 @@ public class BlobTracking {
 			} // (Solution)
 			src = new Image(destArray, src.getWidth(), src.getHeight()); // (Solution)
 		}
-		blobPixel(src, blobPixelMask); //(Solution) 
+		blobPixel(src, blobPixelMask); //(Solution)
 		blobPresent(blobPixelMask, imageConnected, blobMask); //(Solution)
 		if (targetDetected) { // (Solution)
 			blobFix(); // (Solution)
@@ -395,7 +395,6 @@ public class BlobTracking {
 		// For a start, just copy src to dest. // (Solution)
 		if (dest != null) { // (Solution)
 			// (Solution)
-//		    System.out.println("Should be seeing the histogram");
 			Histogram.getHistogram(src, dest, true); // (Solution)
 			markBlob(src, dest); // (Solution)
 			// (Solution)

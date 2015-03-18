@@ -89,7 +89,6 @@ public class VisualServo implements NodeMain, Runnable {
 	@Override
 	public void run() {
 		while (true) {
-		    System.out.println("Running run");
 			Image src = null;
 			try {
 				src = new Image(visionImage.take(), width, height);
@@ -108,10 +107,10 @@ public class VisualServo implements NodeMain, Runnable {
 			// Begin Student Code
 
 			// publish velocity messages to move the robot towards the target
-//			MotionMsg msg = new MotionMsg(); // (Solution)
-//			msg.translationalVelocity = blobTrack.translationVelocityCommand; // (Solution)
-//			msg.rotationalVelocity = blobTrack.rotationVelocityCommand; // (Solution)
-//			publisher.publish(msg); // (Solution)
+			MotionMsg msg = new MotionMsg(); // (Solution)
+			msg.translationalVelocity = blobTrack.translationVelocityCommand; // (Solution)
+			msg.rotationalVelocity = blobTrack.rotationVelocityCommand; // (Solution)
+			publisher.publish(msg); // (Solution)
 
 			// End Student Code
 		}
