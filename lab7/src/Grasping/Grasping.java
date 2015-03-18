@@ -62,7 +62,7 @@ public class Grasping implements NodeMain {
 
     protected static final int height = 120;
 
-    private double target_hue_level = 0.0; // (Solution)
+    private double target_hue_level = 315.0/360; // (Solution)
     private double hue_threshold = 0.08; // (Solution)
     private double saturation_level = 0.5; // (Solution)
     // // Units are fraction of total number of pixels detected in blob //
@@ -71,11 +71,11 @@ public class Grasping implements NodeMain {
     private double target_radius = 0.25; // (Solution)
     private double desired_fixation_distance = .5; // (Solution)
     private double translation_error_tolerance = .05;// (Solution)
-    private double translation_velocity_gain = .75;// (Solution)
-    private double translation_velocity_max = .75;// (Solution)
+    private double translation_velocity_gain = .25;// (Solution)
+    private double translation_velocity_max = .25;// (Solution)
     private double rotation_error_tolerance = 0.2; // (Solution)
-    private double rotation_velocity_gain = 0.15; // (Solution)
-    private double rotation_velocity_max = 0.15; // (Solution)
+    private double rotation_velocity_gain = 0.2; // (Solution)
+    private double rotation_velocity_max = 0.2; // (Solution)
     private boolean use_gaussian_blur = true;// (Solution)
     private boolean approximate_gaussian = false;// (Solution)
     protected ArrayBlockingQueue<byte[]> visionImage = new ArrayBlockingQueue<byte[]>(
@@ -99,10 +99,10 @@ public class Grasping implements NodeMain {
     public Grasping() {
         currState = State.DOWN;
         gymState = ArmGymState.INITIALIZE; // gymnastics
-        //        graspState = ArmGraspState.FIND_OBJ; // gymnastics
+               graspState = ArmGraspState.INITIALIZE; // gymnastics
         shoulderServo = new ShoulderController(525, 2375, Math.PI, 1500, 525);
         wristServo = new WristController(350, 2250, Math.PI, 1250, 2025);
-        gripperServo = new GripperController(1700, 2450, Math.PI, 1700, 2450);
+        gripperServo = new GripperController(1700, 2075, Math.PI, 1700, 2075);
         blobTrack = new BlobTracking(width, height);
 
         //    For Part 4
@@ -226,10 +226,10 @@ public class Grasping implements NodeMain {
 
                 double sum = InverseKinematics.ARM_LENGTH +
                         InverseKinematics.WRIST_LENGTH;
-                moveArm(sum*Math.cos(Math.PI/4), sum*Math.sin(Math.PI/4),
-                        shoulderPWM, wristPWM);
+                //moveArm(sum*Math.cos(Math.PI/4), sum*Math.sin(Math.PI/4),
+                  //      shoulderPWM, wristPWM);
 
-                //                System.out.println("Current State: " + graspState);
+                                System.out.println("Current State: " + graspState);
                 if (graspState == ArmGraspState.INITIALIZE) {
                     int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
                     int wrist_init_value = wristServo.COLLECT_PWM;
@@ -284,12 +284,12 @@ public class Grasping implements NodeMain {
                         // Begin Student Code
 
                         //                        // publish velocity messages to move the robot towards the target
-                        //                        MotionMsg vidMsg = new MotionMsg(); // (Solution)
-                        //                        vidMsg.translationalVelocity = blobTrack.translationVelocityCommand; // (Solution)
-                        //                        vidMsg.rotationalVelocity = blobTrack.rotationVelocityCommand; // (Solution)
-                        //                        System.out.println("Trans Vel: " + vidMsg.translationalVelocity);
-                        //                        System.out.println("Rot Vel: " + vidMsg.rotationalVelocity);
-                        //                        motionPub.publish(vidMsg); // (Solution)
+                                                MotionMsg vidMsg = new MotionMsg(); // (Solution)
+                                                vidMsg.translationalVelocity = blobTrack.translationVelocityCommand; // (Solution)
+                                                vidMsg.rotationalVelocity = blobTrack.rotationVelocityCommand; // (Solution)
+                                                System.out.println("Trans Vel: " + vidMsg.translationalVelocity);
+                                                System.out.println("Rot Vel: " + vidMsg.rotationalVelocity);
+                                                motionPub.publish(vidMsg); // (Solution)
 
                         // End Student Code
                     }
