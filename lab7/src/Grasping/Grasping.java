@@ -24,7 +24,7 @@ public class Grasping implements NodeMain {
     private Publisher<MotionMsg> motionPub;
     private Subscriber<OdometryMsg> odometrySub;
     private Subscriber<org.ros.message.sensor_msgs.Image> vidSub;
-    private VisionGUI gui;
+    private Subscriber<org.ros.message.sensor_msgs.Image> vidPub;
 
     private State currState;
     private ArmGymState gymState;
@@ -120,9 +120,6 @@ public class Grasping implements NodeMain {
         blobTrack.rotationVelocityMax = rotation_velocity_max;// (Solution)
         blobTrack.useGaussianBlur = use_gaussian_blur;// (Solution)
         blobTrack.approximateGaussian = approximate_gaussian;// (Solution)
-
-        gui = new VisionGUI();
-
     }
 
     @Override
@@ -136,6 +133,7 @@ public class Grasping implements NodeMain {
 
         final boolean reverseRGB = node.newParameterTree().getBoolean(
                 "reverse_rgb", false);
+        vidPub = node.newPublisher("/rss/blobVideo", "sensor_msgs/Image");
 
         vidSub = node.newSubscriber("/rss/video", "sensor_msgs/Image");
         vidSub.addMessageListener(new MessageListener<org.ros.message.sensor_msgs.Image>() {
@@ -172,7 +170,6 @@ public class Grasping implements NodeMain {
 
         // blobTrack.targetHueLevel = target_hue_level;
 
-        // vidPub = node.newPublisher("/rss/blobVideo", "sensor_msgs/Image");
         // vidSub = node.newSubscriber("/rss/video","sensor_msgs/Image");
         // Image dest = new Image(src);
         // ;
@@ -269,19 +266,24 @@ public class Grasping implements NodeMain {
 
                         blobTrack.apply(src, dest);
 
-                        // update newly formed vision message
-                        gui.setVisionImage(dest.toArray(), width, height);
+                        org.ros.message.sensor_msgs.Image pubImage = new org.ros.message.sensor_msgs.Image();
+                        pubImage.width = width;
+                        pubImage.height = height;
+                        pubImage.encoding = "rgb8";
+                        pubImage.is_bigendian = 0;
+                        pubImage.step = width*3;
+                        pubImage.data = dest.toArray();
+                        vidPub.publish(pubImage);
 
                         // Begin Student Code
 
-                        // publish velocity messages to move the robot towards the target
-                        MotionMsg vidMsg = new MotionMsg(); // (Solution)
-                        vidMsg.translationalVelocity = blobTrack.translationVelocityCommand; // (Solution)
-                        vidMsg.rotationalVelocity = blobTrack.rotationVelocityCommand; // (Solution)
-                        System.out.println("Trans Vel: " + vidMsg.translationalVelocity);
-                        System.out.println("Rot Vel: " + vidMsg.rotationalVelocity);
-
-                        motionPub.publish(vidMsg); // (Solution)
+                        //                        // publish velocity messages to move the robot towards the target
+                        //                        MotionMsg vidMsg = new MotionMsg(); // (Solution)
+                        //                        vidMsg.translationalVelocity = blobTrack.translationVelocityCommand; // (Solution)
+                        //                        vidMsg.rotationalVelocity = blobTrack.rotationVelocityCommand; // (Solution)
+                        //                        System.out.println("Trans Vel: " + vidMsg.translationalVelocity);
+                        //                        System.out.println("Rot Vel: " + vidMsg.rotationalVelocity);
+                        //                        motionPub.publish(vidMsg); // (Solution)
 
                         // End Student Code
                     }
