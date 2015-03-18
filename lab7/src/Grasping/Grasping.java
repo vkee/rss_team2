@@ -332,6 +332,7 @@ public class Grasping implements NodeMain {
 
                 else if (graspState == ArmGraspState.FIND_OBJ) {
                     if (objDetected) { // Bump sensor
+                        System.out.println("Object Detected!");
                         graspState = ArmGraspState.GRASP;
                     }
                 }
@@ -469,6 +470,10 @@ public class Grasping implements NodeMain {
                 // System.out.println("msg.right state: " + msg.right);
                 // System.out.println("msg.gripper state: " + msg.gripper);
                 objDetected = msg.gripper;
+                
+                if (objDetected) {
+                    System.out.println("objDetected in bumper sub");
+                }
 
             }
         });
