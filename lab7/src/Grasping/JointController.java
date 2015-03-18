@@ -51,6 +51,12 @@ public class JointController {
             return desiredPWM;
         }
     }
+    
+    public boolean atTarget(double angle, int currentPWM)
+    	{return getPWM(angle)==currentPWM;}
+    
+    public boolean atTargetPWM(int target, int currentPWM)
+	{return target==currentPWM;}
 
     /**
      * Computes the PWM to write to the servo taking into the constraint of not moving more than 1 radian per control step
@@ -80,15 +86,34 @@ public class JointController {
     public int fullRotation(int currPWM, boolean up) {
         //        int correction;
         if (up) {
-            return Math.min(currPWM + (MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MAX_PWM);
+            return Math.max(Math.min(currPWM + (MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MAX_PWM), MIN_PWM);
             //            correction = Math.min(MAX_PWM - currPWM, MAX_PWM_CHANGE);
             //            return currPWM + correction;
         } else {
-            return Math.max(currPWM - (MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MIN_PWM);
+            return Math.min(Math.max(currPWM - (MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MIN_PWM), MAX_PWM);
             //            correction = Math.min(currPWM - MIN_PWM, MAX_PWM_CHANGE);
             //            return currPWM - correction;
         }
     }
+    
+    public int rotateTo(double angle, int currPWM) {
+        //        int correction;
+    	int diff = (getPWM(angle)-currPWM);
+        if (diff!=0)
+        	{int direction = diff/Math.abs(diff);
+        	return Math.max(Math.min(currPWM + direction*(MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MAX_PWM), MIN_PWM);}
+        else return currPWM;
+        } 
+    
+    
+    public int rotateToPWM(int target, int currPWM) {
+        //        int correction;
+    	int diff = (target-currPWM);
+        if (diff!=0)
+        	{int direction = diff/Math.abs(diff);
+        	return Math.max(Math.min(currPWM + direction*(MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MAX_PWM), MIN_PWM);}
+        else return currPWM;
+        } 
 
     /**
      * Returns whether the servo is at the minimum position

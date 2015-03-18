@@ -1,4 +1,5 @@
 /GlobalNavigation/
+<<<<<<< HEAD
 /VisualServo/
 /Grasping/
 /Motor/
@@ -9,3 +10,6 @@
 /odometry/
 /sonar/
 /utils/
+=======
+/Grasping/
+>>>>>>> 1fa102e6abb4915fe0b9ea3026b18d7ae1968b10
