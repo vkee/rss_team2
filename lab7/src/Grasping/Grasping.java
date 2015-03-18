@@ -57,7 +57,7 @@ public class Grasping implements NodeMain {
 
 	public enum ArmGraspState {
 		INITIALIZE, OPEN_GRIPPER, FIND_OBJ, GRASP, LIFT, MOVE, DEPOSIT_WRIST, DEPOSIT_SHOULDER, DEPOSIT_GRIPPER, RETURN
-	}
+	} 
 
 	// States for Arm Gymnastics
 	public enum ArmGymState {
