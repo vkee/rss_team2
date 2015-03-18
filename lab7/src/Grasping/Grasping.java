@@ -75,7 +75,7 @@ public class Grasping implements NodeMain {
     public Grasping() {
         currState = State.DOWN;
         gymState = ArmGymState.INITIALIZE; // gymnastics
-        graspState = ArmGraspState.INITIALIZE; // gymnastics
+//        graspState = ArmGraspState.INITIALIZE; // gymnastics
 
         shoulderServo = new ShoulderController(525, 2375, Math.PI, 1500, 525);
         wristServo = new WristController(350, 2250, Math.PI, 1250, 2025);
@@ -295,7 +295,7 @@ public class Grasping implements NodeMain {
                 // END OF
                 // GYNMNASTICS///////////////////////////////////////////////////////////////////////////////////////////
 
-                System.out.println("Current State: " + graspState);
+//                System.out.println("Current State: " + graspState);
                 if (graspState == ArmGraspState.INITIALIZE) {
                     System.out.println("going to initialization state...");
                     int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
