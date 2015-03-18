@@ -1,6 +1,6 @@
 package Grasping;
 
-public class GripperController extends JointController {
+public class GripperController {
 	protected int MIN_PWM;
 	protected int MAX_PWM;
 	protected double THETA_RANGE; // in radians
@@ -16,16 +16,16 @@ public class GripperController extends JointController {
 
 	public GripperController(int minPWM, int maxPWM, double thetaRange,
 			int pwm0, int pwm270) {
-		super(minPWM, maxPWM, thetaRange, pwm0, pwm270);
+//		super(minPWM, maxPWM, thetaRange, pwm0, pwm270);
 
-		/*this.MIN_PWM = minPWM;
+		this.MIN_PWM = minPWM;
 		this.MAX_PWM = maxPWM;
 		this.PWM_0 = pwm0;
 		this.PWM_270 = pwm270;
 		this.THETA_RANGE = thetaRange;
 		this.LINE_SLOPE = (-Math.PI / 2) / (PWM_270 - PWM_0);
 		this.LINE_THETA_INTERCEPT = 0 - LINE_SLOPE * PWM_0;
-		this.MAX_PWM_CHANGE = (int) (1 / THETA_RANGE * (MAX_PWM - MIN_PWM));*/
+		this.MAX_PWM_CHANGE = (int) (1 / THETA_RANGE * (MAX_PWM - MIN_PWM));
 	}
 
 	/**
