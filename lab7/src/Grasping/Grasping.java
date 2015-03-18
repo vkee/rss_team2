@@ -263,7 +263,6 @@ public class Grasping implements NodeMain {
                             src = new Image(visionImage.take(), width, height);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
-                            continue;
                         }
 
                         Image dest = new Image(src);
@@ -282,7 +281,7 @@ public class Grasping implements NodeMain {
                         System.out.println("Trans Vel: " + vidMsg.translationalVelocity);
                         System.out.println("Rot Vel: " + vidMsg.rotationalVelocity);
 
-                        motionPub.publish(msg); // (Solution)
+                        motionPub.publish(vidMsg); // (Solution)
 
                         // End Student Code
                     }
