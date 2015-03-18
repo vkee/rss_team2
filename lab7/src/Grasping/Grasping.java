@@ -99,7 +99,7 @@ public class Grasping implements NodeMain {
     public Grasping() {
         currState = State.DOWN;
         gymState = ArmGymState.INITIALIZE; // gymnastics
-        graspState = ArmGraspState.FIND_OBJ; // gymnastics
+        //        graspState = ArmGraspState.FIND_OBJ; // gymnastics
         shoulderServo = new ShoulderController(525, 2375, Math.PI, 1500, 525);
         wristServo = new WristController(350, 2250, Math.PI, 1250, 2025);
         gripperServo = new GripperController(1700, 2450, Math.PI, 1700, 2450);
@@ -133,7 +133,7 @@ public class Grasping implements NodeMain {
 
         final boolean reverseRGB = node.newParameterTree().getBoolean(
                 "reverse_rgb", false);
-        
+
         vidPub = node.newPublisher("/rss/blobVideo", "sensor_msgs/Image");
 
         vidSub = node.newSubscriber("/rss/video", "sensor_msgs/Image");
@@ -224,7 +224,12 @@ public class Grasping implements NodeMain {
 
                 System.out.println(Arrays.toString(pwmVals));
 
-                System.out.println("Current State: " + graspState);
+                double sum = InverseKinematics.ARM_LENGTH +
+                        InverseKinematics.WRIST_LENGTH;
+                moveArm(sum*Math.cos(0), sum*Math.sin(0),
+                        (int) msg.pwms[0], (int) msg.pwms[1]);
+
+                //                System.out.println("Current State: " + graspState);
                 if (graspState == ArmGraspState.INITIALIZE) {
                     int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
                     int wrist_init_value = wristServo.COLLECT_PWM;
