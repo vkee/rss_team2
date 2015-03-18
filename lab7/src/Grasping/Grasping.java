@@ -160,11 +160,11 @@ public class Grasping implements NodeMain {
 				int wristPWM = (int) pwmVals[1];
 				int gripperPWM = (int) pwmVals[2];
 
-				/*try {
+				try {
 					Thread.sleep(1000);
 				} catch (Exception e) {
 
-				}*/
+				}
 
 				// BEGIN GYMNASTICS
 				// TO DO MAKE INTO STATIC METHOD IF IT PLEASES YOU
