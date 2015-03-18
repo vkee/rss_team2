@@ -62,13 +62,13 @@ public class Grasping implements NodeMain {
 
     protected static final int height = 120;
 
-    private double target_hue_level = 0.475; // (Solution)
+    private double target_hue_level = 0.0; // (Solution)
     private double hue_threshold = 0.08; // (Solution)
     private double saturation_level = 0.5; // (Solution)
     // // Units are fraction of total number of pixels detected in blob //
     // (Solution)
     private double blob_size_threshold = 0.005; // (Solution)
-    private double target_radius = 0.1; // (Solution)
+    private double target_radius = 0.25; // (Solution)
     private double desired_fixation_distance = .5; // (Solution)
     private double translation_error_tolerance = .05;// (Solution)
     private double translation_velocity_gain = .75;// (Solution)
