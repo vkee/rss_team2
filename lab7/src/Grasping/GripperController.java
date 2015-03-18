@@ -61,7 +61,8 @@ public class GripperController extends JointController {
 	 * @return the PWM value to be written to the servo
 	 */
 	public int close(int currPWM) {
-		return rotateToPWM(MIN_PWM, currPWM);//fullRotation(currPWM, false);
+	    return fullRotation(currPWM, false);
+//		return rotateToPWM(MIN_PWM, currPWM);//fullRotation(currPWM, false);
 	}
 
 	/**
@@ -72,7 +73,8 @@ public class GripperController extends JointController {
 	 * @return the PWM value to be written to the servo
 	 */
 	public int open(int currPWM) {
-		return rotateToPWM(MAX_PWM, currPWM);//fullRotation(currPWM, true);
+	    return fullRotation(currPWM, true);
+//		return rotateToPWM(MAX_PWM, currPWM);//fullRotation(currPWM, true);
 	}
 
 	/**
@@ -83,6 +85,7 @@ public class GripperController extends JointController {
 	 */
 	public boolean isOpen(int currPWM) {
 		// may need to change this to max pwm depending on values
+	    System.out.println("currPWM >= MAX_PWM: " + (currPWM >= MAX_PWM));
 		return (currPWM >= MAX_PWM);
 	}
 
