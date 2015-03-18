@@ -347,19 +347,29 @@ public class Grasping implements NodeMain {
                     if (!shoulderServo.isGymUp(shoulderPWM)) {
                         shoulder = shoulderServo.moveGymUp(shoulderPWM);
                     } else {
-                        System.out.println("Arm should be at 45 degrees and now switching into move");
-                        //                      graspState = ArmGraspState.MOVE;
+                        //                        System.out.println("Arm should be at 45 degrees and now switching into move");
+                        graspState = ArmGraspState.MOVE;
+                        startX = robotX;
+                        startY = robotY;
+                        startTheta = robotTheta;
+                        goalX = robotX + MOVE_DIST*Math.cos(robotTheta);
+                        goalY = robotY + MOVE_DIST*Math.sin(robotTheta);
+                        goalTheta = robotTheta;
                     }
-                    // gymState = ArmGymState.BEND_ELBOW;
-                    // } else {
-                    // writeShoulderPWM(shoulderServo.moveGymUp(shoulderPWM));
-                    // }
-                    //                    if (!shoulderServo.atTarget(Math.PI / 2, shoulderPWM)) {
-                    //                        shoulder = shoulderServo.rotateTo(Math.PI / 2,
-                    //                                shoulderPWM);
-                    //                    } else {
-                    //
-                    //                    }
+                } else if (graspState == ArmGraspState.MOVE) {
+                    double remDist = getDist(robotX, robotY, goalX, goalY);
+
+                    if (remDist > DIST_TOL) {
+                        MotionMsg msg = new MotionMsg();
+                        msg.translationalVelocity = Math.min(FWD_GAIN * remDist,
+                                0.5);
+                        msg.rotationalVelocity = Math.min(ROT_GAIN * (goalTheta -
+                                robotTheta), 0.25);
+                        motionPub.publish(msg);
+                    } else {
+                        System.out.println("Robot should have moved 0.5 m");
+                        //                        graspState = ArmGraspState.DEPOSIT_WRIST;
+                    }
                 }
 
                 sendCommands();
