@@ -320,11 +320,11 @@ public class Grasping implements NodeMain {
 
                 } else if (graspState == ArmGraspState.OPEN_GRIPPER) {
                     // Opens gripper
-                     System.out.println("2 " + wristPWM);
-                    if (!gripperServo.isOpen(wristPWM)) {
+                     System.out.println("2 " + gripperPWM);
+                    if (!gripperServo.isOpen(gripperPWM)) {
                         // System.out.println("opening gripper" + wristPWM +
                         // " of "+gripperServo.MAX_PWM);
-                        gripper = gripperServo.open(wristPWM);
+                        gripper = gripperServo.open(gripperPWM);
                     } else {
                         graspState = ArmGraspState.FIND_OBJ;
                     }
@@ -338,10 +338,10 @@ public class Grasping implements NodeMain {
                 }
 
                 else if (graspState == ArmGraspState.GRASP) {
-                    if (!gripperServo.isClosed(wristPWM)) {
+                    if (!gripperServo.isClosed(gripperPWM)) {
                         System.out.println("closing gripper" + wristPWM
                                 + " of " + gripperServo.MIN_PWM);
-                        gripper = gripperServo.close(wristPWM);
+                        gripper = gripperServo.close(gripperPWM);
                     } else {
                         graspState = ArmGraspState.LIFT;
                     }
