@@ -295,7 +295,7 @@ public class Grasping implements NodeMain {
                 // END OF
                 // GYNMNASTICS///////////////////////////////////////////////////////////////////////////////////////////
 
-//                System.out.println("Current State: " + graspState);
+                System.out.println("Current State: " + graspState);
                 if (graspState == ArmGraspState.INITIALIZE) {
                     System.out.println("going to initialization state...");
                     int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
