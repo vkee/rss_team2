@@ -188,8 +188,11 @@ public class Histogram {
         int maxIndex = 0;
         for (int i = 0; i < histogram.length; i++) {
             if (histogram[i][0] > maxVal) {
+                System.out.println("Larger Index: " + i + " Value: " + histogram[i][0]);
                 maxVal = histogram[i][0];
                 maxIndex = i;
+            } else {
+                System.out.println("Smaller: " + histogram[i][0]);
             }
         }
         
