@@ -318,6 +318,10 @@ public class Grasping implements NodeMain {
                     }
                 } else if (graspState == ArmGraspState.FIND_OBJ) {
                     if (objDetected) { // Bump sensor
+                        MotionMsg moveMsg = new MotionMsg();
+                        moveMsg.translationalVelocity = 0.0;
+                        moveMsg.rotationalVelocity = 0.0;
+                        motionPub.publish(moveMsg);
                         System.out.println("Object Detected!");
                         graspState = ArmGraspState.GRASP;
                     } else {
@@ -375,7 +379,7 @@ public class Grasping implements NodeMain {
                     if (!shoulderServo.onGround(shoulderPWM)) {
                         shoulder = shoulderServo.moveToGround(shoulderPWM);
                     } else {
-                        graspState = ArmGraspState.DEPOSIT_SHOULDER;
+                        graspState = ArmGraspState.DEPOSIT_GRIPPER;
                     }
                 } else if (graspState == ArmGraspState.DEPOSIT_GRIPPER) {
                     // Opens gripper
