@@ -22,13 +22,8 @@ public class Grasping implements NodeMain {
 	private Subscriber<OdometryMsg> odometrySub;
 
 	// PART 4
-<<<<<<< HEAD
 	public Subscriber<org.ros.message.sensor_msgs.Image> vidSub;
 	public Publisher<org.ros.message.sensor_msgs.Image> vidPub;
-=======
-	// public Subscriber<org.ros.message.sensor_msgs.Image> vidSub;
-	// public Publisher<org.ros.message.sensor_msgs.Image> vidPub;
->>>>>>> 1fa102e6abb4915fe0b9ea3026b18d7ae1968b10
 	// END PART 4
 
 	private State currState;
@@ -60,21 +55,9 @@ public class Grasping implements NodeMain {
 	double ROT_GAIN = .2;
 	double DIST_TOL = 0.01; // tolerance to move MOVE_DIST in meters
 
-	public enum ArmGraspState {
-<<<<<<< HEAD
-		INIT_WRIST, INIT_GRIPPER, INIT_SHOULDER, GRASP, LIFT, MOVE, DEPOSIT_WRIST, DEPOSIT_SHOULDER, DEPOSIT_GRIPPER, RETURN
-=======
-		INITIALIZE, OPEN_GRIPPER, FIND_OBJ, GRASP, LIFT, MOVE, DEPOSIT_WRIST, DEPOSIT_SHOULDER, DEPOSIT_GRIPPER, RETURN
->>>>>>> 1fa102e6abb4915fe0b9ea3026b18d7ae1968b10
-	}
-
 	// States for Arm Gymnastics
 	public enum ArmGymState {
-<<<<<<< HEAD
-		OPEN_GRIPPER, CLOSE_GRIPPER, MOVE_UP, BEND_ELBOW, MOVE_TO_GROUND
-=======
 		INITIALIZE, OPEN_GRIPPER, CLOSE_GRIPPER, MOVE_UP, BEND_ELBOW, MOVE_TO_GROUND
->>>>>>> 1fa102e6abb4915fe0b9ea3026b18d7ae1968b10
 	}
 
 	// States dividing up space so that no servo can move more than 1 radian per
@@ -85,19 +68,10 @@ public class Grasping implements NodeMain {
 
 	public Grasping() {
 		currState = State.DOWN;
-<<<<<<< HEAD
 		shoulderServo = new ShoulderController(525, 2375, Math.PI, 1500, 525);
 		wristServo = new WristController(250, 2250, Math.PI, 1250, 2025);
 		gripperServo = new GripperController(1700, 2450, Math.PI, 1700, 2450);
-=======
 		gymState = ArmGymState.INITIALIZE; // gymnastics
-		graspState = ArmGraspState.INITIALIZE; // gymnastics
-
-		shoulderServo = new ShoulderController(525, 2375, Math.PI, 1500, 525);
-		wristServo = new WristController(350, 2250, Math.PI, 1250, 2025);
-		gripperServo = new GripperController(1700, 2450, Math.PI, 1700, 2450);
-
->>>>>>> 1fa102e6abb4915fe0b9ea3026b18d7ae1968b10
 	}
 
 	/*
@@ -132,8 +106,6 @@ public class Grasping implements NodeMain {
 		odometrySub = node.newSubscriber("/rss/odometry",
 				"rss_msgs/OdometryMsg");
 
-<<<<<<< HEAD
-=======
 		// Initialization State
 
 		// For debugging
@@ -146,24 +118,15 @@ public class Grasping implements NodeMain {
 		 * System.out.println("Wrist Servo Intercept: " +
 		 * wristServo.LINE_THETA_INTERCEPT);
 		 */
->>>>>>> 1fa102e6abb4915fe0b9ea3026b18d7ae1968b10
 		// PART 4
 
 		// blobTrack = new BlobTracking(width, height);
 
 		// blobTrack.targetHueLevel = target_hue_level;
 
-<<<<<<< HEAD
-		 vidPub = node.newPublisher("/rss/blobVideo", "sensor_msgs/Image");
-		 vidSub = node.newSubscriber("/rss/video","sensor_msgs/Image");
+		vidPub = node.newPublisher("/rss/blobVideo", "sensor_msgs/Image");
+		vidSub = node.newSubscriber("/rss/video", "sensor_msgs/Image");
 		// Image dest = new Image(src);
-		;
-=======
-		// vidPub = node.newPublisher("/rss/blobVideo", "sensor_msgs/Image");
-		// vidSub = node.newSubscriber("/rss/video","sensor_msgs/Image");
-		// Image dest = new Image(src);
-		// ;
->>>>>>> 1fa102e6abb4915fe0b9ea3026b18d7ae1968b10
 		/*
 		 * vidSub.addMessageListener(new
 		 * MessageListener<org.ros.message.sensor_msgs.Image>() {
@@ -184,7 +147,6 @@ public class Grasping implements NodeMain {
 		armStatusSub.addMessageListener(new MessageListener<ArmMsg>() {
 			@Override
 			public void onNewMessage(ArmMsg msg) {
-<<<<<<< HEAD
 				// Simply printing out the PWM values
 				long[] pwmVals = msg.pwms;
 				// for (int i = 0; i < 3; i++) {
@@ -192,56 +154,15 @@ public class Grasping implements NodeMain {
 				// + pwmVals[i]);
 				// }
 
-=======
-				long[] pwmVals = msg.pwms;
->>>>>>> 1fa102e6abb4915fe0b9ea3026b18d7ae1968b10
 				int shoulderPWM = (int) pwmVals[0];
 				int wristPWM = (int) pwmVals[1];
 				int gripperPWM = (int) pwmVals[2];
 
-<<<<<<< HEAD
-				rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
-				// if (objGrasped) {
-				// gripperServo.close((int) msg.pwms[2]);
-				// }
-
-				// System.out.println("Obj Grasped: " + objGrasped);
-				// System.out.println("Shoulder Max PWM Change " +
-				// shoulderServo.MAX_PWM_CHANGE);
-				// double sum = InverseKinematics.ARM_LENGTH +
-				// InverseKinematics.WRIST_LENGTH;
-				// moveArm(sum*Math.cos(-Math.PI/4), sum*Math.sin(-Math.PI/4),
-				// (int) msg.pwms[0], (int) msg.pwms[1]);
-
-				// // Arm Gymnastics
-				//
-				// // TODO probably need to initialize everything to some
-				// // positions
-				// // so will probably need to make an initialize state
-				//
-				// if (gymState == ArmGymState.OPEN_GRIPPER) {
-				// if (gripperServo.isOpen(gripperPWM)) {
-				// gymState = ArmGymState.CLOSE_GRIPPER;
-				// } else {
-				// writeGripperPWM(gripperServo.open(gripperPWM));
-				// }
-				// }
-				//
-				// if (gymState == ArmGymState.CLOSE_GRIPPER) {
-				// if (gripperServo.isClosed(gripperPWM)) {
-				// gymState = ArmGymState.MOVE_UP;
-				// } else {
-				// writeGripperPWM(gripperServo.close(gripperPWM));
-				// }
-				// }
-				//
-				// if (gymState == ArmGymState.MOVE_UP) {
-=======
-				/*try {
-					Thread.sleep(1000);
-				} catch (Exception e) {
-
-				}*/
+				/*
+				 * try { Thread.sleep(1000); } catch (Exception e) {
+				 * 
+				 * }
+				 */
 
 				// BEGIN GYMNASTICS
 				// TO DO MAKE INTO STATIC METHOD IF IT PLEASES YOU
@@ -289,7 +210,6 @@ public class Grasping implements NodeMain {
 				// else if (gymState == ArmGymState.MOVE_UP) {
 				// // #3
 				// System.out.println("Move Arm Up");
->>>>>>> 1fa102e6abb4915fe0b9ea3026b18d7ae1968b10
 				// if (shoulderServo.isGymUp(shoulderPWM)) {
 				// gymState = ArmGymState.BEND_ELBOW;
 				// } else {
@@ -297,14 +217,9 @@ public class Grasping implements NodeMain {
 				// }
 				// }
 				//
-<<<<<<< HEAD
-				// // Assuming that bend elbow is bending wrist
-				// if (gymState == ArmGymState.BEND_ELBOW) {
-=======
 				// else if (gymState == ArmGymState.BEND_ELBOW) {
 				// // #4
 				// System.out.println("Bend Elbow");
->>>>>>> 1fa102e6abb4915fe0b9ea3026b18d7ae1968b10
 				// if (wristServo.isGymBent(wristPWM)) {
 				// gymState = ArmGymState.MOVE_TO_GROUND;
 				// } else {
@@ -312,13 +227,11 @@ public class Grasping implements NodeMain {
 				// }
 				// }
 				//
-<<<<<<< HEAD
 				// if (gymState == ArmGymState.MOVE_TO_GROUND) {
 				// if (shoulderServo.onGround(shoulderPWM)) {
 				// // TODO: what to do here? just end?
 				// } else {
 				// writeShoulderPWM(shoulderServo.moveToGround(shoulderPWM));
-=======
 				// else if (gymState == ArmGymState.MOVE_TO_GROUND) {
 				// // #5
 				// System.out.println("Move to Ground");
@@ -327,7 +240,6 @@ public class Grasping implements NodeMain {
 				// } else {
 				// writeShoulderPWM(shoulderServo
 				// .moveToGround(shoulderPWM));
->>>>>>> 1fa102e6abb4915fe0b9ea3026b18d7ae1968b10
 				// }
 				// }
 
@@ -356,9 +268,6 @@ public class Grasping implements NodeMain {
 				// .moveToGround(shoulderPWM));
 				// }
 				// }
-<<<<<<< HEAD
-				//
-=======
 				// END OF
 				// GYNMNASTICS///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -382,33 +291,31 @@ public class Grasping implements NodeMain {
 					writeGripperPWM(2450);
 					graspState = ArmGraspState.FIND_OBJ;
 				}
-				
-				else if (graspState == ArmGraspState.FIND_OBJ)
-					{if (objDetected) { // Bump sensor
-						graspState = ArmGraspState.GRASP;
-						}
-					}
-				
-				else if (graspState == ArmGraspState.GRASP)
-					{if (!gripperServo.isClosed(wristPWM))
-						{
-						System.out.println("closing gripper" + wristPWM + " of "+gripperServo.MIN_PWM);
-						writeGripperPWM(gripperServo.close(wristPWM));
-						}
-					else
-						{graspState = ArmGraspState.LIFT;}
-					}
-				
-				
-				else if (graspState == ArmGraspState.LIFT)
-					{if (!shoulderServo.atTarget(Math.PI/2, shoulderPWM))
-						{
-						writeShoulderPWM(shoulderServo.rotateTo(Math.PI/2, shoulderPWM));
-						}
-					else
-						{graspState = ArmGraspState.MOVE;}
-					}
 
+				else if (graspState == ArmGraspState.FIND_OBJ) {
+					if (objDetected) { // Bump sensor
+						graspState = ArmGraspState.GRASP;
+					}
+				}
+
+				else if (graspState == ArmGraspState.GRASP) {
+					if (!gripperServo.isClosed(wristPWM)) {
+						System.out.println("closing gripper" + wristPWM
+								+ " of " + gripperServo.MIN_PWM);
+						writeGripperPWM(gripperServo.close(wristPWM));
+					} else {
+						graspState = ArmGraspState.LIFT;
+					}
+				}
+
+				else if (graspState == ArmGraspState.LIFT) {
+					if (!shoulderServo.atTarget(Math.PI / 2, shoulderPWM)) {
+						writeShoulderPWM(shoulderServo.rotateTo(Math.PI / 2,
+								shoulderPWM));
+					} else {
+						graspState = ArmGraspState.MOVE;
+					}
+				}
 
 				// rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
 
@@ -425,7 +332,6 @@ public class Grasping implements NodeMain {
 				// InverseKinematics.WRIST_LENGTH;
 				// moveArm(sum*Math.cos(0), sum*Math.sin(0),
 				// (int) msg.pwms[0], (int) msg.pwms[1]);
->>>>>>> 1fa102e6abb4915fe0b9ea3026b18d7ae1968b10
 				// if (graspState == ArmGraspState.GRASP) {
 				// // TODO: may need to do stuff with camera to make sure that
 				// // the object is grasped
@@ -458,11 +364,6 @@ public class Grasping implements NodeMain {
 				// }
 				// }
 				//
-<<<<<<< HEAD
-				//
-=======
-
->>>>>>> 1fa102e6abb4915fe0b9ea3026b18d7ae1968b10
 				// if (graspState == ArmGraspState.MOVE) {
 				// double remDist = getDist(robotX, robotY, goalX, goalY);
 				//
@@ -524,14 +425,9 @@ public class Grasping implements NodeMain {
 			public void onNewMessage(BumpMsg msg) {
 				// System.out.println("msg.left state: " + msg.left);
 				// System.out.println("msg.right state: " + msg.right);
-<<<<<<< HEAD
-				System.out.println("msg.gripper state: " + msg.gripper);
-				objDetected = msg.gripper;
-=======
 				// System.out.println("msg.gripper state: " + msg.gripper);
 				objDetected = msg.gripper;
 
->>>>>>> 1fa102e6abb4915fe0b9ea3026b18d7ae1968b10
 			}
 		});
 
@@ -545,8 +441,6 @@ public class Grasping implements NodeMain {
 		});
 	}
 
-<<<<<<< HEAD
-=======
 	protected void initializeServos(int shoulder_value, int wrist_value,
 			int gripper_value) {
 		ArmMsg msg = new ArmMsg();
@@ -556,7 +450,6 @@ public class Grasping implements NodeMain {
 		armPWMPub.publish(msg);
 	}
 
->>>>>>> 1fa102e6abb4915fe0b9ea3026b18d7ae1968b10
 	/**
 	 * Moves the arm to the desired x, z position in the robot frame
 	 * 
@@ -567,13 +460,10 @@ public class Grasping implements NodeMain {
 	 */
 	public void moveArm(double desX, double desZ, int currShoulderPWM,
 			int currWristPWM) {
-<<<<<<< HEAD
 		// Inverse Kinematic Equation
 		// TODO: don't know how to solve for the required angles
 		// Let shoulderTheta, wristTheta be the angles to write for the shoulder
 		// and wrist respectively
-=======
->>>>>>> 1fa102e6abb4915fe0b9ea3026b18d7ae1968b10
 
 		double[] angles = InverseKinematics.getThetaPhi(desX, desZ,
 				shoulderServo.getThetaRad(currShoulderPWM),
