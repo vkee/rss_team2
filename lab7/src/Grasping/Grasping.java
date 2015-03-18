@@ -173,6 +173,9 @@ public class Grasping implements NodeMain {
 				msg.pwms[1] = pwm_stat[1];
 				msg.pwms[2] = pwm_stat[2];
 				armPWMPub.publish(msg);
+				
+				System.out.println("message sent");
+				System.out.println(Arrays.toString(pwm_stat));
 				}
 			
 			
