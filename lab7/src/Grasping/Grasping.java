@@ -75,7 +75,7 @@ public class Grasping implements NodeMain {
     public Grasping() {
         currState = State.DOWN;
         gymState = ArmGymState.INITIALIZE; // gymnastics
-        graspState = ArmGraspState.FIND_OBJ; // gymnastics
+        graspState = ArmGraspState.INITIALIZE; // gymnastics
 
         shoulderServo = new ShoulderController(525, 2375, Math.PI, 1500, 525);
         wristServo = new WristController(350, 2250, Math.PI, 1250, 2025);
