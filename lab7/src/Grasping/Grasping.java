@@ -226,7 +226,7 @@ public class Grasping implements NodeMain {
 
                 double sum = InverseKinematics.ARM_LENGTH +
                         InverseKinematics.WRIST_LENGTH;
-                moveArm(sum*Math.cos(0), sum*Math.sin(0),
+                moveArm(sum*Math.cos(Math.PI/4), sum*Math.sin(Math.PI/4),
                         shoulderPWM, wristPWM);
 
                 //                System.out.println("Current State: " + graspState);
@@ -395,7 +395,8 @@ public class Grasping implements NodeMain {
                 double[] angles = InverseKinematics.getThetaPhi(desX, desZ,
                         shoulderServo.getThetaRad(currShoulderPWM),
                         wristServo.getThetaRad(currWristPWM));
-
+		System.out.println("Shoulder Angle: " + angles[0]);
+		System.out.println("Wrist Angle: " + angles[1]);
                 shoulder = shoulderServo.getPWM(angles[0]);
                 wrist = wristServo.getPWM(angles[1]);
             }
