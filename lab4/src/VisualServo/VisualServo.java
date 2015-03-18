@@ -89,6 +89,7 @@ public class VisualServo implements NodeMain, Runnable {
 	@Override
 	public void run() {
 		while (true) {
+		    System.out.println("Running run");
 			Image src = null;
 			try {
 				src = new Image(visionImage.take(), width, height);
