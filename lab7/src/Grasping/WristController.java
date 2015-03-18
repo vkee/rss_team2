@@ -20,10 +20,22 @@ public class WristController extends JointController{
     }
     
     /**
+     * Determines whether the wrist joint is at the bend with a desired angle state
+     * @param currPWM the last PWM value written to the wrist
+     */
+    public boolean isCollect(int currPWM) {
+        return (currPWM == COLLECT_PWM);
+    }
+    
+    /**
      * Returns the PWM value to write to the wrist servo
      * @param currPWM the last PWM value written to the wrist
      */
     public int bendGym(int currPWM) {
         return getSafePWM(currPWM, GYM_BEND_PWM);
     }   
+    
+    public int collect(int currPWM) {
+        return getSafePWM(currPWM, COLLECT_PWM);
+    }
 }
