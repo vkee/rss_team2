@@ -395,6 +395,7 @@ public class BlobTracking {
 		// For a start, just copy src to dest. // (Solution)
 		if (dest != null) { // (Solution)
 			// (Solution)
+		    System.out.println("In here");
 			Histogram.getHistogram(src, dest, true); // (Solution)
 			markBlob(src, dest); // (Solution)
 			// (Solution)
