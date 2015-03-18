@@ -162,7 +162,7 @@ public class Grasping implements NodeMain {
 				int wristPWM = (int) pwmVals[1];
 				int gripperPWM = (int) pwmVals[2];
 
-				//System.out.println(Arrays.toString(pwmVals));
+				// System.out.println(Arrays.toString(pwmVals));
 
 				// try {
 				// Thread.sleep(1000);
@@ -272,7 +272,7 @@ public class Grasping implements NodeMain {
 				// END OF
 				// GYNMNASTICS///////////////////////////////////////////////////////////////////////////////////////////
 
-				System.out.println("Current State: " + graspState);
+				// System.out.println("Current State: " + graspState);
 				if (graspState == ArmGraspState.INITIALIZE) {
 					System.out.println("going to initialization state...");
 					int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
