@@ -227,7 +227,7 @@ public class Grasping implements NodeMain {
                 double sum = InverseKinematics.ARM_LENGTH +
                         InverseKinematics.WRIST_LENGTH;
                 moveArm(sum*Math.cos(0), sum*Math.sin(0),
-                        (int) msg.pwms[0], (int) msg.pwms[1]);
+                        shoulderPWM, wristPWM);
 
                 //                System.out.println("Current State: " + graspState);
                 if (graspState == ArmGraspState.INITIALIZE) {
