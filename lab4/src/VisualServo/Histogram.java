@@ -49,17 +49,6 @@ public class Histogram {
 
         //Normalize the histogram to range between 0.0 and 1.0
         normalizeHistogram(histogram);
-        int numElems = Math.min(destination.getWidth(), 256);
-        double maxVal = 0.0;
-        int maxIndex = 0;
-        for (int i = 0; i < numElems; i++) {
-            if (histogram[i][0] > maxVal) {
-                maxVal = histogram[i][0];
-                maxIndex = i;
-            }
-        }
-        
-        System.out.println("Target Hue should be: " + maxIndex);
 
         //Draw the histogram on the output image
         overlayHistogram(destination,histogram);
@@ -194,6 +183,18 @@ public class Histogram {
         } //(Solution)
         // End Student Code
 
+//        Print out stuff
+        double maxVal = 0.0;
+        int maxIndex = 0;
+        for (int i = 0; i < histogram.length; i++) {
+            if (histogram[i][0] > maxVal) {
+                maxVal = histogram[i][0];
+                maxIndex = i;
+            }
+        }
+        
+        System.out.println("Target Hue should be: " + maxIndex);
+        
         return histogram;
     }
 
