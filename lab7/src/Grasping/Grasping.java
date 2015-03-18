@@ -360,12 +360,12 @@ public class Grasping implements NodeMain {
                     double remDist = getDist(robotX, robotY, goalX, goalY);
 
                     if (remDist > DIST_TOL) {
-                        MotionMsg msg = new MotionMsg();
-                        msg.translationalVelocity = Math.min(FWD_GAIN * remDist,
+                        MotionMsg moveMsg = new MotionMsg();
+                        moveMsg.translationalVelocity = Math.min(FWD_GAIN * remDist,
                                 0.5);
-                        msg.rotationalVelocity = Math.min(ROT_GAIN * (goalTheta -
+                        moveMsg.rotationalVelocity = Math.min(ROT_GAIN * (goalTheta -
                                 robotTheta), 0.25);
-                        motionPub.publish(msg);
+                        motionPub.publish(moveMsg);
                     } else {
                         System.out.println("Robot should have moved 0.5 m");
                         //                        graspState = ArmGraspState.DEPOSIT_WRIST;
