@@ -55,7 +55,7 @@ public class Grasping implements NodeMain {
 
     double FWD_GAIN = .2;
     double ROT_GAIN = .2;
-    double DIST_TOL = 0.01; // tolerance to move MOVE_DIST in meters
+    double DIST_TOL = 0.05; // tolerance to move MOVE_DIST in meters
 
     public enum ArmGraspState {
         INITIALIZE, OPEN_GRIPPER, FIND_OBJ, GRASP, LIFT, MOVE, DEPOSIT_WRIST, DEPOSIT_SHOULDER, DEPOSIT_GRIPPER, RETURN
@@ -358,12 +358,12 @@ public class Grasping implements NodeMain {
                     }
                 } else if (graspState == ArmGraspState.MOVE) {
                     double remDist = getDist(robotX, robotY, goalX, goalY);
+                    System.out.println("RobotX: " + robotX + " RobotY: " + robotY + " GoalX: " + goalX + " GoalY: " + goalY);
                     System.out.println("Rem Dist: " + remDist);
 
                     if (remDist > DIST_TOL) {
                         MotionMsg moveMsg = new MotionMsg();
-                        moveMsg.translationalVelocity = Math.min(FWD_GAIN * remDist,
-                                0.25);
+                        moveMsg.translationalVelocity = Math.min(FWD_GAIN * remDist, 0.25);
                         moveMsg.rotationalVelocity = 0.0;
                         
                         System.out.println("Trans Vel: " + moveMsg.translationalVelocity);
