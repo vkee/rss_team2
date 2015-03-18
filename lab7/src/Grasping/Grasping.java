@@ -160,11 +160,11 @@ public class Grasping implements NodeMain {
 				int wristPWM = (int) pwmVals[1];
 				int gripperPWM = (int) pwmVals[2];
 
-				try {
-					Thread.sleep(1000);
-				} catch (Exception e) {
-
-				}
+//				try {
+//					Thread.sleep(1000);
+//				} catch (Exception e) {
+//
+//				}
 
 				// BEGIN GYMNASTICS
 				// TO DO MAKE INTO STATIC METHOD IF IT PLEASES YOU
@@ -276,11 +276,11 @@ public class Grasping implements NodeMain {
 					int gripper_init_value = gripperServo.MIN_PWM;
 					initializeServos(shoulder_init_value, wrist_init_value,
 							gripper_init_value);
-					try {
-						Thread.sleep(1000);
-					} catch (Exception e) {
-
-					}
+//					try {
+//						Thread.sleep(1000);
+//					} catch (Exception e) {
+//
+//					}
 					System.out.println("at initilization state...");
 					graspState = ArmGraspState.OPEN_GRIPPER;
 				} else if (graspState == ArmGraspState.OPEN_GRIPPER) {
