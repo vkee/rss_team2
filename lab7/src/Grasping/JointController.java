@@ -9,7 +9,7 @@ public class JointController {
     protected double LINE_SLOPE; // slope of the line between PWM_90 and PWM_0
     protected double LINE_THETA_INTERCEPT; // intercept of the line between PWM_90 and PWM_0
     protected int MAX_PWM_CHANGE; // the largest PWM change in value that can be safety written to the servo (for 1 radian of rotation)
-    protected int SHIFT_AMOUNT = 100; // number of divisions of the rotation
+    protected int SHIFT_AMOUNT = 500; // number of divisions of the rotation
 
     public JointController(int minPWM, int maxPWM, double thetaRange, int pwm0, int pwm270) {
         this.MIN_PWM = minPWM;

@@ -288,8 +288,14 @@ public class Grasping implements NodeMain {
 					graspState = ArmGraspState.OPEN_GRIPPER;
 				} else if (graspState == ArmGraspState.OPEN_GRIPPER) {
 					// Opens gripper
-					writeGripperPWM(2450);
-					graspState = ArmGraspState.FIND_OBJ;
+					{if (!gripperServo.isOpen(wristPWM))
+						{
+						System.out.println("opening gripper" + wristPWM + " of "+gripperServo.MAX_PWM);
+						writeGripperPWM(gripperServo.open(wristPWM));
+						}
+					else
+						{graspState = ArmGraspState.FIND_OBJ;}
+					}
 				}
 
 				else if (graspState == ArmGraspState.FIND_OBJ) {
