@@ -162,7 +162,7 @@ public class Grasping implements NodeMain {
 				int wristPWM = (int) pwmVals[1];
 				int gripperPWM = (int) pwmVals[2];
 
-				System.out.println(Arrays.toString(pwmVals));
+				//System.out.println(Arrays.toString(pwmVals));
 
 				// try {
 				// Thread.sleep(1000);
