@@ -157,19 +157,15 @@ public class Grasping implements NodeMain {
 
 		armStatusSub.addMessageListener(new MessageListener<ArmMsg>() {
 			
-			boolean lock = false;
-
 			@Override
 			public void onNewMessage(ArmMsg msg) {
-				if (lock) return;
-				lock=true;
 				
 				long[] pwmVals = msg.pwms;
 				int shoulderPWM = (int) pwmVals[0];
 				int wristPWM = (int) pwmVals[1];
 				int gripperPWM = (int) pwmVals[2];
 
-				// System.out.println(Arrays.toString(pwmVals));
+				 System.out.println(Arrays.toString(pwmVals));
 
 				// try {
 				// Thread.sleep(1000);
@@ -438,7 +434,6 @@ public class Grasping implements NodeMain {
 				// // what to do now?
 				// }
 				// }
-			lock=false;
 			}
 		});
 
