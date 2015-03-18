@@ -310,7 +310,7 @@ public class Grasping implements NodeMain {
                     shoulder = shoulder_init_value;
 
                     System.out.println("Gripper Init Value: " + gripper);
-                    
+
                     // try {
                     // Thread.sleep(1000);
                     // } catch (Exception e) {
@@ -344,12 +344,22 @@ public class Grasping implements NodeMain {
                         graspState = ArmGraspState.LIFT;
                     }
                 } else if (graspState == ArmGraspState.LIFT) {
-                    if (!shoulderServo.atTarget(Math.PI / 2, shoulderPWM)) {
-                        shoulder = shoulderServo.rotateTo(Math.PI / 2,
-                                shoulderPWM);
+                    if (shoulderServo.isGymUp(shoulderPWM)) {
+                        shoulder = shoulderServo.moveGymUp(shoulderPWM);
                     } else {
-                        graspState = ArmGraspState.MOVE;
+                        System.out.println("Arm should be at 45 degrees");
+                        //                      graspState = ArmGraspState.MOVE;
                     }
+                    // gymState = ArmGymState.BEND_ELBOW;
+                    // } else {
+                    // writeShoulderPWM(shoulderServo.moveGymUp(shoulderPWM));
+                    // }
+                    //                    if (!shoulderServo.atTarget(Math.PI / 2, shoulderPWM)) {
+                    //                        shoulder = shoulderServo.rotateTo(Math.PI / 2,
+                    //                                shoulderPWM);
+                    //                    } else {
+                    //
+                    //                    }
                 }
 
                 sendCommands();
