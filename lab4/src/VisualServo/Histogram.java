@@ -50,6 +50,17 @@ public class Histogram {
         //Normalize the histogram to range between 0.0 and 1.0
         normalizeHistogram(histogram);
 
+        double maxVal = 0.0;
+        int maxIndex = 0;
+        for (int i = 0; i < histogram.length; i++) {
+            if (histogram[i][0] > maxVal) {
+                maxVal = histogram[i][0];
+                maxIndex = i;
+            }
+        }
+        
+        System.out.println("Target Hue should be: " + maxIndex);
+
         //Draw the histogram on the output image
         overlayHistogram(destination,histogram);
 
