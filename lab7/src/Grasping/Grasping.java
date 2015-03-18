@@ -393,54 +393,7 @@ public class Grasping implements NodeMain {
                 // InverseKinematics.WRIST_LENGTH;
                 // moveArm(sum*Math.cos(0), sum*Math.sin(0),
                 // (int) msg.pwms[0], (int) msg.pwms[1]);
-                // if (graspState == ArmGraspState.GRASP) {
-                // // TODO: may need to do stuff with camera to make sure that
-                // // the object is grasped
-                // if (gripperServo.isClosed(gripperPWM) && objDetected) {
-                // graspState = ArmGraspState.LIFT;
-                // } else if (objDetected) {
-                // writeGripperPWM(gripperServo.close(gripperPWM));
-                // }
-                // }
-                //
-                // if (graspState == ArmGraspState.LIFT) {
-                // // TODO: will need to have recovery methods
-                // if (!objDetected) {
-                // // Attempting recovery by restarting but probably need a
-                // // recovery state and then align with block
-                // graspState = ArmGraspState.INIT_WRIST;
-                // } else {
-                // if (shoulderServo.isGymUp(shoulderPWM)) {
-                // graspState = ArmGraspState.MOVE;
-                // startX = robotX;
-                // startY = robotY;
-                // startTheta = robotTheta;
-                // goalX = robotX + MOVE_DIST*Math.cos(robotTheta);
-                // goalY = robotY + MOVE_DIST*Math.sin(robotTheta);
-                // goalTheta = robotTheta;
-                // } else {
-                // writeShoulderPWM(shoulderServo
-                // .moveGymUp(shoulderPWM));
-                // }
-                // }
-                // }
-                //
 
-                // if (graspState == ArmGraspState.MOVE) {
-                // double remDist = getDist(robotX, robotY, goalX, goalY);
-                //
-                // if (remDist > DIST_TOL) {
-                // MotionMsg msg = new MotionMsg();
-                // msg.translationalVelocity = Math.min(FWD_GAIN * remDist,
-                // 0.5);
-                // msg.rotationalVelocity = Math.min(ROT_GAIN * (goalTheta -
-                // robotTheta), 0.25);
-                // motionPub.publish(msg);
-                // } else {
-                // graspState = ArmGraspState.DEPOSIT_WRIST;
-                // }
-                // }
-                //
                 // if (graspState == ArmGraspState.DEPOSIT_WRIST) {
                 // if (wristServo.isGymBent(wristPWM)) {
                 // graspState = ArmGraspState.DEPOSIT_SHOULDER;
