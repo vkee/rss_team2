@@ -53,7 +53,7 @@ public class Grasping implements NodeMain {
 
     private double MOVE_DIST = 0.25; // in meters
 
-    double FWD_GAIN = .2;
+    double FWD_GAIN = .5;
     double ROT_GAIN = .2;
     double DIST_TOL = 0.05; // tolerance to move MOVE_DIST in meters
 
