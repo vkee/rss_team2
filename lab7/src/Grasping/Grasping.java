@@ -320,6 +320,11 @@ public class Grasping implements NodeMain {
                     if (objDetected) { // Bump sensor
                         System.out.println("Object Detected!");
                         graspState = ArmGraspState.GRASP;
+                    } else {
+                        MotionMsg moveMsg = new MotionMsg();
+                        moveMsg.translationalVelocity = 0.15;
+                        moveMsg.rotationalVelocity = 0.0;
+                        motionPub.publish(moveMsg);
                     }
                 } else if (graspState == ArmGraspState.GRASP) {
                     if (!gripperServo.isClosed(gripperPWM)) {
