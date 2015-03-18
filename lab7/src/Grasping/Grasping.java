@@ -153,42 +153,39 @@ public class Grasping implements NodeMain {
 		 */
 
 		// END PART 4
-		
 
 		armStatusSub.addMessageListener(new MessageListener<ArmMsg>() {
-			
+
 			int[] pwm_stat = new int[3];
 			int wrist = 0;
 			int shoulder = 0;
 			int gripper = 0;
-			
-			public void sendCommands()
-				{
+
+			public void sendCommands() {
 				pwm_stat[0] = shoulder;
 				pwm_stat[1] = wrist;
 				pwm_stat[2] = gripper;
-				
+
 				ArmMsg msg = new ArmMsg();
 				msg.pwms[0] = pwm_stat[0];
 				msg.pwms[1] = pwm_stat[1];
 				msg.pwms[2] = pwm_stat[2];
 				armPWMPub.publish(msg);
-				
+
 				System.out.println("message sent");
 				System.out.println(Arrays.toString(pwm_stat));
-				}
-			
-			
+			}
+
 			@Override
 			public void onNewMessage(ArmMsg msg) {
-				
-				//long[] pwmVals = msg.pwms;
+
+				// long[] pwmVals = msg.pwms;
 				int[] pwmVals = pwm_stat;
 				int shoulderPWM = (int) pwmVals[0];
 				int wristPWM = (int) pwmVals[1];
 				int gripperPWM = (int) pwmVals[2];
 
-				 System.out.println(Arrays.toString(pwmVals));
+				System.out.println(Arrays.toString(pwmVals));
 
 				// try {
 				// Thread.sleep(1000);
@@ -305,14 +302,13 @@ public class Grasping implements NodeMain {
 					int wrist_init_value = wristServo.MIN_PWM;
 					int gripper_init_value = gripperServo.MIN_PWM;
 
-					//initializeServos(shoulder_init_value, wrist_init_value,
-							//gripper_init_value);
-					
+					// initializeServos(shoulder_init_value, wrist_init_value,
+					// gripper_init_value);
+
 					gripper = gripper_init_value;
 					wrist = wrist_init_value;
 					shoulder = shoulder_init_value;
-					
-					
+
 					// try {
 					// Thread.sleep(1000);
 					// } catch (Exception e) {
@@ -359,11 +355,10 @@ public class Grasping implements NodeMain {
 					} else {
 						graspState = ArmGraspState.MOVE;
 					}
-				
-				
-				sendCommands();
-				
+
 				}
+
+				sendCommands();
 
 				// rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
 
@@ -490,14 +485,12 @@ public class Grasping implements NodeMain {
 		});
 	}
 
-	/*protected void initializeServos(int shoulder_value, int wrist_value,
-			int gripper_value) {
-		ArmMsg msg = new ArmMsg();
-		msg.pwms[0] = shoulder_value;
-		msg.pwms[1] = wrist_value;
-		msg.pwms[2] = gripper_value;
-		armPWMPub.publish(msg);
-	}*/
+	/*
+	 * protected void initializeServos(int shoulder_value, int wrist_value, int
+	 * gripper_value) { ArmMsg msg = new ArmMsg(); msg.pwms[0] = shoulder_value;
+	 * msg.pwms[1] = wrist_value; msg.pwms[2] = gripper_value;
+	 * armPWMPub.publish(msg); }
+	 */
 
 	/**
 	 * Moves the arm to the desired x, z position in the robot frame
@@ -591,11 +584,10 @@ public class Grasping implements NodeMain {
 	 * @param value
 	 *            the PWM value to write to the shoulder servo
 	 */
-	/*private void writeShoulderPWM(int value) {
-		ArmMsg msg = new ArmMsg();
-		msg.pwms[0] = value;
-		armPWMPub.publish(msg);
-	}*/
+	/*
+	 * private void writeShoulderPWM(int value) { ArmMsg msg = new ArmMsg();
+	 * msg.pwms[0] = value; armPWMPub.publish(msg); }
+	 */
 
 	/**
 	 * Writes the provided PWM value for the wrist servo
@@ -603,11 +595,10 @@ public class Grasping implements NodeMain {
 	 * @param value
 	 *            the PWM value to write to the wrist servo
 	 */
-	/*private void writeWristPWM(int value) {
-		ArmMsg msg = new ArmMsg();
-		msg.pwms[1] = value;
-		armPWMPub.publish(msg);
-	}*/
+	/*
+	 * private void writeWristPWM(int value) { ArmMsg msg = new ArmMsg();
+	 * msg.pwms[1] = value; armPWMPub.publish(msg); }
+	 */
 
 	/**
 	 * Writes the provided PWM value for the gripper servo
@@ -615,11 +606,10 @@ public class Grasping implements NodeMain {
 	 * @param value
 	 *            the PWM value to write to the gripper servo
 	 */
-	/*private void writeGripperPWM(int value) {
-		ArmMsg msg = new ArmMsg();
-		msg.pwms[2] = value;
-		armPWMPub.publish(msg);
-	}*/
+	/*
+	 * private void writeGripperPWM(int value) { ArmMsg msg = new ArmMsg();
+	 * msg.pwms[2] = value; armPWMPub.publish(msg); }
+	 */
 
 	/**
 	 * Returns the distance between two points
