@@ -380,6 +380,25 @@ public class Grasping implements NodeMain {
                 sendCommands();
 
             }
+            
+            /**
+             * Moves the arm to the desired x, z position in the robot frame
+             * 
+             * @param desX
+             *            the desired x coordinate for the end effector
+             * @param desZ
+             *            the desired z coordinate for the end effector
+             */
+            public void moveArm(double desX, double desZ, int currShoulderPWM,
+                    int currWristPWM) {
+
+                double[] angles = InverseKinematics.getThetaPhi(desX, desZ,
+                        shoulderServo.getThetaRad(currShoulderPWM),
+                        wristServo.getThetaRad(currWristPWM));
+
+                shoulder = shoulderServo.getPWM(angles[0]);
+                wrist = wristServo.getPWM(angles[1]);
+            }
         });
 
         bumpersSub.addMessageListener(new MessageListener<BumpMsg>() {
@@ -405,30 +424,6 @@ public class Grasping implements NodeMain {
                 robotTheta = msg.theta;
             }
         });
-    }
-
-    /**
-     * Moves the arm to the desired x, z position in the robot frame
-     * 
-     * @param desX
-     *            the desired x coordinate for the end effector
-     * @param desZ
-     *            the desired z coordinate for the end effector
-     */
-    public void moveArm(double desX, double desZ, int currShoulderPWM,
-            int currWristPWM) {
-
-        double[] angles = InverseKinematics.getThetaPhi(desX, desZ,
-                shoulderServo.getThetaRad(currShoulderPWM),
-                wristServo.getThetaRad(currWristPWM));
-
-        int desShoulderPWM = shoulderServo.getPWM(angles[0]);
-        int desWristPWM = wristServo.getPWM(angles[1]);
-
-        ArmMsg msg = new ArmMsg();
-        msg.pwms[0] = shoulderServo.getSafePWM(currShoulderPWM, desShoulderPWM);
-        msg.pwms[1] = wristServo.getSafePWM(currWristPWM, desWristPWM);
-        armPWMPub.publish(msg);
     }
 
     /**
