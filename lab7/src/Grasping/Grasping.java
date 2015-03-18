@@ -8,6 +8,8 @@ import org.ros.message.rss_msgs.*;
 import org.ros.message.MessageListener;
 import org.ros.node.Node;
 
+import java.util.Arrays;
+
 //import org.ros.message.lab7_msgs.*;
 
 //import VisualServo.Image;
@@ -159,6 +161,8 @@ public class Grasping implements NodeMain {
 				int shoulderPWM = (int) pwmVals[0];
 				int wristPWM = (int) pwmVals[1];
 				int gripperPWM = (int) pwmVals[2];
+				
+				System.out.println(Arrays.toString(pwmVals));
 
 //				try {
 //					Thread.sleep(1000);
