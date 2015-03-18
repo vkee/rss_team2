@@ -293,10 +293,10 @@ public class Grasping implements NodeMain {
 
 				} else if (graspState == ArmGraspState.OPEN_GRIPPER) {
 					// Opens gripper
-					System.out.println("2 " + wristPWM);
+				//	System.out.println("2 " + wristPWM);
 					{if (!gripperServo.isOpen(wristPWM))
 						{
-						System.out.println("opening gripper" + wristPWM + " of "+gripperServo.MAX_PWM);
+//						System.out.println("opening gripper" + wristPWM + " of "+gripperServo.MAX_PWM);
 						writeGripperPWM(gripperServo.open(wristPWM));
 						}
 					else
@@ -543,7 +543,8 @@ public class Grasping implements NodeMain {
 
 				// System.out.println("Shoulder Theta: " +
 				// shoulderServo.getThetaDeg(msg.pwms[0]));
-				// System.out.println("Wrist Theta: " +
+				// System.					System.out.println("2 " + wristPWM);
+out.println("Wrist Theta: " +
 				// wristServo.getThetaDeg(msg.pwms[1]));
 				armPWMPub.publish(msg);
 			}
