@@ -381,7 +381,6 @@ public class Grasping implements NodeMain {
                         gripper = gripperServo.open(gripperPWM);
                     } else {
                         graspState = ArmGraspState.RETURN;
-                        graspState = ArmGraspState.MOVE;
                         startX = robotX;
                         startY = robotY;
                         startTheta = robotTheta;
