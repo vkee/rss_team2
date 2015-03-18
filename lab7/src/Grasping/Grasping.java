@@ -278,6 +278,8 @@ public class Grasping implements NodeMain {
 					int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
 					int wrist_init_value = wristServo.MIN_PWM;
 					int gripper_init_value = gripperServo.MIN_PWM;
+					System.out.println("0 " + wristPWM);
+
 					initializeServos(shoulder_init_value, wrist_init_value,
 							gripper_init_value);
 //					try {
@@ -287,8 +289,11 @@ public class Grasping implements NodeMain {
 //					}
 					System.out.println("at initilization state...");
 					graspState = ArmGraspState.OPEN_GRIPPER;
+					System.out.println("1 " + wristPWM);
+
 				} else if (graspState == ArmGraspState.OPEN_GRIPPER) {
 					// Opens gripper
+					System.out.println("2 " + wristPWM);
 					{if (!gripperServo.isOpen(wristPWM))
 						{
 						System.out.println("opening gripper" + wristPWM + " of "+gripperServo.MAX_PWM);
