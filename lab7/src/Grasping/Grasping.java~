@@ -55,10 +55,13 @@ public class Grasping implements NodeMain {
 	double ROT_GAIN = .2;
 	double DIST_TOL = 0.01; // tolerance to move MOVE_DIST in meters
 
+<<<<<<< HEAD
+=======
 	public enum ArmGraspState {
 		INITIALIZE, OPEN_GRIPPER, FIND_OBJ, GRASP, LIFT, MOVE, DEPOSIT_WRIST, DEPOSIT_SHOULDER, DEPOSIT_GRIPPER, RETURN
 	} 
 
+>>>>>>> fbaf69fc24114404f3f7077f582a43bff1dd57f1
 	// States for Arm Gymnastics
 	public enum ArmGymState {
 		INITIALIZE, OPEN_GRIPPER, CLOSE_GRIPPER, MOVE_UP, BEND_ELBOW, MOVE_TO_GROUND
