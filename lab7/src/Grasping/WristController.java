@@ -1,6 +1,7 @@
 package Grasping;
 
 public class WristController extends JointController{
+    protected final int COLLECT_PWM = 550; // PWM for wrist to be at for collecting objects
     private final double GYM_BEND_ANGLE = Math.PI/2;
     private final int GYM_BEND_PWM = 300; // hardcoded for now
     

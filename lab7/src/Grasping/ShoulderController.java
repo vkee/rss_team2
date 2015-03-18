@@ -4,7 +4,7 @@ public class ShoulderController extends JointController {
 	private final double GYM_UP_ANGLE = -Math.PI / 4;
 	private int GYM_UP_PWM = 1100;// hardcoded for now
 	protected final double GYM_GROUND_ANGLE = -Math.PI / 4;
-	protected final int GYM_GROUND_PWM = 700; // hardcoded for now
+	protected final int GYM_GROUND_PWM = 800; // hardcoded for now
 
 	public ShoulderController(int minPWM, int maxPWM, double thetaRange,
 			int pwm0, int pwm270) {

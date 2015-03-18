@@ -76,11 +76,9 @@ public class Grasping implements NodeMain {
         currState = State.DOWN;
         gymState = ArmGymState.INITIALIZE; // gymnastics
         graspState = ArmGraspState.INITIALIZE; // gymnastics
-
         shoulderServo = new ShoulderController(525, 2375, Math.PI, 1500, 525);
         wristServo = new WristController(350, 2250, Math.PI, 1250, 2025);
         gripperServo = new GripperController(1700, 2450, Math.PI, 1700, 2450);
-
     }
 
     /*
@@ -299,11 +297,8 @@ public class Grasping implements NodeMain {
                 if (graspState == ArmGraspState.INITIALIZE) {
                     System.out.println("going to initialization state...");
                     int shoulder_init_value = shoulderServo.GYM_GROUND_PWM;
-                    int wrist_init_value = wristServo.MIN_PWM;
+                    int wrist_init_value = wristServo.COLLECT_PWM;
                     int gripper_init_value = gripperServo.MIN_PWM;
-
-                    // initializeServos(shoulder_init_value, wrist_init_value,
-                    // gripper_init_value);
 
                     gripper = gripper_init_value;
                     wrist = wrist_init_value;
@@ -311,11 +306,6 @@ public class Grasping implements NodeMain {
 
                     System.out.println("Gripper Init Value: " + gripper);
 
-                    // try {
-                    // Thread.sleep(1000);
-                    // } catch (Exception e) {
-                    //
-                    // }
                     System.out.println("at initialization state...");
                     graspState = ArmGraspState.OPEN_GRIPPER;
                     System.out.println("1 " + wristPWM);
@@ -324,8 +314,6 @@ public class Grasping implements NodeMain {
                     // Opens gripper
                     System.out.println("2 " + gripperPWM);
                     if (!gripperServo.isOpen(gripperPWM)) {
-                        // System.out.println("opening gripper" + wristPWM +
-                        // " of "+gripperServo.MAX_PWM);
                         gripper = gripperServo.open(gripperPWM);
                     } else {
                         graspState = ArmGraspState.FIND_OBJ;
@@ -358,13 +346,12 @@ public class Grasping implements NodeMain {
                     }
                 } else if (graspState == ArmGraspState.MOVE) {
                     double remDist = getDist(robotX, robotY, goalX, goalY);
-                    System.out.println("RobotX: " + robotX + " RobotY: " + robotY + " GoalX: " + goalX + " GoalY: " + goalY);
-                    System.out.println("Rem Dist: " + remDist);
 
                     if (remDist > DIST_TOL) {
                         MotionMsg moveMsg = new MotionMsg();
                         moveMsg.translationalVelocity = Math.min(FWD_GAIN * remDist, 0.25);
                         moveMsg.rotationalVelocity = 0.0;
+                        System.out.println("Rem Dist: " + remDist);
 
                         System.out.println("Trans Vel: " + moveMsg.translationalVelocity);
                         motionPub.publish(moveMsg);
@@ -390,10 +377,9 @@ public class Grasping implements NodeMain {
                     }
                 } else if (graspState == ArmGraspState.RETURN) {
                     double remDist = getDist(robotX, robotY, goalX, goalY);
-                    System.out.println("RobotX: " + robotX + " RobotY: " + robotY + " GoalX: " + goalX + " GoalY: " + goalY);
-                    System.out.println("Rem Dist: " + remDist);
 
                     if (remDist > DIST_TOL) {
+                        System.out.println("Rem Dist: " + remDist);
                         MotionMsg moveMsg = new MotionMsg();
                         moveMsg.translationalVelocity = -Math.min(FWD_GAIN * remDist, 0.25);
                         moveMsg.rotationalVelocity = 0.0;
@@ -410,61 +396,6 @@ public class Grasping implements NodeMain {
                 } 
 
                 sendCommands();
-
-                // rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
-
-                // Bump sensor
-                // if (objDetected) {
-                // System.out.println("closing gripper");
-                // writeGripperPWM(gripperServo.close((int) msg.pwms[2]));
-                // }
-
-                // System.out.println("Obj Grasped: " + objGrasped);
-                // System.out.println("Shoulder Max PWM Change " +
-                // shoulderServo.MAX_PWM_CHANGE);
-                // double sum = InverseKinematics.ARM_LENGTH +
-                // InverseKinematics.WRIST_LENGTH;
-                // moveArm(sum*Math.cos(0), sum*Math.sin(0),
-                // (int) msg.pwms[0], (int) msg.pwms[1]);
-
-                // if (graspState == ArmGraspState.DEPOSIT_WRIST) {
-                // if (wristServo.isGymBent(wristPWM)) {
-                // graspState = ArmGraspState.DEPOSIT_SHOULDER;
-                // } else {
-                // writeWristPWM(wristServo.bendGym(wristPWM));
-                // }
-                // }
-                //
-                // if (graspState == ArmGraspState.DEPOSIT_SHOULDER) {
-                // if (shoulderServo.onGround(shoulderPWM)) {
-                // graspState = ArmGraspState.DEPOSIT_GRIPPER;
-                // } else {
-                // writeShoulderPWM(shoulderServo.moveToGround(shoulderPWM));
-                // }
-                // }
-                //
-                // if (graspState == ArmGraspState.DEPOSIT_GRIPPER) {
-                // if (gripperServo.isOpen(gripperPWM)) {
-                // graspState = ArmGraspState.RETURN;
-                // } else {
-                // writeGripperPWM(gripperServo.open(gripperPWM));
-                // }
-                // }
-                //
-                // if (graspState == ArmGraspState.RETURN) {
-                // double remDist = getDist(robotX, robotY, startX, startY);
-                //
-                // if (remDist > DIST_TOL) {
-                // MotionMsg msg = new MotionMsg();
-                // msg.translationalVelocity = Math.min(FWD_GAIN * remDist,
-                // 0.5);
-                // msg.rotationalVelocity = Math.min(ROT_GAIN * (startTheta -
-                // robotTheta), 0.25);
-                // motionPub.publish(msg);
-                // } else {
-                // // what to do now?
-                // }
-                // }
             }
         });
 
