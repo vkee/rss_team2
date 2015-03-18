@@ -320,7 +320,7 @@ public class Grasping implements NodeMain {
 
                 } else if (graspState == ArmGraspState.OPEN_GRIPPER) {
                     // Opens gripper
-                     System.out.println("2 " + gripperPWM);
+                    System.out.println("2 " + gripperPWM);
                     if (!gripperServo.isOpen(gripperPWM)) {
                         // System.out.println("opening gripper" + wristPWM +
                         // " of "+gripperServo.MAX_PWM);
@@ -328,16 +328,12 @@ public class Grasping implements NodeMain {
                     } else {
                         graspState = ArmGraspState.FIND_OBJ;
                     }
-                }
-
-                else if (graspState == ArmGraspState.FIND_OBJ) {
+                } else if (graspState == ArmGraspState.FIND_OBJ) {
                     if (objDetected) { // Bump sensor
                         System.out.println("Object Detected!");
                         graspState = ArmGraspState.GRASP;
                     }
-                }
-
-                else if (graspState == ArmGraspState.GRASP) {
+                } else if (graspState == ArmGraspState.GRASP) {
                     if (!gripperServo.isClosed(gripperPWM)) {
                         System.out.println("closing gripper" + wristPWM
                                 + " of " + gripperServo.MIN_PWM);
@@ -345,9 +341,7 @@ public class Grasping implements NodeMain {
                     } else {
                         graspState = ArmGraspState.LIFT;
                     }
-                }
-
-                else if (graspState == ArmGraspState.LIFT) {
+                } else if (graspState == ArmGraspState.LIFT) {
                     if (!shoulderServo.atTarget(Math.PI / 2, shoulderPWM)) {
                         shoulder = shoulderServo.rotateTo(Math.PI / 2,
                                 shoulderPWM);
@@ -470,7 +464,7 @@ public class Grasping implements NodeMain {
                 // System.out.println("msg.right state: " + msg.right);
                 // System.out.println("msg.gripper state: " + msg.gripper);
                 objDetected = msg.gripper;
-                
+
                 if (objDetected) {
                     System.out.println("objDetected in bumper sub");
                 }
