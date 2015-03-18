@@ -59,7 +59,7 @@ public class Grasping implements NodeMain {
 
 	public enum ArmGraspState {
 		INITIALIZE, OPEN_GRIPPER, FIND_OBJ, GRASP, LIFT, MOVE, DEPOSIT_WRIST, DEPOSIT_SHOULDER, DEPOSIT_GRIPPER, RETURN
-	} 
+	}
 
 	// States for Arm Gymnastics
 	public enum ArmGymState {
@@ -161,14 +161,14 @@ public class Grasping implements NodeMain {
 				int shoulderPWM = (int) pwmVals[0];
 				int wristPWM = (int) pwmVals[1];
 				int gripperPWM = (int) pwmVals[2];
-				
+
 				System.out.println(Arrays.toString(pwmVals));
 
-//				try {
-//					Thread.sleep(1000);
-//				} catch (Exception e) {
-//
-//				}
+				// try {
+				// Thread.sleep(1000);
+				// } catch (Exception e) {
+				//
+				// }
 
 				// BEGIN GYMNASTICS
 				// TO DO MAKE INTO STATIC METHOD IF IT PLEASES YOU
@@ -282,54 +282,53 @@ public class Grasping implements NodeMain {
 
 					initializeServos(shoulder_init_value, wrist_init_value,
 							gripper_init_value);
-//					try {
-//						Thread.sleep(1000);
-//					} catch (Exception e) {
-//
-//					}
+					// try {
+					// Thread.sleep(1000);
+					// } catch (Exception e) {
+					//
+					// }
 					System.out.println("at initilization state...");
 					graspState = ArmGraspState.OPEN_GRIPPER;
 					System.out.println("1 " + wristPWM);
 
 				} else if (graspState == ArmGraspState.OPEN_GRIPPER) {
 					// Opens gripper
-				//	System.out.println("2 " + wristPWM);
-					{if (!gripperServo.isOpen(wristPWM))
-						{
-//						System.out.println("opening gripper" + wristPWM + " of "+gripperServo.MAX_PWM);
-						writeGripperPWM(gripperServo.open(wristPWM));
+					// System.out.println("2 " + wristPWM);
+					{
+						if (!gripperServo.isOpen(wristPWM)) {
+							// System.out.println("opening gripper" + wristPWM +
+							// " of "+gripperServo.MAX_PWM);
+							writeGripperPWM(gripperServo.open(wristPWM));
+						} else {
+							graspState = ArmGraspState.FIND_OBJ;
 						}
-					else
-						{graspState = ArmGraspState.FIND_OBJ;}
 					}
 				}
-				
-				else if (graspState == ArmGraspState.FIND_OBJ)
-					{if (objDetected) { // Bump sensor
-						graspState = ArmGraspState.GRASP;
-						}
-					}
-				
-				else if (graspState == ArmGraspState.GRASP)
-					{if (!gripperServo.isClosed(wristPWM))
-						{
-						System.out.println("closing gripper" + wristPWM + " of "+gripperServo.MIN_PWM);
-						writeGripperPWM(gripperServo.close(wristPWM));
-						}
-					else
-						{graspState = ArmGraspState.LIFT;}
-					}
-				
-				
-				else if (graspState == ArmGraspState.LIFT)
-					{if (!shoulderServo.atTarget(Math.PI/2, shoulderPWM))
-						{
-						writeShoulderPWM(shoulderServo.rotateTo(Math.PI/2, shoulderPWM));
-						}
-					else
-						{graspState = ArmGraspState.MOVE;}
-					}
 
+				else if (graspState == ArmGraspState.FIND_OBJ) {
+					if (objDetected) { // Bump sensor
+						graspState = ArmGraspState.GRASP;
+					}
+				}
+
+				else if (graspState == ArmGraspState.GRASP) {
+					if (!gripperServo.isClosed(wristPWM)) {
+						System.out.println("closing gripper" + wristPWM
+								+ " of " + gripperServo.MIN_PWM);
+						writeGripperPWM(gripperServo.close(wristPWM));
+					} else {
+						graspState = ArmGraspState.LIFT;
+					}
+				}
+
+				else if (graspState == ArmGraspState.LIFT) {
+					if (!shoulderServo.atTarget(Math.PI / 2, shoulderPWM)) {
+						writeShoulderPWM(shoulderServo.rotateTo(Math.PI / 2,
+								shoulderPWM));
+					} else {
+						graspState = ArmGraspState.MOVE;
+					}
+				}
 
 				// rotateAllServos(shoulderPWM, wristPWM, gripperPWM);
 
@@ -543,8 +542,8 @@ public class Grasping implements NodeMain {
 
 				// System.out.println("Shoulder Theta: " +
 				// shoulderServo.getThetaDeg(msg.pwms[0]));
-				// System.					System.out.println("2 " + wristPWM);
-out.println("Wrist Theta: " +
+				// System. System.out.println("2 " + wristPWM);
+				// out.println("Wrist Theta: " +
 				// wristServo.getThetaDeg(msg.pwms[1]));
 				armPWMPub.publish(msg);
 			}
