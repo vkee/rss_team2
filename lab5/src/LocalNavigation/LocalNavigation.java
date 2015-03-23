@@ -78,6 +78,10 @@ public class LocalNavigation implements NodeMain {
 	private ColorMsg greenMsg;
 	private ColorMsg blueMsg;
 	private ColorMsg blackMsg;
+	
+    double initial_theta = Double.MAX_VALUE;
+    double robotTheta;
+
 
 	public LineEstimator lineEstimator = new LineEstimator();
 
@@ -176,6 +180,10 @@ public class LocalNavigation implements NodeMain {
 								msg.translationalVelocity = trans_vel;
 								msg.rotationalVelocity = rot_vel;
 								motionPub.publish(msg);
+						        if (initial_theta - robotTheta < 0.2 && initial_theta - robotTheta > 0.05) {			            
+						            setState(DONE); 
+						        }
+
 							}
 						}
 
@@ -505,6 +513,8 @@ public class LocalNavigation implements NodeMain {
 		if (state == State.TRACKING_WALL) {
 			// move slowly forward tracking wall with feedback controller,
 			// update linear filter, and SonarGUI see code above
+			if (initial_theta == Double.MAX_VALUE)
+		    	initial_theta = robotTheta;
 
 			if (!(obsDetectFront || obsDetectBack)) {
 				motionPub.publish(stopMsg);
