@@ -107,6 +107,8 @@ public class LocalNavigation implements NodeMain {
 	public final MotionMsg stopMsg;
 
 	private final FileLogger dataLogger;
+	public double trans_vel = 0.1;
+	public double rot_vel = 0.0;
 
 	public LocalNavigation() {
 		setState(State.ALIGN_ON_BUMP);
@@ -146,7 +148,9 @@ public class LocalNavigation implements NodeMain {
 						// 3.1 //TODO: print out the sensor data
 
 						// Bumper Data
-						leftBumper = message.gripper;//something is wrong with port 0 (left). it only prints true
+						leftBumper = message.gripper;// something is wrong with
+														// port 0 (left). it
+														// only prints true
 						rightBumper = message.right;
 
 						// // 3.2 Stop Robot when state == STOP_ON_BUMP and
@@ -165,8 +169,8 @@ public class LocalNavigation implements NodeMain {
 								System.out.println("New State" + state);
 							} else {
 								MotionMsg msg = new MotionMsg();
-								msg.translationalVelocity = .2;
-								msg.rotationalVelocity = .1;
+								msg.translationalVelocity = trans_vel;
+								msg.rotationalVelocity = rot_vel;
 								motionPub.publish(msg);
 							}
 						}
@@ -571,6 +575,8 @@ public class LocalNavigation implements NodeMain {
 			// How to access random colors?
 
 			motionPub.publish(msg);
+			trans_vel = 0.2;
+			rot_vel = 0.1;
 
 			// if back at the original state, enter state done
 			// setState(State.DONE);
