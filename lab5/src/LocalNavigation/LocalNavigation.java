@@ -523,37 +523,16 @@ public class LocalNavigation implements NodeMain {
 			} else {
 				double transGain = 0.0625;
 				double rotGain = 0.0125;
-
-				// double transError = lineEstimator.getPerpDist(robotX, robotY)
-				// - distanceOffset; // where d is the desired distance to
-				// remain from the wall
-				// computing slope from the estimated line
-
-				// double obsSlope = Math.atan2(-lineEstimator.getA(),
-				// lineEstimator.getB());
-
+				
 				double transError = calculateTranslationalError();
 				double orientError = calculateRotationalError();
 
-				// double orientError = obsSlope - robotTheta;
-				// may also want to also store each sonar value when an obstacle
-				// is detected
-				// and then compute the angle from the triangle formed by their
-				// difference and the distance
-				// between the sonars and add this in as a factor of the
-				// orientation error
-				// orientError += (obsSlope - Math.atan2(frontSonarDist -
-				// backSonarDist, SONAR_DIST));
 				MotionMsg msg = new MotionMsg();
 				msg.translationalVelocity = SLOW_FWD;
 				// Rotate CW away from the wall if too close, rotate CCW towards
 				// the wall if too far
 				msg.rotationalVelocity = transGain * transError + rotGain
 						* orientError;
-				// System.out.println("Translational Error " + transError);
-				// System.out.println("Orientation Error " + orientError);
-				// System.out.println("Rotation Vel: " +
-				// msg.rotationalVelocity);
 
 				if (saveErrors) {
 					// dataLogger.write(System.currentTimeMillis(), transError,
@@ -572,13 +551,7 @@ public class LocalNavigation implements NodeMain {
 
 			MotionMsg msg = new MotionMsg();
 			msg.translationalVelocity = 0.2;
-			msg.rotationalVelocity = 0.1;// v=r omega //MED_CCW;
-			// robot drives slowly ccw along circle radius d tangent to current
-			// heading
-			// use random color generator to choose a new color...HOW?
-
-			// How to access random colors?
-
+			msg.rotationalVelocity = 0.1;
 			motionPub.publish(msg);
 			trans_vel = 0.2;
 			rot_vel = 0.1;
@@ -586,6 +559,13 @@ public class LocalNavigation implements NodeMain {
 			// if back at the original state, enter state done
 			// setState(State.DONE);
 			dataLogger.closeFile();
+		}
+		if (state == State.DONE){
+			MotionMsg msg = new MotionMsg();
+			msg.translationalVelocity = 0;
+			msg.rotationalVelocity = 0;
+			motionPub.publish(msg);
+
 		}
 
 	}
