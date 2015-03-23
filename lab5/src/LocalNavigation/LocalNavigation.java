@@ -143,8 +143,6 @@ public class LocalNavigation implements NodeMain {
 					public void onNewMessage(
 							org.ros.message.rss_msgs.BumpMsg message) {
 
-						System.out.println("State: " + state);
-
 						// 3.1 //TODO: print out the sensor data
 
 						// Bumper Data
@@ -162,7 +160,9 @@ public class LocalNavigation implements NodeMain {
 						// 3.3
 						if ((state == State.ALIGN_ON_BUMP)) {
 							if (leftBumper || rightBumper) {
+								System.out.println("Old State: " + state);
 								setState(State.ALIGNING);
+								System.out.println("New State" + state);
 							} else {
 								MotionMsg msg = new MotionMsg();
 								msg.translationalVelocity = MED_FWD;
@@ -179,7 +179,10 @@ public class LocalNavigation implements NodeMain {
 								motionPub.publish(msg);
 							} else if (leftBumper && rightBumper) {
 								motionPub.publish(stopMsg);
+								System.out.println("Old State: " + state);
 								setState(State.ALIGNED);
+								System.out.println("New State: " + state);
+
 							} else {
 								if (leftBumper) {
 									// rotate right/CCW
@@ -198,7 +201,10 @@ public class LocalNavigation implements NodeMain {
 						}
 						// // 4
 						if (state == State.ALIGNED) {
+							System.out.println("Old State: " + state);
 							setState(State.REVERSING);
+							System.out.println("New State: " + state);
+
 						}
 
 						// Backing up a small amount
@@ -220,14 +226,19 @@ public class LocalNavigation implements NodeMain {
 
 								motionPub.publish(reverseMsg);
 							} else {
+								System.out.println("Old State: " + state);
 								setState(State.REVERSE_STOP);
+								System.out.println("New State: " + state);
+
 							}
 						}
 
 						// Stopping
 						if (state == State.REVERSE_STOP) {
 							motionPub.publish(stopMsg);
+							System.out.println("Old State: " + state);
 							setState(State.ROTATING);
+							System.out.println("New State: " + state);
 						}
 
 						// Rotating pi/2 radians cw
@@ -247,7 +258,7 @@ public class LocalNavigation implements NodeMain {
 								error -= 2 * Math.PI;
 							}
 
-							System.out.println("Error: " + error);
+							// System.out.println("Error: " + error);
 
 							if (Math.abs(error) > 0.01) {
 								double rotateGain = 0.25;
@@ -260,19 +271,26 @@ public class LocalNavigation implements NodeMain {
 
 								motionPub.publish(reverseMsg);
 							} else {
+								System.out.println("Old State: " + state);
 								setState(State.ROTATE_STOP);
+								System.out.println("New State: " + state);
 							}
 						}
 
 						// Stopping
 						if (state == State.ROTATE_STOP) {
 							motionPub.publish(stopMsg);
-
+							System.out.println("Old State: " + state);
 							setState(State.ALIGNED_AND_ROTATED);
+							System.out.println("New State: " + state);
+
 						}
 
 						if (state == State.ALIGNED_AND_ROTATED) {
+							System.out.println("Old State: " + state);
 							setState(State.BACKING_UP);
+							System.out.println("New State: " + state);
+
 						}
 					}
 				});
@@ -517,9 +535,10 @@ public class LocalNavigation implements NodeMain {
 				// the wall if too far
 				msg.rotationalVelocity = transGain * transError + rotGain
 						* orientError;
-				System.out.println("Translational Error " + transError);
-				System.out.println("Orientation Error " + orientError);
-				System.out.println("Rotation Vel: " + msg.rotationalVelocity);
+				// System.out.println("Translational Error " + transError);
+				// System.out.println("Orientation Error " + orientError);
+				// System.out.println("Rotation Vel: " +
+				// msg.rotationalVelocity);
 
 				if (saveErrors) {
 					// dataLogger.write(System.currentTimeMillis(), transError,
