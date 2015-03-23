@@ -79,6 +79,11 @@ public class LocalNavigation implements NodeMain {
 	private ColorMsg blueMsg;
 	private ColorMsg blackMsg;
 	
+	/*First obstacle modeled
+	 * 61.5 cm length equilateral triangle
+	 * 61.5 cm length square
+	 */
+	
     double initial_theta = Double.MAX_VALUE;
 
 
@@ -180,7 +185,7 @@ public class LocalNavigation implements NodeMain {
 								msg.rotationalVelocity = rot_vel;
 								motionPub.publish(msg);
 						        if (initial_theta - robotTheta < 0.2 && initial_theta - robotTheta > 0.05) {			            
-						            setState(State.DONE); 
+						          //  setState(State.DONE); 
 						        }
 
 							}
