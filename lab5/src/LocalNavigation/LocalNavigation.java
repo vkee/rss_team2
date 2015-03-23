@@ -507,16 +507,21 @@ public class LocalNavigation implements NodeMain {
 				endWallY = robotY;
 
 				// erase screen
-				//GUIEraseMsg eraseMsg = new GUIEraseMsg();
+				// GUIEraseMsg eraseMsg = new GUIEraseMsg();
 				// eraseMsg.std_msgs = "erase";
-				//guiErasePub.publish(eraseMsg); // DOESN'T WORK YET...
+				// guiErasePub.publish(eraseMsg); // DOESN'T WORK YET...
 
 				// Using the points at the start and end of the wall
+				Point line_start = lineEstimator.getPerpendicularPointOnLine(
+						startWallX, startWallY);
+				Point line_end = lineEstimator.getPerpendicularPointOnLine(
+						endWallX, endWallY);
+
 				GUISegmentMsg msg = new GUISegmentMsg();
-				msg.endX = endWallX;
-				msg.endY = endWallY;
-				msg.startX = startWallX;
-				msg.startY = startWallY;
+				msg.endX = line_start.x;
+				msg.endY = line_start.y;
+				msg.startX = line_end.x;
+				msg.startY = line_end.y;
 				msg.color = blackMsg;
 				guiSegPub.publish(msg);
 
@@ -524,8 +529,9 @@ public class LocalNavigation implements NodeMain {
 				double transGain = 0.0625;
 				double rotGain = 0.0125;
 
-				double transError = calculateTranslationalError(); //distance to wall 
-				double orientError = calculateRotationalError();//angle to wall
+				double transError = calculateTranslationalError(); // distance
+																	// to wall
+				double orientError = calculateRotationalError();// angle to wall
 
 				MotionMsg msg = new MotionMsg();
 				msg.translationalVelocity = SLOW_FWD;
