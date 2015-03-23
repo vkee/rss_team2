@@ -1,4 +1,5 @@
 package LocalNavigation;
+import utils.*;
 
 /**
  * LineEstimator based off of Lab 5 Notes using Moore-Penrose Pseudoinverse
