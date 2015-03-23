@@ -111,7 +111,7 @@ public class LocalNavigation implements NodeMain {
 	public double rot_vel = 0.0;
 
 	public LocalNavigation() {
-		setState(State.ALIGN_ON_BUMP);
+		setState(State.TRACKING_WALL);
 		generateColorMsgs();
 
 		stopMsg = new MotionMsg();
@@ -507,9 +507,9 @@ public class LocalNavigation implements NodeMain {
 				endWallY = robotY;
 
 				// erase screen
-				GUIEraseMsg eraseMsg = new GUIEraseMsg();
+				//GUIEraseMsg eraseMsg = new GUIEraseMsg();
 				// eraseMsg.std_msgs = "erase";
-				guiErasePub.publish(eraseMsg); // DOESN'T WORK YET...
+				//guiErasePub.publish(eraseMsg); // DOESN'T WORK YET...
 
 				// Using the points at the start and end of the wall
 				GUISegmentMsg msg = new GUISegmentMsg();
@@ -522,33 +522,15 @@ public class LocalNavigation implements NodeMain {
 
 			} else {
 				double transGain = 0.0625;
-				double rotGain = 0.125;
+				double rotGain = 0.0125;
 
-				double transError = lineEstimator.getPerpDist(robotX, robotY)
-						- distanceOffset; // where d is the desired distance to
-											// remain from the wall
-				// computing slope from the estimated line
-				double obsSlope = Math.atan2(-lineEstimator.getA(),
-						lineEstimator.getB());
-				double orientError = obsSlope - robotTheta;
-				// may also want to also store each sonar value when an obstacle
-				// is detected
-				// and then compute the angle from the triangle formed by their
-				// difference and the distance
-				// between the sonars and add this in as a factor of the
-				// orientation error
-				// orientError += (obsSlope - Math.atan2(frontSonarDist -
-				// backSonarDist, SONAR_DIST));
+				double transError = calculateTranslationalError(); //distance to wall 
+				double orientError = calculateRotationalError();//angle to wall
+
 				MotionMsg msg = new MotionMsg();
 				msg.translationalVelocity = SLOW_FWD;
-				// Rotate CW away from the wall if too close, rotate CCW towards
-				// the wall if too far
 				msg.rotationalVelocity = transGain * transError + rotGain
 						* orientError;
-				// System.out.println("Translational Error " + transError);
-				// System.out.println("Orientation Error " + orientError);
-				// System.out.println("Rotation Vel: " +
-				// msg.rotationalVelocity);
 
 				if (saveErrors) {
 					// dataLogger.write(System.currentTimeMillis(), transError,
@@ -567,22 +549,43 @@ public class LocalNavigation implements NodeMain {
 
 			MotionMsg msg = new MotionMsg();
 			msg.translationalVelocity = 0.2;
-			msg.rotationalVelocity = 0.1;// v=r omega //MED_CCW;
-			// robot drives slowly ccw along circle radius d tangent to current
-			// heading
-			// use random color generator to choose a new color...HOW?
-
-			// How to access random colors?
-
+			msg.rotationalVelocity = 0.1;
 			motionPub.publish(msg);
 			trans_vel = 0.2;
 			rot_vel = 0.1;
 
-			// if back at the original state, enter state done
-			// setState(State.DONE);
+			// What condition signals done?
+			// if (){
+			// setState(state.DONE);
+			// }
 			dataLogger.closeFile();
 		}
+		if (state == State.DONE) {
+			MotionMsg msg = new MotionMsg();
+			msg.translationalVelocity = 0;
+			msg.rotationalVelocity = 0;
+			motionPub.publish(msg);
 
+		}
+
+	}
+
+	private double calculateRotationalError() {
+		double sonarSensorsSeparationDistance = .30; // the sonars are 30 cm
+														// apart
+		double expectedTheta = 0.0;
+		// according to some blackboard geometry, we found a relationship
+		// between the two sonar distances, the distance
+		// between the sensors, and the actual absolute angle.
+		double actualTheta = Math.atan2(backSonarDist - frontSonarDist,
+				sonarSensorsSeparationDistance);
+		return expectedTheta - actualTheta;
+	}
+
+	private double calculateTranslationalError() {
+		double expectedSonarRange = 0.4;
+		double averageSonarRange = (backSonarDist + frontSonarDist) / 2.0;
+		return expectedSonarRange - averageSonarRange;
 	}
 
 	/**
