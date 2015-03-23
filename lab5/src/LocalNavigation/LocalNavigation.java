@@ -507,9 +507,9 @@ public class LocalNavigation implements NodeMain {
 				endWallY = robotY;
 
 				// erase screen
-				GUIEraseMsg eraseMsg = new GUIEraseMsg();
+				//GUIEraseMsg eraseMsg = new GUIEraseMsg();
 				// eraseMsg.std_msgs = "erase";
-				guiErasePub.publish(eraseMsg); // DOESN'T WORK YET...
+				//guiErasePub.publish(eraseMsg); // DOESN'T WORK YET...
 
 				// Using the points at the start and end of the wall
 				GUISegmentMsg msg = new GUISegmentMsg();
