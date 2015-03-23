@@ -112,7 +112,7 @@ public class LocalNavigation implements NodeMain {
 	public double rot_vel = 0.0;
 
 	public LocalNavigation() {
-		setState(State.TRACKING_WALL);
+		setState(State.ALIGN_ON_BUMP);
 		generateColorMsgs();
 
 		stopMsg = new MotionMsg();
