@@ -192,7 +192,6 @@ public class LocalNavigation implements NodeMain {
 									motionPub.publish(msg);
 								} else {
 									// rotate left / CW
-
 									MotionMsg msg = new MotionMsg();
 									msg.translationalVelocity = VERY_SLOW_FWD;
 									msg.rotationalVelocity = SLOW_CW;
@@ -200,7 +199,6 @@ public class LocalNavigation implements NodeMain {
 								}
 							}
 						}
-						//
 						// // 4
 						if (state == State.ALIGNED) {
 
