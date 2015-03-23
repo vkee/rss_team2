@@ -543,8 +543,8 @@ public class LocalNavigation implements NodeMain {
 				msg.translationalVelocity = SLOW_FWD;
 				// Rotate CW away from the wall if too close, rotate CCW towards
 				// the wall if too far
-				msg.rotationalVelocity = transGain * transError + rotGain
-						* orientError;
+//				transGain * transError + 
+				msg.rotationalVelocity = rotGain * orientError;
 				// System.out.println("Translational Error " + transError);
 				// System.out.println("Orientation Error " + orientError);
 				// System.out.println("Rotation Vel: " +
