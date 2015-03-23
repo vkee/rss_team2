@@ -533,7 +533,7 @@ public class LocalNavigation implements NodeMain {
 				// lineEstimator.getB());
 
 				double transError = calculateTranslationalError();
-				double oreintError = calculateRotationalError();
+				double orientError = calculateRotationalError();
 
 				// double orientError = obsSlope - robotTheta;
 				// may also want to also store each sonar value when an obstacle
