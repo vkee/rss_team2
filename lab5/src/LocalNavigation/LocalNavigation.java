@@ -9,6 +9,7 @@ import org.ros.node.Node;
 import org.ros.message.MessageListener;
 import org.ros.namespace.GraphName;
 import org.ros.message.lab5_msgs.*;
+import utils.*;
 
 public class LocalNavigation implements NodeMain {
 
