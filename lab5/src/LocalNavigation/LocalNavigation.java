@@ -644,9 +644,9 @@ public class LocalNavigation implements NodeMain {
 		blueMsg.b = 255;
 
 		blackMsg = new ColorMsg();
-		blackMsg.r = 255;
-		blackMsg.g = 255;
-		blackMsg.b = 255;
+		blackMsg.r = 0;
+		blackMsg.g = 0;
+		blackMsg.b = 0;
 	}
 
 	@Override
