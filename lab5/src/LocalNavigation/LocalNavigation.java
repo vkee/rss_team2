@@ -147,8 +147,7 @@ public class LocalNavigation implements NodeMain {
 
 						// 3.1 //TODO: print out the sensor data
 
-						// System.out.println("Left " + message.left);
-						// System.out.println("Right " + message.right);
+						// Bumper Data
 						leftBumper = message.left;
 						rightBumper = message.right;
 
@@ -174,8 +173,6 @@ public class LocalNavigation implements NodeMain {
 
 						if (state == State.ALIGNING) {
 							if (!leftBumper && !rightBumper) {
-								// Move slowly forward
-
 								MotionMsg msg = new MotionMsg();
 								msg.translationalVelocity = MED_FWD;
 								msg.rotationalVelocity = STOP;
@@ -201,13 +198,7 @@ public class LocalNavigation implements NodeMain {
 						}
 						// // 4
 						if (state == State.ALIGNED) {
-
 							setState(State.REVERSING);
-							// back up a small amount, stop, rotate pi/2 cw,
-							// stop
-							// use robot odometry to control this
-							// need to make a loop where do not exit until
-							// rotate pi/2
 						}
 
 						// Backing up a small amount
@@ -216,8 +207,8 @@ public class LocalNavigation implements NodeMain {
 							// based on error from distance offset
 							double error = distanceOffset
 									- getDist(robotX, robotY, alignedBotX,
-											alignedBotY);
-
+											alignedBotY); // TODO: double check
+															// this calculation
 							if (error > 0.01) {
 								double reverseGain = 1.0;
 
@@ -236,7 +227,6 @@ public class LocalNavigation implements NodeMain {
 						// Stopping
 						if (state == State.REVERSE_STOP) {
 							motionPub.publish(stopMsg);
-
 							setState(State.ROTATING);
 						}
 
@@ -545,8 +535,8 @@ public class LocalNavigation implements NodeMain {
 			setState(State.ALIGN_ON_BUMP);
 
 			MotionMsg msg = new MotionMsg();
-			msg.translationalVelocity = MED_FWD;
-			msg.rotationalVelocity = MED_FWD / 2.0;// v=r omega //MED_CCW;
+			msg.translationalVelocity = 0.2;
+			msg.rotationalVelocity = 0.1;// v=r omega //MED_CCW;
 			// robot drives slowly ccw along circle radius d tangent to current
 			// heading
 			// use random color generator to choose a new color...HOW?
