@@ -80,7 +80,6 @@ public class LocalNavigation implements NodeMain {
 	private ColorMsg blackMsg;
 	
     double initial_theta = Double.MAX_VALUE;
-    double robotTheta;
 
 
 	public LineEstimator lineEstimator = new LineEstimator();
