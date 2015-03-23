@@ -522,15 +522,20 @@ public class LocalNavigation implements NodeMain {
 
 			} else {
 				double transGain = 0.0625;
-				double rotGain = 0.125;
+				double rotGain = 0.0125;
 
-				double transError = lineEstimator.getPerpDist(robotX, robotY)
-						- distanceOffset; // where d is the desired distance to
-											// remain from the wall
+				// double transError = lineEstimator.getPerpDist(robotX, robotY)
+				// - distanceOffset; // where d is the desired distance to
+				// remain from the wall
 				// computing slope from the estimated line
-				double obsSlope = Math.atan2(-lineEstimator.getA(),
-						lineEstimator.getB());
-				double orientError = obsSlope - robotTheta;
+
+				// double obsSlope = Math.atan2(-lineEstimator.getA(),
+				// lineEstimator.getB());
+
+				double transError = calculateTranslationalError();
+				double oreintError = calculateRotationalError();
+
+				// double orientError = obsSlope - robotTheta;
 				// may also want to also store each sonar value when an obstacle
 				// is detected
 				// and then compute the angle from the triangle formed by their
@@ -543,8 +548,8 @@ public class LocalNavigation implements NodeMain {
 				msg.translationalVelocity = SLOW_FWD;
 				// Rotate CW away from the wall if too close, rotate CCW towards
 				// the wall if too far
-				// transGain * transError +
-				msg.rotationalVelocity = rotGain * orientError;
+				msg.rotationalVelocity = transGain * transError + rotGain
+						* orientError;
 				// System.out.println("Translational Error " + transError);
 				// System.out.println("Orientation Error " + orientError);
 				// System.out.println("Rotation Vel: " +
@@ -583,6 +588,24 @@ public class LocalNavigation implements NodeMain {
 			dataLogger.closeFile();
 		}
 
+	}
+
+	private double calculateRotationalError() {
+		double sonarSensorsSeparationDistance = .30; // the sonars are 30 cm
+														// apart
+		double expectedTheta = 0.0;
+		// according to some blackboard geometry, we found a relationship
+		// between the two sonar distances, the distance
+		// between the sensors, and the actual absolute angle.
+		double actualTheta = Math.atan2(backSonarDist - frontSonarDist,
+				sonarSensorsSeparationDistance);
+		return expectedTheta - actualTheta;
+	}
+
+	private double calculateTranslationalError() {
+		double expectedSonarRange = 0.4;
+		double averageSonarRange = (backSonarDist + frontSonarDist) / 2.0;
+		return expectedSonarRange - averageSonarRange;
 	}
 
 	/**
