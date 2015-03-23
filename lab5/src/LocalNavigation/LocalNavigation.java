@@ -82,7 +82,7 @@ public class LocalNavigation implements NodeMain {
 	public LineEstimator lineEstimator = new LineEstimator();
 
 	public enum State {
-		STOP_ON_BUMP, ALIGN_ON_BUMP, ALIGNING, ALIGNED, REVERSING, REVERSE_STOP, ROTATING, ROTATE_STOP, ALIGNED_AND_ROTATED, BACKING_UP, FINDING_WALL, TRACKING_WALL, WALL_ENDED, DONE
+		wiki_part, STOP_ON_BUMP, ALIGN_ON_BUMP, ALIGNING, ALIGNED, REVERSING, REVERSE_STOP, ROTATING, ROTATE_STOP, ALIGNED_AND_ROTATED, BACKING_UP, FINDING_WALL, TRACKING_WALL, WALL_ENDED, DONE
 	}
 
 	// Velocity Constants
@@ -112,6 +112,9 @@ public class LocalNavigation implements NodeMain {
 	public double rot_vel = 0.0;
 
 	public LocalNavigation() {
+		// This is where you tell the robot which state you want the robot to
+		// initialize to//setState(State.wiki_part);
+
 		setState(State.ALIGN_ON_BUMP);
 		generateColorMsgs();
 
@@ -357,6 +360,10 @@ public class LocalNavigation implements NodeMain {
 	 *            whether the sonar is the front sonar
 	 */
 	public void sonarHandler(org.ros.message.rss_msgs.SonarMsg message) {
+
+		if (state == State.wiki_part) {
+
+		}
 
 		if (message.range < threshold) {
 
