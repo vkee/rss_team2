@@ -111,7 +111,7 @@ public class LocalNavigation implements NodeMain {
 	public double rot_vel = 0.0;
 
 	public LocalNavigation() {
-		setState(State.ALIGN_ON_BUMP);
+		setState(State.TRACKING_WALL);
 		generateColorMsgs();
 
 		stopMsg = new MotionMsg();
@@ -523,14 +523,12 @@ public class LocalNavigation implements NodeMain {
 			} else {
 				double transGain = 0.0625;
 				double rotGain = 0.0125;
-				
-				double transError = calculateTranslationalError();
-				double orientError = calculateRotationalError();
+
+				double transError = calculateTranslationalError(); //distance to wall 
+				double orientError = calculateRotationalError();//angle to wall
 
 				MotionMsg msg = new MotionMsg();
 				msg.translationalVelocity = SLOW_FWD;
-				// Rotate CW away from the wall if too close, rotate CCW towards
-				// the wall if too far
 				msg.rotationalVelocity = transGain * transError + rotGain
 						* orientError;
 
@@ -556,11 +554,13 @@ public class LocalNavigation implements NodeMain {
 			trans_vel = 0.2;
 			rot_vel = 0.1;
 
-			// if back at the original state, enter state done
-			// setState(State.DONE);
+			// What condition signals done?
+			// if (){
+			// setState(state.DONE);
+			// }
 			dataLogger.closeFile();
 		}
-		if (state == State.DONE){
+		if (state == State.DONE) {
 			MotionMsg msg = new MotionMsg();
 			msg.translationalVelocity = 0;
 			msg.rotationalVelocity = 0;
