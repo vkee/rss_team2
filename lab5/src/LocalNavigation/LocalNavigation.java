@@ -146,7 +146,7 @@ public class LocalNavigation implements NodeMain {
 						// 3.1 //TODO: print out the sensor data
 
 						// Bumper Data
-						leftBumper = message.left;
+						leftBumper = message.gripper;//something is wrong with port 0 (left). it only prints true
 						rightBumper = message.right;
 
 						// // 3.2 Stop Robot when state == STOP_ON_BUMP and
