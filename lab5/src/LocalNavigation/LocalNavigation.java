@@ -165,7 +165,7 @@ public class LocalNavigation implements NodeMain {
 								System.out.println("New State" + state);
 							} else {
 								MotionMsg msg = new MotionMsg();
-								msg.translationalVelocity = MED_FWD;
+								msg.translationalVelocity = .1;
 								msg.rotationalVelocity = STOP;
 								motionPub.publish(msg);
 							}
@@ -464,7 +464,9 @@ public class LocalNavigation implements NodeMain {
 				motionPub.publish(msg);
 			} else {
 				motionPub.publish(stopMsg);
+				System.out.println("Old State: " + state);
 				setState(State.FINDING_WALL);
+				System.out.println("New State: " + state);
 			}
 		}
 
@@ -477,7 +479,9 @@ public class LocalNavigation implements NodeMain {
 				msg.rotationalVelocity = STOP;
 				motionPub.publish(msg);
 			} else {
+				System.out.println("Old State: " + state);
 				setState(State.TRACKING_WALL);
+				System.out.println("New State: " + state);
 				// TODO current robot pose and sonar readings store in fields
 				startWallX = robotX;
 				startWallY = robotY;
@@ -492,7 +496,9 @@ public class LocalNavigation implements NodeMain {
 
 			if (!(obsDetectFront || obsDetectBack)) {
 				motionPub.publish(stopMsg);
+				System.out.println("Old State: " + state);
 				setState(State.WALL_ENDED);
+				System.out.println("New State: " + state);
 				endWallX = robotX;
 				endWallY = robotY;
 
@@ -551,7 +557,9 @@ public class LocalNavigation implements NodeMain {
 
 		// 6
 		if (state == State.WALL_ENDED) {
+			System.out.println("Old State: " + state);
 			setState(State.ALIGN_ON_BUMP);
+			System.out.println("New State: " + state);
 
 			MotionMsg msg = new MotionMsg();
 			msg.translationalVelocity = 0.2;
