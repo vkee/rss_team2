@@ -165,8 +165,8 @@ public class LocalNavigation implements NodeMain {
 								System.out.println("New State" + state);
 							} else {
 								MotionMsg msg = new MotionMsg();
-								msg.translationalVelocity = .1;
-								msg.rotationalVelocity = STOP;
+								msg.translationalVelocity = .2;
+								msg.rotationalVelocity = .1;
 								motionPub.publish(msg);
 							}
 						}
