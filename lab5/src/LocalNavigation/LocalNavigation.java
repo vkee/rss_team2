@@ -181,7 +181,7 @@ public class LocalNavigation implements NodeMain {
 								msg.rotationalVelocity = rot_vel;
 								motionPub.publish(msg);
 						        if (initial_theta - robotTheta < 0.2 && initial_theta - robotTheta > 0.05) {			            
-						            setState(DONE); 
+						            setState(State.DONE); 
 						        }
 
 							}
