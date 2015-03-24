@@ -80,7 +80,7 @@ public class GlobalNavigation implements NodeMain {
     public void onStart(Node node) {
         // To wait for the GUI
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (Exception e) {
 
         }
