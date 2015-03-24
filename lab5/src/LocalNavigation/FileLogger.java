@@ -35,7 +35,16 @@ public class FileLogger {
     public void write(long timestamp, double translation_error, double rotation_error){
         fileWriter.println(timestamp + " " + translation_error + " " + rotation_error); 
     }
-    
+
+    /**
+     * Writes a line to the ASCII data file
+     * @param timestamp
+     * @param translation_error
+     * @param rotation_error
+     */
+    public void write(String timestamp, String translation_error, String rotation_error){
+        fileWriter.println(timestamp + " " + translation_error + " " + rotation_error); 
+    }
     /**
      * Closes the file after writing
      */
