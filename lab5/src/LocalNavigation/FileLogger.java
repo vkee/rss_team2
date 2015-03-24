@@ -44,6 +44,7 @@ public class FileLogger {
      */
     public void write(String timestamp, String translation_error, String rotation_error){
         fileWriter.println(timestamp + " " + translation_error + " " + rotation_error); 
+        fileWriter.write(timestamp + " " + translation_error + " " + rotation_error); 
     }
     /**
      * Closes the file after writing

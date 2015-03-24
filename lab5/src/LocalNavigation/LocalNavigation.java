@@ -561,6 +561,7 @@ public class LocalNavigation implements NodeMain {
 						* orientError;
 
 				if (saveErrors) {
+					System.out.print(transError + " " + orientError);
 					dataLogger.write(System.currentTimeMillis(), transError,orientError);
 				}
 
