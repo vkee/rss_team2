@@ -461,22 +461,27 @@ public class GlobalNavigation implements NodeMain {
 
         // Erase the GUI
         guiErasePub.publish(new GUIEraseMsg());
-
+        
+        // print border
         GUIRectMsg rectMsg = new GUIRectMsg();
         GlobalNavigation.fillRectMsg(rectMsg, polyMap.getWorldRect(),
                 Color.BLACK, false);
         guiRectPub.publish(rectMsg);
+
+        //print true obstacles
         GUIPolyMsg polyMsg = new GUIPolyMsg();
-        for (PolygonObstacle obstacle : obsCSpaces) {
-            polyMsg = new GUIPolyMsg();
-            GlobalNavigation.fillPolyMsg(polyMsg, obstacle,
-                    Color.BLUE, false, true);
-            guiPolyPub.publish(polyMsg);
-        }
         for (PolygonObstacle obstacle : polyMap.getObstacles()) {
             polyMsg = new GUIPolyMsg();
             GlobalNavigation.fillPolyMsg(polyMsg, obstacle,
                     Color.BLACK, true, true);
+            guiPolyPub.publish(polyMsg);
+        }
+
+        //print cspace around obstacles
+        for (PolygonObstacle obstacle : obsCSpaces) {
+            polyMsg = new GUIPolyMsg();
+            GlobalNavigation.fillPolyMsg(polyMsg, obstacle,
+                    Color.BLUE, false, true);
             guiPolyPub.publish(polyMsg);
         }
 
