@@ -78,14 +78,13 @@ public class LocalNavigation implements NodeMain {
 	private ColorMsg greenMsg;
 	private ColorMsg blueMsg;
 	private ColorMsg blackMsg;
-	
-	/*First obstacle modeled
-	 * 61.5 cm length equilateral triangle
-	 * 61.5 cm length square
-	 */
-	
-    double initial_theta = Double.MAX_VALUE;
 
+	/*
+	 * First obstacle modeled 61.5 cm length equilateral triangle 61.5 cm length
+	 * square
+	 */
+
+	double initial_theta = Double.MAX_VALUE;
 
 	public LineEstimator lineEstimator = new LineEstimator();
 
@@ -130,7 +129,8 @@ public class LocalNavigation implements NodeMain {
 		stopMsg.translationalVelocity = STOP;
 		stopMsg.rotationalVelocity = STOP;
 
-		dataLogger = new FileLogger("/home/rss-student/RSS-I-group/lab5/docs/data_square.txt");
+		dataLogger = new FileLogger(
+				"/home/rss-student/RSS-I-group/lab5/docs/data_square.txt");
 
 	}
 
@@ -184,9 +184,10 @@ public class LocalNavigation implements NodeMain {
 								msg.translationalVelocity = trans_vel;
 								msg.rotationalVelocity = rot_vel;
 								motionPub.publish(msg);
-						        if (initial_theta - robotTheta < 0.2 && initial_theta - robotTheta > 0.05) {			            
-						          //  setState(State.DONE); 
-						        }
+								if (initial_theta - robotTheta < 0.2
+										&& initial_theta - robotTheta > 0.05) {
+									// setState(State.DONE);
+								}
 
 							}
 						}
@@ -518,7 +519,7 @@ public class LocalNavigation implements NodeMain {
 			// move slowly forward tracking wall with feedback controller,
 			// update linear filter, and SonarGUI see code above
 			if (initial_theta == Double.MAX_VALUE)
-		    	initial_theta = robotTheta;
+				initial_theta = robotTheta;
 
 			if (!(obsDetectFront || obsDetectBack)) {
 				motionPub.publish(stopMsg);
@@ -562,7 +563,8 @@ public class LocalNavigation implements NodeMain {
 
 				if (saveErrors) {
 					System.out.print(transError + " " + orientError);
-					dataLogger.write(System.currentTimeMillis(), transError,orientError);
+					dataLogger.write(System.currentTimeMillis(), transError,
+							orientError);
 				}
 
 				motionPub.publish(msg);
