@@ -130,7 +130,7 @@ public class LocalNavigation implements NodeMain {
 		stopMsg.translationalVelocity = STOP;
 		stopMsg.rotationalVelocity = STOP;
 
-		dataLogger = new FileLogger("data.txt");
+		dataLogger = new FileLogger("data_square.txt");
 
 	}
 
@@ -561,8 +561,7 @@ public class LocalNavigation implements NodeMain {
 						* orientError;
 
 				if (saveErrors) {
-					// dataLogger.write(System.currentTimeMillis(), transError,
-					// orientError);
+					dataLogger.write(System.currentTimeMillis(), transError,orientError);
 				}
 
 				motionPub.publish(msg);
