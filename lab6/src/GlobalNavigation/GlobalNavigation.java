@@ -460,7 +460,7 @@ public class GlobalNavigation implements NodeMain {
         List<PolygonObstacle> obsCSpaces = cSpace.envConfSpace(polyMap);
 
         // Erase the GUI
-        guiErasePub.publish(new GUIEraseMsg());
+//        guiErasePub.publish(new GUIEraseMsg());
         
         // print border
         GUIRectMsg rectMsg = new GUIRectMsg();
