@@ -462,10 +462,10 @@ public class GlobalNavigation implements NodeMain {
         // Erase the GUI
         guiErasePub.publish(new GUIEraseMsg());
 
-        GUIRectMsg rectMsg = new GUIRectMsg();
-        GlobalNavigation.fillRectMsg(rectMsg, polyMap.getWorldRect(),
-                MapGUI.makeRandomColor(), false);
-        guiRectPub.publish(rectMsg);
+//        GUIRectMsg rectMsg = new GUIRectMsg();
+//        GlobalNavigation.fillRectMsg(rectMsg, polyMap.getWorldRect(),
+//                MapGUI.makeRandomColor(), false);
+//        guiRectPub.publish(rectMsg);
         GUIPolyMsg polyMsg = new GUIPolyMsg();
         for (PolygonObstacle obstacle : obsCSpaces) {
             polyMsg = new GUIPolyMsg();
