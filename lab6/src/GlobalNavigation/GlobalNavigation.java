@@ -449,7 +449,7 @@ public class GlobalNavigation implements NodeMain {
                     MapGUI.makeRandomColor(), true, true);
             guiPolyPub.publish(polyMsg);
         }
-
+        System.out.println(polyMap.getObstacles().size());
         System.out.println("Done running displayMap");
     }
 
@@ -473,6 +473,7 @@ public class GlobalNavigation implements NodeMain {
                     MapGUI.makeRandomColor(), false, true);
             guiPolyPub.publish(polyMsg);
         }
+        System.out.println(obsCSpaces.size());
         System.out.println("Done running displayMapCSpace");
 
     }
