@@ -126,30 +126,30 @@ public class GlobalNavigation implements NodeMain {
         displayMap(); // --Works: Remember to plug into Robot
         // testConvexHull(); // -- Works need to find a set of "non-trivial"
         // points.
-        Point2D.Double robotStart = polyMap.getRobotStart();
-        waypoints = motionPlanner.getPath(robotStart, polyMap.getRobotGoal(),
-                .02);
-
-        // Updating the shifts so that the robot is at 0,0 with 0 rad heading at
-        // start
-        // xShift = robotStart.getX() - robotX;
-        // yShift = robotStart.getY() - robotY;
-        // thetaShift = 0 - robotTheta;
-        // TODO: worst case get rid of these shifts and just restart morcboard
-        // each run
-
-        
-        
-        outputPath(waypoints, MapGUI.makeRandomColor());
-
-        System.out.println("Number of waypoints: " + waypoints.size());
-        // To wait for the GUI
-//        try {
-//            Thread.sleep(2000);
-//        } catch (Exception e) {
+//        Point2D.Double robotStart = polyMap.getRobotStart();
+//        waypoints = motionPlanner.getPath(robotStart, polyMap.getRobotGoal(),
+//                .02);
 //
-//        }		
-        navWaypts = true;
+//        // Updating the shifts so that the robot is at 0,0 with 0 rad heading at
+//        // start
+//        // xShift = robotStart.getX() - robotX;
+//        // yShift = robotStart.getY() - robotY;
+//        // thetaShift = 0 - robotTheta;
+//        // TODO: worst case get rid of these shifts and just restart morcboard
+//        // each run
+//
+//        
+//        
+//        outputPath(waypoints, MapGUI.makeRandomColor());
+//
+//        System.out.println("Number of waypoints: " + waypoints.size());
+//        // To wait for the GUI
+////        try {
+////            Thread.sleep(2000);
+////        } catch (Exception e) {
+////
+////        }		
+//        navWaypts = true;
     }
 
     /**
