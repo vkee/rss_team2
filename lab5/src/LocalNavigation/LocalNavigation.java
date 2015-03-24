@@ -585,7 +585,6 @@ public class LocalNavigation implements NodeMain {
 			// if (){
 			// setState(state.DONE);
 			// }
-			dataLogger.closeFile();
 		}
 		if (state == State.DONE) {
 			MotionMsg msg = new MotionMsg();
