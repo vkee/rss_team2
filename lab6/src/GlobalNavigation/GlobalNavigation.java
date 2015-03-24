@@ -147,11 +147,11 @@ public class GlobalNavigation implements NodeMain {
 
         System.out.println("Number of waypoints: " + waypoints.size());
 //        To wait for the GUI
-//        try {
-//            Thread.sleep(2000);
-//        } catch (Exception e) {
-//
-//        }
+        try {
+            Thread.sleep(2000);
+        } catch (Exception e) {
+
+        }
         navWaypts = true;
     }
 
