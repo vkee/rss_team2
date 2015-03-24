@@ -83,7 +83,7 @@ public class GlobalNavigation implements NodeMain {
     public void onStart(Node node) {
         // To wait for the GUI
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
         } catch (Exception e) {
 
         }
@@ -125,8 +125,8 @@ public class GlobalNavigation implements NodeMain {
         } catch (Exception e) {
 
         }
-        displayMapCSpace();
         displayMap(); // --Works: Remember to plug into Robot
+        displayMapCSpace();
         // testConvexHull(); // -- Works need to find a set of "non-trivial"
         // points.
         Point2D.Double robotStart = polyMap.getRobotStart();
@@ -147,11 +147,11 @@ public class GlobalNavigation implements NodeMain {
 
         System.out.println("Number of waypoints: " + waypoints.size());
 //        To wait for the GUI
-        try {
-            Thread.sleep(2000);
-        } catch (Exception e) {
-
-        }
+//        try {
+//            Thread.sleep(2000);
+//        } catch (Exception e) {
+//
+//        }
         navWaypts = true;
     }
 
