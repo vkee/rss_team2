@@ -473,7 +473,6 @@ public class GlobalNavigation implements NodeMain {
                     Color.BLUE, false, true);
             guiPolyPub.publish(polyMsg);
         }
-        GUIPolyMsg polyMsg = new GUIPolyMsg();
         for (PolygonObstacle obstacle : polyMap.getObstacles()) {
             polyMsg = new GUIPolyMsg();
             GlobalNavigation.fillPolyMsg(polyMsg, obstacle,
