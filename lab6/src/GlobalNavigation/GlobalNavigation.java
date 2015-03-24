@@ -126,7 +126,7 @@ public class GlobalNavigation implements NodeMain {
 
         }
         displayMapCSpace();
-        //displayMap(); // --Works: Remember to plug into Robot
+        displayMap(); // --Works: Remember to plug into Robot
         // testConvexHull(); // -- Works need to find a set of "non-trivial"
         // points.
         Point2D.Double robotStart = polyMap.getRobotStart();
