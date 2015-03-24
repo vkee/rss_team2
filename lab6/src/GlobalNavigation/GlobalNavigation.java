@@ -72,6 +72,9 @@ public class GlobalNavigation implements NodeMain {
     private boolean wayptNav_debug = false;
     private boolean odometry_debug = false;
 
+    // colors
+    private Color lightBlue = new Color(115,115,230);
+
     public GlobalNavigation() {
         cSpace = new CSpace();
     }
@@ -126,30 +129,30 @@ public class GlobalNavigation implements NodeMain {
         //displayMap(); // --Works: Remember to plug into Robot
         // testConvexHull(); // -- Works need to find a set of "non-trivial"
         // points.
-//        Point2D.Double robotStart = polyMap.getRobotStart();
-//        waypoints = motionPlanner.getPath(robotStart, polyMap.getRobotGoal(),
-//                .02);
-//
-//        // Updating the shifts so that the robot is at 0,0 with 0 rad heading at
-//        // start
-//        // xShift = robotStart.getX() - robotX;
-//        // yShift = robotStart.getY() - robotY;
-//        // thetaShift = 0 - robotTheta;
-//        // TODO: worst case get rid of these shifts and just restart morcboard
-//        // each run
-//
-//        
-//        
-//        outputPath(waypoints, MapGUI.makeRandomColor());
-//
-//        System.out.println("Number of waypoints: " + waypoints.size());
-//        // To wait for the GUI
-////        try {
-////            Thread.sleep(2000);
-////        } catch (Exception e) {
-////
-////        }		
-//        navWaypts = true;
+        Point2D.Double robotStart = polyMap.getRobotStart();
+        waypoints = motionPlanner.getPath(robotStart, polyMap.getRobotGoal(),
+                .02);
+
+        // Updating the shifts so that the robot is at 0,0 with 0 rad heading at
+        // start
+        // xShift = robotStart.getX() - robotX;
+        // yShift = robotStart.getY() - robotY;
+        // thetaShift = 0 - robotTheta;
+        // TODO: worst case get rid of these shifts and just restart morcboard
+        // each run
+
+
+
+        outputPath(waypoints, Color.RED);
+
+        System.out.println("Number of waypoints: " + waypoints.size());
+//        To wait for the GUI
+        try {
+            Thread.sleep(2000);
+        } catch (Exception e) {
+
+        }
+        navWaypts = true;
     }
 
     /**
@@ -481,7 +484,7 @@ public class GlobalNavigation implements NodeMain {
         for (PolygonObstacle obstacle : obsCSpaces) {
             polyMsg = new GUIPolyMsg();
             GlobalNavigation.fillPolyMsg(polyMsg, obstacle,
-                    Color.BLUE, false, true);
+                    lightBlue, false, true);
             guiPolyPub.publish(polyMsg);
         }
 
