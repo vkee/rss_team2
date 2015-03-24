@@ -5,17 +5,17 @@
   <node name="nav" pkg="rosjava_bootstrap" type="run.py" args="lab6 GlobalNavigation.GlobalNavigation" machine="workstation" output="screen">
 
 <!-- CHANGE DIFFICULTY: rename /global-nav-maze-2011-basic.map / *-med.map / *-hard.map -->
- 	<param name="mapFileName" value="/home/rss-student/RSS-I-group/lab6/src/global-nav-maze-2011-hard.map" />
-<!-- -->
+<!-- 	<param name="mapFileName" value="/home/rss-student/RSS-I-group/lab6/src/global-nav-maze-2011-hard.map" />
+ -->
 <!-- PRACTICE MAZE 1 MAP [ ] screenshot
   	<param name="mapFileName" value="/home/rss-student/RSS-I-group/lab6/src/practice-maze-01.map" /> 
 --> 
 <!-- GLOBAL NAV MAZE MAP [ ] screenshot
   	<param name="mapFileName" value="/home/rss-student/RSS-I-group/lab6/src/global-nav-maze.map" /> 
 -->
-<!-- PRACTICE MAZE 1 MAP [ ] screenshot
+<!-- PRACTICE MAZE 1 MAP [ ] screenshot-->
   	<param name="mapFileName" value="/home/rss-student/RSS-I-group/lab6/src/practice-maze-01.map" /> 
--->
+
 <!-- PRACTICE MAZE 2 MAP [ ] screenshot
   	<param name="mapFileName" value="/home/rss-student/RSS-I-group/lab6/src/practice-maze-02.map" /> 
 -->
