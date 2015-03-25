@@ -1,0 +1,44 @@
+Buildfile: /home/rss-student/RSS-I-group/lab6/dependencies.xml
+
+get-dependencies:
+
+BUILD SUCCESSFUL
+Total time: 4 seconds
+Loading node class: GlobalNavigation.GlobalNavigation
+8
+Done running displayMap
+12
+Done running displayMapCSpace
+map width 3.048
+map height 4.6419
+goal Rect width 0.06096
+goal Rect height 0.09283799999999999
+Start Point Point2D.Double[0.0, 0.0]
+Goal Point Point2D.Double[2.1336, 3.8481]
+Number of tries: 0
+Number of tries: 1000
+Number of tries: 2000
+Number of tries: 3000
+Number of tries: 4000
+Number of tries: 5000
+Number of waypoints: 20
+Waypoint 0 X: 0 Y: 0
+Waypoint 1 X: 1.141 Y: 0.384
+Waypoint 2 X: 0.604 Y: 0.424
+Waypoint 3 X: 0.514 Y: 0.854
+Waypoint 4 X: 0.447 Y: 1.067
+Waypoint 5 X: 0.54 Y: 2.169
+Waypoint 6 X: 0.494 Y: 2.29
+Waypoint 7 X: 0.827 Y: 2.482
+Waypoint 8 X: 0.769 Y: 2.709
+Waypoint 9 X: 1.091 Y: 2.787
+Waypoint 10 X: 0.919 Y: 3.371
+Waypoint 11 X: 0.867 Y: 3.709
+Waypoint 12 X: 0.976 Y: 3.86
+Waypoint 13 X: 1.025 Y: 3.859
+Waypoint 14 X: 1.147 Y: 3.84
+Waypoint 15 X: 1.442 Y: 3.863
+Waypoint 16 X: 1.507 Y: 3.865
+Waypoint 17 X: 1.898 Y: 3.858
+Waypoint 18 X: 2.135 Y: 3.858
+Waypoint 19 X: 2.134 Y: 3.848
