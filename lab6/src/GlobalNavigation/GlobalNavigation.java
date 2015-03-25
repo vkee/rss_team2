@@ -74,6 +74,7 @@ public class GlobalNavigation implements NodeMain {
 
     // colors
     private Color lightBlue = new Color(115,115,230);
+    private Color darkBlue = new Color(50,40,120);
 
     public GlobalNavigation() {
         cSpace = new CSpace();
@@ -133,6 +134,8 @@ public class GlobalNavigation implements NodeMain {
         waypoints = motionPlanner.getPath(robotStart, polyMap.getRobotGoal(),
                 .02);
 
+
+
         // Updating the shifts so that the robot is at 0,0 with 0 rad heading at
         // start
         // xShift = robotStart.getX() - robotX;
@@ -146,6 +149,11 @@ public class GlobalNavigation implements NodeMain {
         outputPath(waypoints, Color.RED);
 
         System.out.println("Number of waypoints: " + waypoints.size());
+
+        // print out position of each waypoint
+        for (int i = 0; i < waypoints.size(); i++) {
+            System.out.println("Waypoint "+i+": "+waypoints.get(i));
+        }
 //        To wait for the GUI
 //        try {
 //            Thread.sleep(2000);
@@ -449,7 +457,7 @@ public class GlobalNavigation implements NodeMain {
         for (PolygonObstacle obstacle : polyMap.getObstacles()) {
             polyMsg = new GUIPolyMsg();
             GlobalNavigation.fillPolyMsg(polyMsg, obstacle,
-                    MapGUI.makeRandomColor(), true, true);
+                    darkBlue, true, true);
             guiPolyPub.publish(polyMsg);
         }
         System.out.println(polyMap.getObstacles().size());
@@ -476,7 +484,7 @@ public class GlobalNavigation implements NodeMain {
         for (PolygonObstacle obstacle : polyMap.getObstacles()) {
             polyMsg = new GUIPolyMsg();
             GlobalNavigation.fillPolyMsg(polyMsg, obstacle,
-                    Color.BLACK, true, true);
+                    darkBlue, true, true);
             guiPolyPub.publish(polyMsg);
         }
 
