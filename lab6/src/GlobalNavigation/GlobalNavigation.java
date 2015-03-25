@@ -151,8 +151,11 @@ public class GlobalNavigation implements NodeMain {
         System.out.println("Number of waypoints: " + waypoints.size());
 
         // print out position of each waypoint
+        DecimalFormat df = new DecimalFormat("#.###");
         for (int i = 0; i < waypoints.size(); i++) {
-            System.out.println("Waypoint "+i+": "+waypoints.get(i));
+            wayPtX = waypoints.get(i).getX();
+            wayPtY = waypoints.get(i).getY();
+            System.out.println("Waypoint "+i+" X: "+df.format(wayPtX)+" Y: "+df.format(wayPtY));
         }
 //        To wait for the GUI
 //        try {
