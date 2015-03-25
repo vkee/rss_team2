@@ -21,6 +21,7 @@ import org.ros.message.lab6_msgs.*;
 import LocalNavigation.*;
 
 import java.io.*;
+import java.text.DecimalFormat; // for formatting decimal numbers in print outputs
 
 public class GlobalNavigation implements NodeMain {
     private Publisher<org.ros.message.lab6_msgs.GUIRectMsg> guiRectPub;
