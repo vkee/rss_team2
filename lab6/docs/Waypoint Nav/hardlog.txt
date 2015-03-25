@@ -1,14 +1,3 @@
-Buildfile: /home/rss-student/RSS-I-group/lab6/dependencies.xml
-
-get-dependencies:
-
-BUILD SUCCESSFUL
-Total time: 4 seconds
-Loading node class: GlobalNavigation.GlobalNavigation
-8
-Done running displayMap
-12
-Done running displayMapCSpace
 map width 3.048
 map height 4.6419
 goal Rect width 0.06096
