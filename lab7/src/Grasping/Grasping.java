@@ -155,8 +155,7 @@ public class Grasping implements NodeMain {
 				}
 				assert ((int) message.width == width);
 				assert ((int) message.height == height);
-
-				float[][] histogram_array = new float[width][height];
+				handle(rgbData);
 
 				if (debug == true) {
 					Image src = null;
@@ -166,16 +165,11 @@ public class Grasping implements NodeMain {
 						e.printStackTrace();
 					}
 					Image dest = new Image(src);
-
-					histogram_array = Histogram.makeHistogram(src, true);
-					Histogram.overlayHistogram(dest, histogram_array);
-
+					Histogram.getHistogram(src, dest, true);
 
 					org.ros.message.sensor_msgs.Image pubImage = new org.ros.message.sensor_msgs.Image();
-				
 					pubImage.width = width;
 					pubImage.height = height;
-					pubImage.encoding = "rgb8";
 					pubImage.is_bigendian = 0;
 					pubImage.step = width * 3;
 					pubImage.data = dest.toArray();
@@ -183,7 +177,6 @@ public class Grasping implements NodeMain {
 
 				}
 
-				handle(rgbData);
 			}
 		});
 
