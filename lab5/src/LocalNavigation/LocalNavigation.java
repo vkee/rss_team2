@@ -130,7 +130,7 @@ public class LocalNavigation implements NodeMain {
 		stopMsg.rotationalVelocity = STOP;
 
 		dataLogger = new FileLogger(
-				"/home/rss-student/RSS-I-group/lab5/docs/data_square.txt");
+				"/home/rss-student/RSS-I-group/lab5/docs/data_square2.txt");
 
 	}
 
