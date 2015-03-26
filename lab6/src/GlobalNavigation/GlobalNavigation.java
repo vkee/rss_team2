@@ -77,6 +77,10 @@ public class GlobalNavigation implements NodeMain {
     private Color lightBlue = new Color(115,115,230);
     private Color darkBlue = new Color(50,40,120);
 
+    // decimal format for double printing
+    private DecimalFormat df = new DecimalFormat("#.###");
+
+
     public GlobalNavigation() {
         cSpace = new CSpace();
     }
@@ -152,7 +156,6 @@ public class GlobalNavigation implements NodeMain {
         System.out.println("Number of waypoints: " + waypoints.size());
 
         // print out position of each waypoint
-        DecimalFormat df = new DecimalFormat("#.###");
         for (int i = 0; i < waypoints.size(); i++) {
             Double wayPtX = waypoints.get(i).getX();
             Double wayPtY = waypoints.get(i).getY();
@@ -241,19 +244,44 @@ public class GlobalNavigation implements NodeMain {
             msg.rotationalVelocity = -Math.min(ROT_GAIN * thetaError, 0.25);
             msg.translationalVelocity = 0.0;
             // only when theta has been reached, adjust translation
-        } else if ((xError > WAYPT_TOL) || (yError > WAYPT_TOL)) {
+        } else if ((xError > WAYPT_TOL) && (yError > WAYPT_TOL)) {
             msg.translationalVelocity = Math.min(
                     FWD_GAIN * motionPlanner.getDist(0.0, 0.0, xError, yError),
                     0.5);
             msg.rotationalVelocity = 0.0;
-        } else {
+        } else if (xError > WAYPT_TOL) {
+            msg.translationalVelocity = Math.min(
+                    FWD_GAIN * motionPlanner.getDist(0.0, 0.0, xError, 0.0),
+                    0.5);
+            msg.rotationalVelocity = 0.0;
+        } else if (yError > WAYPT_TOL) {
+            msg.translationalVelocity = Math.min(
+                    FWD_GAIN * motionPlanner.getDist(0.0, 0.0, 0.0, yError),
+                    0.5);
+            msg.rotationalVelocity = 0.0;
+        }else {
             if (currWaypt < waypoints.size()) {
                 int way = currWaypt + 1;
-                System.out.println("WAYPOINT: " + way + " REACHED at X: "
-                        + wayPoint.getX() + " Y: " + wayPoint.getY()
-                        + " ROBOT-X:" + currX + " ROBOT-Y:" + currY
-                        + " out of " + waypoints.size() + " waypoints.");
-                System.out.println("xError " + xError + " yError " + yError);
+
+
+
+//                System.out.println("Waypoint " + way + " X: "
+//                        + df.format(wayPoint.getX()) + " Y: " + df.format(wayPoint.getY())
+//                        + " X_:" + currX + " ROBOT-Y:" + currY // TODO this is not completely edited yet
+//                        + " out of " + waypoints.size() + " waypoints.");
+//                System.out.println("xError " + xError + " yError " + yError);
+
+                Double wayPtX = waypoints.get(i).getX();
+                Double wayPtY = waypoints.get(i).getY();
+
+                System.out.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s",
+                        "Waypoint #", "X_w", "Y_w", "X", "Y", "Theta", "X_error", "Y_error", "Theta to Waypt", "Theta_error");
+                System.out.format("%-10d%-10d%-10d%-10d%-10d%-10d%-10d%-10d%-10d%-10d",
+                        way, df.format(wayPtX),df.format(wayPtY),df.format(currX),df.format(currY),df.format(currTheta),df.format(xError),df.format(yError),df.format(thetaToPoint),df.format(thetaError));
+
+
+            }
+
                 currWaypt += 1;
 
             } else {
