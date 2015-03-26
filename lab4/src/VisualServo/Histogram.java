@@ -126,8 +126,6 @@ public class Histogram {
 		int width = source.getWidth();
 		int height = source.getHeight();
 
-		System.out.println("width: " + width);
-		System.out.println("height: " + height);
 		// Scale the number of histogram boxes if our image is smaller than
 		// 256 pixels wide.
 		double scale;
@@ -164,9 +162,15 @@ public class Histogram {
 							Image.pixelGreen(pix),
 							Image.pixelBlue(pix),
 							null);
-					histogram[(int) (hsb[0]/scale)][0] += 1; //(Solution)
-					histogram[(int) (hsb[1]/scale)][1] += 1; //(Solution)
-					histogram[(int) (hsb[2]/scale)][2] += 1; //(Solution)
+					if ((int)hsb[0]/scale < histogram[0].length){
+						histogram[(int) (hsb[0]/scale)][0] += 1; //(Solution)					
+					}
+					if ((int)hsb[1]/scale < histogram[1].length){
+						histogram[(int) (hsb[1]/scale)][1] += 1; //(Solution)					
+					}
+					if ((int)hsb[2]/scale < histogram[2].length){
+						histogram[(int) (hsb[2]/scale)][2] += 1; //(Solution)					
+					}
 				} //(Solution)
 			} //(Solution)
 		} else { //(Solution)
