@@ -55,7 +55,7 @@ public class Grasping implements NodeMain {
 	private boolean debug = true;
 
 	// For Part 4
-
+	BlobTracking blobTrack = null;
 	protected static final int width = 160;
 
 	protected static final int height = 120;
@@ -104,15 +104,33 @@ public class Grasping implements NodeMain {
 		shoulderServo = new ShoulderController(525, 2375, Math.PI, 1500, 525);
 		wristServo = new WristController(350, 2250, Math.PI, 1250, 2025);
 		gripperServo = new GripperController(1700, 2075, Math.PI, 1700, 2075);
-		
 
 		// For Part 4
 
 	}
 
+	public void run() {
+		while (true) {
+			Image src = null;
+			try {
+				src = new Image(visionImage.take(), width, height);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				continue;
+			}
+
+			Image dest = new Image(src);
+
+			blobTrack.apply(src, dest);
+		}
+		// update newly formed vision message
+		// gui.setVisionImage(dest.toArray(), width, height);
+
+	}
+
 	@Override
 	public void onStart(Node node) {
-		BlobTracking blobTrack = new BlobTracking(width, height);
+		blobTrack = new BlobTracking(width, height);
 
 		blobTrack.targetHueLevel = target_hue_level;// (Solution)
 		blobTrack.hueThreshold = hue_threshold;// (Solution)
@@ -128,7 +146,7 @@ public class Grasping implements NodeMain {
 		blobTrack.rotationVelocityMax = rotation_velocity_max;// (Solution)
 		blobTrack.useGaussianBlur = use_gaussian_blur;// (Solution)
 		blobTrack.approximateGaussian = approximate_gaussian;// (Solution)
-		
+
 		armPWMPub = node.newPublisher("command/Arm", "rss_msgs/ArmMsg");
 		armStatusSub = node.newSubscriber("rss/ArmStatus", "rss_msgs/ArmMsg");
 		bumpersSub = node.newSubscriber("/rss/BumpSensors", "rss_msgs/BumpMsg");
@@ -156,6 +174,7 @@ public class Grasping implements NodeMain {
 				assert ((int) message.width == width);
 				assert ((int) message.height == height);
 				handle(rgbData);
+
 				/*
 				 * if (debug == true) { Image src = null; try { src = new
 				 * Image(visionImage.take(), width, height); } catch
@@ -458,6 +477,8 @@ public class Grasping implements NodeMain {
 			}
 		});
 	}
+
+	// /////////////
 
 	/**
 	 * Rotates all of the servos concurrently (the handle(ArmMsg msg) method)
