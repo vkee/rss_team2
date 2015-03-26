@@ -162,6 +162,9 @@ public class Histogram {
 							Image.pixelGreen(pix),
 							Image.pixelBlue(pix),
 							null);
+					System.out.println("zero: " + hsb[0]);
+					System.out.println("one: " + hsb[1]);
+					System.out.println("two: " + hsb[2]);
 					if ((int)hsb[0]/scale < histogram[0].length){
 						histogram[(int) (hsb[0]/scale)][0] += 1; //(Solution)					
 					}

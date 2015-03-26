@@ -153,6 +153,26 @@ public class Grasping implements NodeMain {
 				assert ((int) message.width == width);
 				assert ((int) message.height == height);
 				handle(rgbData);
+				if (debug == true) {
+					Image src = null;
+					try {
+						src = new Image(visionImage.take(), width, height);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					Image dest = null;
+					dest = Histogram.getHistogram(src, dest, true);
+
+					org.ros.message.sensor_msgs.Image pubImage = new org.ros.message.sensor_msgs.Image();
+					pubImage.width = width;
+					pubImage.height = height;
+					pubImage.is_bigendian = 0;
+					pubImage.step = width * 3;
+					pubImage.data = dest.toArray();
+					System.out.println(dest.toArray().toString());
+					vidPub.publish(pubImage);
+
+				}
 			}
 		});
 
@@ -218,27 +238,6 @@ public class Grasping implements NodeMain {
 
 			@Override
 			public void onNewMessage(ArmMsg msg) {
-				if (debug == true) {
-					Image src = null;
-					try {
-						src = new Image(visionImage.take(), width, height);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					Image dest = null;
-					dest = Histogram.getHistogram(src, dest, true);
-
-					org.ros.message.sensor_msgs.Image pubImage = new org.ros.message.sensor_msgs.Image();
-					pubImage.width = width;
-					pubImage.height = height;
-					pubImage.is_bigendian = 0;
-					pubImage.step = width * 3;
-					pubImage.data = dest.toArray();
-					System.out.println(dest.toArray().toString());
-					vidPub.publish(pubImage);
-
-				}
-
 				// long[] pwmVals = msg.pwms;
 				int[] pwmVals = pwm_stat;
 				int shoulderPWM = (int) pwmVals[0];
