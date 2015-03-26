@@ -237,6 +237,7 @@ public class Grasping implements NodeMain {
 					pubImage.is_bigendian = 0;
 					pubImage.step = width * 3;
 					pubImage.data = dest.toArray();
+					System.out.println(dest.toArray().toString());
 					vidPub.publish(pubImage);
 
 				}

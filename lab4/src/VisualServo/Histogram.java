@@ -23,7 +23,7 @@ public class Histogram {
 	 * @param source image to compute the histogram from
 	 * @param destination if non-null histogram is written on top of this
 	 * @param hsbHistogram produces a HSB histogram if true, else RGB histogram
-	 * @return desitnation or a new image if destination is null
+	 * @return destination or a new image if destination is null
 	 **/
 	public static Image getHistogram(Image source, Image destination,
 			boolean hsbHistogram){
