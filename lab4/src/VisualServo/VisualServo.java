@@ -13,7 +13,7 @@ import org.ros.node.topic.Subscriber;
 /**
  * 
  * @author previous TA's, prentice, vona
- *
+ * 
  */
 public class VisualServo implements NodeMain, Runnable {
 
@@ -107,10 +107,12 @@ public class VisualServo implements NodeMain, Runnable {
 			// Begin Student Code
 
 			// publish velocity messages to move the robot towards the target
-			MotionMsg msg = new MotionMsg(); // (Solution)
-			msg.translationalVelocity = blobTrack.translationVelocityCommand; // (Solution)
-			msg.rotationalVelocity = blobTrack.rotationVelocityCommand; // (Solution)
-			publisher.publish(msg); // (Solution)
+			// MotionMsg msg = new MotionMsg(); // (Solution)
+			// msg.translationalVelocity = blobTrack.translationVelocityCommand;
+			// // (Solution)
+			// msg.rotationalVelocity = blobTrack.rotationVelocityCommand; //
+			// (Solution)
+			// publisher.publish(msg); // (Solution)
 
 			// End Student Code
 		}
