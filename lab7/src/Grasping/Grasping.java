@@ -55,7 +55,6 @@ public class Grasping implements NodeMain {
 	private boolean debug = true;
 
 	// For Part 4
-	protected BlobTracking blobTrack = null;
 
 	protected static final int width = 160;
 
@@ -105,9 +104,16 @@ public class Grasping implements NodeMain {
 		shoulderServo = new ShoulderController(525, 2375, Math.PI, 1500, 525);
 		wristServo = new WristController(350, 2250, Math.PI, 1250, 2025);
 		gripperServo = new GripperController(1700, 2075, Math.PI, 1700, 2075);
-		blobTrack = new BlobTracking(width, height);
+		
 
 		// For Part 4
+
+	}
+
+	@Override
+	public void onStart(Node node) {
+		BlobTracking blobTrack = new BlobTracking(width, height);
+
 		blobTrack.targetHueLevel = target_hue_level;// (Solution)
 		blobTrack.hueThreshold = hue_threshold;// (Solution)
 		blobTrack.saturationLevel = saturation_level;// (Solution)
@@ -122,10 +128,7 @@ public class Grasping implements NodeMain {
 		blobTrack.rotationVelocityMax = rotation_velocity_max;// (Solution)
 		blobTrack.useGaussianBlur = use_gaussian_blur;// (Solution)
 		blobTrack.approximateGaussian = approximate_gaussian;// (Solution)
-	}
-
-	@Override
-	public void onStart(Node node) {
+		
 		armPWMPub = node.newPublisher("command/Arm", "rss_msgs/ArmMsg");
 		armStatusSub = node.newSubscriber("rss/ArmStatus", "rss_msgs/ArmMsg");
 		bumpersSub = node.newSubscriber("/rss/BumpSensors", "rss_msgs/BumpMsg");
@@ -153,27 +156,23 @@ public class Grasping implements NodeMain {
 				assert ((int) message.width == width);
 				assert ((int) message.height == height);
 				handle(rgbData);
-				if (debug == true) {
-					Image src = null;
-					try {
-						src = new Image(visionImage.take(), width, height);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					Image dest = null;
-					dest = Histogram.getHistogram(src, dest, false);
+				/*
+				 * if (debug == true) { Image src = null; try { src = new
+				 * Image(visionImage.take(), width, height); } catch
+				 * (InterruptedException e) { e.printStackTrace(); } Image dest
+				 * = null; dest = Histogram.getHistogram(src, dest, false);
+				 * 
+				 * org.ros.message.sensor_msgs.Image pubImage = new
+				 * org.ros.message.sensor_msgs.Image(); pubImage.width = width;
+				 * pubImage.height = height; pubImage.is_bigendian = 0;
+				 * pubImage.step = width * 3; pubImage.data = dest.toArray();
+				 * pubImage.encoding = "rgb8"; //
+				 * System.out.println(dest.toArray().toString());
+				 * vidPub.publish(pubImage);
+				 * 
+				 * }
+				 */
 
-					org.ros.message.sensor_msgs.Image pubImage = new org.ros.message.sensor_msgs.Image();
-					pubImage.width = width;
-					pubImage.height = height;
-					pubImage.is_bigendian = 0;
-					pubImage.step = width * 3;
-					pubImage.data = dest.toArray();
-					pubImage.encoding = "rgb8";
-				//	System.out.println(dest.toArray().toString());
-					vidPub.publish(pubImage);
-
-				}
 			}
 		});
 
@@ -245,14 +244,14 @@ public class Grasping implements NodeMain {
 				int wristPWM = (int) pwmVals[1];
 				int gripperPWM = (int) pwmVals[2];
 
-//				System.out.println(Arrays.toString(pwmVals));
+				// System.out.println(Arrays.toString(pwmVals));
 
 				double sum = InverseKinematics.ARM_LENGTH
 						+ InverseKinematics.WRIST_LENGTH;
 				// moveArm(sum*Math.cos(Math.PI/4), sum*Math.sin(Math.PI/4),
 				// shoulderPWM, wristPWM);
 
-//				System.out.println("Current State: " + graspState);
+				// System.out.println("Current State: " + graspState);
 				if (graspState == ArmGraspState.STOP) {
 					System.out.println("graspState: STOP");
 				}
