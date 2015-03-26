@@ -126,6 +126,8 @@ public class Histogram {
 		int width = source.getWidth();
 		int height = source.getHeight();
 
+		System.out.println("width: " + width);
+		System.out.prinlnt("height: " + height);
 		// Scale the number of histogram boxes if our image is smaller than
 		// 256 pixels wide.
 		double scale;

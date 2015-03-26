@@ -9,10 +9,7 @@ import org.ros.message.MessageListener;
 import org.ros.node.Node;
 import org.ros.node.NodeMain;
 
-import VisualServo.BlobTracking;
-import VisualServo.Histogram;
-import VisualServo.Image;
-import VisualServo.VisionGUI;
+import VisualServo.*;
 
 import java.util.Arrays;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -228,8 +225,8 @@ public class Grasping implements NodeMain {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					Image dest = new Image(src);
-					Histogram.getHistogram(src, dest, true);
+					Image dest = null;
+					dest = Histogram.getHistogram(src, dest, true);
 
 					org.ros.message.sensor_msgs.Image pubImage = new org.ros.message.sensor_msgs.Image();
 					pubImage.width = width;
