@@ -77,10 +77,6 @@ public class GlobalNavigation implements NodeMain {
     private Color lightBlue = new Color(115,115,230);
     private Color darkBlue = new Color(50,40,120);
 
-    // decimal format for double printing
-    private DecimalFormat df = new DecimalFormat("#.###");
-
-
     public GlobalNavigation() {
         cSpace = new CSpace();
     }
@@ -103,22 +99,22 @@ public class GlobalNavigation implements NodeMain {
                 "rss_msgs/OdometryMsg");
 
         odometrySub
-        .addMessageListener(new MessageListener<org.ros.message.rss_msgs.OdometryMsg>() {
-            @Override
-            public void onNewMessage(
-                    org.ros.message.rss_msgs.OdometryMsg message) {
-                robotX = message.x;
-                robotY = message.y;
-                robotTheta = message.theta;
-                if (odometry_debug == true) {
-                    System.out.println("navWaypts state: " + navWaypts);
-                    System.out.println("atGoal state: " + atGoal);
-                }
-                if (navWaypts && !atGoal) {
-                    wayptNav();
-                }
-            }
-        });
+                .addMessageListener(new MessageListener<org.ros.message.rss_msgs.OdometryMsg>() {
+                    @Override
+                    public void onNewMessage(
+                            org.ros.message.rss_msgs.OdometryMsg message) {
+                        robotX = message.x;
+                        robotY = message.y;
+                        robotTheta = message.theta;
+                        if (odometry_debug == true) {
+                            System.out.println("navWaypts state: " + navWaypts);
+                            System.out.println("atGoal state: " + atGoal);
+                        }
+                        if (navWaypts && !atGoal) {
+                            wayptNav();
+                        }
+                    }
+                });
 
         // Reading in a map file whose name is set as the parameter mapFileName
         ParameterTree paramTree = node.newParameterTree();
@@ -156,6 +152,7 @@ public class GlobalNavigation implements NodeMain {
         System.out.println("Number of waypoints: " + waypoints.size());
 
         // print out position of each waypoint
+        DecimalFormat df = new DecimalFormat("#.###");
         for (int i = 0; i < waypoints.size(); i++) {
             Double wayPtX = waypoints.get(i).getX();
             Double wayPtY = waypoints.get(i).getY();
@@ -173,7 +170,7 @@ public class GlobalNavigation implements NodeMain {
     /**
      * Navigates the robot from waypoint to waypoint, called by odometry handler
      * Assuming that the robot starts at the first waypoint
-     * 
+     *
      * @param points
      *            the set of waypoints for the robot to navigate
      */
@@ -244,44 +241,19 @@ public class GlobalNavigation implements NodeMain {
             msg.rotationalVelocity = -Math.min(ROT_GAIN * thetaError, 0.25);
             msg.translationalVelocity = 0.0;
             // only when theta has been reached, adjust translation
-        } else if ((xError > WAYPT_TOL) && (yError > WAYPT_TOL)) {
+        } else if ((xError+yError) > WAYPT_TOL)) {
             msg.translationalVelocity = Math.min(
                     FWD_GAIN * motionPlanner.getDist(0.0, 0.0, xError, yError),
-                    0.5);
-            msg.rotationalVelocity = 0.0;
-        } else if (xError > WAYPT_TOL) {
-            msg.translationalVelocity = Math.min(
-                    FWD_GAIN * motionPlanner.getDist(0.0, 0.0, xError, 0.0),
-                    0.5);
-            msg.rotationalVelocity = 0.0;
-        } else if (yError > WAYPT_TOL) {
-            msg.translationalVelocity = Math.min(
-                    FWD_GAIN * motionPlanner.getDist(0.0, 0.0, 0.0, yError),
                     0.5);
             msg.rotationalVelocity = 0.0;
         } else {
             if (currWaypt < waypoints.size()) {
                 int way = currWaypt + 1;
-
-
-
-//                System.out.println("Waypoint " + way + " X: "
-//                        + df.format(wayPoint.getX()) + " Y: " + df.format(wayPoint.getY())
-//                        + " X_:" + currX + " ROBOT-Y:" + currY // TODO this is not completely edited yet
-//                        + " out of " + waypoints.size() + " waypoints.");
-//                System.out.println("xError " + xError + " yError " + yError);
-
-                Double wayPtX = wayPoint.getX();
-                Double wayPtY = wayPoint.getY();
-
-                System.out.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s",
-                        "Waypoint #", "X_w", "Y_w", "X", "Y", "Theta", "X_error", "Y_error", "Theta to Waypt", "Theta_error");
-                System.out.format("%-10d%-10d%-10d%-10d%-10d%-10d%-10d%-10d%-10d%-10d",
-                        way, df.format(wayPtX),df.format(wayPtY),df.format(currX),df.format(currY),df.format(currTheta),df.format(xError),df.format(yError),df.format(thetaToPoint),df.format(thetaError));
-
-
-
-
+                System.out.println("WAYPOINT: " + way + " REACHED at X: "
+                        + wayPoint.getX() + " Y: " + wayPoint.getY()
+                        + " ROBOT-X:" + currX + " ROBOT-Y:" + currY
+                        + " out of " + waypoints.size() + " waypoints.");
+                System.out.println("xError " + xError + " yError " + yError);
                 currWaypt += 1;
 
             } else {
@@ -300,7 +272,7 @@ public class GlobalNavigation implements NodeMain {
 
     /**
      * Outputs the path to the MapGUI
-     * 
+     *
      * @param points
      * @param color
      */
@@ -504,7 +476,7 @@ public class GlobalNavigation implements NodeMain {
 
         // Erase the GUI
 //        guiErasePub.publish(new GUIEraseMsg());
-        
+
         // print border
         GUIRectMsg rectMsg = new GUIRectMsg();
         GlobalNavigation.fillRectMsg(rectMsg, polyMap.getWorldRect(),
@@ -536,7 +508,7 @@ public class GlobalNavigation implements NodeMain {
     /**
      * Given an empty GUIPointMsg and the appropriate parameters, fills in the
      * message
-     * 
+     *
      * @param msg
      *            the empty GUIPointMsg to be filled
      * @param point
@@ -544,7 +516,7 @@ public class GlobalNavigation implements NodeMain {
      * @param shape
      */
     public void fillPointMsg(GUIPointMsg msg,
-            java.awt.geom.Point2D.Double point, java.awt.Color color) {
+                             java.awt.geom.Point2D.Double point, java.awt.Color color) {
         msg.x = (float) point.getX();
         msg.y = (float) point.getY();
         ColorMsg colorMsg = new ColorMsg();
@@ -558,7 +530,7 @@ public class GlobalNavigation implements NodeMain {
     /**
      * Given an empty GUIRectMsg and the appropriate parameters, fills in the
      * message
-     * 
+     *
      * @param msg
      *            the empty GUIRectMsg to be filled
      * @param r
@@ -569,7 +541,7 @@ public class GlobalNavigation implements NodeMain {
      *            whether the rectangle should be filled
      */
     public static void fillRectMsg(GUIRectMsg msg,
-            java.awt.geom.Rectangle2D.Double r, java.awt.Color c, boolean filled) {
+                                   java.awt.geom.Rectangle2D.Double r, java.awt.Color c, boolean filled) {
         msg.x = (float) r.getX();
         msg.y = (float) r.getY();
         msg.width = (float) r.getWidth();
@@ -587,7 +559,7 @@ public class GlobalNavigation implements NodeMain {
     /**
      * Given an empty GUIPolyMsg and the appropriate parameters, fills in the
      * message
-     * 
+     *
      * @param msg
      *            the empty GUIPolyMsg to be filled
      * @param obstacle
@@ -600,7 +572,7 @@ public class GlobalNavigation implements NodeMain {
      *            whether the obstacle is closed
      */
     public static void fillPolyMsg(GUIPolyMsg msg, PolygonObstacle obstacle,
-            java.awt.Color c, boolean filled, boolean closed) {
+                                   java.awt.Color c, boolean filled, boolean closed) {
 
         List<Point2D.Double> vertices = obstacle.getVertices();
         msg.numVertices = vertices.size();
