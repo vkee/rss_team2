@@ -22,9 +22,16 @@ public class CSpace {
 	// field. True center
 	// of robot is "higher up" than the current estimated version
 
-	private final double ROBOT_LONGEST_DIM = 0.38; // Center to
-	// diagonal length in meters
-	
+
+    private final double ROBOT_LONGEST_DIM = 0.38; // Center to diagonal length in meters
+    private final double ROBOT_SIDE_DIM = 0.38 / Math.sqrt(2); // Center to side length in meters
+    /*
+    Changed the calculations from using ROBOT_LONGEST_DIM to ROBOT_SIDE_DIM
+    because the boundaries on the additional maps were too wide and prevented any
+    paths from start point to goal point from being drawn.
+    - Syler
+     */
+
 	private final int NUM_SIDES = 8; // number of sides of the n side polygon
 										// approximation of robot
 	private PolygonObstacle robotPoly;
@@ -36,8 +43,8 @@ public class CSpace {
 
 		for (int i = 0; i < NUM_SIDES; i++) {
 			double theta = 2 * Math.PI / NUM_SIDES * i;
-			robotPoly.addVertex(ROBOT_LONGEST_DIM * Math.cos(theta),
-					ROBOT_LONGEST_DIM * Math.sin(theta));
+			robotPoly.addVertex(ROBOT_SIDE_DIM * Math.cos(theta),
+					ROBOT_SIDE_DIM * Math.sin(theta));
 		}
 
 		robotPoly.close();

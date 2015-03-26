@@ -1,0 +1,22 @@
+map width 3.66
+map height 3.44
+goal Rect width 0.0732
+goal Rect height 0.0688
+Start Point Point2D.Double[0.0, 0.0]
+Goal Point Point2D.Double[0.0, 2.52]
+Number of tries: 0
+Number of tries: 1000
+Number of waypoints: 13
+Waypoint 0 X: 0 Y: 0
+Waypoint 1 X: 1.318 Y: 0.051
+Waypoint 2 X: 1.528 Y: 0.023
+Waypoint 3 X: 1.982 Y: -0.16
+Waypoint 4 X: 2.651 Y: 0.73
+Waypoint 5 X: 1.74 Y: 1.181
+Waypoint 6 X: 1.996 Y: 1.65
+Waypoint 7 X: 1.499 Y: 2.566
+Waypoint 8 X: 0.483 Y: 2.563
+Waypoint 9 X: 0.033 Y: 2.401
+Waypoint 10 X: 0.081 Y: 2.5
+Waypoint 11 X: 0.029 Y: 2.521
+Waypoint 12 X: 0 Y: 2.52

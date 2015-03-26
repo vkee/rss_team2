@@ -1,4 +1,5 @@
 package LocalNavigation;
+import utils.*;
 
 /**
  * LineEstimator based off of Lab 5 Notes using Moore-Penrose Pseudoinverse
@@ -87,4 +88,12 @@ public class LineEstimator {
     public double getC() {
         return c;
     }
+    
+    public Point getPerpendicularPointOnLine(double x, double y) {
+		double denom = a*a + b*b;
+		double num = -b*x + a*y;
+		double x_projected = (-b*num - a*c)/denom;
+		double y_projected = (a*num - b*c)/denom;
+		return new Point(x_projected, y_projected);
+	}
 }

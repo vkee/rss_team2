@@ -1,15 +1,15 @@
 package Grasping;
 
 public class ShoulderController extends JointController {
-	private final double GYM_UP_ANGLE = Math.PI / 4;
-	private int GYM_UP_PWM;// hardcoded for now
+	private final double GYM_UP_ANGLE = -Math.PI / 4;
+	private int GYM_UP_PWM = 1100;// hardcoded for now
 	protected final double GYM_GROUND_ANGLE = -Math.PI / 4;
-	protected final int GYM_GROUND_PWM = 525; // hardcoded for now
+	protected final int GYM_GROUND_PWM = 887; // hardcoded for now
 
 	public ShoulderController(int minPWM, int maxPWM, double thetaRange,
 			int pwm0, int pwm270) {
 		super(minPWM, maxPWM, thetaRange, pwm0, pwm270);
-		GYM_UP_PWM = maxPWM;
+//		GYM_UP_PWM = maxPWM;
 		// GYM_UP_PWM = getPWM(GYM_UP_ANGLE);
 		// GYM_GROUND_PWM = getPWM(GYM_GROUND_ANGLE);
 		// System.out.println("Gym Up PWM: " + GYM_UP_PWM);

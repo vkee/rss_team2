@@ -42,10 +42,10 @@ public class JointController {
     public int getPWM(double desiredTheta) {
         int desiredPWM = (int) ((desiredTheta - LINE_THETA_INTERCEPT)/LINE_SLOPE);
         if (desiredPWM < MIN_PWM){
-            System.out.println("Desired PWM value is less than the minimum PWM value.");
+            System.out.println("Desired PWM value is less than the minimum PWM value. " + desiredPWM);
             return MIN_PWM;
         } else if (desiredPWM > MAX_PWM) {
-            System.out.println("Desired PWM value is more than the max PWM value.");
+            System.out.println("Desired PWM value is more than the max PWM value." + desiredPWM);
             return MIN_PWM;
         } else {
             return desiredPWM;

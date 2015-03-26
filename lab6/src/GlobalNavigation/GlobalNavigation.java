@@ -21,6 +21,7 @@ import org.ros.message.lab6_msgs.*;
 import LocalNavigation.*;
 
 import java.io.*;
+import java.text.DecimalFormat; // for formatting decimal numbers in print outputs
 
 public class GlobalNavigation implements NodeMain {
     private Publisher<org.ros.message.lab6_msgs.GUIRectMsg> guiRectPub;
@@ -72,6 +73,10 @@ public class GlobalNavigation implements NodeMain {
     private boolean wayptNav_debug = false;
     private boolean odometry_debug = false;
 
+    // colors
+    private Color lightBlue = new Color(115,115,230);
+    private Color darkBlue = new Color(50,40,120);
+
     public GlobalNavigation() {
         cSpace = new CSpace();
     }
@@ -122,13 +127,15 @@ public class GlobalNavigation implements NodeMain {
         } catch (Exception e) {
 
         }
-        displayMapCSpace();
         displayMap(); // --Works: Remember to plug into Robot
+        displayMapCSpace();
         // testConvexHull(); // -- Works need to find a set of "non-trivial"
         // points.
         Point2D.Double robotStart = polyMap.getRobotStart();
         waypoints = motionPlanner.getPath(robotStart, polyMap.getRobotGoal(),
                 .02);
+
+
 
         // Updating the shifts so that the robot is at 0,0 with 0 rad heading at
         // start
@@ -138,17 +145,25 @@ public class GlobalNavigation implements NodeMain {
         // TODO: worst case get rid of these shifts and just restart morcboard
         // each run
 
-        
-        
-        outputPath(waypoints, MapGUI.makeRandomColor());
+
+
+        outputPath(waypoints, Color.RED);
 
         System.out.println("Number of waypoints: " + waypoints.size());
-        // To wait for the GUI
+
+        // print out position of each waypoint
+        DecimalFormat df = new DecimalFormat("#.###");
+        for (int i = 0; i < waypoints.size(); i++) {
+            Double wayPtX = waypoints.get(i).getX();
+            Double wayPtY = waypoints.get(i).getY();
+            System.out.println("Waypoint "+i+" X: "+df.format(wayPtX)+" Y: "+df.format(wayPtY));
+        }
+//        To wait for the GUI
 //        try {
 //            Thread.sleep(2000);
 //        } catch (Exception e) {
 //
-//        }		
+//        }
         navWaypts = true;
     }
 
@@ -446,10 +461,10 @@ public class GlobalNavigation implements NodeMain {
         for (PolygonObstacle obstacle : polyMap.getObstacles()) {
             polyMsg = new GUIPolyMsg();
             GlobalNavigation.fillPolyMsg(polyMsg, obstacle,
-                    MapGUI.makeRandomColor(), true, true);
+                    darkBlue, true, true);
             guiPolyPub.publish(polyMsg);
         }
-
+        System.out.println(polyMap.getObstacles().size());
         System.out.println("Done running displayMap");
     }
 
@@ -460,19 +475,32 @@ public class GlobalNavigation implements NodeMain {
         List<PolygonObstacle> obsCSpaces = cSpace.envConfSpace(polyMap);
 
         // Erase the GUI
-        guiErasePub.publish(new GUIEraseMsg());
-
+//        guiErasePub.publish(new GUIEraseMsg());
+        
+        // print border
         GUIRectMsg rectMsg = new GUIRectMsg();
         GlobalNavigation.fillRectMsg(rectMsg, polyMap.getWorldRect(),
-                MapGUI.makeRandomColor(), false);
+                Color.BLACK, false);
         guiRectPub.publish(rectMsg);
+
+        //print true obstacles
         GUIPolyMsg polyMsg = new GUIPolyMsg();
+        for (PolygonObstacle obstacle : polyMap.getObstacles()) {
+            polyMsg = new GUIPolyMsg();
+            GlobalNavigation.fillPolyMsg(polyMsg, obstacle,
+                    darkBlue, true, true);
+            guiPolyPub.publish(polyMsg);
+        }
+
+        //print cspace around obstacles
         for (PolygonObstacle obstacle : obsCSpaces) {
             polyMsg = new GUIPolyMsg();
             GlobalNavigation.fillPolyMsg(polyMsg, obstacle,
-                    MapGUI.makeRandomColor(), false, true);
+                    lightBlue, false, true);
             guiPolyPub.publish(polyMsg);
         }
+
+        System.out.println(obsCSpaces.size());
         System.out.println("Done running displayMapCSpace");
 
     }

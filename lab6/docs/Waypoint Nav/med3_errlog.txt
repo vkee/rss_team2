@@ -1,0 +1,73 @@
+Buildfile: /home/rss-student/RSS-I-group/lab6/dependencies.xml
+
+get-dependencies:
+
+BUILD SUCCESSFUL
+Total time: 4 seconds
+Loading node class: GlobalNavigation.GlobalNavigation
+8
+Done running displayMap
+12
+Done running displayMapCSpace
+map width 3.048
+map height 4.6419
+goal Rect width 0.06096
+goal Rect height 0.09283799999999999
+Start Point Point2D.Double[0.0, 0.0]
+Goal Point Point2D.Double[-0.1524, 3.6576]
+Number of tries: 0
+Number of waypoints: 17
+Waypoint 0 X: 0 Y: 0
+Waypoint 1 X: 0.108 Y: -0.214
+Waypoint 2 X: 0.941 Y: 0.175
+Waypoint 3 X: 0.636 Y: 0.662
+Waypoint 4 X: 0.645 Y: 0.946
+Waypoint 5 X: 0.547 Y: 1.101
+Waypoint 6 X: 0.225 Y: 1.028
+Waypoint 7 X: 0.29 Y: 1.178
+Waypoint 8 X: 0.55 Y: 2.223
+Waypoint 9 X: 0.609 Y: 2.365
+Waypoint 10 X: -0.058 Y: 2.642
+Waypoint 11 X: -0.04 Y: 3.36
+Waypoint 12 X: -0.095 Y: 3.505
+Waypoint 13 X: -0.026 Y: 3.786
+Waypoint 14 X: -0.17 Y: 3.779
+Waypoint 15 X: -0.17 Y: 3.668
+Waypoint 16 X: -0.152 Y: 3.658
+WAYPOINT: 1 REACHED at X: 0.0 Y: 0.0 ROBOT-X:-2.997702913730719E-6 ROBOT-Y:0.0 out of 17 waypoints.
+xError 2.997702913730719E-6 yError 0.0
+WAYPOINT: 2 REACHED at X: 0.10757570516161008 Y: -0.21363416078519248 ROBOT-X:0.058842769553559715 ROBOT-Y:-0.10105159601496759 out of 17 waypoints.
+xError 0.048732935608050365 yError -0.1125825647702249
+WAYPOINT: 3 REACHED at X: 0.9408288239612688 Y: 0.17514913870603954 ROBOT-X:0.8943845566977513 ROBOT-Y:0.14510184117626915 out of 17 waypoints.
+xError 0.04644426726351747 yError 0.030047297529770395
+WAYPOINT: 4 REACHED at X: 0.635945762028578 Y: 0.6622961221063173 ROBOT-X:0.675271266218358 ROBOT-Y:0.6133886927206998 out of 17 waypoints.
+xError -0.03932550418977998 yError 0.04890742938561743
+WAYPOINT: 5 REACHED at X: 0.6451226873988152 Y: 0.9459855696160382 ROBOT-X:0.6412945629130856 ROBOT-Y:0.8992645541020263 out of 17 waypoints.
+xError 0.003828124485729556 yError 0.046721015514011865
+Executing command: ['java', '-classpath', u'/home/rss-student/RSS-I-group/lab6/target/lab6-0.0.jar:/home/rss-student/RSS-I-group/lab5/target/lab5-0.0.jar:/home/rss-student/RSS-I-group/lab4/target/org.ros.rss.lab4-0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.test_ros-0.0.0.jar:/home/rss-student/RSS-I-group/roscv/lib/javacv-0.0.jar:/home/rss-student/RSS-I-group/roscv/lib/javacv-linux-x86-0.0.jar:/home/rss-student/RSS-I-group/roscv/lib/javacpp-0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.roscpp-0.0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.topic_tools-0.0.0.jar:/home/rss-student/ros/rosjava_core/apache_xmlrpc/target/org.ros.rosjava.apache-xmlrpc-3.1.3.jar:/home/rss-student/ros/rosjava_core/rosjava_bootstrap/target/org.ros.rosjava.rosjava_bootstrap-0.0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.lab6_msgs-0.0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.std_msgs-0.0.0.jar:/home/rss-student/ros/rosjava_core/rosjava/target/org.ros.rosjava-0.0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.rss_msgs-0.0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.rosgraph_msgs-0.0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.lab5_msgs-0.0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.geometry_msgs-0.0.0.jar:/home/rss-student/ros/rosjava_core/apache_commons_util/target/org.ros.rosjava.ws-commons-util-1.0.2.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.sensor_msgs-0.0.0.jar:/home/rss-student/.m2/repository/com/google/guava/org.ros.rosjava.guava/r07/org.ros.rosjava.guava-r07.jar:/home/rss-student/.m2/repository/dnsjava/org.ros.rosjava.dnsjava/2.1.1/org.ros.rosjava.dnsjava-2.1.1.jar:/home/rss-student/.m2/repository/junit/junit/3.8.2/junit-3.8.2.jar:/home/rss-student/.m2/repository/org/apache/commons/com.springsource.org.apache.commons.codec/1.3.0/com.springsource.org.apache.commons.codec-1.3.0.jar:/home/rss-student/.m2/repository/org/apache/commons/com.springsource.org.apache.commons.httpclient/3.1.0/com.springsource.org.apache.commons.httpclient-3.1.0.jar:/home/rss-student/.m2/repository/org/apache/commons/com.springsource.org.apache.commons.logging/1.1.1/com.springsource.org.apache.commons.logging-1.1.1.jar:/home/rss-student/.m2/repository/org/apache/commons/com.springsource.org.apache.commons.net/2.0.0/com.springsource.org.apache.commons.net-2.0.0.jar:/home/rss-student/.m2/repository/org/jboss/netty/netty/3.2.4.Final/netty-3.2.4.Final.jar', 'org.ros.RosRun', 'GlobalNavigation.GlobalNavigation', '__name:=nav', '__log:=/home/rss-student/.ros/log/405f8a84-d333-11e4-8dd4-207c8f0fe59c/nav-1.log']
+... logging to /home/rss-student/.ros/log/405f8a84-d333-11e4-8dd4-207c8f0fe59c/roslaunch-RSSnetbook2-16360.log
+Checking log directory for disk usage. This may take awhile.
+Press Ctrl-C to interrupt
+]2;/home/rss-student/RSS-I-group/lab6/launch/nav.launch
+[1mstarted roslaunch server http://netbook:37363/[0m
+
+SUMMARY
+========
+
+PARAMETERS
+ * /rosversion
+ * /rosdistro
+ * /nav/mapFileName
+
+NODES
+  /
+    nav (rosjava_bootstrap/run.py)
+
+[1mROS_MASTER_URI=http://netbook:11311[0m
+]2;/home/rss-student/RSS-I-group/lab6/launch/nav.launch http://netbook:11311
+core service [/rosout] found
+[1mprocess[nav-1]: started with pid [16378][0m
+[nav-1] killing on exit
+shutting down processing monitor...
+... shutting down processing monitor complete
+[1mdone[0m
