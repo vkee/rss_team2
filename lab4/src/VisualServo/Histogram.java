@@ -162,17 +162,14 @@ public class Histogram {
 							Image.pixelGreen(pix),
 							Image.pixelBlue(pix),
 							null);
-					System.out.println("zero: " + hsb[0]);
-					System.out.println("one: " + hsb[1]);
-					System.out.println("two: " + hsb[2]);
 					if ((int)hsb[0]/scale < histogram[0].length){
-						histogram[(int) (hsb[0]/scale)][0] += 1; //(Solution)					
+						histogram[(int) (Math.abs(hsb[0]/scale))][0] += 1; //(Solution)					
 					}
 					if ((int)hsb[1]/scale < histogram[1].length){
-						histogram[(int) (hsb[1]/scale)][1] += 1; //(Solution)					
+						histogram[(int) (Math.abs(hsb[1]/scale))][1] += 1; //(Solution)					
 					}
 					if ((int)hsb[2]/scale < histogram[2].length){
-						histogram[(int) (hsb[2]/scale)][2] += 1; //(Solution)					
+						histogram[(int) (Math.abs(hsb[2]/scale))][2] += 1; //(Solution)					
 					}
 				} //(Solution)
 			} //(Solution)
