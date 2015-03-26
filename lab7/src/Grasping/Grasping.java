@@ -159,16 +159,17 @@ public class Grasping implements NodeMain {
 				float[][] histogram_array = new float[width][height];
 
 				if (debug == true) {
-					histogram_array = Histogram.makeHistogram(message, true);
-					Histogram.overlayHistogram(message, histogram_array);
 					Image src = null;
 					try {
 						src = new Image(visionImage.take(), width, height);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-
 					Image dest = new Image(src);
+
+					histogram_array = Histogram.makeHistogram(src, true);
+					Histogram.overlayHistogram(dest, histogram_array);
+
 
 					org.ros.message.sensor_msgs.Image pubImage = new org.ros.message.sensor_msgs.Image();
 				
@@ -233,7 +234,8 @@ public class Grasping implements NodeMain {
 
 			public void sendCommands() {
 				pwm_stat[0] = shoulder;
-				pwm_stat[1] = wrist;
+				pwm_stat[<<<<<<< HEAD
+1] = wrist;
 				pwm_stat[2] = gripper;
 
 				ArmMsg msg = new ArmMsg();
