@@ -271,8 +271,8 @@ public class GlobalNavigation implements NodeMain {
 //                        + " out of " + waypoints.size() + " waypoints.");
 //                System.out.println("xError " + xError + " yError " + yError);
 
-                Double wayPtX = waypoints.get(i).getX();
-                Double wayPtY = waypoints.get(i).getY();
+                Double wayPtX = wayPoint.getX();
+                Double wayPtY = wayPoint.getY();
 
                 System.out.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s",
                         "Waypoint #", "X_w", "Y_w", "X", "Y", "Theta", "X_error", "Y_error", "Theta to Waypt", "Theta_error");
@@ -280,7 +280,7 @@ public class GlobalNavigation implements NodeMain {
                         way, df.format(wayPtX),df.format(wayPtY),df.format(currX),df.format(currY),df.format(currTheta),df.format(xError),df.format(yError),df.format(thetaToPoint),df.format(thetaError));
 
 
-            
+
 
                 currWaypt += 1;
 
