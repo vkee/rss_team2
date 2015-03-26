@@ -1,0 +1,102 @@
+Buildfile: /home/rss-student/RSS-I-group/lab6/dependencies.xml
+
+get-dependencies:
+
+BUILD SUCCESSFUL
+Total time: 4 seconds
+Loading node class: GlobalNavigation.GlobalNavigation
+8
+Done running displayMap
+12
+Done running displayMapCSpace
+map width 3.048
+map height 4.6419
+goal Rect width 0.06096
+goal Rect height 0.09283799999999999
+Start Point Point2D.Double[0.0, 0.0]
+Goal Point Point2D.Double[2.0574, 0.0]
+Number of tries: 0
+Number of tries: 1000
+Number of waypoints: 15
+Waypoint 0 X: 0 Y: 0
+Waypoint 1 X: 0.986 Y: 0.478
+Waypoint 2 X: 1.035 Y: 0.884
+Waypoint 3 X: 0.872 Y: 0.751
+Waypoint 4 X: 0.127 Y: 1.381
+Waypoint 5 X: 0.384 Y: 2.164
+Waypoint 6 X: 1.088 Y: 2.506
+Waypoint 7 X: 2.042 Y: 1.975
+Waypoint 8 X: 1.837 Y: 1.413
+Waypoint 9 X: 2.018 Y: 0.579
+Waypoint 10 X: 2.072 Y: -0.143
+Waypoint 11 X: 2.062 Y: -0.066
+Waypoint 12 X: 2.109 Y: -0.029
+Waypoint 13 X: 2.077 Y: 0.013
+Waypoint 14 X: 2.057 Y: 0
+WAYPOINT: 1 REACHED at X: 0.0 Y: 0.0 ROBOT-X:-5.25179491172022E-4 ROBOT-Y:3.1187333575503026E-5 out of 15 waypoints.
+xError 5.25179491172022E-4 yError -3.1187333575503026E-5
+WAYPOINT: 2 REACHED at X: 0.9861746422628233 Y: 0.47763708716587705 ROBOT-X:0.9616680616157897 ROBOT-Y:0.455444971284968 out of 15 waypoints.
+xError 0.024506580647033593 yError 0.022192115880909025
+WAYPOINT: 3 REACHED at X: 1.0347679313785774 Y: 0.8836036992572323 ROBOT-X:1.036689565559774 ROBOT-Y:0.835665027726538 out of 15 waypoints.
+xError -0.0019216341811967297 yError 0.04793867153069431
+WAYPOINT: 4 REACHED at X: 0.8721160404870301 Y: 0.7512365569302566 ROBOT-X:0.8963431523346013 ROBOT-Y:0.7755374811050229 out of 15 waypoints.
+xError -0.024227111847571203 yError -0.02430092417476626
+WAYPOINT: 5 REACHED at X: 0.12732857435871114 Y: 1.3813377533535298 ROBOT-X:0.13876629019161849 ROBOT-Y:1.3630624634121744 out of 15 waypoints.
+xError -0.011437715832907341 yError 0.01827528994135541
+WAYPOINT: 6 REACHED at X: 0.38395678773093833 Y: 2.164492550729671 ROBOT-X:0.36517008435312304 ROBOT-Y:2.1358513739379537 out of 15 waypoints.
+xError 0.018786703377815295 yError 0.028641176791717182
+WAYPOINT: 7 REACHED at X: 1.0875654918988014 Y: 2.505836153044716 ROBOT-X:1.0472709630029267 ROBOT-Y:2.496891283343838 out of 15 waypoints.
+xError 0.040294528895874704 yError 0.008944869700878044
+WAYPOINT: 8 REACHED at X: 2.0416063716680304 Y: 1.975150800251431 ROBOT-X:2.0176487227413276 ROBOT-Y:1.9980779104945952 out of 15 waypoints.
+xError 0.023957648926702824 yError -0.022927110243164073
+WAYPOINT: 9 REACHED at X: 1.8367581808651234 Y: 1.4134032243348196 ROBOT-X:1.8497534792382038 ROBOT-Y:1.4331901569711447 out of 15 waypoints.
+xError -0.012995298373080333 yError -0.01978693263632514
+WAYPOINT: 10 REACHED at X: 2.017979538876921 Y: 0.5788105211490147 ROBOT-X:2.001887147582564 ROBOT-Y:0.6121726489621152 out of 15 waypoints.
+xError 0.01609239129435691 yError -0.03336212781310055
+WAYPOINT: 11 REACHED at X: 2.0719129950572848 Y: -0.14343153789669472 ROBOT-X:2.0774566884293075 ROBOT-Y:-0.10235704222164982 out of 15 waypoints.
+xError -0.005543693372022762 yError -0.0410744956750449
+WAYPOINT: 12 REACHED at X: 2.061525175411023 Y: -0.06599730816852906 ROBOT-X:2.0654094131435206 ROBOT-Y:-0.09646466901619768 out of 15 waypoints.
+xError -0.003884237732497464 yError 0.03046736084766863
+WAYPOINT: 13 REACHED at X: 2.1088728561165637 Y: -0.029355685509632468 ROBOT-X:2.085422164440038 ROBOT-Y:-0.051871924916121796 out of 15 waypoints.
+xError 0.023450691676525803 yError 0.02251623940648933
+WAYPOINT: 14 REACHED at X: 2.0772208648410144 Y: 0.012969745432601432 ROBOT-X:2.0918076608574014 ROBOT-Y:-0.016277523697093864 out of 15 waypoints.
+xError -0.014586796016387016 yError 0.029247269129695296
+WAYPOINT: 15 REACHED at X: 2.0574 Y: 0.0 ROBOT-X:2.0865222352311035 ROBOT-Y:-0.00936193881154246 out of 15 waypoints.
+xError -0.029122235231103577 yError 0.00936193881154246
+LAST POINT: X-2.0574 Y-0.0
+currX: 2.0872267536290154
+currY: -0.009654673711509798
+currTheta: 2.7477869432453494
+xError: -0.029826753629015545
+yError: 0.009654673711509798
+thetaToPoint: 2.8285444877020605
+Theta Error: -0.08075754445671102
+Theta Error after correction: -0.08075754445671102
+At the goal!
+Executing command: ['java', '-classpath', u'/home/rss-student/RSS-I-group/lab6/target/lab6-0.0.jar:/home/rss-student/RSS-I-group/lab5/target/lab5-0.0.jar:/home/rss-student/RSS-I-group/lab4/target/org.ros.rss.lab4-0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.test_ros-0.0.0.jar:/home/rss-student/RSS-I-group/roscv/lib/javacv-0.0.jar:/home/rss-student/RSS-I-group/roscv/lib/javacv-linux-x86-0.0.jar:/home/rss-student/RSS-I-group/roscv/lib/javacpp-0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.roscpp-0.0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.topic_tools-0.0.0.jar:/home/rss-student/ros/rosjava_core/apache_xmlrpc/target/org.ros.rosjava.apache-xmlrpc-3.1.3.jar:/home/rss-student/ros/rosjava_core/rosjava_bootstrap/target/org.ros.rosjava.rosjava_bootstrap-0.0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.lab6_msgs-0.0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.std_msgs-0.0.0.jar:/home/rss-student/ros/rosjava_core/rosjava/target/org.ros.rosjava-0.0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.rss_msgs-0.0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.rosgraph_msgs-0.0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.lab5_msgs-0.0.0.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.geometry_msgs-0.0.0.jar:/home/rss-student/ros/rosjava_core/apache_commons_util/target/org.ros.rosjava.ws-commons-util-1.0.2.jar:/home/rss-student/.ros/rosjava/lib/org.ros.rosjava.sensor_msgs-0.0.0.jar:/home/rss-student/.m2/repository/com/google/guava/org.ros.rosjava.guava/r07/org.ros.rosjava.guava-r07.jar:/home/rss-student/.m2/repository/dnsjava/org.ros.rosjava.dnsjava/2.1.1/org.ros.rosjava.dnsjava-2.1.1.jar:/home/rss-student/.m2/repository/junit/junit/3.8.2/junit-3.8.2.jar:/home/rss-student/.m2/repository/org/apache/commons/com.springsource.org.apache.commons.codec/1.3.0/com.springsource.org.apache.commons.codec-1.3.0.jar:/home/rss-student/.m2/repository/org/apache/commons/com.springsource.org.apache.commons.httpclient/3.1.0/com.springsource.org.apache.commons.httpclient-3.1.0.jar:/home/rss-student/.m2/repository/org/apache/commons/com.springsource.org.apache.commons.logging/1.1.1/com.springsource.org.apache.commons.logging-1.1.1.jar:/home/rss-student/.m2/repository/org/apache/commons/com.springsource.org.apache.commons.net/2.0.0/com.springsource.org.apache.commons.net-2.0.0.jar:/home/rss-student/.m2/repository/org/jboss/netty/netty/3.2.4.Final/netty-3.2.4.Final.jar', 'org.ros.RosRun', 'GlobalNavigation.GlobalNavigation', '__name:=nav', '__log:=/home/rss-student/.ros/log/7503eab4-d3f6-11e4-a58f-207c8f0fe59c/nav-1.log']
+... logging to /home/rss-student/.ros/log/7503eab4-d3f6-11e4-a58f-207c8f0fe59c/roslaunch-RSSnetbook2-25656.log
+Checking log directory for disk usage. This may take awhile.
+Press Ctrl-C to interrupt
+]2;/home/rss-student/RSS-I-group/lab6/launch/nav.launch
+[1mstarted roslaunch server http://netbook:47355/[0m
+
+SUMMARY
+========
+
+PARAMETERS
+ * /rosversion
+ * /rosdistro
+ * /nav/mapFileName
+
+NODES
+  /
+    nav (rosjava_bootstrap/run.py)
+
+[1mROS_MASTER_URI=http://netbook:11311[0m
+]2;/home/rss-student/RSS-I-group/lab6/launch/nav.launch http://netbook:11311
+core service [/rosout] found
+[1mprocess[nav-1]: started with pid [25675][0m
+[nav-1] killing on exit
+shutting down processing monitor...
+... shutting down processing monitor complete
+[1mdone[0m
