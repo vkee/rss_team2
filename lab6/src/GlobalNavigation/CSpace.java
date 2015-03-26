@@ -24,7 +24,8 @@ public class CSpace {
 
 
     private final double ROBOT_LONGEST_DIM = 0.38; // Center to diagonal length in meters
-    private final double ROBOT_SIDE_DIM = 0.38 / Math.sqrt(2); // Center to side length in meters
+//    private final double ROBOT_SIDE_DIM = 0.38 / Math.sqrt(2); // Center to side length in meters
+	private final double ROBOT_SIDE_DIM = 0.38; // Center to side length in meters
     /*
     Changed the calculations from using ROBOT_LONGEST_DIM to ROBOT_SIDE_DIM
     because the boundaries on the additional maps were too wide and prevented any
