@@ -73,8 +73,8 @@ public class GripperController {
 	 * @return the PWM value to be written to the servo
 	 */
 	public int open(int currPWM) {
-	    return fullRotation(currPWM, true);
-//		return rotateToPWM(MAX_PWM, currPWM);//fullRotation(currPWM, true);
+		return fullRotation(currPWM, true);//rotateToPWM(MAX_PWM, currPWM);//
+
 	}
 
 	/**

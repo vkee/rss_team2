@@ -31,7 +31,7 @@ public class LocalNavigation implements NodeMain {
 	public boolean leftBumper = false;
 	public boolean rightBumper = false;
 
-	public boolean saveErrors;
+	public boolean saveErrors = true;
 
 	// Robot Odometry
 	public double robotX = 0.0; // in meters
@@ -130,7 +130,7 @@ public class LocalNavigation implements NodeMain {
 		stopMsg.rotationalVelocity = STOP;
 
 		dataLogger = new FileLogger(
-				"/home/rss-student/RSS-I-group/lab5/docs/data_square.txt");
+				"/home/rss-student/RSS-I-group/lab5/docs/data_triangle2.txt");
 
 	}
 

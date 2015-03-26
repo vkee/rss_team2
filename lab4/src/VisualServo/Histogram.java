@@ -23,7 +23,7 @@ public class Histogram {
 	 * @param source image to compute the histogram from
 	 * @param destination if non-null histogram is written on top of this
 	 * @param hsbHistogram produces a HSB histogram if true, else RGB histogram
-	 * @return desitnation or a new image if destination is null
+	 * @return destination or a new image if destination is null
 	 **/
 	public static Image getHistogram(Image source, Image destination,
 			boolean hsbHistogram){
@@ -162,9 +162,15 @@ public class Histogram {
 							Image.pixelGreen(pix),
 							Image.pixelBlue(pix),
 							null);
-					histogram[(int) (hsb[0]/scale)][0] += 1; //(Solution)
-					histogram[(int) (hsb[1]/scale)][1] += 1; //(Solution)
-					histogram[(int) (hsb[2]/scale)][2] += 1; //(Solution)
+					if ((int)hsb[0]/scale < histogram[0].length){
+						histogram[(int) (Math.abs(hsb[0]/scale))][0] += 1; //(Solution)					
+					}
+					if ((int)hsb[1]/scale < histogram[1].length){
+						histogram[(int) (Math.abs(hsb[1]/scale))][1] += 1; //(Solution)					
+					}
+					if ((int)hsb[2]/scale < histogram[2].length){
+						histogram[(int) (Math.abs(hsb[2]/scale))][2] += 1; //(Solution)					
+					}
 				} //(Solution)
 			} //(Solution)
 		} else { //(Solution)
