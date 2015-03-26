@@ -234,8 +234,7 @@ public class Grasping implements NodeMain {
 
 			public void sendCommands() {
 				pwm_stat[0] = shoulder;
-				pwm_stat[<<<<<<< HEAD
-1] = wrist;
+				pwm_stat[1] = wrist;
 				pwm_stat[2] = gripper;
 
 				ArmMsg msg = new ArmMsg();
