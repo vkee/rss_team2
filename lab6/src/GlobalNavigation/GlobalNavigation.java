@@ -259,7 +259,7 @@ public class GlobalNavigation implements NodeMain {
                     FWD_GAIN * motionPlanner.getDist(0.0, 0.0, 0.0, yError),
                     0.5);
             msg.rotationalVelocity = 0.0;
-        }else {
+        } else {
             if (currWaypt < waypoints.size()) {
                 int way = currWaypt + 1;
 
@@ -280,7 +280,7 @@ public class GlobalNavigation implements NodeMain {
                         way, df.format(wayPtX),df.format(wayPtY),df.format(currX),df.format(currY),df.format(currTheta),df.format(xError),df.format(yError),df.format(thetaToPoint),df.format(thetaError));
 
 
-            }
+            
 
                 currWaypt += 1;
 
