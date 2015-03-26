@@ -31,7 +31,7 @@ public class LocalNavigation implements NodeMain {
 	public boolean leftBumper = false;
 	public boolean rightBumper = false;
 
-	public boolean saveErrors;
+	public boolean saveErrors = true;
 
 	// Robot Odometry
 	public double robotX = 0.0; // in meters
