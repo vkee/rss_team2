@@ -161,7 +161,7 @@ public class Grasping implements NodeMain {
 						e.printStackTrace();
 					}
 					Image dest = null;
-					dest = Histogram.getHistogram(src, dest, true);
+					dest = Histogram.getHistogram(src, dest, false);
 
 					org.ros.message.sensor_msgs.Image pubImage = new org.ros.message.sensor_msgs.Image();
 					pubImage.width = width;
@@ -169,7 +169,8 @@ public class Grasping implements NodeMain {
 					pubImage.is_bigendian = 0;
 					pubImage.step = width * 3;
 					pubImage.data = dest.toArray();
-					System.out.println(dest.toArray().toString());
+					pubImage.encoding = "rgb8";
+				//	System.out.println(dest.toArray().toString());
 					vidPub.publish(pubImage);
 
 				}
@@ -244,14 +245,14 @@ public class Grasping implements NodeMain {
 				int wristPWM = (int) pwmVals[1];
 				int gripperPWM = (int) pwmVals[2];
 
-				System.out.println(Arrays.toString(pwmVals));
+//				System.out.println(Arrays.toString(pwmVals));
 
 				double sum = InverseKinematics.ARM_LENGTH
 						+ InverseKinematics.WRIST_LENGTH;
 				// moveArm(sum*Math.cos(Math.PI/4), sum*Math.sin(Math.PI/4),
 				// shoulderPWM, wristPWM);
 
-				System.out.println("Current State: " + graspState);
+//				System.out.println("Current State: " + graspState);
 				if (graspState == ArmGraspState.STOP) {
 					System.out.println("graspState: STOP");
 				}
