@@ -183,7 +183,7 @@ public class LocalNavigation implements NodeMain {
 								MotionMsg msg = new MotionMsg();
 								msg.translationalVelocity = trans_vel;
 								msg.rotationalVelocity = rot_vel;
-//								motionPub.publish(msg);
+								motionPub.publish(msg);
 								if (initial_theta - robotTheta < 0.2
 										&& initial_theta - robotTheta > 0.05) {
 									// setState(State.DONE);
@@ -197,7 +197,7 @@ public class LocalNavigation implements NodeMain {
 								MotionMsg msg = new MotionMsg();
 								msg.translationalVelocity = MED_FWD;
 								msg.rotationalVelocity = STOP;
-//								motionPub.publish(msg);
+								motionPub.publish(msg);
 							} else if (leftBumper && rightBumper) {
 								motionPub.publish(stopMsg);
 								System.out.println("Old State: " + state);
@@ -210,13 +210,13 @@ public class LocalNavigation implements NodeMain {
 									MotionMsg msg = new MotionMsg();
 									msg.translationalVelocity = VERY_SLOW_FWD;
 									msg.rotationalVelocity = SLOW_CCW;
-//									motionPub.publish(msg);
+									motionPub.publish(msg);
 								} else {
 									// rotate left / CW
 									MotionMsg msg = new MotionMsg();
 									msg.translationalVelocity = VERY_SLOW_FWD;
 									msg.rotationalVelocity = SLOW_CW;
-//									motionPub.publish(msg);
+									motionPub.publish(msg);
 								}
 							}
 						}
@@ -486,7 +486,7 @@ public class LocalNavigation implements NodeMain {
 				MotionMsg msg = new MotionMsg();
 				msg.translationalVelocity = SLOW_REV;
 				msg.rotationalVelocity = STOP;
-//				motionPub.publish(msg);
+				motionPub.publish(msg);
 			} else {
 				motionPub.publish(stopMsg);
 				System.out.println("Old State: " + state);
@@ -502,7 +502,7 @@ public class LocalNavigation implements NodeMain {
 				MotionMsg msg = new MotionMsg();
 				msg.translationalVelocity = SLOW_FWD;
 				msg.rotationalVelocity = STOP;
-//				motionPub.publish(msg);
+				motionPub.publish(msg);
 			} else {
 				System.out.println("Old State: " + state);
 				setState(State.TRACKING_WALL);
@@ -567,7 +567,7 @@ public class LocalNavigation implements NodeMain {
 							orientError);
 				}
 
-//				motionPub.publish(msg);
+				motionPub.publish(msg);
 			}
 		}
 
@@ -580,7 +580,7 @@ public class LocalNavigation implements NodeMain {
 			MotionMsg msg = new MotionMsg();
 			msg.translationalVelocity = 0.2;
 			msg.rotationalVelocity = 0.1;
-//			motionPub.publish(msg);
+			motionPub.publish(msg);
 			trans_vel = 0.2;
 			rot_vel = 0.1;
 
@@ -593,7 +593,7 @@ public class LocalNavigation implements NodeMain {
 			MotionMsg msg = new MotionMsg();
 			msg.translationalVelocity = 0;
 			msg.rotationalVelocity = 0;
-//			motionPub.publish(msg);
+			motionPub.publish(msg);
 
 		}
 
