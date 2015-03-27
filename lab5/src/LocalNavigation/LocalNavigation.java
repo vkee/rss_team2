@@ -431,7 +431,7 @@ public class LocalNavigation implements NodeMain {
 				// System.out.println("Back Point X Coord: " + ptMsg.x);
 				// System.out.println("Back Point Y Coord: " + ptMsg.y);
 			}
-
+			guiPtPub.publish(ptMsg);
 		}
 
 		if (state == lines) {
@@ -473,6 +473,8 @@ public class LocalNavigation implements NodeMain {
 			// 3.6 Linear Filter Stuff
 			// Updating and replotting line
 
+			/* line estimation commented out for front and back sonar pings
+
 			GUILineMsg lineMsg = new GUILineMsg();
 			lineMsg.lineA = lineEstimator.getA();
 			lineMsg.lineB = lineEstimator.getB();
@@ -482,7 +484,7 @@ public class LocalNavigation implements NodeMain {
 			// System.out.println("C term " + lineMsg.lineC);
 			lineMsg.color = redMsg;
 			guiLinePub.publish(lineMsg);
-
+*/
 
 		}
 
