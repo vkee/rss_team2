@@ -415,8 +415,7 @@ public class LocalNavigation implements NodeMain {
 				// System.out.println("Front Point X Coord: " + ptMsg.x);
 				// System.out.println("Front Point Y Coord: " + ptMsg.y);
 
-			}
-			if (message.isBack) {
+			} else {
 				// System.out.println("Back Range " + message.range);
 
 				// X and Y components of the sonar are flipped in the new coordinate
