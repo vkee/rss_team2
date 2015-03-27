@@ -433,7 +433,7 @@ public class LocalNavigation implements NodeMain {
 			guiPtPub.publish(ptMsg);
 		}
 
-		if (state == lines) {
+		if (state == null) {
 			// guiPtPub.publish(ptMsg);
 
 			// // Publishing the robot's current position
