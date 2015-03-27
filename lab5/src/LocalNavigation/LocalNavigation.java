@@ -431,6 +431,9 @@ public class LocalNavigation implements NodeMain {
 				// System.out.println("Back Point Y Coord: " + ptMsg.y);
 			}
 
+		}
+
+		if (state == lines) {
 			// guiPtPub.publish(ptMsg);
 
 			// // Publishing the robot's current position
