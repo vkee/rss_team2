@@ -120,9 +120,10 @@ public class LocalNavigation implements NodeMain {
 
 	public LocalNavigation() {
 		// This is where you tell the robot which state you want the robot to
-		// initialize to//setState(State.wiki_part);
+		// initialize to
+		setState(State.wiki_part);
 
-		setState(State.ALIGN_ON_BUMP);
+//		setState(State.ALIGN_ON_BUMP);
 		generateColorMsgs();
 
 		stopMsg = new MotionMsg();
@@ -359,9 +360,9 @@ public class LocalNavigation implements NodeMain {
 				});
 
 		// For 3.5
-		 Robot.resetRobotBase();
-		 Robot.setVelocity(0.0, 0.0);
-		 motionPub.publish(stopMsg);
+//		 Robot.resetRobotBase();
+//		 Robot.setVelocity(0.0, 0.0);
+//		 motionPub.publish(stopMsg);
 	}
 
 	/**
@@ -375,7 +376,7 @@ public class LocalNavigation implements NodeMain {
 	public void sonarHandler(org.ros.message.rss_msgs.SonarMsg message) {
 
 		if (state == State.wiki_part) {
-
+			motionPub.publish(stopMsg);
 		}
 
 		if (message.range < threshold) {
