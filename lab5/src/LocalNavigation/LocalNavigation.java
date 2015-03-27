@@ -376,109 +376,111 @@ public class LocalNavigation implements NodeMain {
 	public void sonarHandler(org.ros.message.rss_msgs.SonarMsg message) {
 
 		if (state == State.wiki_part) {
-			motionPub.publish(stopMsg);
-		}
 
-		if (message.range < threshold) {
+
+			if (message.range < threshold) {
+
+				if (message.isFront) {
+					frontSonarDist = message.range;
+					obsDetectFront = true;
+				} else {
+					backSonarDist = message.range;
+					obsDetectBack = true;
+				}
+			} else {
+				if (message.isFront) {
+					obsDetectFront = false;
+				} else {
+					obsDetectBack = false;
+				}
+			}
+
+			// 3.5 plotting the location of each sonar ping in the world frame
+
+			GUIPointMsg ptMsg = new GUIPointMsg();
+			// System.out.println("Robot X: " + robotX);
+			// System.out.println("Robot Y: " + robotY);
+			// System.out.println("Robot Theta: " + robotTheta);
 
 			if (message.isFront) {
-				frontSonarDist = message.range;
-				obsDetectFront = true;
+				// System.out.println("Front Range " + message.range);
+				// X and Y components of the sonar are flipped in the new coordinate
+				// frame, then rotate by theta
+				ptMsg.x = robotX + Math.cos(robotTheta) * FRONT_SONAR_Y
+						- Math.sin(robotTheta) * (message.range - FRONT_SONAR_X);
+				ptMsg.y = robotY + Math.sin(robotTheta) * FRONT_SONAR_Y
+						+ Math.cos(robotTheta) * (message.range - FRONT_SONAR_X);
+				// Readings from the front sensor are red
+				ptMsg.color = redMsg;
+				// System.out.println("Front Point X Coord: " + ptMsg.x);
+				// System.out.println("Front Point Y Coord: " + ptMsg.y);
+
 			} else {
-				backSonarDist = message.range;
-				obsDetectBack = true;
+				// System.out.println("Back Range " + message.range);
+
+				// X and Y components of the sonar are flipped in the new coordinate
+				// frame, then rotate by theta
+				ptMsg.x = robotX + Math.cos(robotTheta) * BACK_SONAR_Y
+						- Math.sin(robotTheta) * (message.range - BACK_SONAR_X);
+				ptMsg.y = robotY + Math.sin(robotTheta) * BACK_SONAR_Y
+						+ Math.cos(robotTheta) * (message.range - BACK_SONAR_X);
+
+				// Readings from the back sensor are blue
+				ptMsg.color = blueMsg;
+				// System.out.println("Back Point X Coord: " + ptMsg.x);
+				// System.out.println("Back Point Y Coord: " + ptMsg.y);
 			}
-		} else {
+
+			// guiPtPub.publish(ptMsg);
+
+			// // Publishing the robot's current position
+			// GUIPointMsg botMsg = new GUIPointMsg();
+			// botMsg.x = robotX;
+			// botMsg.y = robotY;
+			// botMsg.color = greenMsg;
+			// guiPtPub.publish(botMsg);
+
+			// 3.5 Plotting non obstacles and obstacle points
+			// System.out.println(message.range);
+			// May need to also check if the range is 0 which may be for infinite
+			// distance
 			if (message.isFront) {
-				obsDetectFront = false;
+				if (obsDetectFront) {
+					// Obstacle points are in red
+					ptMsg.color = redMsg;
+					lineEstimator.updateTerms(ptMsg.x, ptMsg.y);
+				} else {
+					// Non obstacle points are in green
+					ptMsg.color = greenMsg;
+				}
 			} else {
-				obsDetectBack = false;
+				if (obsDetectBack) {
+					// Obstacle points are in red
+					ptMsg.color = redMsg;
+					lineEstimator.updateTerms(ptMsg.x, ptMsg.y);
+				} else {
+					// Non obstacle points are in green
+					ptMsg.color = greenMsg;
+				}
 			}
+
+			guiPtPub.publish(ptMsg);
+
+			// 3.6 Linear Filter Stuff
+			// Updating and replotting line
+
+			GUILineMsg lineMsg = new GUILineMsg();
+			lineMsg.lineA = lineEstimator.getA();
+			lineMsg.lineB = lineEstimator.getB();
+			lineMsg.lineC = lineEstimator.getC();
+			// System.out.println("A term " + lineMsg.lineA);
+			// System.out.println("B term " + lineMsg.lineB);
+			// System.out.println("C term " + lineMsg.lineC);
+			lineMsg.color = redMsg;
+			guiLinePub.publish(lineMsg);
+
+
 		}
-
-		// 3.5 plotting the location of each sonar ping in the world frame
-
-		GUIPointMsg ptMsg = new GUIPointMsg();
-		// System.out.println("Robot X: " + robotX);
-		// System.out.println("Robot Y: " + robotY);
-		// System.out.println("Robot Theta: " + robotTheta);
-
-		if (message.isFront) {
-			// System.out.println("Front Range " + message.range);
-			// X and Y components of the sonar are flipped in the new coordinate
-			// frame, then rotate by theta
-			ptMsg.x = robotX + Math.cos(robotTheta) * FRONT_SONAR_Y
-					- Math.sin(robotTheta) * (message.range - FRONT_SONAR_X);
-			ptMsg.y = robotY + Math.sin(robotTheta) * FRONT_SONAR_Y
-					+ Math.cos(robotTheta) * (message.range - FRONT_SONAR_X);
-			// Readings from the front sensor are red
-			ptMsg.color = redMsg;
-			// System.out.println("Front Point X Coord: " + ptMsg.x);
-			// System.out.println("Front Point Y Coord: " + ptMsg.y);
-
-		} else {
-			// System.out.println("Back Range " + message.range);
-
-			// X and Y components of the sonar are flipped in the new coordinate
-			// frame, then rotate by theta
-			ptMsg.x = robotX + Math.cos(robotTheta) * BACK_SONAR_Y
-					- Math.sin(robotTheta) * (message.range - BACK_SONAR_X);
-			ptMsg.y = robotY + Math.sin(robotTheta) * BACK_SONAR_Y
-					+ Math.cos(robotTheta) * (message.range - BACK_SONAR_X);
-
-			// Readings from the back sensor are blue
-			ptMsg.color = blueMsg;
-			// System.out.println("Back Point X Coord: " + ptMsg.x);
-			// System.out.println("Back Point Y Coord: " + ptMsg.y);
-		}
-
-		// guiPtPub.publish(ptMsg);
-
-		// // Publishing the robot's current position
-		// GUIPointMsg botMsg = new GUIPointMsg();
-		// botMsg.x = robotX;
-		// botMsg.y = robotY;
-		// botMsg.color = greenMsg;
-		// guiPtPub.publish(botMsg);
-
-		// 3.5 Plotting non obstacles and obstacle points
-		// System.out.println(message.range);
-		// May need to also check if the range is 0 which may be for infinite
-		// distance
-		if (message.isFront) {
-			if (obsDetectFront) {
-				// Obstacle points are in red
-				ptMsg.color = redMsg;
-				lineEstimator.updateTerms(ptMsg.x, ptMsg.y);
-			} else {
-				// Non obstacle points are in green
-				ptMsg.color = greenMsg;
-			}
-		} else {
-			if (obsDetectBack) {
-				// Obstacle points are in red
-				ptMsg.color = redMsg;
-				lineEstimator.updateTerms(ptMsg.x, ptMsg.y);
-			} else {
-				// Non obstacle points are in green
-				ptMsg.color = greenMsg;
-			}
-		}
-
-		guiPtPub.publish(ptMsg);
-
-		// 3.6 Linear Filter Stuff
-		// Updating and replotting line
-
-		GUILineMsg lineMsg = new GUILineMsg();
-		lineMsg.lineA = lineEstimator.getA();
-		lineMsg.lineB = lineEstimator.getB();
-		lineMsg.lineC = lineEstimator.getC();
-		// System.out.println("A term " + lineMsg.lineA);
-		// System.out.println("B term " + lineMsg.lineB);
-		// System.out.println("C term " + lineMsg.lineC);
-		lineMsg.color = redMsg;
-		guiLinePub.publish(lineMsg);
 
 		// 4.1
 		if (state == State.BACKING_UP) {
