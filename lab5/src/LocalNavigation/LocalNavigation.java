@@ -62,7 +62,7 @@ public class LocalNavigation implements NodeMain {
 	public final double SONAR_DIST = Math.sqrt((FRONT_SONAR_X - BACK_SONAR_X)
 			* (FRONT_SONAR_X - BACK_SONAR_X) - (FRONT_SONAR_Y - BACK_SONAR_Y)
 			* (FRONT_SONAR_Y - BACK_SONAR_Y)); // distance between the sonars in
-												// meters
+	// meters
 
 	// Obstacle Threshold segmenting obstacle points and non-obstacle points
 	public final double threshold = 0.5; // in meters
@@ -94,15 +94,15 @@ public class LocalNavigation implements NodeMain {
 
 	// Velocity Constants
 	public final double VERY_SLOW_FWD = 0.1; // slow forward translational
-												// velocity
+	// velocity
 	public final double SLOW_FWD = 0.15; // slow forward translational velocity
 	public final double SLOW_REV = -SLOW_FWD; // slow backwards translational
-												// velocity
+	// velocity
 	public final double MED_FWD = 0.2; // slow forward translational velocity
 
 	public final double FAST_FWD = 0.5; // fast forward translational velocity
 	public final double FAST_REV = -FAST_FWD; // fast backwards translational
-												// velocity
+	// velocity
 	public final double SLOW_CCW = 0.15; // slow ccw rotational velocity
 	public final double MED_CCW = 0.25; // slow ccw rotational velocity
 
@@ -120,10 +120,9 @@ public class LocalNavigation implements NodeMain {
 
 	public LocalNavigation() {
 		// This is where you tell the robot which state you want the robot to
-		// initialize to
-		setState(State.wiki_part);
+		// initialize to//setState(State.wiki_part);
 
-//		setState(State.ALIGN_ON_BUMP);
+		setState(State.ALIGN_ON_BUMP);
 		generateColorMsgs();
 
 		stopMsg = new MotionMsg();
@@ -162,8 +161,8 @@ public class LocalNavigation implements NodeMain {
 
 						// Bumper Data
 						leftBumper = message.gripper;// something is wrong with
-														// port 0 (left). it
-														// only prints true
+						// port 0 (left). it
+						// only prints true
 						rightBumper = message.right;
 
 						// // 3.2 Stop Robot when state == STOP_ON_BUMP and
@@ -235,8 +234,8 @@ public class LocalNavigation implements NodeMain {
 							// based on error from distance offset
 							double error = distanceOffset
 									- getDist(robotX, robotY, alignedBotX,
-											alignedBotY); // TODO: double check
-															// this calculation
+									alignedBotY); // TODO: double check
+							// this calculation
 							if (error > 0.01) {
 								double reverseGain = 1.0;
 
@@ -360,15 +359,15 @@ public class LocalNavigation implements NodeMain {
 				});
 
 		// For 3.5
-//		 Robot.resetRobotBase();
-//		 Robot.setVelocity(0.0, 0.0);
-//		 motionPub.publish(stopMsg);
+		// Robot.resetRobotBase();
+		// Robot.setVelocity(0.0, 0.0);
+		// motionPub.publish(stopMsg);
 	}
 
 	/**
 	 * Handles the sonar message as both sonars utilize pretty much the same
 	 * logic at least for now
-	 * 
+	 *
 	 * @param message
 	 * @param frontSonar
 	 *            whether the sonar is the front sonar
@@ -377,115 +376,108 @@ public class LocalNavigation implements NodeMain {
 
 		if (state == State.wiki_part) {
 
+		}
 
-			if (message.range < threshold) {
-
-				if (message.isFront) {
-					frontSonarDist = message.range;
-					obsDetectFront = true;
-				} else {
-					backSonarDist = message.range;
-					obsDetectBack = true;
-				}
-			} else {
-				if (message.isFront) {
-					obsDetectFront = false;
-				} else {
-					obsDetectBack = false;
-				}
-			}
-
-			// 3.5 plotting the location of each sonar ping in the world frame
-
-			GUIPointMsg ptMsg = new GUIPointMsg();
-			// System.out.println("Robot X: " + robotX);
-			// System.out.println("Robot Y: " + robotY);
-			// System.out.println("Robot Theta: " + robotTheta);
+		if (message.range < threshold) {
 
 			if (message.isFront) {
-				// System.out.println("Front Range " + message.range);
-				// X and Y components of the sonar are flipped in the new coordinate
-				// frame, then rotate by theta
-				ptMsg.x = robotX + Math.cos(robotTheta) * FRONT_SONAR_Y
-						- Math.sin(robotTheta) * (message.range - FRONT_SONAR_X);
-				ptMsg.y = robotY + Math.sin(robotTheta) * FRONT_SONAR_Y
-						+ Math.cos(robotTheta) * (message.range - FRONT_SONAR_X);
-				// Readings from the front sensor are red
+				frontSonarDist = message.range;
+				obsDetectFront = true;
+			} else {
+				backSonarDist = message.range;
+				obsDetectBack = true;
+			}
+		} else {
+			if (message.isFront) {
+				obsDetectFront = false;
+			} else {
+				obsDetectBack = false;
+			}
+		}
+
+		// 3.5 plotting the location of each sonar ping in the world frame
+
+		GUIPointMsg ptMsg = new GUIPointMsg();
+		// System.out.println("Robot X: " + robotX);
+		// System.out.println("Robot Y: " + robotY);
+		// System.out.println("Robot Theta: " + robotTheta);
+
+		if (message.isFront) {
+			// System.out.println("Front Range " + message.range);
+			// X and Y components of the sonar are flipped in the new coordinate
+			// frame, then rotate by theta
+			ptMsg.x = robotX + Math.cos(robotTheta) * FRONT_SONAR_Y
+					- Math.sin(robotTheta) * (message.range - FRONT_SONAR_X);
+			ptMsg.y = robotY + Math.sin(robotTheta) * FRONT_SONAR_Y
+					+ Math.cos(robotTheta) * (message.range - FRONT_SONAR_X);
+			// Readings from the front sensor are red
+			ptMsg.color = redMsg;
+			// System.out.println("Front Point X Coord: " + ptMsg.x);
+			// System.out.println("Front Point Y Coord: " + ptMsg.y);
+
+		} else {
+			// System.out.println("Back Range " + message.range);
+
+			// X and Y components of the sonar are flipped in the new coordinate
+			// frame, then rotate by theta
+			ptMsg.x = robotX + Math.cos(robotTheta) * BACK_SONAR_Y
+					- Math.sin(robotTheta) * (message.range - BACK_SONAR_X);
+			ptMsg.y = robotY + Math.sin(robotTheta) * BACK_SONAR_Y
+					+ Math.cos(robotTheta) * (message.range - BACK_SONAR_X);
+
+			// Readings from the back sensor are blue
+			ptMsg.color = blueMsg;
+			// System.out.println("Back Point X Coord: " + ptMsg.x);
+			// System.out.println("Back Point Y Coord: " + ptMsg.y);
+		}
+
+		 guiPtPub.publish(ptMsg);
+
+		// // Publishing the robot's current position
+		// GUIPointMsg botMsg = new GUIPointMsg();
+		// botMsg.x = robotX;
+		// botMsg.y = robotY;
+		// botMsg.color = greenMsg;
+		// guiPtPub.publish(botMsg);
+
+		// 3.5 Plotting non obstacles and obstacle points
+		// System.out.println(message.range);
+		// May need to also check if the range is 0 which may be for infinite
+		// distance
+		if (message.isFront) {
+			if (obsDetectFront) {
+				// Obstacle points are in red
 				ptMsg.color = redMsg;
-				// System.out.println("Front Point X Coord: " + ptMsg.x);
-				// System.out.println("Front Point Y Coord: " + ptMsg.y);
-
+				lineEstimator.updateTerms(ptMsg.x, ptMsg.y);
 			} else {
-				// System.out.println("Back Range " + message.range);
-
-				// X and Y components of the sonar are flipped in the new coordinate
-				// frame, then rotate by theta
-				ptMsg.x = robotX + Math.cos(robotTheta) * BACK_SONAR_Y
-						- Math.sin(robotTheta) * (message.range - BACK_SONAR_X);
-				ptMsg.y = robotY + Math.sin(robotTheta) * BACK_SONAR_Y
-						+ Math.cos(robotTheta) * (message.range - BACK_SONAR_X);
-
-				// Readings from the back sensor are blue
+				// Non obstacle points are in green
+				ptMsg.color = greenMsg;
+			}
+		} else {
+			if (obsDetectBack) {
+				// Obstacle points are in red
 				ptMsg.color = blueMsg;
-				// System.out.println("Back Point X Coord: " + ptMsg.x);
-				// System.out.println("Back Point Y Coord: " + ptMsg.y);
-			}
-			guiPtPub.publish(ptMsg);
-		}
-
-		if (state == null) {
-			// guiPtPub.publish(ptMsg);
-
-			// // Publishing the robot's current position
-			// GUIPointMsg botMsg = new GUIPointMsg();
-			// botMsg.x = robotX;
-			// botMsg.y = robotY;
-			// botMsg.color = greenMsg;
-			// guiPtPub.publish(botMsg);
-
-			// 3.5 Plotting non obstacles and obstacle points
-			// System.out.println(message.range);
-			// May need to also check if the range is 0 which may be for infinite
-			// distance
-			if (message.isFront) {
-				if (obsDetectFront) {
-					// Obstacle points are in red
-					ptMsg.color = redMsg;
-					lineEstimator.updateTerms(ptMsg.x, ptMsg.y);
-				} else {
-					// Non obstacle points are in green
-					ptMsg.color = greenMsg;
-				}
+				lineEstimator.updateTerms(ptMsg.x, ptMsg.y);
 			} else {
-				if (obsDetectBack) {
-					// Obstacle points are in red
-					ptMsg.color = redMsg;
-					lineEstimator.updateTerms(ptMsg.x, ptMsg.y);
-				} else {
-					// Non obstacle points are in green
-					ptMsg.color = greenMsg;
-				}
+				// Non obstacle points are in green
+				ptMsg.color = greenMsg;
 			}
-
-			guiPtPub.publish(ptMsg);
-
-			// 3.6 Linear Filter Stuff
-			// Updating and replotting line
-
-			/* line estimation commented out for front and back sonar pings
-
-			GUILineMsg lineMsg = new GUILineMsg();
-			lineMsg.lineA = lineEstimator.getA();
-			lineMsg.lineB = lineEstimator.getB();
-			lineMsg.lineC = lineEstimator.getC();
-			// System.out.println("A term " + lineMsg.lineA);
-			// System.out.println("B term " + lineMsg.lineB);
-			// System.out.println("C term " + lineMsg.lineC);
-			lineMsg.color = redMsg;
-			guiLinePub.publish(lineMsg);
-*/
-
 		}
+
+		guiPtPub.publish(ptMsg);
+
+		// 3.6 Linear Filter Stuff
+		// Updating and replotting line
+
+		GUILineMsg lineMsg = new GUILineMsg();
+		lineMsg.lineA = lineEstimator.getA();
+		lineMsg.lineB = lineEstimator.getB();
+		lineMsg.lineC = lineEstimator.getC();
+		// System.out.println("A term " + lineMsg.lineA);
+		// System.out.println("B term " + lineMsg.lineB);
+		// System.out.println("C term " + lineMsg.lineC);
+		lineMsg.color = redMsg;
+		guiLinePub.publish(lineMsg);
 
 		// 4.1
 		if (state == State.BACKING_UP) {
@@ -561,7 +553,7 @@ public class LocalNavigation implements NodeMain {
 				double rotGain = 0.0125;
 
 				double transError = calculateTranslationalError(); // distance
-																	// to wall
+				// to wall
 				double orientError = calculateRotationalError();// angle to wall
 
 				MotionMsg msg = new MotionMsg();
@@ -609,7 +601,7 @@ public class LocalNavigation implements NodeMain {
 
 	private double calculateRotationalError() {
 		double sonarSensorsSeparationDistance = .30; // the sonars are 30 cm
-														// apart
+		// apart
 		double expectedTheta = 0.0;
 		// according to some blackboard geometry, we found a relationship
 		// between the two sonar distances, the distance
@@ -627,7 +619,7 @@ public class LocalNavigation implements NodeMain {
 
 	/**
 	 * Set the state and publish the new state to the /rss/state topic
-	 * 
+	 *
 	 * @param newState
 	 */
 	public void setState(State newState) {
@@ -649,7 +641,7 @@ public class LocalNavigation implements NodeMain {
 
 	/**
 	 * Returns the distance between two points
-	 * 
+	 *
 	 * @param pt1X
 	 *            the x coordinate of point 1
 	 * @param pt1Y
