@@ -376,7 +376,7 @@ public class LocalNavigation implements NodeMain {
 
 		if (state == State.wiki_part) {
 
-
+		}
 
 		if (message.range < threshold) {
 
