@@ -126,7 +126,7 @@ public class LocalNavigation implements NodeMain {
 		generateColorMsgs();
 
 		stopMsg = new MotionMsg();
-		stopMsg.translationalVelocity = STOP;
+		stopMsg.translationalVelocity = SLOW_FWD;
 		stopMsg.rotationalVelocity = STOP;
 
 		dataLogger = new FileLogger(
