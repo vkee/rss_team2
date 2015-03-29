@@ -89,7 +89,7 @@ public class LocalNavigation implements NodeMain {
 	public LineEstimator lineEstimator = new LineEstimator();
 
 	public enum State {
-		wiki_part, STOP_ON_BUMP, ALIGN_ON_BUMP, ALIGNING, ALIGNED, REVERSING, REVERSE_STOP, ROTATING, ROTATE_STOP, ALIGNED_AND_ROTATED, BACKING_UP, FINDING_WALL, TRACKING_WALL, WALL_ENDED, DONE
+		WIKI, STOP_ON_BUMP, ALIGN_ON_BUMP, ALIGNING, ALIGNED, REVERSING, REVERSE_STOP, ROTATING, ROTATE_STOP, ALIGNED_AND_ROTATED, BACKING_UP, FINDING_WALL, TRACKING_WALL, WALL_ENDED, DONE
 	}
 
 	// Velocity Constants
@@ -122,7 +122,7 @@ public class LocalNavigation implements NodeMain {
 		// This is where you tell the robot which state you want the robot to
 		// initialize to//setState(State.wiki_part);
 
-		setState(State.FINDING_WALL);
+		setState(State.WIKI);
 		generateColorMsgs();
 
 		stopMsg = new MotionMsg();
@@ -359,9 +359,9 @@ public class LocalNavigation implements NodeMain {
 				});
 
 		// For 3.5
-		// Robot.resetRobotBase();
-		// Robot.setVelocity(0.0, 0.0);
-		// motionPub.publish(stopMsg);
+		 Robot.resetRobotBase();
+		 Robot.setVelocity(0.0, 0.0);
+		 motionPub.publish(stopMsg);
 	}
 
 	/**
