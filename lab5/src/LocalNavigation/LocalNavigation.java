@@ -122,7 +122,7 @@ public class LocalNavigation implements NodeMain {
 		// This is where you tell the robot which state you want the robot to
 		// initialize to//setState(State.wiki_part);
 
-		setState(State.ALIGN_ON_BUMP);
+		setState(State.FINDING_WALL);
 		generateColorMsgs();
 
 		stopMsg = new MotionMsg();
@@ -130,7 +130,7 @@ public class LocalNavigation implements NodeMain {
 		stopMsg.rotationalVelocity = STOP;
 
 		dataLogger = new FileLogger(
-				"/home/rss-student/RSS-I-group/lab5/docs/data_triangle2.txt");
+				"/home/rss-student/RSS-I-group/lab5/docs/obstacle_modeling.txt");
 
 	}
 
@@ -374,9 +374,6 @@ public class LocalNavigation implements NodeMain {
 	 */
 	public void sonarHandler(org.ros.message.rss_msgs.SonarMsg message) {
 
-		if (state == State.wiki_part) {
-
-		}
 
 		if (message.range < threshold) {
 
