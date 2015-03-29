@@ -476,6 +476,18 @@ public class LocalNavigation implements NodeMain {
 		lineMsg.color = redMsg;
 		guiLinePub.publish(lineMsg);
 
+
+		// 3.5
+		if (state == State.WIKI) {
+				// back up slowly and track the wall
+				MotionMsg msg = new MotionMsg();
+				msg.translationalVelocity = SLOW_FWD;
+				msg.rotationalVelocity = STOP;
+				motionPub.publish(msg);
+
+				System.out.println("State: " + state);
+		}
+
 		// 4.1
 		if (state == State.BACKING_UP) {
 			if (obsDetectFront || obsDetectBack) {
