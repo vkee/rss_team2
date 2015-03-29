@@ -515,7 +515,7 @@ public class LocalNavigation implements NodeMain {
 				System.out.println("Old State: " + state);
 				setState(State.TRACKING_WALL);
 				System.out.println("New State: " + state);
-				// TODO current robot pose and sonar readings store in fields
+				// current robot pose and sonar readings store in fields
 				startWallX = robotX;
 				startWallY = robotY;
 				startWallTheta = robotTheta;
@@ -620,7 +620,8 @@ public class LocalNavigation implements NodeMain {
 	}
 
 	private double calculateTranslationalError() {
-		double expectedSonarRange = 0.4;
+//		double expectedSonarRange = 0.4;
+		double expectedSonarRange = distanceOffset;
 		double averageSonarRange = (backSonarDist + frontSonarDist) / 2.0;
 		return expectedSonarRange - averageSonarRange;
 	}
