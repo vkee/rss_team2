@@ -359,8 +359,8 @@ public class LocalNavigation implements NodeMain {
 				});
 
 		// For 3.5
-		 Robot.resetRobotBase();
-		 Robot.setVelocity(0.0, 0.0);
+//		 Robot.resetRobotBase();
+//		 Robot.setVelocity(0.0, 0.0);
 		 motionPub.publish(stopMsg);
 	}
 
