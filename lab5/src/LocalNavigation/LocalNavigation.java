@@ -122,15 +122,15 @@ public class LocalNavigation implements NodeMain {
 		// This is where you tell the robot which state you want the robot to
 		// initialize to//setState(State.wiki_part);
 
-		setState(State.WIKI);
+		setState(State.FINDING_WALL);
 		generateColorMsgs();
 
 		stopMsg = new MotionMsg();
-		stopMsg.translationalVelocity = SLOW_FWD;
+		stopMsg.translationalVelocity = STOP;
 		stopMsg.rotationalVelocity = STOP;
 
 		dataLogger = new FileLogger(
-				"/home/rss-student/RSS-I-group/lab5/docs/obstacle_modeling.txt");
+				"/home/rss-student/RSS-I-group/lab5/docs/SonarGUI/measuringPerformance1.txt");
 
 	}
 
@@ -479,7 +479,6 @@ public class LocalNavigation implements NodeMain {
 
 		// 3.5
 		if (state == State.WIKI) {
-				// back up slowly and track the wall
 				MotionMsg msg = new MotionMsg();
 				msg.translationalVelocity = SLOW_FWD;
 				msg.rotationalVelocity = STOP;
