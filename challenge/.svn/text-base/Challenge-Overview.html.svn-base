@@ -1,0 +1,350 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>6.141/16.405J - Robotics: Science and Systems I (Spring 2015) - Grand Challenge</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<!-- When modifying this template, search & replace both 'TITLE GOES HERE'. -->
+<!-- Then search for 'indexfillhere' and put filler there. -->
+</head>
+
+<body bgcolor="#ffffff" link="#035d8a" text="#000000" vlink="#035d8a">
+<br>
+<center>
+<table border="0" cellpadding="3" cellspacing="0" width="100%">
+  <tbody>
+    <tr>
+      <td>
+      <table width="100%">
+        <tbody>
+          <tr>
+            <td>
+            <h1>6.141/16.405J Spring 2015</h1>
+            </td>
+            <td align="right">
+            <h1>Robotics: Science and Systems I </h1>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+          <tr>
+            <td valign="top" width="140">
+            <table border="0" cellpadding="0" cellspacing="0" width="165">
+              <tbody>
+                <tr>
+                  <td>
+                  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                      <tr>
+                        <td> <br>
+                        </td>
+                        <td bgcolor="#006699" width="100%"> 
+			   <b><font color="#ffffff" size="2">Course Information</font></b> 
+			</td>
+                        <td align="right"> <br>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" valign="top">
+                  <table bgcolor="#006699" border="0" cellpadding="1" cellspacing="0" width="100%">
+                    <tbody>
+                      <tr>
+                        <td width="100%">
+                        <table style="width: 200px; height: 150px;" bgcolor="#006699" border="0" cellpadding="4" cellspacing="0">
+                          <tbody>
+                            <tr>
+                              <td bgcolor="#ffffe6" valign="top" width="100%"> 
+			      <a href="../../index.html#0" style="text-decoration: none;">[RSS home]</a><br>
+                              <br>
+                              <a href="../Course-Staff-Details.html">Course Staff</a><br>
+                              <a href="../Course-Staff-Details.html#1">Course Details</a><br>
+                              <a href="../Resources.html">Resources</a><br>
+                              <a href="../syllabus.html">Syllabus & Lecture Handouts</a><br>
+                              <a href="http://projects.csail.mit.edu/rss/wiki/index.php/Main_Page">Wiki</a><br>
+                              <a href="../../index.html#2">Acknowledgements</a><br>
+			      </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" valign="bottom"> <br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <table border="0" cellpadding="0" cellspacing="0" width="165">
+              <tbody>
+                <tr>
+                  <td>
+                  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                      <tr>
+                        <td> <br>
+                        </td>
+                        <td bgcolor="#006699" width="100%"> 
+			  <b><font color="#ffffff" size="2">Challenge and Debate Info</font></b>
+                        </td>
+                        <td align="right"> <br>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" valign="top">
+                  <table bgcolor="#006699" border="0" cellpadding="1" cellspacing="0" width="100%">
+                    <tbody>
+                      <tr>
+                        <td width="100%">
+                        <table style="width: 200px; height: 50px;" bgcolor="#006699" border="0" cellpadding="4" cellspacing="0">
+                          <tbody>
+                            <tr>
+                              <td bgcolor="#ffffe6" valign="top" width="100%"> 
+				 <a href="#0">Grand Challenge</a><br>
+			         <a href="../debates/Debates.html">Course Debates</a>
+			      </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" valign="bottom"> <br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <table border="0" cellpadding="0" cellspacing="0" width="165">
+              <tbody>
+                <tr>
+                  <td>
+                  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                      <tr>
+                        <td> <br>
+                        </td>
+                        <td bgcolor="#006699" width="100%"> 
+			  <b><font color="#ffffff" size="2">Lab Information</font></b>
+                        </td>
+                        <td align="right"> <br>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" valign="top">
+                  <table bgcolor="#006699" border="0" cellpadding="1" cellspacing="0" width="100%">
+                    <tbody>
+                      <tr>
+                        <td width="100%">
+                        <table style="width: 200px; height: 50px;" bgcolor="#006699" border="0" cellpadding="4" cellspacing="0">
+                          <tbody>
+                            <tr>
+                              <td bgcolor="#ffffe6" valign="top" width="100%"> 
+				<a href="../labs/Lab-Handouts.html">Lab Handouts</a><br>
+                                <a href="https://courses.csail.mit.edu/rss/wiki/index.php?title=Main_Page#Lab_Staffing_Hours">Lab Staffing Schedule</a><br>
+			      </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" valign="bottom"> <br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <table border="0" cellpadding="0" cellspacing="0" width="165">
+              <tbody>
+                <tr>
+                  <td>
+                  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tbody>
+                      <tr>
+                        <td> <br>
+                        </td>
+                        <td bgcolor="#006699" width="100%"> 
+			  <b><font color="#ffffff" size="2">Staff</font></b>
+                        </td>
+                        <td align="right"> <br>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" valign="top">
+                  <table bgcolor="#006699" border="0" cellpadding="1" cellspacing="0" width="100%">
+                    <tbody>
+                      <tr>
+                        <td width="100%">
+                        <table style="width: 200px; height: 50px;" bgcolor="#006699" border="0" cellpadding="4" cellspacing="0">
+                          <tbody>
+                            <tr>
+                              <td bgcolor="#ffffe6" valign="top" width="100%"> 
+				<a href="../../priv/Staff-Pages.html">Staff only pages (short list)</a> 
+			      </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" valign="bottom"> <br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            </td>
+            <td>&nbsp;  </td>
+            <td valign="top" width="100%">
+            <table bgcolor="#006699" border="0" cellpadding="0" cellspacing="1" width="100%">
+              <tbody>
+                <tr>
+                  <td>
+                  <table bgcolor="#ffffe6" border="0" cellpadding="8" cellspacing="1" width="100%">
+                    <tbody>
+                      <tr>
+                        <td>
+                        <center><font class="title"><b>6.141/16.405J - RSS Grand Challenge</b></font></center>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <table bgcolor="#006699" border="0" cellpadding="0" cellspacing="1" width="100%">
+              <tbody>
+                <tr>
+                  <td>
+                  <table bgcolor="#ffffe6" border="0" cellpadding="8" cellspacing="1" width="100%">
+                    <tbody>
+                      <tr>
+                        <td><!-- title = RSS Grand Challenge -->
+                        <p>
+			<!-- startindexfillhere -->
+<p>
+<b>GATHER MATERIALS AND BUILD A SHELTER ON MARS</b><br>
+<p>
+			  Robots today have been used successfully in many
+			  domains, from exploring Mars and finding evidence of
+			  water, to mapping the health of coral reefs, to
+			  assisting long-distance drivers, to assembling cars.
+			  In our course we will pursue a Grand Challenge approach
+			  to robotics and create new robot bodies and brains. We
+			  are motivated by tasks at the frontier of today's
+			  robotic capabilities. We will develop solutions for
+			  these tasks that are grounded in state-of-the-art
+			  algorithms and systems science for robots. We will
+			  implement these solutions and test them using a
+			  challenge format.<p>
+
+              Our robots will employ sophisticated techniques for
+			  perception, navigation, and manipulation to cope with
+			  unknown environments, negotiating intricate paths,
+			  adapting their next move to obstacles, finding useful
+			  objects in the environment, and using them to build a
+			  structure. This work will provide our students with the
+			  foundations for creating computer systems that interact
+			  with the physical world, leading the way from PCs to PRs
+			  (personal robots).<p>
+
+			  The grand challenge for this course is to <b>Gather
+			  Materials and Build a Shelter on Mars</b>.  Imagine a
+			  robot delivered to an uncertain location in a remote and
+			  unknown environment such as the surface of Mars, and
+			  given an uncertain prior map of the local terrain.
+			  Imagine further that construction materials, in the form
+			  of distinctively colored blocks in a few discrete sizes,
+			  have been similarly delivered and are scattered around
+			  the landscape.  Some blocks have ended up where intended
+			  (i.e., in known locations), whereas others have ended up
+			  in unknown locations or may have been lost or
+			  destroyed.<p>
+
+              Your goal is to design and implement a robot (both its
+              body and its code) that can move about within its new
+              domain, collect blocks, transport them (all at once, in
+              small batches, or even one at a time) to some
+              autonomously-determined construction location, and
+              assemble them into a primitive shelter.  The shelter may
+              range from a simple low wall, to a multi-level (stacked)
+              wall, to an "L" or "V" shape, to a room-like
+              structure.<p>
+
+			  <p>One or more of elements needed to solve the Challenge
+			  arise in many other robotic mobile manipulation
+			  applications, ranging from autonomous navigation with
+			  dynamic obstacles, coordinated manufacturing, searching
+			  for and rescuing victims at a disaster area, tidying up
+			  a room, clearing the dishes in a cafeteria, delivering
+			  packages in an office environment, and fetching items
+			  from a stockroom or mailroom.<p>
+<p>
+
+CAD models of the arm and claw can be found here: <a href="http://courses.csail.mit.edu/6.141/spring2012/pub/labs/CAD">http://courses.csail.mit.edu/6.141/spring2012/pub/labs/CAD</a> & here: <a href="http://courses.csail.mit.edu/6.141/static/pub/labs/CAD">http://courses.csail.mit.edu/6.141/static/pub/labs/CAD</a> 
+
+
+			<!-- endindexfillhere -->
+                        <br>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left"> <img src="../Staff-Pictures/bryt_mini_021304.jpg" alt="Picture of Bryt Bradley"><br>
+      <a href="mailto:RSS-webmaster@csail.mit.edu">RSS-Webmaster, Bryt Bradley</a></td>
+    </tr>
+  </tbody>
+</table>
+</center>
+</body>
+</html>
