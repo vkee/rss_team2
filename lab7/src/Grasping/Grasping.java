@@ -97,7 +97,7 @@ public class Grasping implements NodeMain {
 	public Grasping() {
 		currState = State.DOWN;
 		gymState = ArmGymState.STOP;
-		graspState = ArmGraspState.STOP;
+		graspState = ArmGraspState.FIND_OBJ;
 
 		// gymState = ArmGymState.INITIALIZE; // gymnastics
 		// graspState = ArmGraspState.INITIALIZE; // gymnastics
