@@ -29,3 +29,5 @@ alias gs='git status' #this overwrites gs for launching ghostscript
 
 
 
+# ------------------------------------------------------
+alias cha='cd /home/rss-student/RSS-I-group/challenge'
