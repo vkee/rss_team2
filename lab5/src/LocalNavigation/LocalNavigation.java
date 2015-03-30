@@ -53,6 +53,9 @@ public class LocalNavigation implements NodeMain {
 	// Distance offset of the robot from the wall, defined as d in the lab
 	private final double distanceOffset = 0.25;
 
+	double sonarSensorsSeparationDistance = .38; // the sonars are 30 cm
+	// apart
+
 	// Offset of the front sonar wrt the robot's origin
 	public final double FRONT_SONAR_X = -0.19; // in meters
 	public final double FRONT_SONAR_Y = 0.06; // in meters
@@ -516,7 +519,7 @@ public class LocalNavigation implements NodeMain {
 				setState(State.TRACKING_WALL);
 				System.out.println("New State: " + state);
 				// current robot pose and sonar readings store in fields
-				startWallX = robotX;
+				startWallX = robotX+FRONT_SONAR_X; // wall starts when front sonar finds something
 				startWallY = robotY;
 				startWallTheta = robotTheta;
 				lineEstimator.resetFilter();
@@ -534,7 +537,9 @@ public class LocalNavigation implements NodeMain {
 				System.out.println("Old State: " + state);
 				setState(State.DONE);
 				System.out.println("New State: " + state);
-				endWallX = robotX;
+				endWallX = robotX+BACK_SONAR_X; // BACK_SONAR_X is negative
+												// and endWallX is evaluated
+												// when back sonar stops detecting wall
 				endWallY = robotY;
 
 				// erase screen
@@ -609,8 +614,7 @@ public class LocalNavigation implements NodeMain {
 	}
 
 	private double calculateRotationalError() {
-		double sonarSensorsSeparationDistance = .30; // the sonars are 30 cm
-		// apart
+
 		double expectedTheta = 0.0;
 		// according to some blackboard geometry, we found a relationship
 		// between the two sonar distances, the distance
