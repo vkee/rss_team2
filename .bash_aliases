@@ -24,7 +24,7 @@ alias gd='git pull'
 alias gp='git push'
 alias ga='git add'
 alias gc='git commit -m'
-alias gl='git log'
+alias gl='git log --pretty=format:"%h %ad%x09%an%x09%s" --date=short' # 2015-03-28
 alias gs='git status' #this overwrites gs for launching ghostscript
 
 
