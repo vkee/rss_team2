@@ -477,7 +477,7 @@ public class LocalNavigation implements NodeMain {
 		// System.out.println("B term " + lineMsg.lineB);
 		// System.out.println("C term " + lineMsg.lineC);
 		lineMsg.color = redMsg;
-		guiLinePub.publish(lineMsg);
+//		guiLinePub.publish(lineMsg);
 
 
 		// 3.5
@@ -519,7 +519,7 @@ public class LocalNavigation implements NodeMain {
 				setState(State.TRACKING_WALL);
 				System.out.println("New State: " + state);
 				// current robot pose and sonar readings store in fields
-				startWallX = robotX+FRONT_SONAR_X; // wall starts when front sonar finds something
+				startWallX = robotX+FRONT_SONAR_Y; // wall starts when front sonar finds something
 				startWallY = robotY;
 				startWallTheta = robotTheta;
 				lineEstimator.resetFilter();
@@ -537,7 +537,7 @@ public class LocalNavigation implements NodeMain {
 				System.out.println("Old State: " + state);
 				setState(State.DONE);
 				System.out.println("New State: " + state);
-				endWallX = robotX+BACK_SONAR_X; // BACK_SONAR_X is negative
+				endWallX = robotX+BACK_SONAR_Y; // BACK_SONAR_X is negative
 												// and endWallX is evaluated
 												// when back sonar stops detecting wall
 				endWallY = robotY;
