@@ -603,18 +603,6 @@ public class LocalNavigation implements NodeMain {
 			msg.rotationalVelocity = 0;
 			motionPub.publish(msg);
 
-			Point line_start = lineEstimator.getPerpendicularPointOnLine(
-					startWallX, startWallY);
-			Point line_end = lineEstimator.getPerpendicularPointOnLine(
-					endWallX, endWallY);
-
-			GUISegmentMsg msg = new GUISegmentMsg();
-			msg.endX = line_start.x;
-			msg.endY = line_start.y;
-			msg.startX = line_end.x;
-			msg.startY = line_end.y;
-			msg.color = blackMsg;
-			guiSegPub.publish(msg);
 
 		}
 
