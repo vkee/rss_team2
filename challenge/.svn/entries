@@ -2,13 +2,13 @@
 
 dir
 3765
-https://svn.csail.mit.edu/rss/data/spring2015/pub/challenge
+https://svn.csail.mit.edu/rss/data/spring2015/pub/labs/Challenge
 https://svn.csail.mit.edu/rss
 
 
 
-2015-02-06T17:16:22.822863Z
-3712
+2014-05-01T01:53:48.705473Z
+3679
 rss-staff
 
 
@@ -26,220 +26,16 @@ rss-staff
 
 4129c0f6-c9f7-0310-837c-ff2a4cd4c6cc
 
-CDE_Assignment-2014-02-07.pdf
+manifest.xml
 file
 
 
 
 
-2015-02-04T18:49:13.386169Z
-00428ed50d9a4f61c5b6cf5c0095db4c
-2014-02-07T17:44:50.363207Z
-3571
-bryt
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-72147
-
-CDE_Assignment-2015-02-06.pdf
-file
-
-
-
-
-2015-02-21T07:29:04.065721Z
-37df6a497678c39a4fea8f237b3734c5
-2015-02-06T17:09:57.549988Z
-3711
-rss-staff
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-45986
-
-CDE_Assignment-2014-02-07.docx
-file
-
-
-
-
-2015-02-04T18:49:13.390167Z
-16766d738e4a84956b17f9406fdac38b
-2014-02-07T17:44:50.363207Z
-3571
-bryt
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-19694
-
-CDE_Assignment-2015-02-06.docx
-file
-
-
-
-
-2015-02-21T07:29:04.065721Z
-d9a9c2129250c91e8dc7970c9d94d4cb
-2015-02-06T17:16:22.822863Z
-3712
-rss-staff
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-20567
-
-challenge_2015.txt
-file
-
-
-
-
-2015-02-04T18:49:13.390167Z
-8117a8987c8d2730d15d8e188ba26c61
-2014-12-29T17:20:10.871806Z
-3689
-nickroy
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3654
-
-Challenge-Overview.html
-file
-
-
-
-
-2015-02-04T18:49:13.390167Z
-91b33f73da5b1b2ba4c225be4db8ddea
-2014-12-29T17:20:10.871806Z
-3689
-nickroy
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-14007
-
-kinect_tutorial.txt
-file
-
-
-
-
-2015-02-04T18:49:13.390167Z
-b773813faa8c5b42996acfd5d79b4bbd
-2014-04-03T12:32:54.975547Z
-3654
+2015-02-04T18:48:29.687812Z
+ce9870868f4384ddf989134d1395d478
+2014-05-01T01:53:48.705473Z
+3679
 rss-staff
 
 
@@ -262,5 +58,82 @@ rss-staff
 
 
 
-1865
+673
+
+src
+dir
+
+docs
+dir
+
+launch
+dir
+
+Makefile
+file
+
+
+
+
+2015-02-04T18:48:29.687812Z
+bd0ec27c9b7eb52a7c0949dd16cf1974
+2014-05-01T01:53:48.705473Z
+3679
+rss-staff
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+58
+
+build.xml
+file
+
+
+
+
+2015-02-04T18:48:29.687812Z
+752df21ccd242379bc876c7e37c41b3a
+2014-05-01T01:53:48.705473Z
+3679
+rss-staff
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1676
 

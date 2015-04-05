@@ -7,6 +7,7 @@
 	<classpathentry kind="src" path="uorc_publisher/src"/>
 	<classpathentry kind="src" path="lab6/src"/>
 	<classpathentry kind="src" path="lab7/src"/>
+	<classpathentry kind="src" path="R2DTeam"/>
 	<classpathentry kind="lib" path="lab4/target/org.ros.rss.lab4-0.0.jar"/>
 	<classpathentry kind="lib" path="lab5/target/lab5-0.0.jar"/>
 	<classpathentry kind="lib" path="odometry/target/odometry-0.0.jar"/>

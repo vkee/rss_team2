@@ -1,47 +1,23 @@
 K 25
 svn:wc:ra_dav:version-url
-V 48
-/rss/!svn/ver/3712/data/spring2015/pub/challenge
+V 53
+/rss/!svn/ver/3688/data/spring2015/pub/labs/Challenge
 END
-CDE_Assignment-2014-02-07.pdf
+manifest.xml
 K 25
 svn:wc:ra_dav:version-url
-V 78
-/rss/!svn/ver/3688/data/spring2015/pub/challenge/CDE_Assignment-2014-02-07.pdf
+V 66
+/rss/!svn/ver/3688/data/spring2015/pub/labs/Challenge/manifest.xml
 END
-CDE_Assignment-2015-02-06.pdf
+Makefile
 K 25
 svn:wc:ra_dav:version-url
-V 78
-/rss/!svn/ver/3711/data/spring2015/pub/challenge/CDE_Assignment-2015-02-06.pdf
+V 62
+/rss/!svn/ver/3688/data/spring2015/pub/labs/Challenge/Makefile
 END
-CDE_Assignment-2014-02-07.docx
+build.xml
 K 25
 svn:wc:ra_dav:version-url
-V 79
-/rss/!svn/ver/3688/data/spring2015/pub/challenge/CDE_Assignment-2014-02-07.docx
-END
-CDE_Assignment-2015-02-06.docx
-K 25
-svn:wc:ra_dav:version-url
-V 79
-/rss/!svn/ver/3712/data/spring2015/pub/challenge/CDE_Assignment-2015-02-06.docx
-END
-challenge_2015.txt
-K 25
-svn:wc:ra_dav:version-url
-V 67
-/rss/!svn/ver/3689/data/spring2015/pub/challenge/challenge_2015.txt
-END
-Challenge-Overview.html
-K 25
-svn:wc:ra_dav:version-url
-V 72
-/rss/!svn/ver/3689/data/spring2015/pub/challenge/Challenge-Overview.html
-END
-kinect_tutorial.txt
-K 25
-svn:wc:ra_dav:version-url
-V 68
-/rss/!svn/ver/3688/data/spring2015/pub/challenge/kinect_tutorial.txt
+V 63
+/rss/!svn/ver/3688/data/spring2015/pub/labs/Challenge/build.xml
 END
