@@ -1,4 +1,4 @@
-package MotionPlanning;
+package src.MotionPlanning;
 
 import java.awt.geom.*;
 import java.io.*;
@@ -493,12 +493,12 @@ public class PolygonMap implements NodeMain {
 			erasePub.publish(new GUIEraseMsg());
 
 			GUIRectMsg rectMsg = new GUIRectMsg();
-			GlobalNavigation.fillRectMsg(rectMsg, getWorldRect(), null, false);
+			CSpaceTest.fillRectMsg(rectMsg, getWorldRect(), null, false);
 			rectPub.publish(rectMsg);
 			GUIPolyMsg polyMsg = new GUIPolyMsg();
 			for (PolygonObstacle obstacle : getObstacles()) {
 				polyMsg = new GUIPolyMsg();
-				GlobalNavigation.fillPolyMsg(polyMsg, obstacle,
+				CSpaceTest.fillPolyMsg(polyMsg, obstacle,
 						MapGUI.makeRandomColor(), true, true);
 				polyPub.publish(polyMsg);
 			}

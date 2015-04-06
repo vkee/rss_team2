@@ -493,12 +493,12 @@ public class PolygonMap implements NodeMain {
 			erasePub.publish(new GUIEraseMsg());
 
 			GUIRectMsg rectMsg = new GUIRectMsg();
-			CSpaceTest.fillRectMsg(rectMsg, getWorldRect(), null, false);
+			GlobalNavigation.fillRectMsg(rectMsg, getWorldRect(), null, false);
 			rectPub.publish(rectMsg);
 			GUIPolyMsg polyMsg = new GUIPolyMsg();
 			for (PolygonObstacle obstacle : getObstacles()) {
 				polyMsg = new GUIPolyMsg();
-				CSpaceTest.fillPolyMsg(polyMsg, obstacle,
+				GlobalNavigation.fillPolyMsg(polyMsg, obstacle,
 						MapGUI.makeRandomColor(), true, true);
 				polyPub.publish(polyMsg);
 			}
