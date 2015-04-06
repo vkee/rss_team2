@@ -21,7 +21,7 @@ import org.ros.message.lab6_msgs.*;
  * Tests the CSpace Module.
  *
  */
-public class CSpaceTest {
+public class CSpaceTest implements NodeMain{
     private Publisher<GUIRectMsg> guiRectPub;
     private Publisher<GUIPolyMsg> guiPolyPub;
     private Publisher<GUIEraseMsg> guiErasePub;
@@ -98,7 +98,7 @@ public class CSpaceTest {
         }
 
         // print border
-        GUIRectMsg rectMsg = new GUIRectMsg();
+        rectMsg = new GUIRectMsg();
         CSpaceTest.fillRectMsg(rectMsg, polyMap.getWorldRect(),
                 Color.BLACK, false);
         guiRectPub.publish(rectMsg);
@@ -114,7 +114,7 @@ public class CSpaceTest {
         ArrayList<PolygonObstacle> obstacles = obsCSpaces.get(cspaceIndex);
         //print cspace around obstacles
         for (PolygonObstacle obstacle : obstacles) {
-            polyMsg = new GUIPolyMsg();
+            GUIPolyMsg polyMsg = new GUIPolyMsg();
             CSpaceTest.fillPolyMsg(polyMsg, obstacle,
                     lightBlue, false, true);
             guiPolyPub.publish(polyMsg);
