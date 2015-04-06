@@ -86,20 +86,20 @@ public class CSpaceTest {
         guiErasePub.publish(new GUIEraseMsg());
 
         GUIRectMsg rectMsg = new GUIRectMsg();
-        GlobalNavigation.fillRectMsg(rectMsg, polyMap.getWorldRect(), null,
+        CSpaceTest.fillRectMsg(rectMsg, polyMap.getWorldRect(), null,
                 false);
         guiRectPub.publish(rectMsg);
         GUIPolyMsg polyMsg = new GUIPolyMsg();
         for (PolygonObstacle obstacle : polyMap.getObstacles()) {
             polyMsg = new GUIPolyMsg();
-            GlobalNavigation.fillPolyMsg(polyMsg, obstacle,
+            CSpaceTest.fillPolyMsg(polyMsg, obstacle,
                     darkBlue, true, true);
             guiPolyPub.publish(polyMsg);
         }
 
         // print border
         GUIRectMsg rectMsg = new GUIRectMsg();
-        GlobalNavigation.fillRectMsg(rectMsg, polyMap.getWorldRect(),
+        CSpaceTest.fillRectMsg(rectMsg, polyMap.getWorldRect(),
                 Color.BLACK, false);
         guiRectPub.publish(rectMsg);
 
@@ -115,7 +115,7 @@ public class CSpaceTest {
         //print cspace around obstacles
         for (PolygonObstacle obstacle : obstacles) {
             polyMsg = new GUIPolyMsg();
-            GlobalNavigation.fillPolyMsg(polyMsg, obstacle,
+            CSpaceTest.fillPolyMsg(polyMsg, obstacle,
                     lightBlue, false, true);
             guiPolyPub.publish(polyMsg);
         }
