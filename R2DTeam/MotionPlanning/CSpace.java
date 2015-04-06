@@ -3,11 +3,6 @@ package MotionPlanning;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.List;
-
-import GlobalNavigation.GeomUtils;
-import GlobalNavigation.PolygonMap;
-import GlobalNavigation.PolygonObstacle;
 
 /**
  * CSpace is part of the MotionPlanning module. It contains methods for dealing with the 3D
@@ -116,13 +111,18 @@ public class CSpace {
      *         to the C-Space obstacles generated for robot's orientation
      *         at index degrees wrt 0
      */
-    public ArrayList<ArrayList<PolygonObstacle>> generateCSpace(PolygonMap polyMap) {
+    public ArrayList<ArrayList<PolygonObstacle>> generateCSpace(PolygonMap polyMap, boolean isTest) {
         ArrayList<ArrayList<PolygonObstacle>> obs3DCSpace = new ArrayList<ArrayList<PolygonObstacle>>();
 
         //        Generating the 2D C-Space for each theta
         for (int i=0; i < NUM_ANGLES; i++) {
             ArrayList<PolygonObstacle> obs2DCSpace = new ArrayList<PolygonObstacle>();
-            
+
+            //            Adding robot obstacle when testing C-Space
+            if (isTest) {
+                obs2DCSpace.add(robotPolys.get(i));
+            }
+
             //            Computing the configuration spaces for each obstacle
             for (PolygonObstacle obstacle : polyMap.getObstacles()) {
                 obs2DCSpace.add(obsCSpace(robotPolys.get(i), obstacle));
@@ -161,10 +161,10 @@ public class CSpace {
             boundaryObs.addVertex(envBounds.getX() + envBounds.getWidth(),
                     envBounds.getY() + envBounds.getHeight());
             obs2DCSpace.add(obsCSpace(robotPolys.get(i), boundaryObs));
-            
+
             obs3DCSpace.add(obs2DCSpace);
         }
-        
+
         return obs3DCSpace;
     }
 }
