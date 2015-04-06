@@ -7,6 +7,9 @@ public Initialize implements FSMState {
 	public Initlialize(FSM stateMachine)
 		{
 		fsm = stateMachine;
+
+		//init any variables for this state
+
 		}	
 
 	
