@@ -1,0 +1,8 @@
+<launch>
+  <include file="$(find lab4)/launch/config.launch" />
+
+  <node name="pub" pkg="rosjava_bootstrap" type="run.py" args="uorc_publisher Publisher" machine="netbook" />
+ 
+  <node name="gui" pkg="rosjava_bootstrap" type="run.py" args="lab7 Grasping.ArmPoseGUI" machine="workstation" output="screen"/>
+
+</launch>
