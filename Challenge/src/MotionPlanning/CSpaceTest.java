@@ -51,7 +51,6 @@ public class CSpaceTest implements NodeMain{
 
     @Override
     public void onStart(Node node) {
-        System.out.println("Here");
 //        // To wait for the GUI
 //        try {
 //            Thread.sleep(1000);

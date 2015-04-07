@@ -4,7 +4,7 @@
      <env name="ROS_HOSTNAME" value="workstation" />
   </machine>
 
-  <node name="gui" pkg="rosjava_bootstrap" type="run.py" args="Challenge Challenge.ConstructionGUI" machine="workstation">
+  <node name="gui" pkg="rosjava_bootstrap" type="run.py" args="Challenge Challenge.ConstructionGUI" machine="workstation" output="screen">
   </node> 	  
 
 </launch>

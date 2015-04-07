@@ -4,8 +4,8 @@
      <env name="ROS_HOSTNAME" value="workstation" />
   </machine>
 
-  <node name="map" pkg="rosjava_bootstrap" type="run.py" args="Challenge Challenge.GrandChallengeMap" machine="workstation">
-  	<param name="mapFileName" value="/home/rss-student/spring2012/priv/labs/Challenge/src/construction_map_2012.txt" />  
+  <node name="map" pkg="rosjava_bootstrap" type="run.py" args="Challenge Challenge.GrandChallengeMap" machine="workstation" output="screen">
+  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/src/construction_map_2012.txt" />  
   </node> 
 
 </launch>
