@@ -20,29 +20,29 @@ public class RRT {
     }
 
     /**
-     * 
+     * Attempts 
      * @param start
      * @param goal
-     * @param tolerance
-     *            : as a percentage of the height and width
+     * @param tolerance as a percentage of the height and width of the entire map
      * @return
      */
     public List<Point2D.Double> getPath(Point2D.Double start,
             Point2D.Double goal, double tolerance) {
 
+        //        Tolerance rectangle around the goal
         Rectangle2D goalRect = new Rectangle2D.Double(goal.x
                 - map.worldRect.width * tolerance / 2, goal.y
                 - map.worldRect.height * tolerance / 2, map.worldRect.width
                 * tolerance, map.worldRect.height * tolerance);
 
-        System.out.println("map width " + map.worldRect.width);
-        System.out.println("map height " + map.worldRect.height);
-        System.out.println("goal Rect width " + goalRect.getWidth());
-        System.out.println("goal Rect height " + goalRect.getHeight());
-        
-        System.out.println("Start Point " + start);
-        System.out.println("Goal Point " + goal);
-        
+        //        Debugging Print Statements
+        System.out.println("Map Width: " + map.worldRect.width);
+        System.out.println("Map Height: " + map.worldRect.height);
+        System.out.println("Goal Rect Width: " + goalRect.getWidth());
+        System.out.println("Goal Rect Height: " + goalRect.getHeight());
+        System.out.println("Start Point: " + start);
+        System.out.println("Goal Point: " + goal);
+
         RRTreeNode treeroot = new RRTreeNode(null, start);
         List<RRTreeNode> nodes = new ArrayList<RRTreeNode>();
         nodes.add(treeroot);
@@ -98,10 +98,10 @@ public class RRT {
             // break;
 
         }
-        
+
         RRTreeNode realGoalNode = new RRTreeNode(goalNode, goal);
         nodes.add(realGoalNode);
-        
+
         // try to connect the new point with the closest point in the tree (run
         // the algorithm david wrote to check if the point intersects any of the
         // obstacles in the map
@@ -133,16 +133,16 @@ public class RRT {
     }
 
     /**
-     * Returns whether the line segment representing the path intersects the obstacle
-     * @param p
-     * @param x1
-     * @param x2
-     * @return
+     * Determines whether the line segment representing the path intersects the obstacle
+     * @param obs the polygon obstacle
+     * @param pt1 the first point of the line segment
+     * @param pt2 the second point of the line segment
+     * @return whether
      */
-    public boolean lineIntersects(PolygonObstacle p, Point2D.Double x1,
-            Point2D.Double x2) {
-        Line2D path = new Line2D.Double(x1.x, x1.y, x2.x, x2.y);
-        List<Point2D.Double> verts = p.getVertices();
+    public boolean lineIntersects(PolygonObstacle obs, Point2D.Double pt1,
+            Point2D.Double pt2) {
+        Line2D path = new Line2D.Double(pt1.x, pt1.y, pt2.x, pt2.y);
+        List<Point2D.Double> verts = obs.getVertices();
         for (int i = 0; i < verts.size(); i++) {
             Point2D.Double point1 = verts.get(i);
             Point2D.Double point2 = verts.get((i + 1) % verts.size());
@@ -157,20 +157,24 @@ public class RRT {
 
 /**
  * RRTreeNode represents a node in a tree running RRT
- *
  */
 class RRTreeNode {
     public RRTreeNode parent;
     public Point2D.Double point;
 
+    /**
+     * Creates an RRTreeNode
+     * @param parentNode the parent node of the current node
+     * @param coord the coordinates of the current node
+     */
     public RRTreeNode(RRTreeNode parentNode, Point2D.Double coord) {
         parent = parentNode;
         point = coord;
     }
 
     /**
-     * Returns the path from the parent
-     * @return
+     * Returns the path to the current node
+     * @return the path
      */
     public List<Point2D.Double> pathFromParent() {
         List<Point2D.Double> pathBack = new ArrayList<Point2D.Double>();
