@@ -16,6 +16,10 @@ import org.ros.namespace.GraphName;
 import org.ros.node.Node;
 import org.ros.message.lab5_msgs.*;
 import org.ros.message.lab6_msgs.*;
+import org.ros.message.Challenge_msgs.*;
+
+import Challenge.GUIEraseMsg;
+import Challenge.GrandChallengeMap;
 
 /**
  * Tests the CSpace Module.
@@ -33,7 +37,7 @@ public class CSpaceTest implements NodeMain{
     private ColorMsg blackMsg;
 
     private String mapFileName;
-    private PolygonMap polyMap;
+    private GrandChallengeMap challengeMap;
     private CSpace cSpace;
     private ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = new ArrayList<ArrayList<PolygonObstacle>>();
 
@@ -51,13 +55,8 @@ public class CSpaceTest implements NodeMain{
 
     @Override
     public void onStart(Node node) {
-//        // To wait for the GUI
-//        try {
-//            Thread.sleep(1000);
-//        } catch (Exception e) {
-//
-//        }
-
+        stringPub = node.newPublisher("gui/String", "Challenge_msgs/GUIStringMessage");
+        ellipsePub = node.newPublisher("/gui/Ellipse", "Challenge_msgs/GUIEllipseMessage");
         guiRectPub = node.newPublisher("gui/Rect", "lab6_msgs/GUIRectMsg");
         guiPolyPub = node.newPublisher("gui/Poly", "lab6_msgs/GUIPolyMsg");
         guiErasePub = node.newPublisher("gui/Erase", "lab5_msgs/GUIEraseMsg");
@@ -66,14 +65,24 @@ public class CSpaceTest implements NodeMain{
         // Reading in a map file whose name is set as the parameter mapFileName
         ParameterTree paramTree = node.newParameterTree();
         mapFileName = paramTree.getString(node.resolveName("~/mapFileName"));
+
+
         try {
-            polyMap = new PolygonMap(mapFileName);
-            obsCSpaces = cSpace.generateCSpace(polyMap, true);
-        } catch (Exception e) {
+            Thread.sleep(2000);
+
+            erasePub.publish(new GUIEraseMsg());
+            Thread.sleep(1000);
+
+            challengeMap = GrandChallengeMap.parseFile(mapFileName);
+            obsCSpaces = cSpace.generateCSpace(challengeMap, true);
+
+            displayMap(); // --Works: Remember to plug into Robot
+            displayMapCSpace();
+        } catch(Exception e){
             System.err.println("Failed trying to load file " + mapFileName);
+            e.printStackTrace();
         }
-        displayMap(); // --Works: Remember to plug into Robot
-        displayMapCSpace();
+
     }
 
     /**
@@ -86,11 +95,11 @@ public class CSpaceTest implements NodeMain{
         guiErasePub.publish(new GUIEraseMsg());
 
         GUIRectMsg rectMsg = new GUIRectMsg();
-        CSpaceTest.fillRectMsg(rectMsg, polyMap.getWorldRect(), null,
+        CSpaceTest.fillRectMsg(rectMsg, challengeMap.getWorldRect(), null,
                 false);
         guiRectPub.publish(rectMsg);
         GUIPolyMsg polyMsg = new GUIPolyMsg();
-        for (PolygonObstacle obstacle : polyMap.getObstacles()) {
+        for (PolygonObstacle obstacle : challengeMap.getObstacles()) {
             polyMsg = new GUIPolyMsg();
             CSpaceTest.fillPolyMsg(polyMsg, obstacle,
                     darkBlue, true, true);
@@ -99,11 +108,11 @@ public class CSpaceTest implements NodeMain{
 
         // print border
         rectMsg = new GUIRectMsg();
-        CSpaceTest.fillRectMsg(rectMsg, polyMap.getWorldRect(),
+        CSpaceTest.fillRectMsg(rectMsg, challengeMap.getWorldRect(),
                 Color.BLACK, false);
         guiRectPub.publish(rectMsg);
 
-        System.out.println(polyMap.getObstacles().size());
+        System.out.println(challengeMap.getObstacles().size());
         System.out.println("Done running displayMap");
     }
 

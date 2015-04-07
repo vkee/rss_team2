@@ -4,6 +4,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import Challenge.GrandChallengeMap;
+
 /**
  * CSpace is part of the MotionPlanning module. It contains methods for dealing with the 3D
  * configuration space of the environment.
@@ -102,7 +104,7 @@ public class CSpace {
     /**
      * Computes the 3D configuration space of the provided map.
      * 
-     * @param polyMap
+     * @param challengeMap
      *            the map of the environment to generate a configuration space
      *            of
      * @return the 3D C-Space obstacles of the map obstacles and the
@@ -110,7 +112,7 @@ public class CSpace {
      *         to the C-Space obstacles generated for robot's orientation
      *         at index degrees wrt 0
      */
-    public ArrayList<ArrayList<PolygonObstacle>> generateCSpace(PolygonMap polyMap, boolean isTest) {
+    public ArrayList<ArrayList<PolygonObstacle>> generateCSpace(GrandChallengeMap challengeMap, boolean isTest) {
         ArrayList<ArrayList<PolygonObstacle>> obs3DCSpace = new ArrayList<ArrayList<PolygonObstacle>>();
 
         //        Generating the 2D C-Space for each theta
@@ -123,12 +125,12 @@ public class CSpace {
             }
 
             //            Computing the configuration spaces for each obstacle
-            for (PolygonObstacle obstacle : polyMap.getObstacles()) {
+            for (PolygonObstacle obstacle : challengeMap.getPolygonObstacles()) {
                 obs2DCSpace.add(obsCSpace(robotPolys.get(i), obstacle));
             }
 
             //            Adding an obstacle for the map boundaries
-            Rectangle2D.Double envBounds = polyMap.worldRect;
+            Rectangle2D.Double envBounds = challengeMap.getWorldRect();
 
             PolygonObstacle boundaryObs = new PolygonObstacle();
 
