@@ -43,7 +43,7 @@ public class CSpaceTest implements NodeMain{
 
     //    Index of the obstacle cspace list to display 
     //    (corresponds to the angle in degrees if num angles is 360)
-    private final int cspaceIndex = 0;
+    private final int cspaceIndex = 90;
 
     public CSpaceTest() {
         cSpace = new CSpace();
