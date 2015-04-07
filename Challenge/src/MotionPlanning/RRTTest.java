@@ -21,19 +21,117 @@ import org.ros.message.Challenge_msgs.*;
 import Challenge.GrandChallengeMap;
 
 /**
- * Tests the RRT Module.
+ * Tests the CSpace Module.
  *
  */
 public class RRTTest implements NodeMain{
+    private Publisher<GUIRectMsg> guiRectPub;
+    private Publisher<GUIPolyMsg> guiPolyPub;
+    private Publisher<GUIEraseMsg> guiErasePub;
+    private Publisher<GUIPointMsg> guiPtPub;
+    private Publisher<Object> ellipsePub;
+    private Publisher<Object> stringPub;
+    
+    private ColorMsg redMsg;
+    private ColorMsg greenMsg;
+    private ColorMsg blueMsg;
+    private ColorMsg blackMsg;
 
-    private CSpaceTest cSpaceTest;
+    private String mapFileName;
+    private GrandChallengeMap challengeMap;
+    private CSpace cSpace;
+    private ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = new ArrayList<ArrayList<PolygonObstacle>>();
+
+    // colors
+    private Color lightBlue = new Color(115,115,230);
+    private Color darkBlue = new Color(50,40,120);
+
+    //    Index of the obstacle cspace list to display 
+    //    (corresponds to the angle in degrees if num angles is 360)
+    private final int cspaceIndex = 90;
 
     public RRTTest() {
-        cSpaceTest = new CSpaceTest();
+        cSpace = new CSpace();
     }
 
     @Override
     public void onStart(Node node) {
+        stringPub = node.newPublisher("gui/String", "Challenge_msgs/GUIStringMessage");
+        ellipsePub = node.newPublisher("/gui/Ellipse", "Challenge_msgs/GUIEllipseMessage");
+        guiRectPub = node.newPublisher("gui/Rect", "lab6_msgs/GUIRectMsg");
+        guiPolyPub = node.newPublisher("gui/Poly", "lab6_msgs/GUIPolyMsg");
+        guiErasePub = node.newPublisher("gui/Erase", "lab5_msgs/GUIEraseMsg");
+        guiPtPub = node.newPublisher("gui/Point", "lab5_msgs/GUIPointMsg");
+
+        // Reading in a map file whose name is set as the parameter mapFileName
+        ParameterTree paramTree = node.newParameterTree();
+        mapFileName = paramTree.getString(node.resolveName("~/mapFileName"));
+
+
+        try {
+            Thread.sleep(2000);
+
+            guiErasePub.publish(new GUIEraseMsg());
+            Thread.sleep(1000);
+
+            challengeMap = GrandChallengeMap.parseFile(mapFileName);
+            obsCSpaces = cSpace.generateCSpace(challengeMap, true);
+
+            displayMap(); // --Works: Remember to plug into Robot
+            displayMapCSpace();
+        } catch(Exception e){
+            System.err.println("Failed trying to load file " + mapFileName);
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Displays all the contents of the map in MapGUI
+     */
+    private void displayMap() {
+
+        // Based on instanceMain in PolygonMap
+        // Erase the GUI
+        guiErasePub.publish(new GUIEraseMsg());
+
+        GUIRectMsg rectMsg = new GUIRectMsg();
+        CSpaceTest.fillRectMsg(rectMsg, challengeMap.getWorldRect(), null,
+                false);
+        guiRectPub.publish(rectMsg);
+        GUIPolyMsg polyMsg = new GUIPolyMsg();
+        for (PolygonObstacle obstacle : challengeMap.getPolygonObstacles()) {
+            polyMsg = new GUIPolyMsg();
+            CSpaceTest.fillPolyMsg(polyMsg, obstacle,
+                    darkBlue, true, true);
+            guiPolyPub.publish(polyMsg);
+        }
+
+        // print border
+        rectMsg = new GUIRectMsg();
+        CSpaceTest.fillRectMsg(rectMsg, challengeMap.getWorldRect(),
+                Color.BLACK, false);
+        guiRectPub.publish(rectMsg);
+
+        System.out.println(challengeMap.getPolygonObstacles().length);
+        System.out.println("Done running displayMap");
+    }
+
+    /**
+     * Displays the configuration space of the environment.
+     */
+    private void displayMapCSpace() {
+        ArrayList<PolygonObstacle> obstacles = obsCSpaces.get(cspaceIndex);
+        //print cspace around obstacles
+        for (PolygonObstacle obstacle : obstacles) {
+            GUIPolyMsg polyMsg = new GUIPolyMsg();
+            CSpaceTest.fillPolyMsg(polyMsg, obstacle,
+                    lightBlue, false, true);
+            guiPolyPub.publish(polyMsg);
+        }
+
+        System.out.println(obsCSpaces.size());
+        System.out.println("Done running displayMapCSpace");
 
     }
 
