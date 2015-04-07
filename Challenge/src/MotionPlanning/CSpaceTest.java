@@ -18,7 +18,6 @@ import org.ros.message.lab5_msgs.*;
 import org.ros.message.lab6_msgs.*;
 import org.ros.message.Challenge_msgs.*;
 
-import Challenge.GUIEraseMsg;
 import Challenge.GrandChallengeMap;
 
 /**
@@ -30,7 +29,9 @@ public class CSpaceTest implements NodeMain{
     private Publisher<GUIPolyMsg> guiPolyPub;
     private Publisher<GUIEraseMsg> guiErasePub;
     private Publisher<GUIPointMsg> guiPtPub;
-
+    private Publisher<Object> ellipsePub;
+    private Publisher<Object> stringPub;
+    
     private ColorMsg redMsg;
     private ColorMsg greenMsg;
     private ColorMsg blueMsg;
@@ -99,7 +100,7 @@ public class CSpaceTest implements NodeMain{
                 false);
         guiRectPub.publish(rectMsg);
         GUIPolyMsg polyMsg = new GUIPolyMsg();
-        for (PolygonObstacle obstacle : challengeMap.getObstacles()) {
+        for (PolygonObstacle obstacle : challengeMap.getPolygonObstacles()) {
             polyMsg = new GUIPolyMsg();
             CSpaceTest.fillPolyMsg(polyMsg, obstacle,
                     darkBlue, true, true);
@@ -112,7 +113,7 @@ public class CSpaceTest implements NodeMain{
                 Color.BLACK, false);
         guiRectPub.publish(rectMsg);
 
-        System.out.println(challengeMap.getObstacles().size());
+        System.out.println(challengeMap.getPolygonObstacles().length);
         System.out.println("Done running displayMap");
     }
 
