@@ -1,0 +1,30 @@
+<launch>
+  <include file="$(find lab4)/launch/config.launch" />
+
+  <node name="nav" pkg="rosjava_bootstrap" type="run.py" args="Challenge MotionPlanning.RRTTest" machine="workstation" output="screen">
+
+<!-- CHANGE DIFFICULTY: rename /global-nav-maze-2011-basic.map / *-med.map / *-hard.map
+ 	<param name="mapFileName" value="/home/rss-student/RSS-I-group/lab6/src/global-nav-maze-2011-basic.map" />
+-->
+<!-- PRACTICE MAZE 1 MAP [ ] screenshot
+  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/lab6/src/practice-maze-01.map" /> 
+--> 
+<!-- GLOBAL NAV MAZE MAP [ ] screenshot
+  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/lab6/src/global-nav-maze.map" /> 
+-->
+<!-- PRACTICE MAZE 1 MAP 
+  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/lab6/src/practice-maze-01.map" /> 
+-->
+<!-- PRACTICE MAZE 2 MAP 
+  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/lab6/src/practice-maze-02.map" /> 
+-->
+<!-- Construction Map 2011
+  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/src/construction_map_2011.txt" />  
+-->
+<!-- Construction Map 2012 -->
+  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/src/construction_map_2012.txt" />  
+<!-- Challenge Map 2012
+  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/src/challenge_2012.txt" />  
+-->
+  </node>
+</launch>

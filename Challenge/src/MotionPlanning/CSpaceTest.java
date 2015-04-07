@@ -25,30 +25,30 @@ import Challenge.GrandChallengeMap;
  *
  */
 public class CSpaceTest implements NodeMain{
-    private Publisher<GUIRectMsg> guiRectPub;
-    private Publisher<GUIPolyMsg> guiPolyPub;
-    private Publisher<GUIEraseMsg> guiErasePub;
-    private Publisher<GUIPointMsg> guiPtPub;
-    private Publisher<Object> ellipsePub;
-    private Publisher<Object> stringPub;
+    protected Publisher<GUIRectMsg> guiRectPub;
+    protected Publisher<GUIPolyMsg> guiPolyPub;
+    protected Publisher<GUIEraseMsg> guiErasePub;
+    protected Publisher<GUIPointMsg> guiPtPub;
+    protected Publisher<Object> ellipsePub;
+    protected Publisher<Object> stringPub;
     
-    private ColorMsg redMsg;
-    private ColorMsg greenMsg;
-    private ColorMsg blueMsg;
-    private ColorMsg blackMsg;
+    protected ColorMsg redMsg;
+    protected ColorMsg greenMsg;
+    protected ColorMsg blueMsg;
+    protected ColorMsg blackMsg;
 
-    private String mapFileName;
-    private GrandChallengeMap challengeMap;
-    private CSpace cSpace;
-    private ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = new ArrayList<ArrayList<PolygonObstacle>>();
+    protected String mapFileName;
+    protected GrandChallengeMap challengeMap;
+    protected CSpace cSpace;
+    protected ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = new ArrayList<ArrayList<PolygonObstacle>>();
 
     // colors
-    private Color lightBlue = new Color(115,115,230);
-    private Color darkBlue = new Color(50,40,120);
+    protected Color lightBlue = new Color(115,115,230);
+    protected Color darkBlue = new Color(50,40,120);
 
     //    Index of the obstacle cspace list to display 
     //    (corresponds to the angle in degrees if num angles is 360)
-    private final int cspaceIndex = 90;
+    protected final int cspaceIndex = 90;
 
     public CSpaceTest() {
         cSpace = new CSpace();

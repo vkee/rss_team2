@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.awt.geom.Point2D;
+
 import org.ros.node.Node;
 import org.ros.node.NodeMain;
 import org.ros.node.topic.Publisher;
@@ -19,7 +20,9 @@ import org.ros.message.lab6_msgs.GUIPolyMsg;
 import org.ros.message.lab6_msgs.GUIRectMsg;
 import org.ros.message.Challenge_msgs.GUIEllipseMessage;
 import org.ros.message.Challenge_msgs.GUIStringMessage;
+
 import MotionPlanning.PolygonObstacle;
+
 import org.ros.node.parameter.ParameterTree;
 
 public class GrandChallengeMap implements NodeMain {
@@ -59,6 +62,8 @@ public class GrandChallengeMap implements NodeMain {
 
     private Point2D.Double robotStart;
     private Point2D.Double robotGoal;
+    
+    private ArrayList<ArrayList<PolygonObstacle>> cspaceObs;
 
     //These are a few things that are used a lot in the file parsing, so they have
     //Their own variables defined.  Most strings associated with file parsing live in
@@ -645,5 +650,30 @@ public class GrandChallengeMap implements NodeMain {
      */
     public Rectangle2D.Double getWorldRect(){
         return this.worldRect;
+    }
+
+    /**
+     * Gets the C Space obstacles 
+     * @param index the index of the 3D space to get
+     * @return the 2D CSpace
+     */
+    public ArrayList<PolygonObstacle> get2DCSpace(int index) {
+        return cspaceObs.get(index);
+    }
+
+    /**
+     * Gets the 3D C Space obstacles 
+     * @return
+     */
+    public ArrayList<ArrayList<PolygonObstacle>> get3DCSpace() {
+        return cspaceObs;
+    }
+    
+    /**
+     * Set the 3D C Space of the map
+     * @param cspace the 3D cspace of the map
+     */
+    public void set3DCSpace(ArrayList<ArrayList<PolygonObstacle>> cspace) {
+        this.cspaceObs = cspace;
     }
 }
