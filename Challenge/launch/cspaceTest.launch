@@ -1,7 +1,7 @@
 <launch>
   <include file="$(find lab4)/launch/config.launch" />
 
-  <node name="nav" pkg="rosjava_bootstrap" type="run.py" args="Challenge R2DTeam.CSpaceTest" machine="workstation" output="screen">
+  <node name="nav" pkg="rosjava_bootstrap" type="run.py" args="Challenge MotionPlanning.CSpaceTest" machine="workstation" output="screen">
 
 <!-- CHANGE DIFFICULTY: rename /global-nav-maze-2011-basic.map / *-med.map / *-hard.map -->
  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/lab6/src/global-nav-maze-2011-basic.map" />

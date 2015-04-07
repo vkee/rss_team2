@@ -51,12 +51,13 @@ public class CSpaceTest implements NodeMain{
 
     @Override
     public void onStart(Node node) {
-        // To wait for the GUI
-        try {
-            Thread.sleep(1000);
-        } catch (Exception e) {
-
-        }
+        System.out.println("Here");
+//        // To wait for the GUI
+//        try {
+//            Thread.sleep(1000);
+//        } catch (Exception e) {
+//
+//        }
 
         guiRectPub = node.newPublisher("gui/Rect", "lab6_msgs/GUIRectMsg");
         guiPolyPub = node.newPublisher("gui/Poly", "lab6_msgs/GUIPolyMsg");
