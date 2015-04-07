@@ -70,7 +70,7 @@ public class CSpaceTest implements NodeMain{
             polyMap = new PolygonMap(mapFileName);
             obsCSpaces = cSpace.generateCSpace(polyMap, true);
         } catch (Exception e) {
-
+            System.out.println("Failed...");
         }
         displayMap(); // --Works: Remember to plug into Robot
         displayMapCSpace();
