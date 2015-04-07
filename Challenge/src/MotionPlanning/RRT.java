@@ -102,17 +102,6 @@ public class RRT {
         RRTreeNode realGoalNode = new RRTreeNode(goalNode, goal);
         nodes.add(realGoalNode);
 
-        // try to connect the new point with the closest point in the tree (run
-        // the algorithm david wrote to check if the point intersects any of the
-        // obstacles in the map
-        // if it does, then do nothing
-        // if it doesn't intersect, add it to the tree
-        // check if the point is within the goal square tolerance, if it is,
-        // just navigate up the tree to the root which will be the start point
-        // and return this path
-
-        // this should be a for loop with some defined max num of runs or else
-        // may run forever, if no solution found, return none
         return realGoalNode.pathFromParent();
     }
 
@@ -143,13 +132,16 @@ public class RRT {
             Point2D.Double pt2) {
         Line2D path = new Line2D.Double(pt1.x, pt1.y, pt2.x, pt2.y);
         List<Point2D.Double> verts = obs.getVertices();
+        //        Constructing segments between all adjacent vertices to see if the 
+        //        line segment intersects any of them
         for (int i = 0; i < verts.size(); i++) {
             Point2D.Double point1 = verts.get(i);
             Point2D.Double point2 = verts.get((i + 1) % verts.size());
             Line2D side = new Line2D.Double(point1.x, point1.y, point2.x,
                     point2.y);
-            if (side.intersectsLine(path))
+            if (side.intersectsLine(path)) {
                 return true;
+            }
         }
         return false;
     }
