@@ -7,20 +7,33 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import Challenge.GrandChallengeMap;
+
 /**
  * RRT is part of the MotionPlanning module. It deals with the path planning.
  *
  */
 public class RRT {
-    private PolygonMap map;
+    private GrandChallengeMap map;
+    private Rectangle2D.Double worldRect;
+    private double worldWidth;
+    private double worldHeight;
+    private double bottomLeftX;
+    private double bottomLeftY;
+
     private final int NUM_TRIES = 1000000;
 
-    public RRT(PolygonMap map) {
+    public RRT(GrandChallengeMap map) {
         this.map = map;
+        this.worldRect = map.getWorldRect();
+        this.worldWidth = worldRect.getWidth();
+        this.worldHeight = worldRect.getHeight();
+        this.bottomLeftX = worldRect.getMinX();
+        this.bottomLeftY = worldRect.getMinY();
     }
 
     /**
-     * Attempts 
+     * Attempts to find a path 
      * @param start
      * @param goal
      * @param tolerance as a percentage of the height and width of the entire map
@@ -30,77 +43,88 @@ public class RRT {
             Point2D.Double goal, double tolerance) {
 
         //        Tolerance rectangle around the goal
-        Rectangle2D goalRect = new Rectangle2D.Double(goal.x
-                - map.worldRect.width * tolerance / 2, goal.y
-                - map.worldRect.height * tolerance / 2, map.worldRect.width
-                * tolerance, map.worldRect.height * tolerance);
+        Rectangle2D goalRect = new Rectangle2D.Double(goal.x - worldWidth * tolerance / 2, 
+                goal.y - worldHeight * tolerance / 2, worldWidth * tolerance, worldHeight * tolerance);
 
         //        Debugging Print Statements
-        System.out.println("Map Width: " + map.worldRect.width);
-        System.out.println("Map Height: " + map.worldRect.height);
+        System.out.println("Map Width: " + worldWidth);
+        System.out.println("Map Height: " + worldHeight);
         System.out.println("Goal Rect Width: " + goalRect.getWidth());
         System.out.println("Goal Rect Height: " + goalRect.getHeight());
         System.out.println("Start Point: " + start);
         System.out.println("Goal Point: " + goal);
 
-        RRTreeNode treeroot = new RRTreeNode(null, start);
-        List<RRTreeNode> nodes = new ArrayList<RRTreeNode>();
-        nodes.add(treeroot);
+        RRTreeNode startNode = new RRTreeNode(null, start);
+        //        The robot starts at 0 radians orientation
+        double robotOrientation = 0.0;
+        List<RRTreeNode> currTreeNodes = new ArrayList<RRTreeNode>();
+        currTreeNodes.add(startNode);
 
         boolean goalFound = false;
-        RRTreeNode goalNode = treeroot;
+        RRTreeNode goalNode = startNode;
         int tries = 0;
 
+        //        Look until find goal or hit max number of tries
         while (!goalFound && tries < NUM_TRIES) {
-            // System.out.println(tries);
-            if (tries % 1000 == 0)
+            if (tries % 1000 == 0) {
                 System.out.println("Number of tries: " + tries);
+            }
 
             //          TODO: we may want to add a bias to selecting a point near the goal later on
-            double testX = Math.random() * map.worldRect.width - .5;
-            double testY = Math.random() * map.worldRect.height - .5;
+            //            Getting the random point
+            double testX = Math.random() * worldWidth - bottomLeftX;
+            double testY = Math.random() * worldHeight - bottomLeftY;
             Point2D.Double testPoint = new Point2D.Double(testX, testY);
 
+            //            Finding the closest node in the current RRT tree to the sampled node
             //          The mininum distance between 2 nodes, initialized to the longest distance possible in the map
-            double mindist = Math.sqrt(Math.pow(map.worldRect.height, 2)
-                    + Math.pow(map.worldRect.width, 2));
-            RRTreeNode closest = null;
-            for (RRTreeNode node : nodes) // slow search
+            double minDist = Math.sqrt(Math.pow(worldHeight, 2) + Math.pow(worldWidth, 2));
+            RRTreeNode closestNode = null;
+            for (RRTreeNode node : currTreeNodes) // slow search
             {
-                double dist = Math.sqrt(Math.pow(node.point.x - testX, 2)
-                        + Math.pow(node.point.y - testY, 2));
-                if (dist < mindist) {
-                    closest = node;
-                    mindist = dist;
+                double nodeDist = Math.sqrt(Math.pow(node.point.x - testX, 2) + Math.pow(node.point.y - testY, 2));
+                if (nodeDist < minDist) {
+                    closestNode = node;
+                    minDist = nodeDist;
                 }
             }
 
+            //            Checking whether the node can be added to the RRT
             boolean canAdd = true;
-            for (PolygonObstacle p : map.cspace_obstacles) {
-                //              If the path to the new node intersects a polygon, we cannot add the node
-                if (lineIntersects(p, testPoint, closest.point)) {
+
+            //            Checking to see if the path between the current and new point intersects any obstacles
+            for (PolygonObstacle obstacle : map.get2DCSpace((int) Math.round(robotOrientation*180/Math.PI))) {
+                //              If the path to the new node intersects a polygon, we cannot add the node to the tree
+                if (lineIntersects(obstacle, testPoint, closestNode.point)) {
                     canAdd = false;
                     break;
                 }
             }
+            
+//            TODO: Then rotate so that the robot is aligned with the line connecting the 2 points and make sure it doesn’t collide with anything. Then make sure that this path is collision free.
 
             tries++;
 
-            if (!canAdd) {
-                continue;
+            if (canAdd) {
+                //                Adding the new node to the tree with an edge to the closest current node in the RRT
+                RRTreeNode newNode = new RRTreeNode(closestNode, testPoint);
+                currTreeNodes.add(newNode);
+
+                //                If the test point is inside the goal rectangle, the goal is found
+                goalFound = goalRect.contains(testPoint);
+                goalNode = newNode;
             }
-
-            RRTreeNode newNode = new RRTreeNode(closest, testPoint);
-            nodes.add(newNode);
-
-            goalFound = goalRect.contains(testPoint);
-            goalNode = newNode;
-            // break;
-
         }
 
+        if (!goalFound) {
+            System.err.println("ALERT: GOAL WAS NOT FOUND!");
+        }
+
+        //        Regardless of whether the goal is found (this executes even when RRT terminates),
+        //        add the goal as the final node with its parent being the last node that could be added
+        //        TODO: I don't think that this is a good thing to do... - Vincent
         RRTreeNode realGoalNode = new RRTreeNode(goalNode, goal);
-        nodes.add(realGoalNode);
+        currTreeNodes.add(realGoalNode);
 
         return realGoalNode.pathFromParent();
     }
@@ -122,7 +146,7 @@ public class RRT {
     }
 
     /**
-     * Determines whether the line segment representing the path intersects the obstacle
+     * Determines whether the line segment representing the path between the two points intersects the obstacle
      * @param obs the polygon obstacle
      * @param pt1 the first point of the line segment
      * @param pt2 the second point of the line segment

@@ -67,7 +67,6 @@ public class RRTTest implements NodeMain{
         ParameterTree paramTree = node.newParameterTree();
         mapFileName = paramTree.getString(node.resolveName("~/mapFileName"));
 
-
         try {
             Thread.sleep(2000);
 
@@ -76,7 +75,8 @@ public class RRTTest implements NodeMain{
 
             challengeMap = GrandChallengeMap.parseFile(mapFileName);
             obsCSpaces = cSpace.generateCSpace(challengeMap, true);
-
+            challengeMap.set3DCSpace(obsCSpaces);
+            rrt = new RRT(challengeMap);
             displayMap(); // --Works: Remember to plug into Robot
             displayMapCSpace();
         } catch(Exception e){
