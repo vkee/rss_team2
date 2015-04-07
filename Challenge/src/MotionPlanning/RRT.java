@@ -140,9 +140,24 @@ public class RRT {
      * 
      * @param pt2Y the y coordinate of point 2
      */
-    public double getDist(double pt1X, double pt1Y, double pt2X, double pt2Y) {
+    public static double getDist(double pt1X, double pt1Y, double pt2X, double pt2Y) {
         return Math.sqrt((pt1X - pt2X) * (pt1X - pt2X) + (pt1Y - pt2Y)
                 * (pt1Y - pt2Y));
+    }
+    
+    /**
+     * Returns the angle between two points
+     * 
+     * @param pt1X the x coordinate of point 1
+     * 
+     * @param pt1Y the y coordinate of point 1
+     * 
+     * @param pt2X the x coordinate of point 2
+     * 
+     * @param pt2Y the y coordinate of point 2
+     */
+    public static double getAngle(double pt1X, double pt1Y, double pt2X, double pt2Y) {
+        return Math.atan2(pt2Y - pt1Y, pt2X - pt1X);
     }
 
     /**
