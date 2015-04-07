@@ -1,23 +1,21 @@
-package GlobalNavigation;
+package MotionPlanning;
 
-import java.awt.geom.Point2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * Implements RRT
+ * RRT is part of the MotionPlanning module. It deals with the path planning.
+ *
  */
-public class MotionPlanner {
-    // TODO: need to define some constant for the square surrounding the goal
-    // point to determine if the robot is at the goal point
-
+public class RRT {
     private PolygonMap map;
     private final int NUM_TRIES = 1000000;
 
-    public MotionPlanner(PolygonMap map) {
+    public RRT(PolygonMap map) {
         this.map = map;
     }
 
@@ -29,7 +27,6 @@ public class MotionPlanner {
      *            : as a percentage of the height and width
      * @return
      */
-
     public List<Point2D.Double> getPath(Point2D.Double start,
             Point2D.Double goal, double tolerance) {
 

@@ -30,7 +30,6 @@ public class CSpace {
     private final ArrayList<PolygonObstacle> robotPolys = new ArrayList<PolygonObstacle>();
 
     public CSpace() {
-
         //        Constructing a robot polygon for each angle
         for (int i = 0; i < NUM_ANGLES; i++) {
             PolygonObstacle robotPoly = new PolygonObstacle();

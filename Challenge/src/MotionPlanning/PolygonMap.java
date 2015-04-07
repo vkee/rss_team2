@@ -1,4 +1,4 @@
-package src.MotionPlanning;
+package MotionPlanning;
 
 import java.awt.geom.*;
 import java.io.*;
