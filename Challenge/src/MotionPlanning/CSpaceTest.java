@@ -71,7 +71,7 @@ public class CSpaceTest implements NodeMain{
         try {
             Thread.sleep(2000);
 
-            erasePub.publish(new GUIEraseMsg());
+            guiErasePub.publish(new GUIEraseMsg());
             Thread.sleep(1000);
 
             challengeMap = GrandChallengeMap.parseFile(mapFileName);
