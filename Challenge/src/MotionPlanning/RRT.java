@@ -78,6 +78,8 @@ public class RRT {
             double testX = Math.random() * worldWidth - bottomLeftX;
             double testY = Math.random() * worldHeight - bottomLeftY;
             Point2D.Double testPt = new Point2D.Double(testX, testY);
+            
+            System.out.println("Test Pt Coord: " + testPt.toString());
 
             //            Finding the closest node in the current RRT tree to the sampled node
             //          The mininum distance between 2 nodes, initialized to the longest distance possible in the map
