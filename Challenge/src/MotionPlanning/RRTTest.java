@@ -41,7 +41,7 @@ public class RRTTest implements NodeMain{
     private GrandChallengeMap challengeMap;
     private CSpace cSpace;
     private ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = new ArrayList<ArrayList<PolygonObstacle>>();
-
+    private RRT rrt;
     // colors
     private Color lightBlue = new Color(115,115,230);
     private Color darkBlue = new Color(50,40,120);
@@ -77,6 +77,7 @@ public class RRTTest implements NodeMain{
             obsCSpaces = cSpace.generateCSpace(challengeMap, true);
             challengeMap.set3DCSpace(obsCSpaces);
             rrt = new RRT(challengeMap);
+            rrtTests();
             displayMap(); // --Works: Remember to plug into Robot
             displayMapCSpace();
         } catch(Exception e){
@@ -86,6 +87,20 @@ public class RRTTest implements NodeMain{
 
     }
 
+    /**
+     * Quick method to test RRT getAngle b/c can't get JUnit tests to work
+     */
+    private void rrtTests() {
+        System.out.println(RRT.getAngle(-1.03, 1.0, 4.07, 1.0) == 0.0);
+        System.out.println(RRT.getAngle(1.0, 1.0, 2.0, 2.0) == Math.PI/4);
+        System.out.println(RRT.getAngle(1.0, -1.0, 1.0, 2.0) == Math.PI/2);
+        System.out.println(RRT.getAngle(-2.0, -2.0, -4.0, 0.0) == 3*Math.PI/4);
+        System.out.println(RRT.getAngle(2.0, -2.0, -2.0, -2.0) == 4*Math.PI/4);
+        System.out.println(RRT.getAngle(0.0, 0.0, -1.0, -1.0) == 5*Math.PI/4);
+        System.out.println(RRT.getAngle(0.0, 0.0, 0.0, -1.0) == 6*Math.PI/4);
+        System.out.println(RRT.getAngle(1.0, -1.0, 2.0, -2.0) == 7*Math.PI/4);        
+    }
+    
     /**
      * Displays all the contents of the map in MapGUI
      */
