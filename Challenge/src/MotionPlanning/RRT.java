@@ -170,6 +170,11 @@ public class RRT {
                 return true;
             } else {
                 robotIndex += direction;
+                
+//                Accounting for the -PI to PI of error index so that it works with the array of cspace obstacles
+                if (robotIndex < 0) {
+                    robotIndex += CSpace.NUM_ANGLES;
+                }
             }
         }
 

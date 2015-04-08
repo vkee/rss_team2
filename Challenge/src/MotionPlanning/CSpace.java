@@ -26,7 +26,7 @@ public class CSpace {
     private final double ROBOT_BL_Y = 0.190; // robot bottom left y dimension
 
     //    Number of angles to compute the configuration space for
-    protected final int NUM_ANGLES = 360;
+    protected static final int NUM_ANGLES = 360;
 
     //    Reflected robot polygons
     private final ArrayList<PolygonObstacle> robotPolys = new ArrayList<PolygonObstacle>();
