@@ -2,9 +2,9 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="257" key="DIALOG_WIDTH"/>
-		<item value="249" key="DIALOG_Y_ORIGIN"/>
+		<item value="113" key="DIALOG_Y_ORIGIN"/>
 		<item value="380" key="DIALOG_HEIGHT"/>
-		<item value="1326" key="DIALOG_X_ORIGIN"/>
+		<item value="1097" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
@@ -13,16 +13,16 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="testCon" key="selection"/>
+		<item value="robotOr" key="selection"/>
 		<list key="findhistory">
-			<item value="testcon"/>
-			<item value="message"/>
-			<item value=".03"/>
-			<item value=".05"/>
-			<item value="0.03"/>
-			<item value="onstart"/>
-			<item value="msum"/>
-			<item value="robot"/>
+			<item value="robotor"/>
+			<item value="collision a"/>
+			<item value="angleer"/>
+			<item value="collisionin"/>
+			<item value="collision"/>
+			<item value="robotin"/>
+			<item value="getang"/>
+			<item value="getand"/>
 		</list>
 		<list key="replacehistory">
 		</list>

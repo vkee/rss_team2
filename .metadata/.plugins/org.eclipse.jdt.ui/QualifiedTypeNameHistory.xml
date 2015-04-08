@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="GlobalNavigation.PolygonObstacle"/>
 <fullyQualifiedTypeName name="java.awt.geom.Rectangle2D"/>
 <fullyQualifiedTypeName name="java.awt.geom.Rectangle2D.Double"/>
@@ -8,6 +7,17 @@
 <fullyQualifiedTypeName name="java.util.Collections"/>
 <fullyQualifiedTypeName name="GlobalNavigation.MotionPlannerTests"/>
 <fullyQualifiedTypeName name="java.awt.geom.Point2D.Double"/>
-<fullyQualifiedTypeName name="java.awt.geom.Point2D"/>
 <fullyQualifiedTypeName name="GlobalNavigation.MotionPlanner"/>
+<fullyQualifiedTypeName name="FSM.FSM.msgENUM"/>
+<fullyQualifiedTypeName name="FSM.FSM.stateENUM"/>
+<fullyQualifiedTypeName name="StateMachine.FSM.stateENUM"/>
+<fullyQualifiedTypeName name="MotionPlanning.CSpace"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.awt.geom.Point2D"/>
+<fullyQualifiedTypeName name="java.util.HashSet"/>
+<fullyQualifiedTypeName name="StateMachine.FSM.msgENUM"/>
+<fullyQualifiedTypeName name="junit.framework.Assert"/>
+<fullyQualifiedTypeName name="org.junit.Assert"/>
+<fullyQualifiedTypeName name="MotionPlanning.MotionPlanTests"/>
 </qualifiedTypeNameHistroy>
