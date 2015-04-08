@@ -86,7 +86,9 @@ public class RRT {
             System.out.println("Size of Tree " + currTreeNodes.size());
             for (RRTreeNode node : currTreeNodes) // slow search
             {
+                System.out.println("Node Coord: " + node.toString());
                 double nodeDist = Math.sqrt(Math.pow(node.point.x - testX, 2) + Math.pow(node.point.y - testY, 2));
+                System.out.println("Node Dist: " + nodeDist);
                 if (nodeDist < minDist) {
                     System.out.println("Closer Node is: " + node.toString());
                     closestNode = node;
