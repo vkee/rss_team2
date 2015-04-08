@@ -16,7 +16,7 @@ public class FSM {
 		INITIALIZE, SCAN, WNCLOSE, MOVEFORWARD, OPENGATE, APPROACHBLOCK, BLOCKCOLLECTED, CHECKTIME, RRTUPDATE, CSPACE, ORIENTDEPOSIT, VISUALSERVOCOLLECT, WNDEPOSIT
 	}
 	
-	public enum msgENUM {
+	public enum msgENUM { 
 		NECK, WHEELS, BLOCK, IMAGE, GATE, DOOR
 	}
 
@@ -31,7 +31,7 @@ public class FSM {
 	public int blocksCollected;
 	public CSpace map;
 	public HashMap<Integer, Point2D.Double> goals;
-	public HashMap<Integer, ArrayList<Double> rrtDistances;				//sorted by shortest distance adjcentcy lists of distances used to update below
+	public HashMap<Integer, ArrayList<Double>> rrtDistances;				//sorted by shortest distance adjcentcy lists of distances used to update below
 	public HashMap<Integer, ArrayList<ArrayList<Point2D.Double>>> rrtPaths;				//sorted by shortest distance adjcentcy lists of paths 
 	public int currentLocation;			//the id of the current goal point we are at
 	public HashSet<Integer> visited;
