@@ -96,9 +96,9 @@ public class RRTTest implements NodeMain{
         System.out.println(RRT.getAngle(1.0, -1.0, 1.0, 2.0) == Math.PI/2);
         System.out.println(RRT.getAngle(-2.0, -2.0, -4.0, 0.0) == 3*Math.PI/4);
         System.out.println(RRT.getAngle(2.0, -2.0, -2.0, -2.0) == 4*Math.PI/4);
-        System.out.println(RRT.getAngle(0.0, 0.0, -1.0, -1.0) == 5*Math.PI/4);
-        System.out.println(RRT.getAngle(0.0, 0.0, 0.0, -1.0) == 6*Math.PI/4);
-        System.out.println(RRT.getAngle(1.0, -1.0, 2.0, -2.0) == 7*Math.PI/4);
+        System.out.println(RRT.getAngle(0.0, 0.0, -1.0, -1.0) == -3*Math.PI/4);
+        System.out.println(RRT.getAngle(0.0, 0.0, 0.0, -1.0) == -2*Math.PI/4);
+        System.out.println(RRT.getAngle(1.0, -1.0, 2.0, -2.0) == -1*Math.PI/4);
         System.out.println("Done running angle tests");
     }
     
