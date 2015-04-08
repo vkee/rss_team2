@@ -79,8 +79,8 @@ public class RRT {
             System.out.println("Bottom Left X " + bottomLeftX);
             System.out.println("Bottom Left Y " + bottomLeftY);
             
-            double testX = Math.random() * worldWidth - bottomLeftX;
-            double testY = Math.random() * worldHeight - bottomLeftY;
+            double testX = Math.random() * worldWidth - Math.abs(bottomLeftX);
+            double testY = Math.random() * worldHeight - Math.abs(bottomLeftY);
             Point2D.Double testPt = new Point2D.Double(testX, testY);
             
             System.out.println("Test Pt Coord: " + testPt.toString());
