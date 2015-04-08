@@ -74,7 +74,7 @@ public class RRT {
             //            Getting the random point
             double testX = Math.random() * worldWidth - bottomLeftX;
             double testY = Math.random() * worldHeight - bottomLeftY;
-            Point2D.Double testPoint = new Point2D.Double(testX, testY);
+            Point2D.Double testPt = new Point2D.Double(testX, testY);
 
             //            Finding the closest node in the current RRT tree to the sampled node
             //          The mininum distance between 2 nodes, initialized to the longest distance possible in the map
@@ -90,30 +90,40 @@ public class RRT {
             }
 
             //            Checking whether the node can be added to the RRT
-            boolean canAdd = true;
+            boolean clearPath = lineIntersectsObs((int) Math.round(robotOrientation*180/Math.PI), testPt, closestNode.point);
 
-            //            Checking to see if the path between the current and new point intersects any obstacles
-            for (PolygonObstacle obstacle : map.get2DCSpace((int) Math.round(robotOrientation*180/Math.PI))) {
-                //              If the path to the new node intersects a polygon, we cannot add the node to the tree
-                if (lineIntersects(obstacle, testPoint, closestNode.point)) {
-                    canAdd = false;
-                    break;
+            if (clearPath) {
+
+                //              TODO: Then rotate so that the robot is aligned with the line connecting the 2 points and make sure it doesn’t collide with anything. Then make sure that this path is collision free.
+                double angleBtwnPts = RRT.getAngle(closestNode.point.x, closestNode.point.y, testX, testY);
+
+                //                Keeping the angle between 0 and 2PI
+                if (angleBtwnPts < 0.0) {
+                    angleBtwnPts += 2*Math.PI; 
                 }
-            }
-            
-//            TODO: Then rotate so that the robot is aligned with the line connecting the 2 points and make sure it doesn’t collide with anything. Then make sure that this path is collision free.
 
-            tries++;
+                double robotAngleError = (angleBtwnPts - robotOrientation) % (2*Math.PI);
+                //                Keeping the error in angle between -PI and PI so that the robot minimizes rotation
+                if (robotAngleError > Math.PI) {
+                    robotAngleError -= 2*Math.PI;
+                }
 
-            if (canAdd) {
+//                TODO: for all angles (indices) in the range of the robot angle error to the orientation (corresponding index),
+//                need to check that there are no collisions AS THE ROBOT ROTATES IN PLACE SO ONLY CHECKING POINT
+//                (DIFF THAN THE EXISTING HELPER FXN b/c this only checkings pt not the line)
+//                THERE SHOULD BE A POLYGON OBSTACLE METHOD FOR THIS
+                
+//                Only do the below if conditions fulfilled
                 //                Adding the new node to the tree with an edge to the closest current node in the RRT
-                RRTreeNode newNode = new RRTreeNode(closestNode, testPoint);
+                RRTreeNode newNode = new RRTreeNode(closestNode, testPt);
                 currTreeNodes.add(newNode);
 
                 //                If the test point is inside the goal rectangle, the goal is found
-                goalFound = goalRect.contains(testPoint);
+                goalFound = goalRect.contains(testPt);
                 goalNode = newNode;
             }
+
+            tries++;
         }
 
         if (!goalFound) {
@@ -127,6 +137,26 @@ public class RRT {
         currTreeNodes.add(realGoalNode);
 
         return realGoalNode.pathFromParent();
+    }
+
+
+    /**
+     * Determines whether the line determined by the two points intersects any obstacles in the 2D C-Space specified by the index
+     * @param index the index that specifies the 2D CSpace 
+     * @param testPt the first point of the line
+     * @param closestNodePt the second point of the line
+     * @return whether the line intersects any obstacles
+     */
+    private boolean lineIntersectsObs(int index, Point2D.Double testPt, Point2D.Double closestNodePt) {
+        //      Checking to see if the path between the current and new point intersects any obstacles
+        for (PolygonObstacle obstacle : map.get2DCSpace(index)) {
+            //              If the path to the new node intersects a polygon, we cannot add the node to the tree
+            if (lineIntersects(obstacle, testPt, closestNodePt)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -144,9 +174,10 @@ public class RRT {
         return Math.sqrt((pt1X - pt2X) * (pt1X - pt2X) + (pt1Y - pt2Y)
                 * (pt1Y - pt2Y));
     }
-    
+
     /**
-     * Returns the angle between two points
+     * Returns the angle between two points between -PI to PI (due to use of atan2)
+     * starting from point 1 to point 2
      * 
      * @param pt1X the x coordinate of point 1
      * 
