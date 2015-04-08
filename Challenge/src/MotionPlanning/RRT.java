@@ -157,8 +157,9 @@ public class RRT {
      */
     private boolean collisionInRotation(double robotOrientation, double robotAngleError, Point2D.Double robotLoc) {
         int robotIndex = getCSpaceIndex(robotOrientation);
-        int errorIndex = (int) Math.round(robotAngleError*180/Math.PI);
-
+        
+        int errorIndex = getErrorIndex(robotAngleError);
+        
         System.out.println("robotIndex: " + robotIndex);
         System.out.println("errorIndex: " + errorIndex);
 
@@ -168,10 +169,10 @@ public class RRT {
         } else {
             //            Direction to rotate
             int direction = (int) (errorIndex - robotIndex)/Math.abs(robotIndex - errorIndex);
-            System.out.println("direction: " + direction);
+//            System.out.println("direction: " + direction);
 
             while ((robotIndex != errorIndex) && (robotIndex != (errorIndex + CSpace.NUM_ANGLES))){
-                System.out.println("robotIndex " + robotIndex);
+//                System.out.println("robotIndex for pt in obs: " + robotIndex);
                 //            If the point is in an obstacle, return collision
                 if (ptInObs(robotIndex, robotLoc)) {
                     return true;
@@ -233,6 +234,28 @@ public class RRT {
      */
     private int getCSpaceIndex(double robotOrientation) {
         return ((int) Math.round(robotOrientation*180/Math.PI)) % (CSpace.NUM_ANGLES);
+    }
+    
+    /**
+     * Converts the error in radians to degrees between -359 and 359 deg
+     * @param robotAngleError the robot's angle of error in radians
+     * @return the index from -359 to 359
+     */
+    private int getErrorIndex(double robotAngleError) {
+        int errorIndex = (int) Math.round(robotAngleError*180/Math.PI);
+
+//        Keeping the error index between -2PI and 2PI
+        while (errorIndex >= CSpace.NUM_ANGLES) {
+            System.out.println("getErrorIndex -= 360");
+            errorIndex -= 360;
+        }
+        
+        while (errorIndex <= -CSpace.NUM_ANGLES) {
+            System.out.println("getErrorIndex += 360");
+            errorIndex += 360;
+        }
+                
+        return errorIndex;
     }
     
     /**
