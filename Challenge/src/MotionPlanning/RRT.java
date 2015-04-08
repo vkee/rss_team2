@@ -115,6 +115,8 @@ public class RRT {
                 if (robotAngleError > Math.PI) {
                     robotAngleError -= 2*Math.PI;
                 }
+                
+                System.out.println(Math.abs(robotAngleError) > Math.PI);
 
                 //                Checking whether the robot will collide with any obstacles while it rotates to face the new point
                 boolean collisionInRotation = collisionInRotation(robotOrientation, robotAngleError, closestNode.point);
@@ -242,13 +244,13 @@ public class RRT {
     
     /**
      * Converts the error in radians to degrees between -359 and 359 deg
-     * @param robotAngleError the robot's angle of error in radians
-     * @return the index from -359 to 359
+     * @param robotAngleError the robot's angle of error in radians from -pi to pi
+     * @return the index from -180 to 180
      */
     private int getErrorIndex(double robotAngleError) {
         int errorIndex = (int) Math.round(robotAngleError*180/Math.PI);
         
-        
+        /*
         /// +pi %2pi -pi to put between -pi and pi? TODO?
 
 //        Keeping the error index between -2PI and 2PI
@@ -261,7 +263,7 @@ public class RRT {
             System.out.println("getErrorIndex += 360");
             errorIndex += 360;
         }
-                
+             */   
         return errorIndex;
     }
     
