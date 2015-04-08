@@ -118,7 +118,7 @@ public class RRT {
                     //                Making the robot aligned pointing from the closest node to the test point
                     robotOrientation = angle2TestPt;
                     //                Checking that there is a path in the robot orientation when moving straight to the point
-                    boolean noClearPath = lineIntersectsObs(, testPt, closestNode.point);
+                    boolean noClearPath = lineIntersectsObs(getCSpaceIndex(robotOrientation), testPt, closestNode.point);
 
                     if (!noClearPath) {
                         //                Adding the new node to the tree with an edge to the closest current node in the RRT
