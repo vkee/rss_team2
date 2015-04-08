@@ -164,7 +164,7 @@ public class RRT {
         System.out.println("errorIndex: " + errorIndex);
         System.out.println("direction: " + direction);
 
-        while ((robotIndex != errorIndex) || (robotIndex != (errorIndex + CSpace.NUM_ANGLES))){
+        while ((robotIndex != errorIndex) && (robotIndex != (errorIndex + CSpace.NUM_ANGLES))){
             System.out.println("robotIndex " + robotIndex);
             //            If the point is in an obstacle, return collision
             if (ptInObs(robotIndex, robotLoc)) {
