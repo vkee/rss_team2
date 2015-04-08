@@ -75,6 +75,10 @@ public class RRT {
 
             //          TODO: we may want to add a bias to selecting a point near the goal later on
             //            Getting the random point
+            
+            System.out.println("Bottom Left X " + bottomLeftX);
+            System.out.println("Bottom Left Y " + bottomLeftY);
+            
             double testX = Math.random() * worldWidth - bottomLeftX;
             double testY = Math.random() * worldHeight - bottomLeftY;
             Point2D.Double testPt = new Point2D.Double(testX, testY);
@@ -83,7 +87,7 @@ public class RRT {
 
             //            Finding the closest node in the current RRT tree to the sampled node
             //          The mininum distance between 2 nodes, initialized to the longest distance possible in the map
-            double minDist = Math.sqrt(Math.pow(worldHeight + bottomLeftY, 2) + Math.pow(worldWidth + bottomLeftX, 2));
+            double minDist = Math.sqrt(Math.pow(worldHeight, 2) + Math.pow(worldWidth, 2));
             RRTreeNode closestNode = null;
             System.out.println("Size of Tree " + currTreeNodes.size());
             for (RRTreeNode node : currTreeNodes) // slow search

@@ -1,0 +1,196 @@
+#Comment line
+
+map {
+
+    bottom_left { -0.7 -0.695 }
+    top_right { 5.4356 3.335 }
+    robot_start { 0.0 0.0 }
+    robot_goal { 2.0 2.0 }
+
+    #Fiducials will contain a position,
+    #a top_color, a bottom_color, a top_radius, and a bottom_radius
+    #This should probably be broken down further into a fiducial being
+    #composed of two Ball objects...at some point
+
+    fiducials {
+    	num_fiducials 7
+	    0 {
+	        position { 4.6756 0.67 } 
+		    top_color green
+		    bottom_color blue
+		    top_radius 0.055 #in meters
+		    bottom_radius 0.055 #in meters
+	    }
+	
+	    1 {
+	        position { 3.8556 1.70 }
+		    top_color blue
+		    bottom_color yellow
+		    top_radius 0.055
+		    bottom_radius 0.055
+	    }
+	
+	    2 {
+	        position { 2.74 1.08 }
+		    top_color green
+		    bottom_color orange
+		    top_radius 0.055
+		    bottom_radius 0.055
+	    }
+	
+	    3 {
+	        position { 0.68 0.96 }
+		    top_color red
+		    bottom_color green
+		    top_radius 0.055
+		    bottom_radius 0.055
+	    }
+	    
+	    4 {
+	        position { 1.14 2.44 }
+		    top_color yellow
+		    bottom_color red
+		    top_radius 0.055
+		    bottom_radius 0.055
+	    }
+	    
+	    5 {
+	       position { 2.13 -0.61 }
+	           top_color blue
+		   bottom_color red
+		   top_radius 0.055
+		   bottom_radius 0.055
+	    }
+
+	    6 {
+	       position { 3.22 -0.61 }
+	           top_color orange
+		   bottom_color blue
+		   top_radius 0.055
+		   bottom_radius 0.055
+	    }
+    }
+
+    #ConstructionObject information.  Note: some of the intended landing sites may be
+    #outside of the bounding box
+
+    construction_objects {
+    	num_construction_objects 8 
+        0 {
+            position { 0.0 0.0 } # Tricky Under robot
+            #color color_name
+            #size 1 | 2
+        }
+        1 {
+            position { 0.0 1.22 } # Around first obstacle
+        }
+        2 {
+            position { 0.32 2.875 } # Near Diagonal Obstacles
+        }
+        3 {
+            position { 3.9256 2.275 } #Impossible: In the obstacle
+        }
+        4 {
+            position { 5.3356 -.595 } #Hard: In the corner.  Moved out 7cm,7cm
+        }
+        5 {
+            position { 5.0456 2.825 } # One of the further blocks
+        }
+        6 {
+            position { 2.30 2.595 } # Double block
+            size 2
+        }
+        7 {
+            position { 5.1556 .26 } # Around concave obstacle
+        }
+    }
+
+	#Recall that obstacle points must be specified in CCW order
+	
+    obstacles {
+    	num_obstacles 10
+		0 {
+	        num_points 3 #triangle
+		    0 { 2.05 -0.70 }
+		    1 { 3.25 -0.70 }
+		    2 { 2.59 -0.10 }
+		}
+	
+		1 {
+	        num_points 3 #triangle
+		    0 { 5.4356 1.32 }
+		    1 { 5.4356 2.39 }
+		    2 { 4.8956 1.80 }
+		}
+	
+		#There are 3 freestanding quads in the map
+		2 {
+	        num_points 4 #quad
+		    0 { -0.56 3.335 }
+		    1 { -0.70 3.275 }
+		    2 { 0.14 2.34 }
+		    3 { 0.22 2.41 }
+		}
+		3 {
+	        num_points 4 #quad
+		    0 { 1.89 3.335 }
+		    1 { 1.73 3.335 }
+		    2 { 0.91 2.425 }
+		    3 { 0.99 2.345 }
+		}
+		4 {
+	        num_points 4 #quad
+		    0 { 2.78 1.10 }
+		    1 { 2.84 1.19 }
+		    2 { 1.81 1.86 }
+		    3 { 1.74 1.77 }
+		}
+		
+		#Box that might trip people up
+		5 {
+		    num_points 6
+		    0 { 3.91 1.73 }
+		    1 { 4.37 2.28 }
+		    2 { 4.46 2.33 }
+		    3 { 4.19 2.86 }
+		    4 { 3.41 2.25 }
+		    5 { 3.34 2.17 }
+		}
+	
+		#There are two concave obstacles.  This is the first
+		6 {
+	        num_points 4 #quad
+		    0 { 5.4356 0.61 }
+		    1 { 5.4356 0.71 }
+		    2 { 4.7056 0.71 }
+		    3 { 4.7056 0.61 }
+		  }
+		  
+		7 {  
+			num_points 4
+			0 { 4.7056 0.60 }
+		    1 { 4.7056 0.10 }
+		    2 { 4.8056 0.10 }
+		    3 { 4.8056 0.60 }
+		}
+		
+		
+	
+		#There are two concave obstacles.  This is the second
+		8 {
+	        num_points 4 #quad
+		    0 { -0.7 1.53 }
+		    1 { -0.7 1.42 }
+		    2 { 0.53 1.42 }
+		    3 { 0.53 1.53 }
+		  }
+		  
+		9 {  
+			num_points 4
+			0 { 0.53 1.53 }
+		    1 { 0.53 0.91 }
+		    2 { 0.63 0.91 }
+		    3 { 0.63 1.52 }
+		}
+	}
+}
