@@ -21,7 +21,7 @@ public class RRT {
     private double bottomLeftX;
     private double bottomLeftY;
 
-    private final int NUM_TRIES = 1000000;
+    private final int NUM_TRIES = 10;//00000;
 
     public RRT(GrandChallengeMap map) {
         this.map = map;
@@ -117,12 +117,12 @@ public class RRT {
                 System.out.println("angle err:" +robotAngleError);
 
                 //                Keeping the error in angle between -PI and PI so that the robot minimizes rotation
-                robotAngleError = (robotAngleError+Math.PI)%(2*Math.PI)-Math.PI;
-                /*
-                if (robotAngleError > Math.PI) {
+                //robotAngleError = (robotAngleError+Math.PI)%(2*Math.PI)-Math.PI;
+                
+                while (robotAngleError > Math.PI) {
                     robotAngleError -= 2*Math.PI;
                 }
-                */
+                
                 System.out.println(Math.abs(robotAngleError) > Math.PI);
 
                 //                Checking whether the robot will collide with any obstacles while it rotates to face the new point
@@ -332,6 +332,9 @@ public class RRT {
         }
         return false;
     }
+
+
+
 }
 
 /**
@@ -371,5 +374,5 @@ class RRTreeNode {
         return "point=" + point.toString();
     }
     
-    
+
 }
