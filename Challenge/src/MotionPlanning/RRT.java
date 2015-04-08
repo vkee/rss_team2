@@ -87,9 +87,9 @@ public class RRT {
             System.out.println("Size of Tree " + currTreeNodes.size());
             for (RRTreeNode node : currTreeNodes) // slow search
             {
-                System.out.println("Node Coord: " + node.toString());
+                //System.out.println("Node Coord: " + node.toString());
                 double nodeDist = Math.sqrt(Math.pow(node.point.x - testX, 2) + Math.pow(node.point.y - testY, 2));
-                System.out.println("Node Dist: " + nodeDist);
+                //System.out.println("Node Dist: " + nodeDist);
                 if (nodeDist < minDist) {
                     closestNode = node;
                     minDist = nodeDist;
@@ -97,11 +97,11 @@ public class RRT {
             }
 
             //            Checking whether the node can be added to the RRT
-            boolean ptInObs = ptInObs(getCSpaceIndex(robotOrientation), testPt);
+            boolean ptInObs = ptInObs(getCSpaceIndex(robotOrientation), testPt);			//why check, wont you discover this during line test? TODO
 
             if (!ptInObs) {
 
-                System.out.println("closestNode: " + closestNode.toString());
+                //System.out.println("closestNode: " + closestNode.toString());
                 //              TODO: Then rotate so that the robot is aligned with the line connecting the 2 points and make sure it doesn't collide with anything. Then make sure that this path is collision free.
                 double angle2TestPt = RRT.getAngle(closestNode.point.x, closestNode.point.y, testX, testY);
 
@@ -112,10 +112,12 @@ public class RRT {
 
                 double robotAngleError = (angle2TestPt - robotOrientation) % (2*Math.PI);
                 //                Keeping the error in angle between -PI and PI so that the robot minimizes rotation
+                robotAngleError = (robotAngleError+Math.PI)%(2*Math.PI)-Math.PI;
+                /*
                 if (robotAngleError > Math.PI) {
                     robotAngleError -= 2*Math.PI;
                 }
-                
+                */
                 System.out.println(Math.abs(robotAngleError) > Math.PI);
 
                 //                Checking whether the robot will collide with any obstacles while it rotates to face the new point
@@ -131,6 +133,8 @@ public class RRT {
                         //                Adding the new node to the tree with an edge to the closest current node in the RRT
                         RRTreeNode newNode = new RRTreeNode(closestNode, testPt);
                         currTreeNodes.add(newNode);
+                        
+                        System.out.println("added a node");
 
                         //                If the test point is inside the goal rectangle, the goal is found
                         goalFound = goalRect.contains(testPt);
@@ -181,10 +185,10 @@ public class RRT {
 //            System.out.println("direction: " + direction);
 
             while (robotIndex != goalIndex){
-                System.out.println("robotIndex for pt in obs: " + robotIndex);
+                //System.out.println("robotIndex for pt in obs: " + robotIndex);
                 //            If the point is in an obstacle, return collision
                 if (ptInObs(robotIndex, robotLoc)) {
-                    System.out.println("collision at point "+robotLoc);
+                    System.out.println("collision at angle "+robotIndex);
                 	return true;
                 } else {
                     robotIndex += direction;
