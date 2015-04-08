@@ -174,7 +174,7 @@ public class RRT {
 //            System.out.println("direction: " + direction);
 
             while (robotIndex != goalIndex){
-//                System.out.println("robotIndex for pt in obs: " + robotIndex);
+                System.out.println("robotIndex for pt in obs: " + robotIndex);
                 //            If the point is in an obstacle, return collision
                 if (ptInObs(robotIndex, robotLoc)) {
                     return true;
