@@ -54,9 +54,12 @@ public class RRT {
         System.out.println("Start Point: " + start);
         System.out.println("Goal Point: " + goal);
 
-        RRTreeNode startNode = new RRTreeNode(null, start);
-        //        The robot starts at 0 radians orientation
+        //        The orientation of the robot
+        //        Note that the robot starts at 0 radians on the unit circle
+        //        and can be oriented between 0 and 2PI radians
         double robotOrientation = 0.0;
+
+        RRTreeNode startNode = new RRTreeNode(null, start);
         List<RRTreeNode> currTreeNodes = new ArrayList<RRTreeNode>();
         currTreeNodes.add(startNode);
 
@@ -90,37 +93,43 @@ public class RRT {
             }
 
             //            Checking whether the node can be added to the RRT
-            boolean clearPath = lineIntersectsObs((int) Math.round(robotOrientation*180/Math.PI), testPt, closestNode.point);
+            boolean ptInObs = ptInObs((int) Math.round(robotOrientation*180/Math.PI), testPt);
 
-            if (clearPath) {
+            if (!ptInObs) {
 
                 //              TODO: Then rotate so that the robot is aligned with the line connecting the 2 points and make sure it doesn’t collide with anything. Then make sure that this path is collision free.
-                double angleBtwnPts = RRT.getAngle(closestNode.point.x, closestNode.point.y, testX, testY);
+                double angle2TestPt = RRT.getAngle(closestNode.point.x, closestNode.point.y, testX, testY);
 
                 //                Keeping the angle between 0 and 2PI
-                if (angleBtwnPts < 0.0) {
-                    angleBtwnPts += 2*Math.PI; 
+                if (angle2TestPt < 0.0) {
+                    angle2TestPt += 2*Math.PI; 
                 }
 
-                double robotAngleError = (angleBtwnPts - robotOrientation) % (2*Math.PI);
+                double robotAngleError = (angle2TestPt - robotOrientation) % (2*Math.PI);
                 //                Keeping the error in angle between -PI and PI so that the robot minimizes rotation
                 if (robotAngleError > Math.PI) {
                     robotAngleError -= 2*Math.PI;
                 }
 
-//                TODO: for all angles (indices) in the range of the robot angle error to the orientation (corresponding index),
-//                need to check that there are no collisions AS THE ROBOT ROTATES IN PLACE SO ONLY CHECKING POINT
-//                (DIFF THAN THE EXISTING HELPER FXN b/c this only checkings pt not the line)
-//                THERE SHOULD BE A POLYGON OBSTACLE METHOD FOR THIS
-                
-//                Only do the below if conditions fulfilled
-                //                Adding the new node to the tree with an edge to the closest current node in the RRT
-                RRTreeNode newNode = new RRTreeNode(closestNode, testPt);
-                currTreeNodes.add(newNode);
+//                Checking whether the robot will collide with any obstacles while it rotates to face the new point
+                boolean collisionInRotation = collisionInRotation(robotOrientation, robotAngleError, closestNode.point);
 
-                //                If the test point is inside the goal rectangle, the goal is found
-                goalFound = goalRect.contains(testPt);
-                goalNode = newNode;
+                if (!collisionInRotation) {
+                    //                Making the robot aligned pointing from the closest node to the test point
+                    robotOrientation = angle2TestPt;
+                    //                Checking that there is a path in the robot orientation when moving straight to the point
+                    boolean noClearPath = lineIntersectsObs((int) Math.round(robotOrientation*180/Math.PI), testPt, closestNode.point);
+
+                    if (!noClearPath) {
+                        //                Adding the new node to the tree with an edge to the closest current node in the RRT
+                        RRTreeNode newNode = new RRTreeNode(closestNode, testPt);
+                        currTreeNodes.add(newNode);
+
+                        //                If the test point is inside the goal rectangle, the goal is found
+                        goalFound = goalRect.contains(testPt);
+                        goalNode = newNode;
+                    }
+                }
             }
 
             tries++;
@@ -139,6 +148,47 @@ public class RRT {
         return realGoalNode.pathFromParent();
     }
 
+    /**
+     * Determines whether the robot will collide with any obstacles as it rotates to face the next waypoint
+     * @param robotOrientation the robot's current orientation
+     * @param robotAngleError the angles the robot will have to rotate
+     * @param robotLoc the robot's current location
+     * @return whether the robot will collide with any obstacles
+     */
+    private boolean collisionInRotation(double robotOrientation, double robotAngleError, Point2D.Double robotLoc) {
+        int robotIndex = (int) Math.round(robotOrientation*180/Math.PI);
+        int errorIndex = (int) Math.round(robotAngleError*180/Math.PI);
+        int direction = (int) (errorIndex - robotIndex)/Math.abs(robotIndex - errorIndex);
+
+        while (robotIndex != errorIndex) {
+            //            If the point is in an obstacle, return collision
+            if (ptInObs(robotIndex, robotLoc)) {
+                return true;
+            } else {
+                robotIndex += direction;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Determines whether the test point is in any of the obstacles in the 2D C-Space specified by the index
+     * @param index the index that specifies the 2D CSpace 
+     * @param testPt the point being checked
+     * @return whether the test point is in any of the obstacles
+     */
+    private boolean ptInObs(int index, Point2D.Double testPt) {
+        //      Checking to see if the path between the current and new point intersects any obstacles
+        for (PolygonObstacle obstacle : map.get2DCSpace(index)) {
+            //              If the path to the new node intersects a polygon, we cannot add the node to the tree
+            if (obstacle.contains(testPt)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Determines whether the line determined by the two points intersects any obstacles in the 2D C-Space specified by the index
@@ -152,11 +202,11 @@ public class RRT {
         for (PolygonObstacle obstacle : map.get2DCSpace(index)) {
             //              If the path to the new node intersects a polygon, we cannot add the node to the tree
             if (lineIntersects(obstacle, testPt, closestNodePt)) {
-                return false;
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     /**
