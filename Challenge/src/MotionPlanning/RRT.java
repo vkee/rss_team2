@@ -354,7 +354,7 @@ class RRTreeNode {
 
     @Override
     public String toString() {
-        return "RRTreeNode [parent=" + parent + ", point=" + point.toString() + "]";
+        return "point=" + point.toString();
     }
     
     
