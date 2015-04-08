@@ -75,16 +75,11 @@ public class RRT {
 
             //          TODO: we may want to add a bias to selecting a point near the goal later on
             //            Getting the random point
-            
-            System.out.println("Bottom Left X " + bottomLeftX);
-            System.out.println("Bottom Left Y " + bottomLeftY);
-            
+                        
             double testX = Math.random() * worldWidth - Math.abs(bottomLeftX);
             double testY = Math.random() * worldHeight - Math.abs(bottomLeftY);
             Point2D.Double testPt = new Point2D.Double(testX, testY);
             
-            System.out.println("Test Pt Coord: " + testPt.toString());
-
             //            Finding the closest node in the current RRT tree to the sampled node
             //          The mininum distance between 2 nodes, initialized to the longest distance possible in the map
             double minDist = Math.sqrt(Math.pow(worldHeight, 2) + Math.pow(worldWidth, 2));
@@ -96,7 +91,6 @@ public class RRT {
                 double nodeDist = Math.sqrt(Math.pow(node.point.x - testX, 2) + Math.pow(node.point.y - testY, 2));
                 System.out.println("Node Dist: " + nodeDist);
                 if (nodeDist < minDist) {
-                    System.out.println("Closer Node is: " + node.toString());
                     closestNode = node;
                     minDist = nodeDist;
                 }
@@ -188,7 +182,8 @@ public class RRT {
                 System.out.println("robotIndex for pt in obs: " + robotIndex);
                 //            If the point is in an obstacle, return collision
                 if (ptInObs(robotIndex, robotLoc)) {
-                    return true;
+                    System.out.println("collision at point "+robotLoc);
+                	return true;
                 } else {
                     robotIndex += direction;
                     robotIndex %= CSpace.NUM_ANGLES;
