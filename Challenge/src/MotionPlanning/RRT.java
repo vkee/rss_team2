@@ -21,7 +21,7 @@ public class RRT {
     private double bottomLeftX;
     private double bottomLeftY;
 
-    private final int NUM_TRIES = 10;//00000;
+    private final int NUM_TRIES = 1000000;
 
     public RRT(GrandChallengeMap map) {
         this.map = map;
@@ -105,8 +105,6 @@ public class RRT {
                 //              TODO: Then rotate so that the robot is aligned with the line connecting the 2 points and make sure it doesn't collide with anything. Then make sure that this path is collision free.
                 double angle2TestPt = RRT.getAngle(closestNode.point.x, closestNode.point.y, testX, testY);
                 
-                System.out.println("angle to pt:" +angle2TestPt);
-
                 //                Keeping the angle between 0 and 2PI
                 if (angle2TestPt < 0.0) {
                     angle2TestPt += 2*Math.PI; 
@@ -114,12 +112,10 @@ public class RRT {
 
                 double robotAngleError = (angle2TestPt - robotOrientation) % (2*Math.PI);
                 
-                System.out.println("angle err:" +robotAngleError);
-
                 //                Keeping the error in angle between -PI and PI so that the robot minimizes rotation
                 //robotAngleError = (robotAngleError+Math.PI)%(2*Math.PI)-Math.PI;
                 
-                while (robotAngleError > Math.PI) {
+                while (robotAngleError > Math.PI) {				//WHILE!!! this is SOOOO wrong but fixed an issue TODO
                     robotAngleError -= 2*Math.PI;
                 }
                 
