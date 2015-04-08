@@ -64,8 +64,8 @@ public class FSM {
 		{
 		if (inState) return;					// may instead use a LOCK and queue for other msgs instead
 		inState = true;
-		if (currentState.accepts(msg.type))		//may not need this check
-			{currentState.update(msg);}		
+//		if (currentState.accepts(msg.type))		//may not need this check
+//			{currentState.update(msg);}		
 		inState = false;
 		}
 
