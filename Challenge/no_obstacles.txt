@@ -1,0 +1,114 @@
+#Comment line
+
+map {
+
+    bottom_left { -0.6096 -0.4953 }
+    top_right { 3.05 4.6419 }
+    robot_start { 0.0 0.0 }
+    robot_goal { 0.00 2.50 }
+
+    #Fiducials will contain a position,
+    #a top_color, a bottom_color, a top_radius, and a bottom_radius
+    #This should probably be broken down further into a fiducial being
+    #composed of two Ball objects...at some point
+
+    fiducials {
+    	num_fiducials 7
+	    0 {
+	        position { -0.6125 4.1375 } 
+		    top_color green
+		    bottom_color blue
+		    top_radius 0.055 #in meters
+		    bottom_radius 0.055 #in meters
+	    }
+	
+	    1 {
+	        position { 0.5 4.125 }
+		    top_color blue
+		    bottom_color yellow
+		    top_radius 0.055
+		    bottom_radius 0.055
+	    }
+	
+	    2 {
+	        position { 3.0125 3.325 }
+		    top_color green
+		    bottom_color orange
+		    top_radius 0.055
+		    bottom_radius 0.055
+	    }
+	
+	    3 {
+	        position { 1.9875 -0.475 }
+		    top_color red
+		    bottom_color green
+		    top_radius 0.055
+		    bottom_radius 0.055
+	    }
+	    
+	    4 {
+	        position { -0.5125 0.65 }
+		    top_color yellow
+		    bottom_color red
+		    top_radius 0.055
+		    bottom_radius 0.055
+	    }
+	    
+	    5 {
+	       position { 1.45 1.425 }
+	           top_color blue
+		   bottom_color red
+		   top_radius 0.055
+		   bottom_radius 0.055
+	    }
+
+	    6 {
+	       position { 0.8625 1.225 }
+	           top_color orange
+		   bottom_color blue
+		   top_radius 0.055
+		   bottom_radius 0.055
+	    }
+    }
+
+    #ConstructionObject information.  Note: some of the intended landing sites may be
+    #outside of the bounding box
+
+    construction_objects {
+    	num_construction_objects 8 
+        0 {
+            position { 0.0 0.0 } # Tricky Under robot
+            #color color_name
+            #size 1 | 2
+        }
+        1 {
+            position { 0.0 1.22 } # Around first obstacle
+        }
+        2 {
+            position { 0.32 2.875 } # Near Diagonal Obstacles
+        }
+        3 {
+            position { 1.878 3.464 } #Impossible: In the obstacle
+        }
+        4 {
+            position { 2.262 -0.304 } #Hard: In the corner.  Moved out 7cm,7cm
+        }
+        5 {
+            position { 0.581 2.343 } # One of the further blocks
+        }
+        6 {
+            position { 2.30 2.595 } # Double block
+            size 2
+        }
+        7 {
+            position { -0.232 3.494 } # Around concave obstacle
+        }
+    }
+
+	#Recall that obstacle points must be specified in CCW order
+	
+    obstacles {
+    	num_obstacles 0
+		
+	}
+}

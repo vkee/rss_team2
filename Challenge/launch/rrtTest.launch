@@ -13,8 +13,11 @@
   	<param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/src/challenge_2012.txt" /> 
   	-->
   	 
-<!-- Challenge Map 2015-->
+<!-- Challenge Map 2015
   	<param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/challenge_2015.txt" />  
+-->
+<!-- Empty Map -->
+  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/no_obstacles.txt" />  
 
   </node>
 </launch>
