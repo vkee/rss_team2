@@ -88,7 +88,7 @@ public class RRT {
             {
                 double nodeDist = Math.sqrt(Math.pow(node.point.x - testX, 2) + Math.pow(node.point.y - testY, 2));
                 if (nodeDist < minDist) {
-                    System.out.println("Closer Node is: " + node);
+                    System.out.println("Closer Node is: " + node.toString());
                     closestNode = node;
                     minDist = nodeDist;
                 }
@@ -351,4 +351,11 @@ class RRTreeNode {
         Collections.reverse(pathBack);
         return pathBack;
     }
+
+    @Override
+    public String toString() {
+        return "RRTreeNode [parent=" + parent + ", point=" + point.toString() + "]";
+    }
+    
+    
 }
