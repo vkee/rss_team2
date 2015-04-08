@@ -111,7 +111,7 @@ public class RRT {
                     robotAngleError -= 2*Math.PI;
                 }
 
-//                Checking whether the robot will collide with any obstacles while it rotates to face the new point
+                //                Checking whether the robot will collide with any obstacles while it rotates to face the new point
                 boolean collisionInRotation = collisionInRotation(robotOrientation, robotAngleError, closestNode.point);
 
                 if (!collisionInRotation) {
@@ -158,28 +158,35 @@ public class RRT {
     private boolean collisionInRotation(double robotOrientation, double robotAngleError, Point2D.Double robotLoc) {
         int robotIndex = (int) Math.round(robotOrientation*180/Math.PI);
         int errorIndex = (int) Math.round(robotAngleError*180/Math.PI);
-        int direction = (int) (errorIndex - robotIndex)/Math.abs(robotIndex - errorIndex);
 
         System.out.println("robotIndex: " + robotIndex);
         System.out.println("errorIndex: " + errorIndex);
-        System.out.println("direction: " + direction);
 
-        while ((robotIndex != errorIndex) && (robotIndex != (errorIndex + CSpace.NUM_ANGLES))){
-            System.out.println("robotIndex " + robotIndex);
-            //            If the point is in an obstacle, return collision
-            if (ptInObs(robotIndex, robotLoc)) {
-                return true;
-            } else {
-                robotIndex += direction;
-                
-//                Accounting for the -PI to PI of error index so that it works with the array of cspace obstacles
-                if (robotIndex < 0) {
-                    robotIndex += CSpace.NUM_ANGLES;
+        //        If no rotation required, no collision
+        if (robotIndex == errorIndex) {
+            return false;
+        } else {
+            //            Direction to rotate
+            int direction = (int) (errorIndex - robotIndex)/Math.abs(robotIndex - errorIndex);
+            System.out.println("direction: " + direction);
+
+            while ((robotIndex != errorIndex) && (robotIndex != (errorIndex + CSpace.NUM_ANGLES))){
+                System.out.println("robotIndex " + robotIndex);
+                //            If the point is in an obstacle, return collision
+                if (ptInObs(robotIndex, robotLoc)) {
+                    return true;
+                } else {
+                    robotIndex += direction;
+
+                    //                Accounting for the -PI to PI of error index so that it works with the array of cspace obstacles
+                    if (robotIndex < 0) {
+                        robotIndex += CSpace.NUM_ANGLES;
+                    }
                 }
             }
-        }
 
-        return false;
+            return false;
+        }
     }
 
     /**
