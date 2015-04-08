@@ -93,7 +93,7 @@ public class RRT {
             }
 
             //            Checking whether the node can be added to the RRT
-            boolean ptInObs = ptInObs((int) Math.round(robotOrientation*180/Math.PI), testPt);
+            boolean ptInObs = ptInObs(getCSpaceIndex(robotOrientation), testPt);
 
             if (!ptInObs) {
 
@@ -118,7 +118,7 @@ public class RRT {
                     //                Making the robot aligned pointing from the closest node to the test point
                     robotOrientation = angle2TestPt;
                     //                Checking that there is a path in the robot orientation when moving straight to the point
-                    boolean noClearPath = lineIntersectsObs((int) Math.round(robotOrientation*180/Math.PI), testPt, closestNode.point);
+                    boolean noClearPath = lineIntersectsObs(, testPt, closestNode.point);
 
                     if (!noClearPath) {
                         //                Adding the new node to the tree with an edge to the closest current node in the RRT
@@ -226,6 +226,15 @@ public class RRT {
         return false;
     }
 
+    /**
+     * Generates the index of the 2D CSpace in the 3D CSpace data structure
+     * @param robotOrientation the orientation of the robot in radians
+     * @return the index from 0 - 359
+     */
+    private int getCSpaceIndex(double robotOrientation) {
+        return ((int) Math.round(robotOrientation*180/Math.PI)) % (CSpace.NUM_ANGLES);
+    }
+    
     /**
      * Returns the distance between two points
      * 
