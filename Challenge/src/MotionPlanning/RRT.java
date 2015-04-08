@@ -83,10 +83,12 @@ public class RRT {
             //          The mininum distance between 2 nodes, initialized to the longest distance possible in the map
             double minDist = Math.sqrt(Math.pow(worldHeight, 2) + Math.pow(worldWidth, 2));
             RRTreeNode closestNode = null;
+            System.out.println("Size of Tree " + currTreeNodes.size());
             for (RRTreeNode node : currTreeNodes) // slow search
             {
                 double nodeDist = Math.sqrt(Math.pow(node.point.x - testX, 2) + Math.pow(node.point.y - testY, 2));
                 if (nodeDist < minDist) {
+                    System.out.println("Closer Node is: " + node);
                     closestNode = node;
                     minDist = nodeDist;
                 }
