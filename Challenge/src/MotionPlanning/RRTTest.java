@@ -24,14 +24,14 @@ import Challenge.GrandChallengeMap;
  * Tests the CSpace Module.
  *
  */
-public class RRTTest implements NodeMain{
+public class RRTTest implements NodeMain {
     private Publisher<GUIRectMsg> guiRectPub;
     private Publisher<GUIPolyMsg> guiPolyPub;
     private Publisher<GUIEraseMsg> guiErasePub;
     private Publisher<GUIPointMsg> guiPtPub;
     private Publisher<Object> ellipsePub;
     private Publisher<Object> stringPub;
-    
+
     private ColorMsg redMsg;
     private ColorMsg greenMsg;
     private ColorMsg blueMsg;
@@ -43,21 +43,24 @@ public class RRTTest implements NodeMain{
     private ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = new ArrayList<ArrayList<PolygonObstacle>>();
     private RRT rrt;
     // colors
-    private Color lightBlue = new Color(115,115,230);
-    private Color darkBlue = new Color(50,40,120);
+    private Color lightBlue = new Color(115, 115, 230);
+    private Color darkBlue = new Color(50, 40, 120);
 
-    //    Index of the obstacle cspace list to display 
-    //    (corresponds to the angle in degrees if num angles is 360)
+    // Index of the obstacle cspace list to display
+    // (corresponds to the angle in degrees if num angles is 360)
     private final int cspaceIndex = 90;
     private final double TOLERANCE = 0.1;
+
     public RRTTest() {
         cSpace = new CSpace();
     }
 
     @Override
     public void onStart(Node node) {
-        stringPub = node.newPublisher("gui/String", "Challenge_msgs/GUIStringMessage");
-        ellipsePub = node.newPublisher("/gui/Ellipse", "Challenge_msgs/GUIEllipseMessage");
+        stringPub = node.newPublisher("gui/String",
+                "Challenge_msgs/GUIStringMessage");
+        ellipsePub = node.newPublisher("/gui/Ellipse",
+                "Challenge_msgs/GUIEllipseMessage");
         guiRectPub = node.newPublisher("gui/Rect", "lab6_msgs/GUIRectMsg");
         guiPolyPub = node.newPublisher("gui/Poly", "lab6_msgs/GUIPolyMsg");
         guiErasePub = node.newPublisher("gui/Erase", "lab5_msgs/GUIEraseMsg");
@@ -77,19 +80,20 @@ public class RRTTest implements NodeMain{
             obsCSpaces = cSpace.generateCSpace(challengeMap, true);
             challengeMap.set3DCSpace(obsCSpaces);
             rrt = new RRT(challengeMap);
-//            rrtTests();
+            // rrtTests();
             displayMap(); // --Works: Remember to plug into Robot
             displayMapCSpace();
 
-        } catch(Exception e){
+        } catch (Exception e) {
             System.err.println("Failed trying to load file " + mapFileName);
             e.printStackTrace();
         }
-        
+
         try {
-            rrt.getPath(challengeMap.getRobotStart(), challengeMap.getRobotGoal(), TOLERANCE);
+            rrt.getPath(challengeMap.getRobotStart(),
+                    challengeMap.getRobotGoal(), TOLERANCE);
             System.out.println("Done");
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.err.println("Failed to find path...");
             e.printStackTrace();
         }
@@ -101,16 +105,21 @@ public class RRTTest implements NodeMain{
      */
     private void rrtTests() {
         System.out.println(RRT.getAngle(-1.03, 1.0, 4.07, 1.0) == 0.0);
-        System.out.println(RRT.getAngle(1.0, 1.0, 2.0, 2.0) == Math.PI/4);
-        System.out.println(RRT.getAngle(1.0, -1.0, 1.0, 2.0) == Math.PI/2);
-        System.out.println(RRT.getAngle(-2.0, -2.0, -4.0, 0.0) == 3*Math.PI/4);
-        System.out.println(RRT.getAngle(2.0, -2.0, -2.0, -2.0) == 4*Math.PI/4);
-        System.out.println(RRT.getAngle(0.0, 0.0, -1.0, -1.0) == -3*Math.PI/4);
-        System.out.println(RRT.getAngle(0.0, 0.0, 0.0, -1.0) == -2*Math.PI/4);
-        System.out.println(RRT.getAngle(1.0, -1.0, 2.0, -2.0) == -1*Math.PI/4);
+        System.out.println(RRT.getAngle(1.0, 1.0, 2.0, 2.0) == Math.PI / 4);
+        System.out.println(RRT.getAngle(1.0, -1.0, 1.0, 2.0) == Math.PI / 2);
+        System.out
+                .println(RRT.getAngle(-2.0, -2.0, -4.0, 0.0) == 3 * Math.PI / 4);
+        System.out
+                .println(RRT.getAngle(2.0, -2.0, -2.0, -2.0) == 4 * Math.PI / 4);
+        System.out.println(RRT.getAngle(0.0, 0.0, -1.0, -1.0) == -3 * Math.PI
+                / 4);
+        System.out.println(RRT.getAngle(0.0, 0.0, 0.0, -1.0) == -2 * Math.PI
+                / 4);
+        System.out.println(RRT.getAngle(1.0, -1.0, 2.0, -2.0) == -1 * Math.PI
+                / 4);
         System.out.println("Done running angle tests");
     }
-    
+
     /**
      * Displays all the contents of the map in MapGUI
      */
@@ -127,8 +136,7 @@ public class RRTTest implements NodeMain{
         GUIPolyMsg polyMsg = new GUIPolyMsg();
         for (PolygonObstacle obstacle : challengeMap.getPolygonObstacles()) {
             polyMsg = new GUIPolyMsg();
-            CSpaceTest.fillPolyMsg(polyMsg, obstacle,
-                    darkBlue, true, true);
+            CSpaceTest.fillPolyMsg(polyMsg, obstacle, darkBlue, true, true);
             guiPolyPub.publish(polyMsg);
         }
 
@@ -147,11 +155,10 @@ public class RRTTest implements NodeMain{
      */
     private void displayMapCSpace() {
         ArrayList<PolygonObstacle> obstacles = obsCSpaces.get(cspaceIndex);
-        //print cspace around obstacles
+        // print cspace around obstacles
         for (PolygonObstacle obstacle : obstacles) {
             GUIPolyMsg polyMsg = new GUIPolyMsg();
-            CSpaceTest.fillPolyMsg(polyMsg, obstacle,
-                    lightBlue, false, true);
+            CSpaceTest.fillPolyMsg(polyMsg, obstacle, lightBlue, false, true);
             guiPolyPub.publish(polyMsg);
         }
 

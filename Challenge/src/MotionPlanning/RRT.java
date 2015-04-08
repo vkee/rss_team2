@@ -156,7 +156,7 @@ public class RRT {
      * @return whether the robot will collide with any obstacles
      */
     private boolean collisionInRotation(double robotOrientation, double robotAngleError, Point2D.Double robotLoc) {
-        int robotIndex = (int) Math.round(robotOrientation*180/Math.PI);
+        int robotIndex = getCSpaceIndex(robotOrientation);
         int errorIndex = (int) Math.round(robotAngleError*180/Math.PI);
 
         System.out.println("robotIndex: " + robotIndex);
