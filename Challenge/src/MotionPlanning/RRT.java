@@ -97,6 +97,7 @@ public class RRT {
 
             if (!ptInObs) {
 
+                System.out.println("closestNode: " + closestNode.toString());
                 //              TODO: Then rotate so that the robot is aligned with the line connecting the 2 points and make sure it doesn't collide with anything. Then make sure that this path is collision free.
                 double angle2TestPt = RRT.getAngle(closestNode.point.x, closestNode.point.y, testX, testY);
 
