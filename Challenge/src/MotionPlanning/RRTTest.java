@@ -49,7 +49,7 @@ public class RRTTest implements NodeMain{
     //    Index of the obstacle cspace list to display 
     //    (corresponds to the angle in degrees if num angles is 360)
     private final int cspaceIndex = 90;
-
+    private final double TOLERANCE = 0.1;
     public RRTTest() {
         cSpace = new CSpace();
     }
@@ -77,9 +77,11 @@ public class RRTTest implements NodeMain{
             obsCSpaces = cSpace.generateCSpace(challengeMap, true);
             challengeMap.set3DCSpace(obsCSpaces);
             rrt = new RRT(challengeMap);
-            rrtTests();
+//            rrtTests();
             displayMap(); // --Works: Remember to plug into Robot
             displayMapCSpace();
+            rrt.getPath(challengeMap.getRobotStart(), challengeMap.getRobotGoal(), TOLERANCE);
+            System.out.println("Done");
         } catch(Exception e){
             System.err.println("Failed trying to load file " + mapFileName);
             e.printStackTrace();

@@ -676,4 +676,12 @@ public class GrandChallengeMap implements NodeMain {
     public void set3DCSpace(ArrayList<ArrayList<PolygonObstacle>> cspace) {
         this.cspaceObs = cspace;
     }
+
+    public Point2D.Double getRobotStart() {
+        return robotStart;
+    }
+
+    public Point2D.Double getRobotGoal() {
+        return robotGoal;
+    }
 }
