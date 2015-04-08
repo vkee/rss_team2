@@ -177,9 +177,9 @@ public class RRT {
         System.out.println("errorIndex: " + errorIndex);
 
         //        If no rotation required, no collision
-       // if (0 == errorIndex) {
-       //     return false;
-       // } else {
+        if (0 == errorIndex) {
+            return false;
+        } else {
             //            Direction to rotate
             int direction = (int) (errorIndex)/Math.abs(errorIndex);
 //            System.out.println("direction: " + direction);
@@ -197,7 +197,7 @@ public class RRT {
 
             return false;
         }
-    //}
+    }
 
     /**
      * Determines whether the test point is in any of the obstacles in the 2D C-Space specified by the index
