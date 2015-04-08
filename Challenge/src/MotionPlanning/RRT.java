@@ -160,6 +160,10 @@ public class RRT {
         int errorIndex = (int) Math.round(robotAngleError*180/Math.PI);
         int direction = (int) (errorIndex - robotIndex)/Math.abs(robotIndex - errorIndex);
 
+        System.out.println("robotIndex: " + robotIndex);
+        System.out.println("errorIndex: " + errorIndex);
+        System.out.println("direction: " + direction);
+
         while (robotIndex != errorIndex) {
             //            If the point is in an obstacle, return collision
             if (ptInObs(robotIndex, robotLoc)) {

@@ -80,10 +80,17 @@ public class RRTTest implements NodeMain{
 //            rrtTests();
             displayMap(); // --Works: Remember to plug into Robot
             displayMapCSpace();
-            rrt.getPath(challengeMap.getRobotStart(), challengeMap.getRobotGoal(), TOLERANCE);
-            System.out.println("Done");
+
         } catch(Exception e){
             System.err.println("Failed trying to load file " + mapFileName);
+            e.printStackTrace();
+        }
+        
+        try {
+            rrt.getPath(challengeMap.getRobotStart(), challengeMap.getRobotGoal(), TOLERANCE);
+            System.out.println("Done");
+        } catch(Exception e) {
+            System.err.println("Failed to find path...");
             e.printStackTrace();
         }
 
