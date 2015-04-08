@@ -97,7 +97,7 @@ public class RRT {
 
             if (!ptInObs) {
 
-                //              TODO: Then rotate so that the robot is aligned with the line connecting the 2 points and make sure it doesn’t collide with anything. Then make sure that this path is collision free.
+                //              TODO: Then rotate so that the robot is aligned with the line connecting the 2 points and make sure it doesn't collide with anything. Then make sure that this path is collision free.
                 double angle2TestPt = RRT.getAngle(closestNode.point.x, closestNode.point.y, testX, testY);
 
                 //                Keeping the angle between 0 and 2PI
@@ -160,35 +160,33 @@ public class RRT {
         
         int errorIndex = getErrorIndex(robotAngleError);
         
+        int goalIndex = robotIndex + errorIndex;
+        
         System.out.println("robotIndex: " + robotIndex);
         System.out.println("errorIndex: " + errorIndex);
 
         //        If no rotation required, no collision
-        if (robotIndex == errorIndex) {
-            return false;
-        } else {
+       // if (0 == errorIndex) {
+       //     return false;
+       // } else {
             //            Direction to rotate
-            int direction = (int) (errorIndex - robotIndex)/Math.abs(robotIndex - errorIndex);
+            int direction = (int) (errorIndex)/Math.abs(errorIndex);
 //            System.out.println("direction: " + direction);
 
-            while ((robotIndex != errorIndex) && (robotIndex != (errorIndex + CSpace.NUM_ANGLES))){
+            while (robotIndex != goalIndex){
 //                System.out.println("robotIndex for pt in obs: " + robotIndex);
                 //            If the point is in an obstacle, return collision
                 if (ptInObs(robotIndex, robotLoc)) {
                     return true;
                 } else {
                     robotIndex += direction;
-
-                    //                Accounting for the -PI to PI of error index so that it works with the array of cspace obstacles
-                    if (robotIndex < 0) {
-                        robotIndex += CSpace.NUM_ANGLES;
-                    }
+                    robotIndex %= CSpace.NUM_ANGLES;
                 }
             }
 
             return false;
         }
-    }
+    //}
 
     /**
      * Determines whether the test point is in any of the obstacles in the 2D C-Space specified by the index
@@ -243,6 +241,9 @@ public class RRT {
      */
     private int getErrorIndex(double robotAngleError) {
         int errorIndex = (int) Math.round(robotAngleError*180/Math.PI);
+        
+        
+        /// +pi %2pi -pi to put between -pi and pi? TODO?
 
 //        Keeping the error index between -2PI and 2PI
         while (errorIndex >= CSpace.NUM_ANGLES) {
