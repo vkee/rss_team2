@@ -137,7 +137,7 @@ public class RRT {
                         
                         robotOrientation = angle2TestPt;
                         
-                        //System.out.println("added a node");
+                        System.out.println("added a node, now:" + currTreeNodes.size());
 
                         //                If the test point is inside the goal rectangle, the goal is found
                         goalFound = goalRect.contains(testPt);
@@ -196,7 +196,7 @@ public class RRT {
                 } else {
                     robotIndex += direction + CSpace.NUM_ANGLES;  //neg values not handled well with mod
                     robotIndex %= CSpace.NUM_ANGLES;
-                    System.out.println("trying next:"+robotIndex);
+                    //System.out.println("trying next:"+robotIndex);
                 }
             }
 
