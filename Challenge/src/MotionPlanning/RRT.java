@@ -119,7 +119,7 @@ public class RRT {
                     robotAngleError -= 2*Math.PI;
                 }
                 
-                System.out.println("angle bad check:" + (Math.abs(robotAngleError) > Math.PI));
+                //System.out.println("angle bad check:" + (Math.abs(robotAngleError) > Math.PI));
 
                 //                Checking whether the robot will collide with any obstacles while it rotates to face the new point
                 boolean collisionInRotation = collisionInRotation(robotOrientation, robotAngleError, closestNode.point);
@@ -137,7 +137,7 @@ public class RRT {
                         
                         robotOrientation = angle2TestPt;
                         
-                        System.out.println("added a node, now:" + currTreeNodes.size());
+                        //System.out.println("added a node, now:" + currTreeNodes.size());
 
                         //                If the test point is inside the goal rectangle, the goal is found
                         goalFound = goalRect.contains(testPt);
@@ -176,8 +176,8 @@ public class RRT {
         
         int goalIndex = (robotIndex + errorIndex + CSpace.NUM_ANGLES) % CSpace.NUM_ANGLES;
         
-        System.out.println("robotIndex: " + robotIndex);
-        System.out.println("errorIndex: " + errorIndex);
+       // System.out.println("robotIndex: " + robotIndex);
+       // System.out.println("errorIndex: " + errorIndex);
 
         //        If no rotation required, no collision
         if (0 == errorIndex) {
