@@ -2,6 +2,7 @@ package MotionPlanning;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,8 @@ import org.ros.message.lab6_msgs.*;
 import org.ros.message.Challenge_msgs.*;
 
 import Challenge.GrandChallengeMap;
+import GlobalNavigation.GUIPolyMsg;
+import GlobalNavigation.PolygonObstacle;
 
 /**
  * Tests the CSpace Module.
@@ -49,7 +52,7 @@ public class RRTTest implements NodeMain {
     // Index of the obstacle cspace list to display
     // (corresponds to the angle in degrees if num angles is 360)
     private final int cspaceIndex = 90;
-    private final double TOLERANCE = 0.1;
+    private final double TOLERANCE = 0.02;
 
     public RRTTest() {
         cSpace = new CSpace();
@@ -90,9 +93,11 @@ public class RRTTest implements NodeMain {
         }
 
         try {
-            rrt.getPath(challengeMap.getRobotStart(),
+           List<Point2D.Double> rrtPath = rrt.getPath(challengeMap.getRobotStart(),
                     challengeMap.getRobotGoal(), TOLERANCE);
             System.out.println("Done");
+            
+            outputPath(rrtPath, Color.RED);
         } catch (Exception e) {
             System.err.println("Failed to find path...");
             e.printStackTrace();
@@ -120,6 +125,38 @@ public class RRTTest implements NodeMain {
         System.out.println("Done running angle tests");
     }
 
+    /**
+     * Outputs the path to the MapGUI
+     *
+     * @param points
+     * @param color
+     */
+    private void outputPath(List<Point2D.Double> points, java.awt.Color color) {
+
+        GUIPolyMsg poMsg = new GUIPolyMsg();
+
+        PolygonObstacle poly = new PolygonObstacle();
+
+        for (Point2D.Double point : points) {
+            poly.addVertex(point.x, point.y);
+        }
+        // poly.close();
+
+        // System.out.println(poly);
+        fillPolyMsg(poMsg, poly, color, false, false);
+        guiPolyPub.publish(poMsg);
+
+        //
+        // GUIPointMsg ptMsg = new GUIPointMsg();
+        //
+        // for (Point2D.Double point : points) {
+        // //System.out.println(point);
+        // fillPointMsg(ptMsg, point, color);
+        // guiPtPub.publish(ptMsg);
+        // }
+    }
+    
+    
     /**
      * Displays all the contents of the map in MapGUI
      */
