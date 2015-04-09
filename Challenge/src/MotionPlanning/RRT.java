@@ -174,7 +174,7 @@ public class RRT {
         
         int errorIndex = getErrorIndex(robotAngleError);
         
-        int goalIndex = (robotIndex + errorIndex) % CSpace.NUM_ANGLES;
+        int goalIndex = (robotIndex + errorIndex + CSpace.NUM_ANGLES) % CSpace.NUM_ANGLES;
         
         System.out.println("robotIndex: " + robotIndex);
         System.out.println("errorIndex: " + errorIndex);
