@@ -141,7 +141,7 @@ public class CSpace {
                     envBounds.getY());
             obs2DCSpace.add(obsCSpace(robotPolys.get(i), boundaryObs));
 
-            // right
+            /*// right
             boundaryObs = new PolygonObstacle();
             boundaryObs.addVertex(envBounds.getX() + envBounds.getWidth(),
                     envBounds.getY());
@@ -162,7 +162,7 @@ public class CSpace {
                     envBounds.getY() + envBounds.getHeight());
             boundaryObs.addVertex(envBounds.getX() + envBounds.getWidth(),
                     envBounds.getY() + envBounds.getHeight());
-            obs2DCSpace.add(obsCSpace(robotPolys.get(i), boundaryObs));
+            obs2DCSpace.add(obsCSpace(robotPolys.get(i), boundaryObs));*/
 
             obs3DCSpace.add(obs2DCSpace);
         }
