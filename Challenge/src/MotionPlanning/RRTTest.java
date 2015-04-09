@@ -20,10 +20,7 @@ import org.ros.message.lab6_msgs.*;
 import org.ros.message.Challenge_msgs.*;
 
 import Challenge.GrandChallengeMap;
-import GlobalNavigation.ColorMsg;
-import GlobalNavigation.GUIPointMsg;
-import GlobalNavigation.GUIPolyMsg;
-import GlobalNavigation.PolygonObstacle;
+
 
 /**
  * Tests the CSpace Module.
@@ -128,28 +125,6 @@ public class RRTTest implements NodeMain {
     }
 
     /**
-     * Given an empty GUIPointMsg and the appropriate parameters, fills in the
-     * message
-     *
-     * @param msg
-     *            the empty GUIPointMsg to be filled
-     * @param point
-     * @param color
-     * @param shape
-     */
-    public void fillPointMsg(GUIPointMsg msg,
-                             java.awt.geom.Point2D.Double point, java.awt.Color color) {
-        msg.x = (float) point.getX();
-        msg.y = (float) point.getY();
-        ColorMsg colorMsg = new ColorMsg();
-        colorMsg.r = color.getRed();
-        colorMsg.g = color.getGreen();
-        colorMsg.b = color.getBlue();
-        msg.color = colorMsg;
-        // msg.shape = 0L;
-    }
-
-    /**
      * Outputs the path to the MapGUI
      *
      * @param points
@@ -167,7 +142,7 @@ public class RRTTest implements NodeMain {
         // poly.close();
 
         // System.out.println(poly);
-        fillPolyMsg(poMsg, poly, color, false, false);
+        CSpaceTest.fillPolyMsg(poMsg, poly, color, false, false);
         guiPolyPub.publish(poMsg);
 
         //
