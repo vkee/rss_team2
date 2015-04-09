@@ -84,7 +84,7 @@ public class RRT {
             //          The mininum distance between 2 nodes, initialized to the longest distance possible in the map
             double minDist = Math.sqrt(Math.pow(worldHeight, 2) + Math.pow(worldWidth, 2));
             RRTreeNode closestNode = null;
-            System.out.println("Size of Tree " + currTreeNodes.size());
+            //System.out.println("Size of Tree " + currTreeNodes.size());
             for (RRTreeNode node : currTreeNodes) // slow search
             {
                 //System.out.println("Node Coord: " + node.toString());
@@ -137,7 +137,7 @@ public class RRT {
                         
                         robotOrientation = angle2TestPt;
                         
-                        System.out.println("added a node");
+                        //System.out.println("added a node");
 
                         //                If the test point is inside the goal rectangle, the goal is found
                         goalFound = goalRect.contains(testPt);
@@ -174,7 +174,7 @@ public class RRT {
         
         int errorIndex = getErrorIndex(robotAngleError);
         
-        int goalIndex = robotIndex + errorIndex;
+        int goalIndex = (robotIndex + errorIndex) % CSpace.NUM_ANGLES;
         
         System.out.println("robotIndex: " + robotIndex);
         System.out.println("errorIndex: " + errorIndex);
@@ -194,8 +194,9 @@ public class RRT {
                     System.out.println("collision at angle "+robotIndex);
                 	return true;
                 } else {
-                    robotIndex += direction;
+                    robotIndex += direction + CSpace.NUM_ANGLES;  //neg values not handled well with mod
                     robotIndex %= CSpace.NUM_ANGLES;
+                    System.out.println("trying next:"+robotIndex);
                 }
             }
 
@@ -211,7 +212,7 @@ public class RRT {
      */
     private boolean ptInObs(int index, Point2D.Double testPt) {
         //      Checking to see if the path between the current and new point intersects any obstacles
-        System.out.println("how many obs:" + map.get2DCSpace(index).size());
+        //System.out.println("how many obs:" + map.get2DCSpace(index).size());
     	
     	for (PolygonObstacle obstacle : map.get2DCSpace(index)) {
             //              If the path to the new node intersects a polygon, we cannot add the node to the tree
