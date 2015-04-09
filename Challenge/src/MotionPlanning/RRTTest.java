@@ -20,6 +20,8 @@ import org.ros.message.lab6_msgs.*;
 import org.ros.message.Challenge_msgs.*;
 
 import Challenge.GrandChallengeMap;
+import GlobalNavigation.ColorMsg;
+import GlobalNavigation.GUIPointMsg;
 import GlobalNavigation.GUIPolyMsg;
 import GlobalNavigation.PolygonObstacle;
 
@@ -123,6 +125,28 @@ public class RRTTest implements NodeMain {
         System.out.println(RRT.getAngle(1.0, -1.0, 2.0, -2.0) == -1 * Math.PI
                 / 4);
         System.out.println("Done running angle tests");
+    }
+
+    /**
+     * Given an empty GUIPointMsg and the appropriate parameters, fills in the
+     * message
+     *
+     * @param msg
+     *            the empty GUIPointMsg to be filled
+     * @param point
+     * @param color
+     * @param shape
+     */
+    public void fillPointMsg(GUIPointMsg msg,
+                             java.awt.geom.Point2D.Double point, java.awt.Color color) {
+        msg.x = (float) point.getX();
+        msg.y = (float) point.getY();
+        ColorMsg colorMsg = new ColorMsg();
+        colorMsg.r = color.getRed();
+        colorMsg.g = color.getGreen();
+        colorMsg.b = color.getBlue();
+        msg.color = colorMsg;
+        // msg.shape = 0L;
     }
 
     /**
