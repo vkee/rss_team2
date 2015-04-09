@@ -115,11 +115,11 @@ public class RRT {
                 //                Keeping the error in angle between -PI and PI so that the robot minimizes rotation
                 //robotAngleError = (robotAngleError+Math.PI)%(2*Math.PI)-Math.PI;
                 
-                while (robotAngleError > Math.PI) {				//WHILE!!! this is SOOOO wrong but fixed an issue TODO
+                if (robotAngleError > Math.PI) {				
                     robotAngleError -= 2*Math.PI;
                 }
                 
-                System.out.println(Math.abs(robotAngleError) > Math.PI);
+                System.out.println("angle bad check:" + (Math.abs(robotAngleError) > Math.PI));
 
                 //                Checking whether the robot will collide with any obstacles while it rotates to face the new point
                 boolean collisionInRotation = collisionInRotation(robotOrientation, robotAngleError, closestNode.point);

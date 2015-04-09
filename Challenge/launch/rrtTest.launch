@@ -9,15 +9,17 @@
 <!-- Construction Map 2012
   	<param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/src/construction_map_2012.txt" />  
      -->
-<!-- Challenge Map 2012
+<!-- Challenge Map 2012-->
   	<param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/src/challenge_2012.txt" /> 
-  	-->
+  	
   	 
 <!-- Challenge Map 2015
   	<param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/challenge_2015.txt" />  
 -->
-<!-- Empty Map -->
+<!-- Empty Map 
   	<param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/no_obstacles.txt" />  
+-->
+
 
   </node>
 </launch>
