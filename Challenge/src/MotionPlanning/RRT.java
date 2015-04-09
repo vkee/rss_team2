@@ -21,7 +21,7 @@ public class RRT {
     private double bottomLeftX;
     private double bottomLeftY;
 
-    private final int NUM_TRIES = 1;//000000;
+    private final int NUM_TRIES = 1000000;
 
     public RRT(GrandChallengeMap map) {
         this.map = map;
