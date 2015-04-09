@@ -211,7 +211,9 @@ public class RRT {
      */
     private boolean ptInObs(int index, Point2D.Double testPt) {
         //      Checking to see if the path between the current and new point intersects any obstacles
-        for (PolygonObstacle obstacle : map.get2DCSpace(index)) {
+        System.out.println("how many obs:" + map.get2DCSpace(index).size());
+    	
+    	for (PolygonObstacle obstacle : map.get2DCSpace(index)) {
             //              If the path to the new node intersects a polygon, we cannot add the node to the tree
             if (obstacle.contains(testPt)) {
                 return true;
