@@ -125,11 +125,14 @@ public class CSpace {
             }
 
             //            Computing the configuration spaces for each obstacle
+            
+            System.out.println("obs ct:" + challengeMap.getPolygonObstacles().length);
+            
             for (PolygonObstacle obstacle : challengeMap.getPolygonObstacles()) {
                 obs2DCSpace.add(obsCSpace(robotPolys.get(i), obstacle));
             }
 
-            //            Adding an obstacle for the map boundaries
+            /*//            Adding an obstacle for the map boundaries
             Rectangle2D.Double envBounds = challengeMap.getWorldRect();
 
             PolygonObstacle boundaryObs = new PolygonObstacle();
@@ -163,7 +166,7 @@ public class CSpace {
                     envBounds.getY() + envBounds.getHeight());
             obs2DCSpace.add(obsCSpace(robotPolys.get(i), boundaryObs));
 
-            obs3DCSpace.add(obs2DCSpace);
+            obs3DCSpace.add(obs2DCSpace);*/
         }
 
         return obs3DCSpace;
