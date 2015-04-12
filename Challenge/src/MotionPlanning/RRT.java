@@ -75,9 +75,8 @@ public class RRT {
 
             //          TODO: we may want to add a bias to selecting a point near the goal later on
             //            Getting the random point
-                        
-            double testX = Math.random() * worldWidth - Math.abs(bottomLeftX);
-            double testY = Math.random() * worldHeight - Math.abs(bottomLeftY);
+            double testX = Math.random() * worldWidth + bottomLeftX;
+            double testY = Math.random() * worldHeight + bottomLeftY;
             Point2D.Double testPt = new Point2D.Double(testX, testY);
             
             //            Finding the closest node in the current RRT tree to the sampled node
