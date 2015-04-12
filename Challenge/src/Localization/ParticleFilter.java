@@ -27,6 +27,14 @@ public class ParticleFilter {
     private double rotNoise;
     private double sensorNoise;
 
+    /**
+     * Creates a Particle filter with the provided parameters.
+     * @param numParticles the number of particles 
+     * @param map the map of the environment
+     * @param transNoise the translational noise (std dev of translational measurements)
+     * @param rotNoise the rotational noise (std dev of rotation measurements)
+     * @param sensorNoise the sensor noise (std dev of sensor measurements)
+     */
     public ParticleFilter(int numParticles, GrandChallengeMap map, 
             double transNoise, double rotNoise, double sensorNoise) {
         this.numParticles = numParticles;
@@ -41,12 +49,23 @@ public class ParticleFilter {
         }
     }
 
+    /**
+     * Updates the position of each particle.
+     * @param translation the translational distance the robot has moved (in meters)
+     * @param rotation the rotational distance the robot has moved (in radians)
+     */
     protected void motionUpdate(double translation, double rotation) {
         for (RobotParticle particle : particles) {
             particle.motionUpdate(translation, rotation);
         }
     }
 
+    /**
+     * Computes the probability that each particle is at it's current position given the provided measurements
+     * @param measuredFiducials the indices of the fiducials that have measurements 
+     * (corresponding to the indices of the fiducials in the field of GrandChallengeMap)
+     * @param measuredDists the measured distances to the fiducials
+     */
     protected void measurementUpdate(ArrayList<Integer> measuredFiducials, HashMap<Integer, Double> measuredDists) {
         //        Determining the probabilities that each of the particles measured the input measurements
         ArrayList<Double> measurementProbs = new ArrayList<Double>();
@@ -57,6 +76,12 @@ public class ParticleFilter {
         particles = resampleParticles(measurementProbs);
     }
     
+    /**
+     * Resamples the particles with the provided measurement probabilities using a resampling wheel.
+     * See https://www.udacity.com/course/viewer#!/c-cs373/l-48704330/e-48748082/m-48740082
+     * @param measurementProbs the probabilities that each of the particles 
+     * @return the resampled particles
+     */
     protected ArrayList<RobotParticle> resampleParticles(ArrayList<Double> measurementProbs){
         ArrayList<RobotParticle> resampledParticles = new ArrayList<RobotParticle>();
         
