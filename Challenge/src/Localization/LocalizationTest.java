@@ -21,8 +21,11 @@ import org.ros.message.Challenge_msgs.*;
 
 import Challenge.Fiducial;
 import Challenge.GrandChallengeMap;
+import MotionPlanning.CSpace;
 import MotionPlanning.CSpaceTest;
+import MotionPlanning.GUIPolyMsg;
 import MotionPlanning.PolygonObstacle;
+import MotionPlanning.RRT;
 
 /**
  * Tests the Localization modules (ParticleFilter, RobotParticle).
@@ -43,12 +46,20 @@ public class LocalizationTest implements NodeMain {
 
     private String mapFileName;
     private GrandChallengeMap challengeMap;
+    private CSpace cSpace;
+    private ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = new ArrayList<ArrayList<PolygonObstacle>>();
+    private RRT rrt;
     // colors
     private Color lightBlue = new Color(115, 115, 230);
     private Color darkBlue = new Color(50, 40, 120);
 
+    // Index of the obstacle cspace list to display
+    // (corresponds to the angle in degrees if num angles is 360)
+    private final int cspaceIndex = 90;
+    private final double TOLERANCE = 0.02;
+    
     public LocalizationTest() {
-
+        cSpace = new CSpace();
     }
 
     @Override
@@ -73,24 +84,49 @@ public class LocalizationTest implements NodeMain {
             Thread.sleep(1000);
 
             challengeMap = GrandChallengeMap.parseFile(mapFileName);
-
+            obsCSpaces = cSpace.generateCSpace(challengeMap, false);            //this was adding the robot as an OBSTACLE!!! was true TODO
+            challengeMap.set3DCSpace(obsCSpaces);
+            rrt = new RRT(challengeMap);
             displayMap(); // --Works: Remember to plug into Robot
+            displayMapCSpace();
         } catch (Exception e) {
             System.err.println("Failed trying to load file " + mapFileName);
             e.printStackTrace();
         }
 
         try {
-            //            here is where should run the test stuff
-            System.out.println("Done");
-
+            List<Point2D.Double> rrtPath = rrt.getPath(challengeMap.getRobotStart(),
+                    challengeMap.getRobotGoal(), TOLERANCE);
+            outputPath(rrtPath, Color.RED);
+            System.out.println("Done with RRT");
         } catch (Exception e) {
             System.err.println("Failed to find path...");
             e.printStackTrace();
         }
-
+        
+        
     }
 
+    /**
+     * Outputs the path to the MapGUI
+     *
+     * @param points
+     * @param color
+     */
+    private void outputPath(List<Point2D.Double> points, java.awt.Color color) {
+
+        GUIPolyMsg poMsg = new GUIPolyMsg();
+
+        PolygonObstacle poly = new PolygonObstacle();
+
+        for (Point2D.Double point : points) {
+            poly.addVertex(point.x, point.y);
+        }
+
+        CSpaceTest.fillPolyMsg(poMsg, poly, color, false, false);
+        guiPolyPub.publish(poMsg);
+    }
+    
     /**
      * Displays all the contents of the map in MapGUI
      */
@@ -133,6 +169,23 @@ public class LocalizationTest implements NodeMain {
         System.out.println("Done running displayMap");
     }
 
+    /**
+     * Displays the configuration space of the environment.
+     */
+    private void displayMapCSpace() {
+        ArrayList<PolygonObstacle> obstacles = obsCSpaces.get(cspaceIndex);
+        // print cspace around obstacles
+        for (PolygonObstacle obstacle : obstacles) {
+            GUIPolyMsg polyMsg = new GUIPolyMsg();
+            CSpaceTest.fillPolyMsg(polyMsg, obstacle, lightBlue, false, true);
+            guiPolyPub.publish(polyMsg);
+        }
+
+        System.out.println(obsCSpaces.size());
+        System.out.println("Done running displayMapCSpace");
+
+    }
+    
     protected void publishEllipse(double x, double y, double w, double h, Color color) {
         GUIEllipseMessage ellipseMsg = new GUIEllipseMessage();
         ellipseMsg.x = (float)x;
