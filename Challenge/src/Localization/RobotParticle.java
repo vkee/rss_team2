@@ -131,6 +131,6 @@ public class RobotParticle {
 
     @Override
     public String toString() {
-        return "RobotParticle [x=" + x + ", y=" + y + ", theta=" + theta + "]";
+        return "RobotParticle [x=" + x + ", y=" + y + ", theta=" + theta + "]\n";
     }
 }
