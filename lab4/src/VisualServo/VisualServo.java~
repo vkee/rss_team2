@@ -16,9 +16,6 @@ import org.ros.node.topic.Subscriber;
  * 
  */
 public class VisualServo implements NodeMain, Runnable {
-	
-	public client cl = null;
-
 
 	protected static final int width = 160;
 
