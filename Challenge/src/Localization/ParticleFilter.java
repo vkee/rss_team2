@@ -112,6 +112,4 @@ public class ParticleFilter {
         
         return stringRep;
     }
-
-
 }

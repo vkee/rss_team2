@@ -23,7 +23,7 @@ import Challenge.GrandChallengeMap;
 
 
 /**
- * Tests the CSpace Module.
+ * Tests the RRT Module.
  *
  */
 public class RRTTest implements NodeMain {
