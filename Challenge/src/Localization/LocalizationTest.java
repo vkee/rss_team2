@@ -21,6 +21,7 @@ import org.ros.message.Challenge_msgs.*;
 
 import Challenge.GrandChallengeMap;
 import MotionPlanning.CSpaceTest;
+import MotionPlanning.PolygonObstacle;
 
 /**
  * Tests the Localization modules (ParticleFilter, RobotParticle).
