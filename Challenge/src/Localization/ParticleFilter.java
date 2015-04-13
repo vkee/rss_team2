@@ -75,7 +75,7 @@ public class ParticleFilter {
 
         particles = resampleParticles(measurementProbs);
     }
-    
+
     /**
      * Resamples the particles with the provided measurement probabilities using a resampling wheel.
      * See https://www.udacity.com/course/viewer#!/c-cs373/l-48704330/e-48748082/m-48740082
@@ -84,10 +84,10 @@ public class ParticleFilter {
      */
     protected ArrayList<RobotParticle> resampleParticles(ArrayList<Double> measurementProbs){
         ArrayList<RobotParticle> resampledParticles = new ArrayList<RobotParticle>();
-        
+
         int index = (int) (Math.random() * numParticles);
         double beta = 0.0;
-        
+
         double maxProb = Collections.max(measurementProbs);
         for (int i = 0; i < numParticles; i++) {
             beta += (Math.random()*2*maxProb);
@@ -99,4 +99,19 @@ public class ParticleFilter {
         }
         return resampledParticles;
     }
+
+    @Override
+    public String toString() {
+        String stringRep = "ParticleFilter with [numParticles=" + numParticles + ",  transNoise="
+                + transNoise + ", rotNoise="
+                + rotNoise + ", sensorNoise=" + sensorNoise + "]";
+        
+        for (RobotParticle particle : particles) {
+            stringRep = stringRep + particle.toString();
+        }
+        
+        return stringRep;
+    }
+
+
 }
