@@ -20,8 +20,6 @@ import org.ros.message.lab6_msgs.*;
 import org.ros.message.Challenge_msgs.*;
 
 import Challenge.Fiducial;
-import Challenge.GUIEllipseMessage;
-import Challenge.GUIPointMsg;
 import Challenge.GrandChallengeMap;
 import MotionPlanning.CSpaceTest;
 import MotionPlanning.PolygonObstacle;
