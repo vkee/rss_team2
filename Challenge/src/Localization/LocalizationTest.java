@@ -23,7 +23,6 @@ import Challenge.Fiducial;
 import Challenge.GrandChallengeMap;
 import MotionPlanning.CSpace;
 import MotionPlanning.CSpaceTest;
-import MotionPlanning.GUIPolyMsg;
 import MotionPlanning.PolygonObstacle;
 import MotionPlanning.RRT;
 
