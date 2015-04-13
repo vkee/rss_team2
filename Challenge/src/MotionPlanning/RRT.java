@@ -241,6 +241,25 @@ public class RRT {
 
         return false;
     }
+    
+    /**
+     * Determines whether the line determined by the two points intersects any obstacles in the 2D C-Space 
+     * @param cSpace2D the 2D CSpace 
+     * @param testPt the first point of the line
+     * @param closestNodePt the second point of the line
+     * @return whether the line intersects any obstacles
+     */
+    public static boolean lineIntersectsObs(ArrayList<PolygonObstacle> cSpace2D, Point2D.Double testPt, Point2D.Double closestNodePt) {
+        //      Checking to see if the path between the current and new point intersects any obstacles
+        for (PolygonObstacle obstacle : cSpace2D) {
+            //              If the path to the new node intersects a polygon, we cannot add the node to the tree
+            if (lineIntersects(obstacle, testPt, closestNodePt)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Generates the index of the 2D CSpace in the 3D CSpace data structure
@@ -287,7 +306,7 @@ public class RRT {
      * 
      * @param pt2Y the y coordinate of point 2
      */
-    public static double getDist(double pt1X, double pt1Y, double pt2X, double pt2Y) {
+    public static Double getDist(double pt1X, double pt1Y, double pt2X, double pt2Y) {
         return Math.sqrt((pt1X - pt2X) * (pt1X - pt2X) + (pt1Y - pt2Y)
                 * (pt1Y - pt2Y));
     }
@@ -315,7 +334,7 @@ public class RRT {
      * @param pt2 the second point of the line segment
      * @return whether
      */
-    public boolean lineIntersects(PolygonObstacle obs, Point2D.Double pt1,
+    public static boolean lineIntersects(PolygonObstacle obs, Point2D.Double pt1,
             Point2D.Double pt2) {
         Line2D path = new Line2D.Double(pt1.x, pt1.y, pt2.x, pt2.y);
         List<Point2D.Double> verts = obs.getVertices();
@@ -332,9 +351,6 @@ public class RRT {
         }
         return false;
     }
-
-
-
 }
 
 /**

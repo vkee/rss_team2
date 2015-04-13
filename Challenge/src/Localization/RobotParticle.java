@@ -133,4 +133,12 @@ public class RobotParticle {
     public String toString() {
         return "RobotParticle [x=" + x + ", y=" + y + ", theta=" + theta + "]\n";
     }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
 }

@@ -100,6 +100,10 @@ public class ParticleFilter {
         return resampledParticles;
     }
 
+    public ArrayList<RobotParticle> getParticles() {
+        return particles;
+    }
+
     @Override
     public String toString() {
         String stringRep = "ParticleFilter with [numParticles=" + numParticles + ",  transNoise="
