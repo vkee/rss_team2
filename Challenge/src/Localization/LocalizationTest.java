@@ -19,6 +19,9 @@ import org.ros.message.lab5_msgs.*;
 import org.ros.message.lab6_msgs.*;
 import org.ros.message.Challenge_msgs.*;
 
+import Challenge.Fiducial;
+import Challenge.GUIEllipseMessage;
+import Challenge.GUIPointMsg;
 import Challenge.GrandChallengeMap;
 import MotionPlanning.CSpaceTest;
 import MotionPlanning.PolygonObstacle;
@@ -32,6 +35,8 @@ public class LocalizationTest implements NodeMain {
     private Publisher<GUIPolyMsg> guiPolyPub;
     private Publisher<GUIEraseMsg> guiErasePub;
     private Publisher<GUIPointMsg> guiPtPub;
+    private Publisher<Object> ellipsePub;
+    private Publisher<Object> stringPub;
 
     private ColorMsg redMsg;
     private ColorMsg greenMsg;
@@ -45,11 +50,15 @@ public class LocalizationTest implements NodeMain {
     private Color darkBlue = new Color(50, 40, 120);
 
     public LocalizationTest() {
-        
+
     }
 
     @Override
     public void onStart(Node node) {
+        stringPub = node.newPublisher("gui/String",
+                "Challenge_msgs/GUIStringMessage");
+        ellipsePub = node.newPublisher("/gui/Ellipse",
+                "Challenge_msgs/GUIEllipseMessage");
         guiRectPub = node.newPublisher("gui/Rect", "lab6_msgs/GUIRectMsg");
         guiPolyPub = node.newPublisher("gui/Poly", "lab6_msgs/GUIPolyMsg");
         guiErasePub = node.newPublisher("gui/Erase", "lab5_msgs/GUIEraseMsg");
@@ -74,16 +83,16 @@ public class LocalizationTest implements NodeMain {
         }
 
         try {
-//            here is where should run the test stuff
+            //            here is where should run the test stuff
             System.out.println("Done");
-            
+
         } catch (Exception e) {
             System.err.println("Failed to find path...");
             e.printStackTrace();
         }
 
     }
-   
+
     /**
      * Displays all the contents of the map in MapGUI
      */
@@ -106,10 +115,50 @@ public class LocalizationTest implements NodeMain {
                 Color.BLACK, false);
         guiRectPub.publish(rectMsg);
 
+        for(Fiducial f : challengeMap.getFiducials()){
+            Point2D.Double pos = f.getPosition();
+            System.out.println("Fiducial at ("+f.getTopColor()+"/"+f.getBottomColor()+")at: "+pos.getX()+", "+pos.getY());
+            publishEllipse(f.getPosition().x+0.1, f.getPosition().y+0.1, f.getBottomSize()*4.0, 
+                    f.getBottomSize()*4.0, f.getBottomColor());
+            publishEllipse(f.getPosition().x, f.getPosition().y, f.getTopSize()*4.0, 
+                    f.getTopSize()*4.0, f.getTopColor());
+        }
+        
+        Point2D.Double robotStart = challengeMap.getRobotStart();
+        Point2D.Double robotGoal = challengeMap.getRobotGoal();
+
+        publishPoint(robotStart.getX(), robotStart.getY(), 0, Color.RED);
+        publishPoint(robotGoal.getX(), robotGoal.getY(), 0, Color.CYAN);
+        System.out.println("Robot Start: " + robotStart);
+        System.out.println("Robot Goal: " + robotGoal);
         System.out.println("Num obstacles " + challengeMap.getPolygonObstacles().length);
         System.out.println("Done running displayMap");
     }
 
+    protected void publishEllipse(double x, double y, double w, double h, Color color) {
+        GUIEllipseMessage ellipseMsg = new GUIEllipseMessage();
+        ellipseMsg.x = (float)x;
+        ellipseMsg.y = (float)y;
+        ellipseMsg.width = (float)w;
+        ellipseMsg.height = (float)h;
+        ellipseMsg.filled = 1;
+        ellipseMsg.c.r = color.getRed();
+        ellipseMsg.c.g = color.getGreen();
+        ellipseMsg.c.b = color.getBlue();
+        ellipsePub.publish(ellipseMsg);
+    }
+    
+    protected void publishPoint(double x, double y, int shape, Color color) {
+        GUIPointMsg msg = new GUIPointMsg();
+        msg.x = x;
+        msg.y = y;
+        msg.shape = shape;
+        msg.color.r = color.getRed();
+        msg.color.g = color.getGreen();
+        msg.color.b = color.getBlue();
+        guiPtPub.publish(msg);
+    }
+    
     @Override
     public void onShutdown(Node node) {
         if (node != null) {
