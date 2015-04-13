@@ -125,8 +125,8 @@ public class LocalizationTest implements NodeMain {
         Point2D.Double robotStart = challengeMap.getRobotStart();
         Point2D.Double robotGoal = challengeMap.getRobotGoal();
 
-        publishPoint(robotStart.getX(), robotStart.getY(), 0, Color.RED);
-        publishPoint(robotGoal.getX(), robotGoal.getY(), 0, Color.CYAN);
+        publishEllipse(robotStart.getX(), robotStart.getY(), 2.0, 2.0, Color.RED);
+        publishEllipse(robotGoal.getX(), robotGoal.getY(), 1.0, 1.0, Color.CYAN);
         System.out.println("Robot Start: " + robotStart);
         System.out.println("Robot Goal: " + robotGoal);
         System.out.println("Num obstacles " + challengeMap.getPolygonObstacles().length);
