@@ -138,7 +138,7 @@ public class LocalizationTest implements NodeMain {
                     //                    Display the state after the motion and measurement update
                     prevPt = pt;
                     refreshDisplay();
-                    Thread.sleep(1000); // Waiting 1 second between each step
+                    Thread.sleep(2000); // Waiting 1 second between each step
                 }
 
                 System.out.println("Done with particle filter");
@@ -253,7 +253,7 @@ public class LocalizationTest implements NodeMain {
 
         for(Fiducial f : challengeMap.getFiducials()){
             Point2D.Double pos = f.getPosition();
-            System.out.println("Fiducial at ("+f.getTopColor()+"/"+f.getBottomColor()+")at: "+pos.getX()+", "+pos.getY());
+//            System.out.println("Fiducial at ("+f.getTopColor()+"/"+f.getBottomColor()+")at: "+pos.getX()+", "+pos.getY());
             publishEllipse(f.getPosition().x+0.1, f.getPosition().y+0.1, f.getBottomSize()*4.0, 
                     f.getBottomSize()*4.0, f.getBottomColor());
             publishEllipse(f.getPosition().x, f.getPosition().y, f.getTopSize()*4.0, 
@@ -265,10 +265,10 @@ public class LocalizationTest implements NodeMain {
 
         publishEllipse(robotStart.getX(), robotStart.getY(), 0.1, 0.1, Color.RED);
         publishEllipse(robotGoal.getX(), robotGoal.getY(), 0.1, 0.1, Color.CYAN);
-        System.out.println("Robot Start: " + robotStart);
-        System.out.println("Robot Goal: " + robotGoal);
-        System.out.println("Num obstacles " + challengeMap.getPolygonObstacles().length);
-        System.out.println("Done running displayMap");
+//        System.out.println("Robot Start: " + robotStart);
+//        System.out.println("Robot Goal: " + robotGoal);
+//        System.out.println("Num obstacles " + challengeMap.getPolygonObstacles().length);
+//        System.out.println("Done running displayMap");
     }
 
     /**
