@@ -104,15 +104,18 @@ public class LocalizationTest implements NodeMain {
 
         try {
             //            Generate RRT
-            rrtPath = rrt.getPath(challengeMap.getRobotStart(),
-                    challengeMap.getRobotGoal(), TOLERANCE);
-            outputPath(rrtPath, Color.RED);
-            System.out.println("Done with RRT");
-
+//            rrtPath = rrt.getPath(challengeMap.getRobotStart(),
+//                    challengeMap.getRobotGoal(), TOLERANCE);
+//            outputPath(rrtPath, Color.RED);
+//            System.out.println("Done with RRT");
+            rrtPath = generateTestPath();
+            
+            
+            
             //            Localization Tests
             try {
                 //                Initialize Particle Filter
-                particleFilter = new ParticleFilter(1000, challengeMap, 0.5, 0.5, 5.0);
+                particleFilter = new ParticleFilter(10000, challengeMap, 0.5, 0.5, 5.0);
 
                 publishParticles();
 
@@ -153,6 +156,14 @@ public class LocalizationTest implements NodeMain {
         }
     }
 
+    private ArrayList<Point2D.Double> generateTestPath(){
+        ArrayList<Point2D.Double> testPath = new ArrayList<Point2D.Double>();
+        
+        for (int i = 0; i < 1000; i++) {
+            testPath.add(new Point2D.Double(i/500.0, 0.0));
+        }
+    }
+    
     /**
      * Determines the fiducials that are in the robot's field of view (FOV)
      * @param robotPos the robot's current position
