@@ -15,7 +15,7 @@ import org.ros.node.topic.Subscriber;
  * @author previous TA's, prentice, vona
  * 
  */
-public class VisualServo implements NodeMain, Runnable {
+public class Test implements NodeMain, Runnable {
 	
 	public client cl = null;
 
@@ -31,8 +31,8 @@ public class VisualServo implements NodeMain, Runnable {
 	 * The blob tracker.
 	 * </p>
 	 **/
-	protected BlobTracking blobTrack = null;
-//	protected MultipleBlobTracking blobTrack = null;
+//	protected BlobTracking blobTrack = null;
+	protected MultipleBlobTracking blobTrack = null;
 
 	private double target_hue_level = 0; // (Solution)
 	private double hue_threshold = 0.08; // (Solution)
@@ -57,10 +57,6 @@ public class VisualServo implements NodeMain, Runnable {
 	private boolean approximate_gaussian = false;// (Solution)
 
 	private VisionGUI gui;
-	protected ArrayBlockingQueue<byte[]> visionImage = new ArrayBlockingQueue<byte[]>(
-			1);
-
-	protected boolean firstUpdate = true;
 
 	public Subscriber<org.ros.message.sensor_msgs.Image> vidSub;
 	public Subscriber<org.ros.message.rss_msgs.OdometryMsg> odoSub;
@@ -70,29 +66,13 @@ public class VisualServo implements NodeMain, Runnable {
 	 * Create a new VisualServo object.
 	 * </p>
 	 */
-	public VisualServo() {
-
+	public Test() {
 		setInitialParams();
-
 		gui = new VisionGUI();
 	}
 
 	protected void setInitialParams() {
 
-	}
-
-	/**
-	 * <p>
-	 * Handle a CameraMessage. Perform blob tracking and servo robot towards
-	 * target.
-	 * </p>
-	 * 
-	 * @param rawImage
-	 *            a received camera message
-	 */
-	public void handle(byte[] rawImage) {
-
-		visionImage.offer(rawImage);
 	}
 
 	@Override
@@ -101,7 +81,7 @@ public class VisualServo implements NodeMain, Runnable {
 		while (true) {
 			Image src = null;
 			try {
-				src = cl.getImage();
+				src = cl.getTestImage();
 				if (src == null)
 					continue;
 //				src = new Image(visionImage.take(), width, height);
@@ -128,20 +108,14 @@ public class VisualServo implements NodeMain, Runnable {
 
 			// End Student Code
 		}
+
 	}
 
-	/**
-	 * <p>
-	 * Run the VisualServo process
-	 * </p>
-	 * 
-	 * @param node
-	 *            optional command-line argument containing hostname
-	 */
+
 	@Override
 	public void onStart(Node node) {
-//		blobTrack = new MultipleBlobTracking(width, height);
-		blobTrack = new BlobTracking(width,height);
+		blobTrack = new MultipleBlobTracking(width, height);
+//		blobTrack = new BlobTracking(width,height);
 		// Begin Student Code
 
 		// set parameters on blobTrack as you desire
@@ -161,69 +135,12 @@ public class VisualServo implements NodeMain, Runnable {
 		blobTrack.useGaussianBlur = use_gaussian_blur;// (Solution)
 		blobTrack.approximateGaussian = approximate_gaussian;// (Solution)
 
-		/*
-		System.err.println("  target hue level: " + blobTrack.targetHueLevel); // (Solution)
-		System.err.println("  hue threshold: " + blobTrack.hueThreshold); // (Solution)
-		System.err.println("  saturation level: " + blobTrack.saturationLevel); // (Solution)
-		System.err.println("  blob size threshold: " + // (Solution)
-				blobTrack.blobSizeThreshold); // (Solution)
-		System.err.println("  target radius: " + blobTrack.targetRadius); // (Solution)
-		System.err.println("  desired fixation distance: " + // (Solution)
-				blobTrack.desiredFixationDistance); // (Solution)
-		System.err.println("  translation error tolerance: " + // (Solution)
-				blobTrack.translationErrorTolerance); // (Solution)
-		System.err.println("  translation velocity gain: " + // (Solution)
-				blobTrack.translationVelocityGain); // (Solution)
-		System.err.println("  translation velocity max: " + // (Solution)
-				blobTrack.translationVelocityMax); // (Solution)
-		System.err.println("  rotation error tolerance: " + // (Solution)
-				blobTrack.rotationErrorTolerance); // (Solution)
-		System.err.println("  rotation velocity gain: " + // (Solution)
-				blobTrack.rotationVelocityGain); // (Solution)
-		System.err.println("  rotation velocity max: " + // (Solution)
-				blobTrack.rotationVelocityMax); // (Solution)
-		System.err.println("  use gaussian blur: " + blobTrack.useGaussianBlur); // (Solution)
-		System.err.println("  approximate gaussian: "
-				+ blobTrack.approximateGaussian); // (Solution)
-		*/
 		// initialize the ROS publication to command/Motors
 
-		publisher = node.newPublisher("command/Motors", "rss_msgs/MotionMsg"); // (Solution)
+//		publisher = node.newPublisher("command/Motors", "rss_msgs/MotionMsg"); // (Solution)
 
 		// End Student Code
 
-		final boolean reverseRGB = node.newParameterTree().getBoolean(
-				"reverse_rgb", false);
-
-		vidSub = node.newSubscriber("/rss/video", "sensor_msgs/Image");
-		vidSub.addMessageListener(new MessageListener<org.ros.message.sensor_msgs.Image>() {
-			@Override
-			public void onNewMessage(org.ros.message.sensor_msgs.Image message) {
-				byte[] rgbData;
-				if (reverseRGB) {
-					rgbData = Image.RGB2BGR(message.data, (int) message.width,
-							(int) message.height);
-				} else {
-					rgbData = message.data;
-				}
-				assert ((int) message.width == width);
-				assert ((int) message.height == height);
-				handle(rgbData);
-			}
-		});
-
-		odoSub = node.newSubscriber("/rss/odometry", "rss_msgs/OdometryMsg");
-		odoSub.addMessageListener(new MessageListener<org.ros.message.rss_msgs.OdometryMsg>() {
-			@Override
-			public void onNewMessage(
-					org.ros.message.rss_msgs.OdometryMsg message) {
-				if (firstUpdate) {
-					firstUpdate = false;
-					gui.resetWorldToView(message.x, message.y);
-				}
-				gui.setRobotPose(message.x, message.y, message.theta);
-			}
-		});
 		Thread runningStuff = new Thread(this);
 		runningStuff.start();
 	}

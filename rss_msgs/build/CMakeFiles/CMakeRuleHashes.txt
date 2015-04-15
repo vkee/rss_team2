@@ -29,7 +29,7 @@ e6fbfdeb72a2590b9a3a666a7b08116f ../src/rss_msgs/msg/_DigitalStatusMsg.py
 0b3708637725d2a90820effad5be2d83 ../src/rss_msgs/msg/_OdometryMsg.py
 42db7d8a1b4d693b9100f03af124d80a ../src/rss_msgs/msg/_ResetMsg.py
 5566fd357449ac8f7e47f5b4ab9073bd ../src/rss_msgs/msg/_SonarMsg.py
-102bfd445b0523a1400f57aea326325e ../src/rss_msgs/msg/__init__.py
+6bb6c418031ca158858e8d5e8beb7fab ../src/rss_msgs/msg/__init__.py
 4e37f06170db82d5cdbc91d441c8188f CMakeFiles/ROSBUILD_genmsg_cpp
 4e37f06170db82d5cdbc91d441c8188f CMakeFiles/ROSBUILD_genmsg_lisp
 4e37f06170db82d5cdbc91d441c8188f CMakeFiles/ROSBUILD_genmsg_py

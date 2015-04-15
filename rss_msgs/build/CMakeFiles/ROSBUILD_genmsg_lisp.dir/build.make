@@ -39,148 +39,36 @@ CMAKE_BINARY_DIR = /home/rss-student/RSS-I-group/rss_msgs/build
 
 # Utility rule file for ROSBUILD_genmsg_lisp.
 
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/BumpMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_BumpMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/OdometryMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_OdometryMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/SonarMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_SonarMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/AnalogStatusMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_AnalogStatusMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/DigitalStatusMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_DigitalStatusMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/BreakBeamMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_BreakBeamMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/ArmMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_ArmMsg.lisp
 CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/ResetMsg.lisp
 CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
 CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_ResetMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/MotionMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/BumpMsg.lisp
 CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_MotionMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_BumpMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/AnalogStatusMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_AnalogStatusMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/ArmMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_ArmMsg.lisp
 CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/EncoderMsg.lisp
 CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
 CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_EncoderMsg.lisp
-
-../msg_gen/lisp/BumpMsg.lisp: ../msg/BumpMsg.msg
-../msg_gen/lisp/BumpMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
-../msg_gen/lisp/BumpMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
-../msg_gen/lisp/BumpMsg.lisp: ../manifest.xml
-../msg_gen/lisp/BumpMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
-../msg_gen/lisp/BumpMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
-../msg_gen/lisp/BumpMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
-../msg_gen/lisp/BumpMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_1)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/BumpMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_BumpMsg.lisp"
-	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/BumpMsg.msg
-
-../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/BumpMsg.lisp
-
-../msg_gen/lisp/_package_BumpMsg.lisp: ../msg_gen/lisp/BumpMsg.lisp
-
-../msg_gen/lisp/OdometryMsg.lisp: ../msg/OdometryMsg.msg
-../msg_gen/lisp/OdometryMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
-../msg_gen/lisp/OdometryMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
-../msg_gen/lisp/OdometryMsg.lisp: ../manifest.xml
-../msg_gen/lisp/OdometryMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
-../msg_gen/lisp/OdometryMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
-../msg_gen/lisp/OdometryMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
-../msg_gen/lisp/OdometryMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_2)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/OdometryMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_OdometryMsg.lisp"
-	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/OdometryMsg.msg
-
-../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/OdometryMsg.lisp
-
-../msg_gen/lisp/_package_OdometryMsg.lisp: ../msg_gen/lisp/OdometryMsg.lisp
-
-../msg_gen/lisp/SonarMsg.lisp: ../msg/SonarMsg.msg
-../msg_gen/lisp/SonarMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
-../msg_gen/lisp/SonarMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
-../msg_gen/lisp/SonarMsg.lisp: ../manifest.xml
-../msg_gen/lisp/SonarMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
-../msg_gen/lisp/SonarMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
-../msg_gen/lisp/SonarMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
-../msg_gen/lisp/SonarMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_3)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/SonarMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_SonarMsg.lisp"
-	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/SonarMsg.msg
-
-../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/SonarMsg.lisp
-
-../msg_gen/lisp/_package_SonarMsg.lisp: ../msg_gen/lisp/SonarMsg.lisp
-
-../msg_gen/lisp/AnalogStatusMsg.lisp: ../msg/AnalogStatusMsg.msg
-../msg_gen/lisp/AnalogStatusMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
-../msg_gen/lisp/AnalogStatusMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
-../msg_gen/lisp/AnalogStatusMsg.lisp: ../manifest.xml
-../msg_gen/lisp/AnalogStatusMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
-../msg_gen/lisp/AnalogStatusMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
-../msg_gen/lisp/AnalogStatusMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
-../msg_gen/lisp/AnalogStatusMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_4)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/AnalogStatusMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_AnalogStatusMsg.lisp"
-	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/AnalogStatusMsg.msg
-
-../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/AnalogStatusMsg.lisp
-
-../msg_gen/lisp/_package_AnalogStatusMsg.lisp: ../msg_gen/lisp/AnalogStatusMsg.lisp
-
-../msg_gen/lisp/DigitalStatusMsg.lisp: ../msg/DigitalStatusMsg.msg
-../msg_gen/lisp/DigitalStatusMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
-../msg_gen/lisp/DigitalStatusMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
-../msg_gen/lisp/DigitalStatusMsg.lisp: ../manifest.xml
-../msg_gen/lisp/DigitalStatusMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
-../msg_gen/lisp/DigitalStatusMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
-../msg_gen/lisp/DigitalStatusMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
-../msg_gen/lisp/DigitalStatusMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_5)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/DigitalStatusMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_DigitalStatusMsg.lisp"
-	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/DigitalStatusMsg.msg
-
-../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/DigitalStatusMsg.lisp
-
-../msg_gen/lisp/_package_DigitalStatusMsg.lisp: ../msg_gen/lisp/DigitalStatusMsg.lisp
-
-../msg_gen/lisp/BreakBeamMsg.lisp: ../msg/BreakBeamMsg.msg
-../msg_gen/lisp/BreakBeamMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
-../msg_gen/lisp/BreakBeamMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
-../msg_gen/lisp/BreakBeamMsg.lisp: ../manifest.xml
-../msg_gen/lisp/BreakBeamMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
-../msg_gen/lisp/BreakBeamMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
-../msg_gen/lisp/BreakBeamMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
-../msg_gen/lisp/BreakBeamMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_6)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/BreakBeamMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_BreakBeamMsg.lisp"
-	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/BreakBeamMsg.msg
-
-../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/BreakBeamMsg.lisp
-
-../msg_gen/lisp/_package_BreakBeamMsg.lisp: ../msg_gen/lisp/BreakBeamMsg.lisp
-
-../msg_gen/lisp/ArmMsg.lisp: ../msg/ArmMsg.msg
-../msg_gen/lisp/ArmMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
-../msg_gen/lisp/ArmMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
-../msg_gen/lisp/ArmMsg.lisp: ../manifest.xml
-../msg_gen/lisp/ArmMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
-../msg_gen/lisp/ArmMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
-../msg_gen/lisp/ArmMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
-../msg_gen/lisp/ArmMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_7)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/ArmMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_ArmMsg.lisp"
-	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/ArmMsg.msg
-
-../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/ArmMsg.lisp
-
-../msg_gen/lisp/_package_ArmMsg.lisp: ../msg_gen/lisp/ArmMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/DigitalStatusMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_DigitalStatusMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/MotionMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_MotionMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/BreakBeamMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_BreakBeamMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/SonarMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_SonarMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/OdometryMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_OdometryMsg.lisp
 
 ../msg_gen/lisp/ResetMsg.lisp: ../msg/ResetMsg.msg
 ../msg_gen/lisp/ResetMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
@@ -190,7 +78,7 @@ CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_EncoderMsg.lisp
 ../msg_gen/lisp/ResetMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
 ../msg_gen/lisp/ResetMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
 ../msg_gen/lisp/ResetMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_8)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/ResetMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_ResetMsg.lisp"
 	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/ResetMsg.msg
 
@@ -198,21 +86,53 @@ CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_EncoderMsg.lisp
 
 ../msg_gen/lisp/_package_ResetMsg.lisp: ../msg_gen/lisp/ResetMsg.lisp
 
-../msg_gen/lisp/MotionMsg.lisp: ../msg/MotionMsg.msg
-../msg_gen/lisp/MotionMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
-../msg_gen/lisp/MotionMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
-../msg_gen/lisp/MotionMsg.lisp: ../manifest.xml
-../msg_gen/lisp/MotionMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
-../msg_gen/lisp/MotionMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
-../msg_gen/lisp/MotionMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
-../msg_gen/lisp/MotionMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_9)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/MotionMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_MotionMsg.lisp"
-	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/MotionMsg.msg
+../msg_gen/lisp/BumpMsg.lisp: ../msg/BumpMsg.msg
+../msg_gen/lisp/BumpMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
+../msg_gen/lisp/BumpMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
+../msg_gen/lisp/BumpMsg.lisp: ../manifest.xml
+../msg_gen/lisp/BumpMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
+../msg_gen/lisp/BumpMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
+../msg_gen/lisp/BumpMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
+../msg_gen/lisp/BumpMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/BumpMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_BumpMsg.lisp"
+	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/BumpMsg.msg
 
-../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/MotionMsg.lisp
+../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/BumpMsg.lisp
 
-../msg_gen/lisp/_package_MotionMsg.lisp: ../msg_gen/lisp/MotionMsg.lisp
+../msg_gen/lisp/_package_BumpMsg.lisp: ../msg_gen/lisp/BumpMsg.lisp
+
+../msg_gen/lisp/AnalogStatusMsg.lisp: ../msg/AnalogStatusMsg.msg
+../msg_gen/lisp/AnalogStatusMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
+../msg_gen/lisp/AnalogStatusMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
+../msg_gen/lisp/AnalogStatusMsg.lisp: ../manifest.xml
+../msg_gen/lisp/AnalogStatusMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
+../msg_gen/lisp/AnalogStatusMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
+../msg_gen/lisp/AnalogStatusMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
+../msg_gen/lisp/AnalogStatusMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/AnalogStatusMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_AnalogStatusMsg.lisp"
+	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/AnalogStatusMsg.msg
+
+../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/AnalogStatusMsg.lisp
+
+../msg_gen/lisp/_package_AnalogStatusMsg.lisp: ../msg_gen/lisp/AnalogStatusMsg.lisp
+
+../msg_gen/lisp/ArmMsg.lisp: ../msg/ArmMsg.msg
+../msg_gen/lisp/ArmMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
+../msg_gen/lisp/ArmMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
+../msg_gen/lisp/ArmMsg.lisp: ../manifest.xml
+../msg_gen/lisp/ArmMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
+../msg_gen/lisp/ArmMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
+../msg_gen/lisp/ArmMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
+../msg_gen/lisp/ArmMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/ArmMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_ArmMsg.lisp"
+	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/ArmMsg.msg
+
+../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/ArmMsg.lisp
+
+../msg_gen/lisp/_package_ArmMsg.lisp: ../msg_gen/lisp/ArmMsg.lisp
 
 ../msg_gen/lisp/EncoderMsg.lisp: ../msg/EncoderMsg.msg
 ../msg_gen/lisp/EncoderMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
@@ -222,7 +142,7 @@ CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_EncoderMsg.lisp
 ../msg_gen/lisp/EncoderMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
 ../msg_gen/lisp/EncoderMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
 ../msg_gen/lisp/EncoderMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_10)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/EncoderMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_EncoderMsg.lisp"
 	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/EncoderMsg.msg
 
@@ -230,37 +150,117 @@ CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_EncoderMsg.lisp
 
 ../msg_gen/lisp/_package_EncoderMsg.lisp: ../msg_gen/lisp/EncoderMsg.lisp
 
+../msg_gen/lisp/DigitalStatusMsg.lisp: ../msg/DigitalStatusMsg.msg
+../msg_gen/lisp/DigitalStatusMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
+../msg_gen/lisp/DigitalStatusMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
+../msg_gen/lisp/DigitalStatusMsg.lisp: ../manifest.xml
+../msg_gen/lisp/DigitalStatusMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
+../msg_gen/lisp/DigitalStatusMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
+../msg_gen/lisp/DigitalStatusMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
+../msg_gen/lisp/DigitalStatusMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/DigitalStatusMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_DigitalStatusMsg.lisp"
+	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/DigitalStatusMsg.msg
+
+../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/DigitalStatusMsg.lisp
+
+../msg_gen/lisp/_package_DigitalStatusMsg.lisp: ../msg_gen/lisp/DigitalStatusMsg.lisp
+
+../msg_gen/lisp/MotionMsg.lisp: ../msg/MotionMsg.msg
+../msg_gen/lisp/MotionMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
+../msg_gen/lisp/MotionMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
+../msg_gen/lisp/MotionMsg.lisp: ../manifest.xml
+../msg_gen/lisp/MotionMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
+../msg_gen/lisp/MotionMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
+../msg_gen/lisp/MotionMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
+../msg_gen/lisp/MotionMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_7)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/MotionMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_MotionMsg.lisp"
+	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/MotionMsg.msg
+
+../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/MotionMsg.lisp
+
+../msg_gen/lisp/_package_MotionMsg.lisp: ../msg_gen/lisp/MotionMsg.lisp
+
+../msg_gen/lisp/BreakBeamMsg.lisp: ../msg/BreakBeamMsg.msg
+../msg_gen/lisp/BreakBeamMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
+../msg_gen/lisp/BreakBeamMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
+../msg_gen/lisp/BreakBeamMsg.lisp: ../manifest.xml
+../msg_gen/lisp/BreakBeamMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
+../msg_gen/lisp/BreakBeamMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
+../msg_gen/lisp/BreakBeamMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
+../msg_gen/lisp/BreakBeamMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_8)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/BreakBeamMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_BreakBeamMsg.lisp"
+	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/BreakBeamMsg.msg
+
+../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/BreakBeamMsg.lisp
+
+../msg_gen/lisp/_package_BreakBeamMsg.lisp: ../msg_gen/lisp/BreakBeamMsg.lisp
+
+../msg_gen/lisp/SonarMsg.lisp: ../msg/SonarMsg.msg
+../msg_gen/lisp/SonarMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
+../msg_gen/lisp/SonarMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
+../msg_gen/lisp/SonarMsg.lisp: ../manifest.xml
+../msg_gen/lisp/SonarMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
+../msg_gen/lisp/SonarMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
+../msg_gen/lisp/SonarMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
+../msg_gen/lisp/SonarMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_9)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/SonarMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_SonarMsg.lisp"
+	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/SonarMsg.msg
+
+../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/SonarMsg.lisp
+
+../msg_gen/lisp/_package_SonarMsg.lisp: ../msg_gen/lisp/SonarMsg.lisp
+
+../msg_gen/lisp/OdometryMsg.lisp: ../msg/OdometryMsg.msg
+../msg_gen/lisp/OdometryMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
+../msg_gen/lisp/OdometryMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
+../msg_gen/lisp/OdometryMsg.lisp: ../manifest.xml
+../msg_gen/lisp/OdometryMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
+../msg_gen/lisp/OdometryMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
+../msg_gen/lisp/OdometryMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
+../msg_gen/lisp/OdometryMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/rss_msgs/build/CMakeFiles $(CMAKE_PROGRESS_10)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/OdometryMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_OdometryMsg.lisp"
+	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/rss_msgs/msg/OdometryMsg.msg
+
+../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/OdometryMsg.lisp
+
+../msg_gen/lisp/_package_OdometryMsg.lisp: ../msg_gen/lisp/OdometryMsg.lisp
+
 ROSBUILD_genmsg_lisp: CMakeFiles/ROSBUILD_genmsg_lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/BumpMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_BumpMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/OdometryMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_OdometryMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/SonarMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_SonarMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/AnalogStatusMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_AnalogStatusMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/DigitalStatusMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_DigitalStatusMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/BreakBeamMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_BreakBeamMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/ArmMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_ArmMsg.lisp
 ROSBUILD_genmsg_lisp: ../msg_gen/lisp/ResetMsg.lisp
 ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
 ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_ResetMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/MotionMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/BumpMsg.lisp
 ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_MotionMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_BumpMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/AnalogStatusMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_AnalogStatusMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/ArmMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_ArmMsg.lisp
 ROSBUILD_genmsg_lisp: ../msg_gen/lisp/EncoderMsg.lisp
 ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
 ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_EncoderMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/DigitalStatusMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_DigitalStatusMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/MotionMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_MotionMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/BreakBeamMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_BreakBeamMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/SonarMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_SonarMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/OdometryMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_OdometryMsg.lisp
 ROSBUILD_genmsg_lisp: CMakeFiles/ROSBUILD_genmsg_lisp.dir/build.make
 .PHONY : ROSBUILD_genmsg_lisp
 

@@ -30,12 +30,8 @@ public class client{
 			FileInputStream fis = new FileInputStream(file);
 			byte[] data_ = new byte[(int)file.length()];
 			fis.read(data_);
-			int width = 640;//scan_width.nextInt();
-			int height = 480;//scan_height.nextInt();
-			byte[] data = Image.RGB2BGR(data_,width,height);
-			return new Image(data,width,height);
+
 		} catch(Exception e){
-			return null;
 		}
 	
 	}

@@ -14,7 +14,7 @@ e6b226fabfc1074f15873168a1919484 ../msg_gen/lisp/GUIPointMsg.lisp
 17c5d2bc41265a998a9edc0739306145 ../src/lab5_msgs/msg/_GUILineMsg.py
 b2b12f149f9ac7ffad707e84cb3736cd ../src/lab5_msgs/msg/_GUIPointMsg.py
 ded165a421a6b7ab91b0e898ea1bf3b6 ../src/lab5_msgs/msg/_GUISegmentMsg.py
-5561556fb53fb71134eebb34a4ca993b ../src/lab5_msgs/msg/__init__.py
+0aae2e5c1ec1c47c9d38039be0f6513f ../src/lab5_msgs/msg/__init__.py
 bd7e58f29d57b31085752b7731cce355 CMakeFiles/ROSBUILD_genmsg_cpp
 bd7e58f29d57b31085752b7731cce355 CMakeFiles/ROSBUILD_genmsg_lisp
 bd7e58f29d57b31085752b7731cce355 CMakeFiles/ROSBUILD_genmsg_py
