@@ -86,7 +86,7 @@ public class RobotParticle {
 
         //        x and y positions outside map are clipped to the map boundaries
         x = Math.max(botLeftX, Math.min(x, worldWidth + botLeftX));
-        y = Math.max(botLeftY, Math.min(y, worldWidth + botLeftY));
+        y = Math.max(botLeftY, Math.min(y, worldHeight + botLeftY));
     }
 
     /**

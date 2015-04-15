@@ -219,7 +219,7 @@ public class LocalizationTest implements NodeMain {
         outputPath(rrtPath, Color.RED);
         publishParticles();
         //        Displaying the robot's current location
-        publishEllipse(prevPt.getX(), robotGoal.getY(), 0.1, 0.1, Color.ORANGE);
+        publishEllipse(prevPt.getX(), prevPt.getY(), 0.1, 0.1, Color.ORANGE);
     }
 
     /**
