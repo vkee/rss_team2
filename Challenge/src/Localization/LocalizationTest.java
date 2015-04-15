@@ -115,7 +115,7 @@ public class LocalizationTest implements NodeMain {
             //            Localization Tests
             try {
                 //                Initialize Particle Filter
-                particleFilter = new ParticleFilter(10000, challengeMap, 0.0, 0.0, 0.0);
+                particleFilter = new ParticleFilter(10000, challengeMap, 0.01, 0.01, 0.01);
 
                 publishParticles();
 
@@ -128,9 +128,6 @@ public class LocalizationTest implements NodeMain {
                     if (rotAng < 0.0) {
                         rotAng += 2*Math.PI;
                     }
-
-                    System.out.println("Translational Dist: " + transDist);
-                    System.out.println("Rotational Angle: " + rotAng);
                     
                     particleFilter.motionUpdate(transDist, rotAng);
 
