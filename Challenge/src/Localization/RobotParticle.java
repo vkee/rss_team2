@@ -104,7 +104,7 @@ public class RobotParticle {
     /**
      * Computes the probability that the robot at it's current position given the provided measurements
      * @param measuredFiducials the indices of the fiducials that have measurements 
-     * (corresponding to the indices of the fiducials in the field of GrandChallengeMap)
+     * (corresponding to the indices of the fiducials in the robot's FOV in GrandChallengeMap)
      * @param measuredDists the measured distances to the fiducials
      * @return the probability
      */
