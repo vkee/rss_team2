@@ -152,6 +152,8 @@ public class RRT {
             System.err.println("ALERT: GOAL WAS NOT FOUND!");
         }
 
+        System.out.println("Number of tries to find path to goal: " + tries);
+        
         //        Regardless of whether the goal is found (this executes even when RRT terminates),
         //        add the goal as the final node with its parent being the last node that could be added
         //        TODO: I don't think that this is a good thing to do... - Vincent
@@ -190,7 +192,7 @@ public class RRT {
                 //System.out.println("robotIndex for pt in obs: " + robotIndex);
                 //            If the point is in an obstacle, return collision
                 if (ptInObs(robotIndex, robotLoc)) {
-                    System.out.println("collision at angle "+robotIndex);
+//                    System.out.println("collision at angle "+robotIndex);
                 	return true;
                 } else {
                     robotIndex += direction + CSpace.NUM_ANGLES;  //neg values not handled well with mod
