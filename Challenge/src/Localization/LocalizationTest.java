@@ -162,6 +162,8 @@ public class LocalizationTest implements NodeMain {
         for (int i = 0; i < 1000; i++) {
             testPath.add(new Point2D.Double(i/500.0, 0.0));
         }
+        
+        return testPath;
     }
     
     /**
