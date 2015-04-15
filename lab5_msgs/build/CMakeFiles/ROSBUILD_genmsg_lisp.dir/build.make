@@ -39,21 +39,38 @@ CMAKE_BINARY_DIR = /home/rss-student/RSS-I-group/lab5_msgs/build
 
 # Utility rule file for ROSBUILD_genmsg_lisp.
 
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/GUIEraseMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_GUIEraseMsg.lisp
 CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/GUILineMsg.lisp
 CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
 CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_GUILineMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/GUISegmentMsg.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_GUISegmentMsg.lisp
 CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/ColorMsg.lisp
 CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
 CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_ColorMsg.lisp
 CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/GUIPointMsg.lisp
 CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
 CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_GUIPointMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/GUISegmentMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_GUISegmentMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/GUIEraseMsg.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_GUIEraseMsg.lisp
+
+../msg_gen/lisp/GUIEraseMsg.lisp: ../msg/GUIEraseMsg.msg
+../msg_gen/lisp/GUIEraseMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
+../msg_gen/lisp/GUIEraseMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
+../msg_gen/lisp/GUIEraseMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg/String.msg
+../msg_gen/lisp/GUIEraseMsg.lisp: ../manifest.xml
+../msg_gen/lisp/GUIEraseMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
+../msg_gen/lisp/GUIEraseMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
+../msg_gen/lisp/GUIEraseMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
+../msg_gen/lisp/GUIEraseMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/lab5_msgs/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/GUIEraseMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_GUIEraseMsg.lisp"
+	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/lab5_msgs/msg/GUIEraseMsg.msg
+
+../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/GUIEraseMsg.lisp
+
+../msg_gen/lisp/_package_GUIEraseMsg.lisp: ../msg_gen/lisp/GUIEraseMsg.lisp
 
 ../msg_gen/lisp/GUILineMsg.lisp: ../msg/GUILineMsg.msg
 ../msg_gen/lisp/GUILineMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
@@ -64,13 +81,30 @@ CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_GUIEraseMsg.lisp
 ../msg_gen/lisp/GUILineMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
 ../msg_gen/lisp/GUILineMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
 ../msg_gen/lisp/GUILineMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/lab5_msgs/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/lab5_msgs/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/GUILineMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_GUILineMsg.lisp"
 	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/lab5_msgs/msg/GUILineMsg.msg
 
 ../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/GUILineMsg.lisp
 
 ../msg_gen/lisp/_package_GUILineMsg.lisp: ../msg_gen/lisp/GUILineMsg.lisp
+
+../msg_gen/lisp/GUISegmentMsg.lisp: ../msg/GUISegmentMsg.msg
+../msg_gen/lisp/GUISegmentMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
+../msg_gen/lisp/GUISegmentMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
+../msg_gen/lisp/GUISegmentMsg.lisp: ../msg/ColorMsg.msg
+../msg_gen/lisp/GUISegmentMsg.lisp: ../manifest.xml
+../msg_gen/lisp/GUISegmentMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
+../msg_gen/lisp/GUISegmentMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
+../msg_gen/lisp/GUISegmentMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
+../msg_gen/lisp/GUISegmentMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/lab5_msgs/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/GUISegmentMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_GUISegmentMsg.lisp"
+	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/lab5_msgs/msg/GUISegmentMsg.msg
+
+../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/GUISegmentMsg.lisp
+
+../msg_gen/lisp/_package_GUISegmentMsg.lisp: ../msg_gen/lisp/GUISegmentMsg.lisp
 
 ../msg_gen/lisp/ColorMsg.lisp: ../msg/ColorMsg.msg
 ../msg_gen/lisp/ColorMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
@@ -80,7 +114,7 @@ CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_GUIEraseMsg.lisp
 ../msg_gen/lisp/ColorMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
 ../msg_gen/lisp/ColorMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
 ../msg_gen/lisp/ColorMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/lab5_msgs/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/lab5_msgs/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/ColorMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_ColorMsg.lisp"
 	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/lab5_msgs/msg/ColorMsg.msg
 
@@ -97,7 +131,7 @@ CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_GUIEraseMsg.lisp
 ../msg_gen/lisp/GUIPointMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
 ../msg_gen/lisp/GUIPointMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
 ../msg_gen/lisp/GUIPointMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/lab5_msgs/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/lab5_msgs/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/GUIPointMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_GUIPointMsg.lisp"
 	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/lab5_msgs/msg/GUIPointMsg.msg
 
@@ -105,56 +139,22 @@ CMakeFiles/ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_GUIEraseMsg.lisp
 
 ../msg_gen/lisp/_package_GUIPointMsg.lisp: ../msg_gen/lisp/GUIPointMsg.lisp
 
-../msg_gen/lisp/GUISegmentMsg.lisp: ../msg/GUISegmentMsg.msg
-../msg_gen/lisp/GUISegmentMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
-../msg_gen/lisp/GUISegmentMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
-../msg_gen/lisp/GUISegmentMsg.lisp: ../msg/ColorMsg.msg
-../msg_gen/lisp/GUISegmentMsg.lisp: ../manifest.xml
-../msg_gen/lisp/GUISegmentMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
-../msg_gen/lisp/GUISegmentMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
-../msg_gen/lisp/GUISegmentMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
-../msg_gen/lisp/GUISegmentMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/lab5_msgs/build/CMakeFiles $(CMAKE_PROGRESS_4)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/GUISegmentMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_GUISegmentMsg.lisp"
-	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/lab5_msgs/msg/GUISegmentMsg.msg
-
-../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/GUISegmentMsg.lisp
-
-../msg_gen/lisp/_package_GUISegmentMsg.lisp: ../msg_gen/lisp/GUISegmentMsg.lisp
-
-../msg_gen/lisp/GUIEraseMsg.lisp: ../msg/GUIEraseMsg.msg
-../msg_gen/lisp/GUIEraseMsg.lisp: /opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py
-../msg_gen/lisp/GUIEraseMsg.lisp: /opt/ros/electric/ros/core/roslib/scripts/gendeps
-../msg_gen/lisp/GUIEraseMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg/String.msg
-../msg_gen/lisp/GUIEraseMsg.lisp: ../manifest.xml
-../msg_gen/lisp/GUIEraseMsg.lisp: /opt/ros/electric/ros/tools/rospack/manifest.xml
-../msg_gen/lisp/GUIEraseMsg.lisp: /opt/ros/electric/ros/core/roslib/manifest.xml
-../msg_gen/lisp/GUIEraseMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/manifest.xml
-../msg_gen/lisp/GUIEraseMsg.lisp: /opt/ros/electric/stacks/ros_comm/messages/std_msgs/msg_gen/generated
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/rss-student/RSS-I-group/lab5_msgs/build/CMakeFiles $(CMAKE_PROGRESS_5)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ../msg_gen/lisp/GUIEraseMsg.lisp, ../msg_gen/lisp/_package.lisp, ../msg_gen/lisp/_package_GUIEraseMsg.lisp"
-	/opt/ros/electric/stacks/ros_comm/clients/roslisp/scripts/genmsg_lisp.py /home/rss-student/RSS-I-group/lab5_msgs/msg/GUIEraseMsg.msg
-
-../msg_gen/lisp/_package.lisp: ../msg_gen/lisp/GUIEraseMsg.lisp
-
-../msg_gen/lisp/_package_GUIEraseMsg.lisp: ../msg_gen/lisp/GUIEraseMsg.lisp
-
 ROSBUILD_genmsg_lisp: CMakeFiles/ROSBUILD_genmsg_lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/GUIEraseMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_GUIEraseMsg.lisp
 ROSBUILD_genmsg_lisp: ../msg_gen/lisp/GUILineMsg.lisp
 ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
 ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_GUILineMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/GUISegmentMsg.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
+ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_GUISegmentMsg.lisp
 ROSBUILD_genmsg_lisp: ../msg_gen/lisp/ColorMsg.lisp
 ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
 ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_ColorMsg.lisp
 ROSBUILD_genmsg_lisp: ../msg_gen/lisp/GUIPointMsg.lisp
 ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
 ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_GUIPointMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/GUISegmentMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_GUISegmentMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/GUIEraseMsg.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package.lisp
-ROSBUILD_genmsg_lisp: ../msg_gen/lisp/_package_GUIEraseMsg.lisp
 ROSBUILD_genmsg_lisp: CMakeFiles/ROSBUILD_genmsg_lisp.dir/build.make
 .PHONY : ROSBUILD_genmsg_lisp
 
