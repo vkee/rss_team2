@@ -115,7 +115,7 @@ public class LocalizationTest implements NodeMain {
             //            Localization Tests
             try {
                 //                Initialize Particle Filter
-                particleFilter = new ParticleFilter(10000, challengeMap, 0.5, 0.5, 5.0);
+                particleFilter = new ParticleFilter(10000, challengeMap, 0.0, 0.0, 0.0);
 
                 publishParticles();
 
@@ -123,12 +123,15 @@ public class LocalizationTest implements NodeMain {
                 for (Point2D.Double pt : rrtPath){
                     double transDist = RRT.getDist(prevPt.x, prevPt.y, pt.x, pt.y);
                     double rotAng = RRT.getAngle(prevPt.x, prevPt.y, pt.x, pt.y);
-
+                    
                     //                    Converting rotAng to go from 0 to 2*PI
                     if (rotAng < 0.0) {
                         rotAng += 2*Math.PI;
                     }
 
+                    System.out.println("Translational Dist: " + transDist);
+                    System.out.println("Rotational Angle: " + rotAng);
+                    
                     particleFilter.motionUpdate(transDist, rotAng);
 
                     //                    Determining which fiducials are in the FOV of the robot
@@ -141,7 +144,7 @@ public class LocalizationTest implements NodeMain {
                     //                    Display the state after the motion and measurement update
                     prevPt = pt;
                     refreshDisplay();
-                    Thread.sleep(2000); // Waiting 1 second between each step
+                    Thread.sleep(5000); // Waiting 1 second between each step
                 }
 
                 System.out.println("Done with particle filter");
@@ -159,7 +162,7 @@ public class LocalizationTest implements NodeMain {
     private ArrayList<Point2D.Double> generateTestPath(){
         ArrayList<Point2D.Double> testPath = new ArrayList<Point2D.Double>();
         
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 100; i++) {
             testPath.add(new Point2D.Double(i/500.0, 0.0));
         }
         
