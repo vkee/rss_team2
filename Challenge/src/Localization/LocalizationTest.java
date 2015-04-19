@@ -115,7 +115,7 @@ public class LocalizationTest implements NodeMain {
             //            Localization Tests
             try {
                 //                Initialize Particle Filter
-                particleFilter = new ParticleFilter(10000, challengeMap, 0.01, 0.01, 0.01);
+                particleFilter = new ParticleFilter(10000, challengeMap, 0.00, 0.00, 0.00);
 
                 publishParticles();
 
@@ -141,7 +141,7 @@ public class LocalizationTest implements NodeMain {
                     //                    Display the state after the motion and measurement update
                     prevPt = pt;
                     refreshDisplay();
-                    Thread.sleep(5000); // Waiting 1 second between each step
+                    Thread.sleep(5000); // Waiting 5 seconds between each step
                 }
 
                 System.out.println("Done with particle filter");
@@ -160,7 +160,7 @@ public class LocalizationTest implements NodeMain {
         ArrayList<Point2D.Double> testPath = new ArrayList<Point2D.Double>();
         
         for (int i = 0; i < 100; i++) {
-            testPath.add(new Point2D.Double(i/500.0, 0.0));
+            testPath.add(new Point2D.Double(i/100.0, 0.0));
         }
         
         return testPath;
@@ -241,7 +241,7 @@ public class LocalizationTest implements NodeMain {
         CSpaceTest.fillPolyMsg(poMsg, poly, color, false, false);
         guiPolyPub.publish(poMsg);
     }
-
+    LocalizationTest
     /**
      * Displays all the contents of the map in MapGUI
      */

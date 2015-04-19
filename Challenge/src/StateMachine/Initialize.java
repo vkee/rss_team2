@@ -2,8 +2,9 @@ package StateMachine;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
 
 import Challenge.ConstructionObject;
 import Challenge.GrandChallengeMap;
@@ -11,7 +12,6 @@ import MotionPlanning.CSpace;
 import MotionPlanning.GoalAdjLists;
 import MotionPlanning.MultiRRT;
 import MotionPlanning.PolygonObstacle;
-import MotionPlanning.RRT;
 import MotionPlanning.RRTreeNode;
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
@@ -23,61 +23,62 @@ public class Initialize implements FSMState {
 
 	private FSM fsm;	
 
-	public Initialize(FSM stateMachine)
-		{
+	public Initialize(FSM stateMachine){
 		fsm = stateMachine;
 
-		GrandChallengeMap challengeMap = GrandChallengeMap.parseFile(fsm.mapFileName);
-		CSpace cSpace = new CSpace(); 
-		ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = cSpace.generateCSpace(challengeMap, false);			//this was adding the robot as an OBSTACLE!!! was true TODO
-        challengeMap.set3DCSpace(obsCSpaces);
+		try {
+			GrandChallengeMap challengeMap = GrandChallengeMap.parseFile(fsm.mapFileName);
+			CSpace cSpace = new CSpace(); 
+			ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = cSpace.generateCSpace(challengeMap, false);			//this was adding the robot as an OBSTACLE!!! was true TODO
+			challengeMap.set3DCSpace(obsCSpaces);
 
-		ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
-		for (ConstructionObject cs : challengeMap.getConstructionObjects())
+			ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
+			for (ConstructionObject cs : challengeMap.getConstructionObjects())
 			{objectLocations.add(cs.getPosition());}
-		
-		Point2D.Double start = challengeMap.getRobotStart();
-		Point2D.Double end = challengeMap.getRobotGoal();
-		
-		objectLocations.add(end);
-		
-		fsm.RRTengine =  new MultiRRT(challengeMap);
-		fsm.foundPaths = new GoalAdjLists(end);
-				
-		Point2D.Double currLocation = start;
-		while (objectLocations.size() > 1)
-			{
-			RRTreeNode[] pathEnds = fsm.RRTengine.getPaths(currLocation, objectLocations, fsm.RRT_TOLERANCE);
-			
-			for (int i=0; i<pathEnds.length; i++)
-				{double dist = pathEnds[i].distFromRoot;
-				ArrayList<Point2D.Double> path = pathEnds[i].pathFromParent();
-				fsm.foundPaths.addBiPath(currLocation, objectLocations.get(i), path, dist);}
+
+			Point2D.Double start = challengeMap.getRobotStart();
+			Point2D.Double end = challengeMap.getRobotGoal();
+
+			objectLocations.add(end);
+
+			fsm.RRTengine =  new MultiRRT(challengeMap);
+			fsm.foundPaths = new GoalAdjLists(end);
+
+			Point2D.Double currLocation = start;
+			while (objectLocations.size() > 1){
+				RRTreeNode[] pathEnds = fsm.RRTengine.getPaths(currLocation, objectLocations, fsm.RRT_TOLERANCE);
+
+				for (int i=0; i<pathEnds.length; i++){
+					double dist = pathEnds[i].distFromRoot;
+					ArrayList<Point2D.Double> path = pathEnds[i].pathFromParent();
+					fsm.foundPaths.addBiPath(currLocation, objectLocations.get(i), path, dist);
+				}
 			}
-		currLocation = objectLocations.remove(0);
-		}	
-
-	
-	public stateENUM getName()
-		{return stateENUM.INITIALIZE;}
-
-	
-	public boolean accepts(msgENUM msgType)
-		{
-		//if (msgType == msgENUM.WHEELS) return true;
-		if (msgType == null) return true;
-		return false;
+			currLocation = objectLocations.remove(0);
+		} catch (IOException | ParseException e) {
+			System.err.println("Unable to load map.");
+			e.printStackTrace();
 		}
+	}	
+
+	public stateENUM getName(){
+		return stateENUM.INITIALIZE;
+	}
 
 
-	public void update(Object msg)
-		{
+	public boolean accepts(msgENUM msgType){
+		//if (msgType == msgENUM.WHEELS) return true;
+		if (msgType == null){
+			return true;
+		}
+		return false;
+	}
+
+
+	public void update(Object msg){
 		//do stuff
 
 		//if condition to leave state
 		//fsm.updateState(new NextState(fsm));
-
-		}
-
-
+	}
 }
