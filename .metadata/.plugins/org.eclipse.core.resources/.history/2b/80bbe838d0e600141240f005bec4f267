@@ -84,7 +84,7 @@ public class MultiRRT {
             Point2D.Double testPt;
             
             if (tries % 1000 < numGoals)
-            	{testPt = goals.get(tries%1000);}			//TODO: continues to sample even if its already found... this is just in case there is a better path to be found
+            	{testPt = goals.get(tries%100);}
             	
             else
             	{double testX = Math.random() * worldWidth + bottomLeftX;
@@ -92,7 +92,7 @@ public class MultiRRT {
             	testPt = new Point2D.Double(testX, testY);}
             
             //            Finding the closest node in the current RRT tree to the sampled node
-            //          The minimum distance between 2 nodes, initialized to the longest distance possible in the map
+            //          The mininum distance between 2 nodes, initialized to the longest distance possible in the map
             double minDist = Math.sqrt(Math.pow(worldHeight, 2) + Math.pow(worldWidth, 2));
             RRTreeNode closestNode = null;
             //System.out.println("Size of Tree " + currTreeNodes.size());

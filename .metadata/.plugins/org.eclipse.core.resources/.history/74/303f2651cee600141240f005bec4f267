@@ -51,7 +51,7 @@ public class MultiRRT {
     	List<Point2D.Double>[] goalPaths = (List<Point2D.Double>[]) new ArrayList[numGoals];
 
     	
-    	for (int i=0; i<numGoals; i++)
+    	for (int i=0; i<goals.size(); i++)
     		{
     		Point2D.Double goal = goals.get(i);
         	//        Tolerance rectangle around the goal
@@ -81,18 +81,12 @@ public class MultiRRT {
             //          TODO: we may want to add a bias to selecting a point near the goal later on
             //            Getting the random point
                         
-            Point2D.Double testPt;
-            
-            if (tries % 1000 < numGoals)
-            	{testPt = goals.get(tries%1000);}			//TODO: continues to sample even if its already found... this is just in case there is a better path to be found
-            	
-            else
-            	{double testX = Math.random() * worldWidth + bottomLeftX;
-            	double testY = Math.random() * worldHeight + bottomLeftY;
-            	testPt = new Point2D.Double(testX, testY);}
+            double testX = Math.random() * worldWidth + bottomLeftX;
+            double testY = Math.random() * worldHeight + bottomLeftY;
+            Point2D.Double testPt = new Point2D.Double(testX, testY);
             
             //            Finding the closest node in the current RRT tree to the sampled node
-            //          The minimum distance between 2 nodes, initialized to the longest distance possible in the map
+            //          The mininum distance between 2 nodes, initialized to the longest distance possible in the map
             double minDist = Math.sqrt(Math.pow(worldHeight, 2) + Math.pow(worldWidth, 2));
             RRTreeNode closestNode = null;
             //System.out.println("Size of Tree " + currTreeNodes.size());

@@ -92,7 +92,7 @@ public class MultiRRT {
             	testPt = new Point2D.Double(testX, testY);}
             
             //            Finding the closest node in the current RRT tree to the sampled node
-            //          The minimum distance between 2 nodes, initialized to the longest distance possible in the map
+            //          The mininum distance between 2 nodes, initialized to the longest distance possible in the map
             double minDist = Math.sqrt(Math.pow(worldHeight, 2) + Math.pow(worldWidth, 2));
             RRTreeNode closestNode = null;
             //System.out.println("Size of Tree " + currTreeNodes.size());
