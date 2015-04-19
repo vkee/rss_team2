@@ -1,19 +1,15 @@
 10
 
 dir
-115
-https://svn.csail.mit.edu/rss-2015/group2/group2/lab5/src
-https://svn.csail.mit.edu/rss-2015/group2
+3765
+https://svn.csail.mit.edu/rss/data/spring2015/pub/labs/Challenge/src
+https://svn.csail.mit.edu/rss
 
 
 
-2015-02-27T23:58:03.825969Z
-115
-rss-student
-
-
-
-
+2014-05-01T01:53:48.705473Z
+3679
+rss-staff
 
 
 
@@ -24,11 +20,114 @@ rss-student
 
 
 
-2d2f2e7c-4a02-4e3d-b2d6-8d77a3eb0d97
+
+
+
+
+4129c0f6-c9f7-0310-837c-ff2a4cd4c6cc
 
-utils
+Challenge
 dir
 
-LocalNavigation
-dir
+challenge_2012.txt
+file
+
+
+
+
+2015-02-04T18:48:28.392454Z
+43da327316d04d690b4fdb9d36f1c68a
+2014-05-01T01:53:48.705473Z
+3679
+rss-staff
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3660
+
+construction_map_2011.txt
+file
+
+
+
+
+2015-02-04T18:48:28.396452Z
+130dd947284a088a4358f36ef55192a4
+2014-05-01T01:53:48.705473Z
+3679
+rss-staff
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3996
+
+construction_map_2012.txt
+file
+
+
+
+
+2015-02-04T18:48:28.396452Z
+d1b1a3f638af5d695a06330f19125f19
+2014-05-01T01:53:48.705473Z
+3679
+rss-staff
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3719
 

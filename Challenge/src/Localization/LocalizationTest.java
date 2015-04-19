@@ -32,7 +32,7 @@ import MotionPlanning.RRT;
  *
  */
 public class LocalizationTest implements NodeMain {
-    private Publisher<GUIRectMsg> guiRectPub;
+    private Publisher<GUIRectMsg> guiRectPub; 
     private Publisher<GUIPolyMsg> guiPolyPub;
     private Publisher<GUIEraseMsg> guiErasePub;
     private Publisher<GUIPointMsg> guiPtPub;

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="Challenge/src"/>
+	<classpathentry kind="src" path="lab4/src"/>
+	<classpathentry excluding="LocalNavigation/" kind="src" path="lab5/src"/>
+	<classpathentry kind="src" path="lab5/src/LocalNavigation"/>
+	<classpathentry excluding="GlobalNavigation/" kind="src" path="lab6/src"/>
+	<classpathentry kind="src" path="lab6/src/GlobalNavigation"/>
+	<classpathentry excluding="Grasping/" kind="src" path="lab7/src"/>
+	<classpathentry kind="src" path="lab7/src/Grasping"/>
+	<classpathentry kind="src" path="odometry/src"/>
+	<classpathentry kind="src" path="uorc_listener/src"/>
+	<classpathentry kind="src" path="uorc_publisher/src"/>
+	<classpathentry kind="lib" path="bin/Challenge/src/MotionPlanning/guava-18.0.jar"/>
+	<classpathentry kind="lib" path="bin/lab4/target/org.ros.rss.lab4-0.0.jar"/>
+	<classpathentry kind="lib" path="bin/lab5/target/lab5-0.0.jar"/>
+	<classpathentry kind="lib" path="bin/lab6/target/lab6-0.0.jar"/>
+	<classpathentry kind="lib" path="bin/lab7/target/lab7-0.0.jar"/>
+	<classpathentry kind="lib" path="bin/odometry/target/odometry-0.0.jar"/>
+	<classpathentry kind="lib" path="bin/orc_utils/lib/motorControl-0.0.jar"/>
+	<classpathentry kind="lib" path="bin/orc_utils/lib/orc-0.0.jar"/>
+	<classpathentry kind="lib" path="bin/orc_utils/lib/uORCInterface-0.0.jar"/>
+	<classpathentry kind="lib" path="bin/roscv/lib/javacpp-0.0.jar"/>
+	<classpathentry kind="lib" path="bin/roscv/lib/javacv-0.0.jar"/>
+	<classpathentry kind="lib" path="bin/roscv/lib/javacv-linux-x86-0.0.jar"/>
+	<classpathentry kind="lib" path="bin/uorc_listener/target/org.ros.rss.uorc_listener-0.0.jar"/>
+	<classpathentry kind="lib" path="bin/uorc_publisher/target/uorc_publish-0.0.jar"/>
+	<classpathentry kind="lib" path="lab4/target/org.ros.rss.lab4-0.0.jar"/>
+	<classpathentry kind="lib" path="lab5/target/lab5-0.0.jar"/>
+	<classpathentry kind="lib" path="lab6/target/lab6-0.0.jar"/>
+	<classpathentry kind="lib" path="lab7/target/lab7-0.0.jar"/>
+	<classpathentry kind="lib" path="odometry/target/odometry-0.0.jar"/>
+	<classpathentry kind="lib" path="orc_utils/lib/motorControl-0.0.jar"/>
+	<classpathentry kind="lib" path="orc_utils/lib/orc-0.0.jar"/>
+	<classpathentry kind="lib" path="orc_utils/lib/uORCInterface-0.0.jar"/>
+	<classpathentry kind="lib" path="roscv/lib/javacpp-0.0.jar"/>
+	<classpathentry kind="lib" path="roscv/lib/javacv-0.0.jar"/>
+	<classpathentry kind="lib" path="roscv/lib/javacv-linux-x86-0.0.jar"/>
+	<classpathentry kind="lib" path="uorc_listener/target/org.ros.rss.uorc_listener-0.0.jar"/>
+	<classpathentry kind="lib" path="uorc_publisher/target/uorc_publish-0.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="uorc_publisher/target/classes"/>
+</classpath>
