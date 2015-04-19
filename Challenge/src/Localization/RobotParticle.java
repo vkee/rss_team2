@@ -20,8 +20,6 @@ import MotionPlanning.RRT;
  */
 public class RobotParticle {
     //    Map Fields
-    private GrandChallengeMap map;
-    private Rectangle2D.Double worldRect;
     private Fiducial[] fiducials;
 
     //    Map Dimensions
@@ -29,7 +27,7 @@ public class RobotParticle {
     private double worldHeight;
     private double botLeftX;
     private double botLeftY;
-
+    
     //    Robot Pose
     private double x;
     private double y;
@@ -43,19 +41,22 @@ public class RobotParticle {
 
     /**
      * Creates a particle modeling the robot
-     * @param map the map of the challenge
+     * @param fiducials the map fiducials
+     * @param worldWidth the width of the world in meters
+     * @param worldHeight the height of the world in meters
+     * @param botLeftX the bottom left x coordinate of the map
+     * @param botLeftY the bottom left y coordinate of the map
      * @param transNoise the translational noise (std dev of translational measurements)
      * @param rotNoise the rotational noise (std dev of rotation measurements)
      * @param sensorNoise the sensor noise (std dev of sensor measurements)
      */
-    public RobotParticle(GrandChallengeMap map, double transNoise, double rotNoise, double sensorNoise) {
-        this.map = map;
-        this.worldRect = map.getWorldRect();
-        this.fiducials = map.getFiducials();
-        this.worldWidth = worldRect.getWidth();
-        this.worldHeight = worldRect.getHeight();
-        this.botLeftX = worldRect.getMinX();
-        this.botLeftY = worldRect.getMinY();
+    public RobotParticle(Fiducial[] fiducials, double worldWidth, double worldHeight, 
+            double botLeftX, double botLeftY, double transNoise, double rotNoise, double sensorNoise) {
+        this.fiducials = fiducials;
+        this.worldWidth = worldWidth;
+        this.worldHeight = worldHeight;
+        this.botLeftX = botLeftX;
+        this.botLeftY = botLeftY;
 
         this.x = Math.random() * worldWidth + botLeftX;
         this.y = Math.random() * worldHeight + botLeftY;
@@ -85,7 +86,7 @@ public class RobotParticle {
 
         //        x and y positions outside map are clipped to the map boundaries
         x = Math.max(botLeftX, Math.min(x, worldWidth + botLeftX));
-        y = Math.max(botLeftY, Math.min(y, worldWidth + botLeftY));
+        y = Math.max(botLeftY, Math.min(y, worldHeight + botLeftY));
     }
 
     /**
@@ -103,7 +104,7 @@ public class RobotParticle {
     /**
      * Computes the probability that the robot at it's current position given the provided measurements
      * @param measuredFiducials the indices of the fiducials that have measurements 
-     * (corresponding to the indices of the fiducials in the field of GrandChallengeMap)
+     * (corresponding to the indices of the fiducials in the robot's FOV in GrandChallengeMap)
      * @param measuredDists the measured distances to the fiducials
      * @return the probability
      */

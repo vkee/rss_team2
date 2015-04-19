@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import Challenge.Fiducial;
 import Challenge.GrandChallengeMap;
 
 /**
@@ -21,11 +22,19 @@ public class ParticleFilter {
 
     //    Map Fields
     private GrandChallengeMap map;
+    private java.awt.geom.Rectangle2D.Double worldRect;
 
+    //    Map Dimensions
+    private double worldWidth;
+    private double worldHeight;
+    private double botLeftX;
+    private double botLeftY;
+    
     //    Noise Variables
     private double transNoise;
     private double rotNoise;
     private double sensorNoise;
+    private Fiducial[] fiducials;
 
     /**
      * Creates a Particle filter with the provided parameters.
@@ -42,10 +51,17 @@ public class ParticleFilter {
         this.transNoise = transNoise;
         this.rotNoise = rotNoise;
         this.sensorNoise = sensorNoise;
-
+        this.worldRect = map.getWorldRect();
+        this.fiducials = map.getFiducials();
+        this.worldWidth = worldRect.getWidth();
+        this.worldHeight = worldRect.getHeight();
+        this.botLeftX = worldRect.getMinX();
+        this.botLeftY = worldRect.getMinY();
+        
         //        Creating the particles
         for (int i = 0; i < numParticles; i++) {
-            particles.add(new RobotParticle(map, transNoise, rotNoise, sensorNoise));
+            particles.add(new RobotParticle(fiducials, worldWidth, worldHeight, 
+                    botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
         }
     }
 

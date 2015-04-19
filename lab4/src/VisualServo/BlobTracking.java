@@ -150,7 +150,7 @@ public class BlobTracking {
 	 * <pre>bearing = atan2(centroidX,fp) //(Solution)
 	 * </pre></p> //(Solution)
 	 **/ //(Solution)
-	private void blobFix() { //(Solution)
+	protected void blobFix() { //(Solution)
 		double deltaX = centroidX - width / 2.0; //(Solution)
 		targetRange = //(Solution)
 			focalPlaneDistance * targetRadius / Math.sqrt(targetArea / Math.PI); //(Solution)
@@ -197,7 +197,7 @@ public class BlobTracking {
 	/**
 	 * <p>Computes frame rate of vision processing</p>
 	 */
-	private void stepTiming() {
+	protected void stepTiming() {
 		double currTime = System.currentTimeMillis();
 		stepCounter++;
 		// if it's been a second, compute frames-per-second
@@ -283,7 +283,7 @@ public class BlobTracking {
 		for (int y = 0; y < height; y++) { //(Solution)
 			for (int x = 0; x < width; x++) { //(Solution)
 				if (targetDetected && blobMask[maskIndex++] > 0) { //(Solution)
-					dest.setPixel(x, y, (byte) 0,(byte) 0xff,(byte) 0); // (Solution)
+					dest.setPixel(x, y, (byte) 0xff,(byte) 0,(byte) 0); // (Solution)
 				} else { //(Solution)
 					int pix = src.getPixel(x, y); //(Solution)
 					//(Solution)

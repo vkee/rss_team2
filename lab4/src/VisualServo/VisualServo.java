@@ -20,9 +20,9 @@ public class VisualServo implements NodeMain, Runnable {
 	public client cl = null;
 
 
-	protected static final int width = 160;
+	protected static final int width = 640;
 
-	protected static final int height = 120;
+	protected static final int height = 480;
 
 	protected Publisher<MotionMsg> publisher; // (Solution)
 
@@ -32,10 +32,16 @@ public class VisualServo implements NodeMain, Runnable {
 	 * </p>
 	 **/
 	protected BlobTracking blobTrack = null;
+//	protected MultipleBlobTracking blobTrack = null;
 
-	private double target_hue_level = 0.475; // (Solution)
+	private double target_hue_level = 0; // (Solution)
 	private double hue_threshold = 0.08; // (Solution)
 	private double saturation_level = 0.5; // (Solution)
+	/*
+	private double target_hue_level = 130/360; // (Solution)
+	private double hue_threshold = 0.1; // (Solution)
+	private double saturation_level = 0.4; // (Solution)
+	*/
 	// // Units are fraction of total number of pixels detected in blob //
 	// (Solution)
 	private double blob_size_threshold = 0.005; // (Solution)
@@ -96,9 +102,12 @@ public class VisualServo implements NodeMain, Runnable {
 			Image src = null;
 			try {
 				src = cl.getImage();
+				if (src == null)
+					continue;
 //				src = new Image(visionImage.take(), width, height);
 			} catch (Exception e) {
-				src = new Image(width,height);
+				continue;
+//				src = new Image(width,height);
 			}
 			Image dest = new Image(src);
 
@@ -110,12 +119,12 @@ public class VisualServo implements NodeMain, Runnable {
 			// Begin Student Code
 
 			// publish velocity messages to move the robot towards the target
-			// MotionMsg msg = new MotionMsg(); // (Solution)
-			// msg.translationalVelocity = blobTrack.translationVelocityCommand;
+			 MotionMsg msg = new MotionMsg(); // (Solution)
+			 msg.translationalVelocity = blobTrack.translationVelocityCommand;
 			// // (Solution)
-			// msg.rotationalVelocity = blobTrack.rotationVelocityCommand; //
+			msg.rotationalVelocity = .75*blobTrack.rotationVelocityCommand; //
 			// (Solution)
-			// publisher.publish(msg); // (Solution)
+			 publisher.publish(msg); // (Solution)
 
 			// End Student Code
 		}
@@ -131,8 +140,8 @@ public class VisualServo implements NodeMain, Runnable {
 	 */
 	@Override
 	public void onStart(Node node) {
-		blobTrack = new BlobTracking(width, height);
-
+//		blobTrack = new MultipleBlobTracking(width, height);
+		blobTrack = new BlobTracking(width,height);
 		// Begin Student Code
 
 		// set parameters on blobTrack as you desire
@@ -152,6 +161,7 @@ public class VisualServo implements NodeMain, Runnable {
 		blobTrack.useGaussianBlur = use_gaussian_blur;// (Solution)
 		blobTrack.approximateGaussian = approximate_gaussian;// (Solution)
 
+		/*
 		System.err.println("  target hue level: " + blobTrack.targetHueLevel); // (Solution)
 		System.err.println("  hue threshold: " + blobTrack.hueThreshold); // (Solution)
 		System.err.println("  saturation level: " + blobTrack.saturationLevel); // (Solution)
@@ -175,7 +185,7 @@ public class VisualServo implements NodeMain, Runnable {
 		System.err.println("  use gaussian blur: " + blobTrack.useGaussianBlur); // (Solution)
 		System.err.println("  approximate gaussian: "
 				+ blobTrack.approximateGaussian); // (Solution)
-
+		*/
 		// initialize the ROS publication to command/Motors
 
 		publisher = node.newPublisher("command/Motors", "rss_msgs/MotionMsg"); // (Solution)

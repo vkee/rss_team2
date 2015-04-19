@@ -23,12 +23,29 @@ public class client{
 
 	 return ( data.getData() );
 	}
+
+	public Image getTestImage(){
+		try{
+			File file = new File("/mnt/hgfs/snaps/rgb_4blocks.bin");
+			FileInputStream fis = new FileInputStream(file);
+			byte[] data_ = new byte[(int)file.length()];
+			fis.read(data_);
+			int width = 640;//scan_width.nextInt();
+			int height = 480;//scan_height.nextInt();
+			byte[] data = Image.RGB2BGR(data_,width,height);
+			return new Image(data,width,height);
+		} catch(Exception e){
+			return null;
+		}
+	
+	}
+
 	public Image getImage(){
 
 		try{
 //			byte[] data = extractBytes("/mnt/hgfs/snaps/test1.png");
 
-			File file = new File("/mnt/hgfs/snaps/rgb.bin");
+			File file = new File("/mnt/hgfs/fast/rgb.bin");
 			FileInputStream fis = new FileInputStream(file);
 			byte[] data_ = new byte[(int)file.length()];
 			fis.read(data_);
@@ -41,9 +58,7 @@ public class client{
 			return new Image(data,width,height);
 
 		} catch(Exception e){
-			int width = 640;
-			int height = 480;
-			return new Image(width,height);
+			return null;
 		}
 	}
 }

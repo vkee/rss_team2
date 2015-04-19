@@ -3,11 +3,11 @@ FILE(REMOVE_RECURSE
   "../msg_gen"
   "../msg_gen"
   "CMakeFiles/ROSBUILD_genmsg_cpp"
+  "../msg_gen/cpp/include/lab5_msgs/GUIEraseMsg.h"
   "../msg_gen/cpp/include/lab5_msgs/GUILineMsg.h"
+  "../msg_gen/cpp/include/lab5_msgs/GUISegmentMsg.h"
   "../msg_gen/cpp/include/lab5_msgs/ColorMsg.h"
   "../msg_gen/cpp/include/lab5_msgs/GUIPointMsg.h"
-  "../msg_gen/cpp/include/lab5_msgs/GUISegmentMsg.h"
-  "../msg_gen/cpp/include/lab5_msgs/GUIEraseMsg.h"
 )
 
 # Per-language clean rules from dependency scanning.

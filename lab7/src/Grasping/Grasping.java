@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class Grasping implements NodeMain {
+	public client cl = null;
 	private Publisher<ArmMsg> armPWMPub;
 	private Subscriber<ArmMsg> armStatusSub;
 	private Subscriber<BumpMsg> bumpersSub;
@@ -113,12 +114,24 @@ public class Grasping implements NodeMain {
 		while (true) {
 			Image src = null;
 			try {
+				src = cl.getImage();
+				if (src == null)
+					continue;
+//				src = new Image(visionImage.take(), width, height);
+			} catch (Exception e) {
+				continue;
+//				src = new Image(width,height);
+			}
+
+/*
+			Image src = null;
+			try {
 				src = new Image(visionImage.take(), width, height);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				continue;
 			}
-
+*/
 			Image dest = new Image(src);
 
 			blobTrack.apply(src, dest);
