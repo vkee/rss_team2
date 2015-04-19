@@ -89,10 +89,11 @@ public class MultiRRTTest implements NodeMain {
         }
 
         try {
-            //            TODO: put in the MultiRRT stuff here
+            //            TODO: put in the MultiRRT stuff here to replace rrt path here
             List<Point2D.Double> rrtPath = rrt.getPath(challengeMap.getRobotStart(),
                     challengeMap.getRobotGoal(), TOLERANCE);
-            System.out.println("Done");
+            
+            System.out.println("Path found");
 
             //            Prints out the path to the MapGUI
             outputPath(rrtPath, Color.RED);
