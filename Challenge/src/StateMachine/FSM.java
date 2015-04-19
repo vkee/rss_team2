@@ -1,16 +1,12 @@
 package StateMachine;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-
-import MotionPlanning.CSpace;
 import MotionPlanning.GoalAdjLists;
 import MotionPlanning.MultiRRT;
 
 /**
- * This class is the root node for all listeners and publishers and offers the control flow for the state machine. It is also the repository for any shared state variables
+ * This class is the root node for all listeners and publishers and offers the control flow for the state machine. 
+ * It is also the repository for any shared state variables
  */
 public class FSM {
 	
@@ -21,8 +17,6 @@ public class FSM {
 	public enum msgENUM { 
 		NECK, WHEELS, BLOCK, IMAGE, GATE, DOOR
 	}
-
-
 
 	private FSMState currentState;
 	private boolean inState;
