@@ -1,0 +1,25 @@
+package MotionPlanning;
+
+import java.awt.geom.Point2D;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.ArrayList;
+
+public class GoalAdjLists {
+	
+	HashMap<Point2D.Double, ArrayList<ArrayList<Point2D.Double>>> adjList;
+	HashMap<Point2D.Double, ArrayList<Double>> adjDists;
+	
+	public GoalAdjLists()
+		{
+			
+		}
+
+	public void addBiPath(Point2D.Double from, Point2D.Double to, ArrayList<Point2D.Double> path)
+		{
+		double pathDistance = getDistance(path);
+		adjList.put(from, path);
+		adjList.put(to, Collections.reverse(path));
+		
+		}
+}

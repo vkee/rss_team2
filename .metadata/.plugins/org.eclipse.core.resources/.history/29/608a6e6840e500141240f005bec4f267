@@ -1,0 +1,71 @@
+package MotionPlanning;
+
+import java.awt.geom.Point2D;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.ArrayList;
+
+public class GoalAdjLists {
+	
+	HashMap<Point2D.Double, HashMap<Point2D.Double, ArrayList<Point2D.Double>>> pathGrid;
+	HashMap<Point2D.Double, HashMap<Point2D.Double, Double>> distanceGrid;
+	
+	public GoalAdjLists()
+		{
+			
+		}
+
+	public void addBiPath(Point2D.Double from, Point2D.Double to, ArrayList<Point2D.Double> path)
+		{
+		double pathDistance = getDistance(path);
+		distanceGrid.putIfAbsent(from, new HashMap<Point2D.Double,Double>());
+		distanceGrid.putIfAbsent(to, new HashMap<Point2D.Double,Double>());
+		distanceGrid.get(from).put(to, pathDistance);
+		distanceGrid.get(to).put(from, pathDistance);
+		
+		pathGrid.putIfAbsent(from, new HashMap<Point2D.Double,ArrayList<Point2D.Double>>());
+		pathGrid.putIfAbsent(to, new HashMap<Point2D.Double,ArrayList<Point2D.Double>>());
+		
+		ArrayList<Point2D.Double> reversePath = new ArrayList<Point2D.Double>();
+		Collections.copy(reversePath, path);
+		Collections.reverse(reversePath);
+		
+		pathGrid.get(from).put(to, path);
+		pathGrid.get(to).put(from, reversePath);
+		}
+	
+	public ArrayList<Point2D.Double> getClosestFrom(Point2D.Double from)
+		{
+		HashMap<Point2D.Double,Double> originDistMap = distanceGrid.get(from);
+		
+		Point2D.Double closestPoint = null;
+		double closestDistance = Double.MAX_VALUE;
+		
+		for (Point2D.Double tos : originDistMap.keySet())
+			{
+			if (originDistMap.get(tos) < closestDistance)
+				{
+				closestDistance = originDistMap.get(tos);
+				closestPoint = tos;
+				}
+			}
+		return pathGrid.get(from).get(closestPoint);
+		}
+
+	
+	public void useBiPath(Point2D.Double from, Point2D.Double to)
+		{
+		distanceGrid.get(from).remove(to);
+		distanceGrid.get(to).remove(from);
+		pathGrid.get(from).remove(to);
+		pathGrid.get(to).remove(from);
+		}
+	
+	private double getDistance(ArrayList<Point2D.Double> path)
+		{
+		double dist = 0;
+		for (int i=0; i<path.size()-1; i++)
+			{dist += Math.sqrt(Math.pow(path.get(i).x-path.get(i+1).x, 2) + Math.pow(path.get(i).y-path.get(i+1).y, 2));}
+		return dist;
+		}
+}

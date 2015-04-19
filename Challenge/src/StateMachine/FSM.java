@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import MotionPlanning.CSpace;
+import MotionPlanning.GoalAdjLists;
+import MotionPlanning.MultiRRT;
 
 /**
  * This class is the root node for all listeners and publishers and offers the control flow for the state machine. It is also the repository for any shared state variables
@@ -29,12 +31,10 @@ public class FSM {
 	
 	public int startTime;
 	public int blocksCollected;
-	public CSpace map;
-	public HashMap<Integer, Point2D.Double> goals;
-	public HashMap<Integer, ArrayList<Double>> rrtDistances;				//sorted by shortest distance adjcentcy lists of distances used to update below
-	public HashMap<Integer, ArrayList<ArrayList<Point2D.Double>>> rrtPaths;				//sorted by shortest distance adjcentcy lists of paths 
-	public int currentLocation;			//the id of the current goal point we are at
-	public HashSet<Integer> visited;
+	public MultiRRT RRTengine;
+	public Point2D.Double currentLocation;			//the current goal point we are at
+	public GoalAdjLists foundPaths;
+	//public HashSet<Integer> visited;
 	
 
 	// public wheels publishers
@@ -47,6 +47,8 @@ public class FSM {
 
 		currentState = new Initialize(this);
 		inState = false;
+		
+		dispachState(null);
 
 		//initialize all listeners with dispatchState as the callback
 
