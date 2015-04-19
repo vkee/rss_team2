@@ -355,42 +355,42 @@ public class RRT {
     }
 }
 
-/**
- * RRTreeNode represents a node in a tree running RRT
- */
-class RRTreeNode {
-    public RRTreeNode parent;
-    public Point2D.Double point;
-
-    /**
-     * Creates an RRTreeNode
-     * @param parentNode the parent node of the current node
-     * @param coord the coordinates of the current node
-     */
-    public RRTreeNode(RRTreeNode parentNode, Point2D.Double coord) {
-        parent = parentNode;
-        point = coord;
-    }
-
-    /**
-     * Returns the path to the current node
-     * @return the path
-     */
-    public List<Point2D.Double> pathFromParent() {
-        List<Point2D.Double> pathBack = new ArrayList<Point2D.Double>();
-        RRTreeNode currNode = this;
-        while (currNode != null) {
-            pathBack.add(currNode.point);
-            currNode = currNode.parent;
-        }
-        Collections.reverse(pathBack);
-        return pathBack;
-    }
-
-    @Override
-    public String toString() {
-        return "point=" + point.toString();
-    }
-    
-
-}
+///**
+// * RRTreeNode represents a node in a tree running RRT
+// */
+//class RRTreeNode {
+//    public RRTreeNode parent;
+//    public Point2D.Double point;
+//
+//    /**
+//     * Creates an RRTreeNode
+//     * @param parentNode the parent node of the current node
+//     * @param coord the coordinates of the current node
+//     */
+//    public RRTreeNode(RRTreeNode parentNode, Point2D.Double coord) {
+//        parent = parentNode;
+//        point = coord;
+//    }
+//
+//    /**
+//     * Returns the path to the current node
+//     * @return the path
+//     */
+//    public List<Point2D.Double> pathFromParent() {
+//        List<Point2D.Double> pathBack = new ArrayList<Point2D.Double>();
+//        RRTreeNode currNode = this;
+//        while (currNode != null) {
+//            pathBack.add(currNode.point);
+//            currNode = currNode.parent;
+//        }
+//        Collections.reverse(pathBack);
+//        return pathBack;
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return "point=" + point.toString();
+//    }
+//    
+//
+//}
