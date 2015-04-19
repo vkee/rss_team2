@@ -39,14 +39,10 @@ public class FSM implements NodeMain{
 	private boolean inState;
 
 	public final int TIME_LIMIT = 10*60;
-<<<<<<< HEAD
 
 	public long startTime;
-=======
 	public final double RRT_TOLERANCE = 0.02;
 	
-	public int startTime;
->>>>>>> ea0d63f70c73817b451178a28822eaccf81c98fa
 	public int blocksCollected;
 	public MultiRRT RRTengine;
 	public Point2D.Double currentLocation;			//the current goal point we are at
@@ -111,7 +107,6 @@ public class FSM implements NodeMain{
 		// Reading in a map file whose name is set as the parameter mapFileName
 		ParameterTree paramTree = node.newParameterTree();
 		mapFileName = paramTree.getString(node.resolveName("~/mapFileName"));
-
 	}
 	
     @Override
