@@ -1,0 +1,57 @@
+package MotionPlanning;
+
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * RRTreeNode represents a node in a tree running RRT
+ */
+public class RRTreeNode {
+    public RRTreeNode parent;
+    public Point2D.Double point;
+    public double distFromRoot;
+
+    
+    public static double distance(Point2D.Double from, Point2D.Double to)
+    	{
+    	return Math.sqrt( Math.pow(from.x-to.x,2) + Math.pow(from.y-to.y,2) );
+    	}
+    
+    
+    /**
+     * Creates an RRTreeNode
+     * @param parentNode the parent node of the current node
+     * @param coord the coordinates of the current node
+     */
+    public RRTreeNode(RRTreeNode parentNode, Point2D.Double coord) {
+        parent = parentNode;
+        point = coord;
+        if (parent != null)
+        	{distFromRoot = parent.distFromRoot + distance(parent.point, coord);}
+        else distFromRoot = 0;
+    }
+
+    /**
+     * Returns the path to the current node
+     * @return the path
+     */
+    public List<Point2D.Double> pathFromParent() {
+        List<Point2D.Double> pathBack = new ArrayList<Point2D.Double>();
+        RRTreeNode currNode = this;
+        while (currNode != null) {
+            pathBack.add(currNode.point);
+            currNode = currNode.parent;
+        }
+        Collections.reverse(pathBack);
+        return pathBack;
+    }
+
+    @Override
+    public String toString() {
+        return "point=" + point.toString();
+    }
+    
+
+}
