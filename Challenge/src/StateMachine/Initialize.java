@@ -21,7 +21,6 @@ import StateMachine.FSM.stateENUM;
  */
 public class Initialize implements FSMState {
 
-
 	private FSM fsm;	
 
 	public Initialize(FSM stateMachine)
@@ -44,7 +43,13 @@ public class Initialize implements FSMState {
 
 			fsm.RRTengine =  new MultiRRT(challengeMap);
 			fsm.foundPaths = new GoalAdjLists(end);
-
+					
+//			MultiRRT.RRTreeNode[] pathEnds = fsm.RRTengine.getPaths(start, goals, fsm.RRT_TOLERANCE);
+//			for (int i=0; i<pathEnds.length; i++)
+//				{pathEnds.
+//				fsm.foundPaths.addBiPath(from, to, path, dist);
+//				}
+//			}	
 
 			//			fsm.RRTengine.getPaths(start, goals, fsm.RRT_TOLERANCE);
 			//			fsm.foundPaths.addBiPath(from, to, path, dist);
@@ -53,15 +58,16 @@ public class Initialize implements FSMState {
 			e.printStackTrace();
 		}
 	}	
-
-
+	
 	public stateENUM getName()
 	{return stateENUM.INITIALIZE;}
 
 
 	public boolean accepts(msgENUM msgType)
 	{
-		if (msgType == msgENUM.WHEELS) return true;
+		{
+		//if (msgType == msgENUM.WHEELS) return true;
+		if (msgType == null) return true;
 		return false;
 	}
 

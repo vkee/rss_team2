@@ -20,13 +20,13 @@ public class GoalAdjLists {
 	public void addBiPath(Point2D.Double from, Point2D.Double to, ArrayList<Point2D.Double> path, double dist)
 		{
 		double pathDistance = dist;//getDistance(path);
-		if (distanceGrid.get(from)==null) distanceGrid.put(from, new HashMap<Point2D.Double,Double>());
-		if (distanceGrid.get(to)==null) distanceGrid.put(to, new HashMap<Point2D.Double,Double>());
+		distanceGrid.putIfAbsent(from, new HashMap<Point2D.Double,Double>());
+		distanceGrid.putIfAbsent(to, new HashMap<Point2D.Double,Double>());
 		distanceGrid.get(from).put(to, pathDistance);
 		distanceGrid.get(to).put(from, pathDistance);
 		
-		if (pathGrid.get(from)==null) pathGrid.put(from, new HashMap<Point2D.Double,ArrayList<Point2D.Double>>());
-		if (pathGrid.get(to)==null) pathGrid.put(to, new HashMap<Point2D.Double,ArrayList<Point2D.Double>>());
+		pathGrid.putIfAbsent(from, new HashMap<Point2D.Double,ArrayList<Point2D.Double>>());
+		pathGrid.putIfAbsent(to, new HashMap<Point2D.Double,ArrayList<Point2D.Double>>());
 		
 		ArrayList<Point2D.Double> reversePath = new ArrayList<Point2D.Double>();
 		Collections.copy(reversePath, path);
@@ -75,5 +75,4 @@ public class GoalAdjLists {
 			{dist += Math.sqrt(Math.pow(path.get(i).x-path.get(i+1).x, 2) + Math.pow(path.get(i).y-path.get(i+1).y, 2));}
 		return dist;
 		}
-	
 }
