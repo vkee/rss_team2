@@ -107,6 +107,7 @@ public class CSpace {
      * @param challengeMap
      *            the map of the environment to generate a configuration space
      *            of
+     * @param isTest if testing cspace (generates a robot polygon)
      * @return the 3D C-Space obstacles of the map obstacles and the
      *         boundaries, where index of the returned list corresponds
      *         to the C-Space obstacles generated for robot's orientation

@@ -1,6 +1,7 @@
 package StateMachine;
 
 import java.awt.geom.Point2D;
+
 import MotionPlanning.GoalAdjLists;
 import MotionPlanning.MultiRRT;
 
@@ -34,6 +35,8 @@ public class FSM {
 	// public wheels publishers
 	// public servos publishers
 
+    protected String mapFileName;
+	
 	public FSM()
 		{
 		
