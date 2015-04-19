@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 
 public class GoalAdjLists {
 	
@@ -17,6 +18,13 @@ public class GoalAdjLists {
 		goal = goalPoint;		
 		}
 
+	/**
+	 * adds the from/to path and to/from path
+	 * @param from
+	 * @param to
+	 * @param path
+	 * @param dist
+	 */
 	public void addBiPath(Point2D.Double from, Point2D.Double to, ArrayList<Point2D.Double> path, double dist)
 		{
 		double pathDistance = dist;//getDistance(path);
@@ -36,15 +44,28 @@ public class GoalAdjLists {
 		pathGrid.get(to).put(from, reversePath);
 		}
 	
-	public ArrayList<Point2D.Double> getClosestPathFrom(Point2D.Double from)
+	
+	/**
+	 * Gives the closest path from where you are (returns null if it only has a path to the goal)
+	 * @param from
+	 * @return
+	 */
+	public ArrayList<Point2D.Double> getClosestFeasiblePathFrom(Point2D.Double from, double maxDist)
 		{
 		HashMap<Point2D.Double,Double> originDistMap = distanceGrid.get(from);
 		
 		Point2D.Double closestPoint = null;
 		double closestDistance = Double.MAX_VALUE;
 		
-		for (Point2D.Double tos : originDistMap.keySet())
+		ArrayList<Point2D.Double> destinations = (ArrayList<Point2D.Double>) originDistMap.keySet();
+		
+		if (destinations.size() == 1) return null;
+		
+		for (Point2D.Double tos : destinations)
 			{
+			if (tos == goal) continue;		//not goal node
+			if (originDistMap.get(tos) + distanceGrid.get(tos).get(goal) > maxDist) continue;
+			
 			if (originDistMap.get(tos) < closestDistance)
 				{
 				closestDistance = originDistMap.get(tos);
@@ -54,6 +75,11 @@ public class GoalAdjLists {
 		return pathGrid.get(from).get(closestPoint);
 		}
 	
+	public ArrayList<Point2D.Double> getPathToGoal(Point2D.Double from)
+		{
+		return pathGrid.get(from).get(goal);
+		}
+		
 	public ArrayList<Point2D.Double> getUnvisited()
 		{return (ArrayList<Point2D.Double>) distanceGrid.keySet();}
 

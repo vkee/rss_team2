@@ -22,6 +22,7 @@ public class FSM {
 	private boolean inState;
 	
 	public final int TIME_LIMIT = 10*60;
+	public final double RRT_TOLERANCE = 0.02;
 	
 	public int startTime;
 	public int blocksCollected;
