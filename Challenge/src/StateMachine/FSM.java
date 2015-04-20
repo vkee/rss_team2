@@ -28,91 +28,90 @@ import org.ros.message.Challenge_msgs.*;
  */
 public class FSM implements NodeMain{
 
-	public enum stateENUM {
-		INITIALIZE, SCAN, WNCLOSE, MOVEFORWARD, OPENGATE, APPROACHBLOCK, BLOCKCOLLECTED, RRTUPDATE, ORIENTDEPOSIT, VISUALSERVOCOLLECT, WNDEPOSIT
-	}
+    public enum stateENUM {
+        INITIALIZE, SCAN, WNCLOSE, MOVEFORWARD, OPENGATE, APPROACHBLOCK, BLOCKCOLLECTED, RRTUPDATE, ORIENTDEPOSIT, VISUALSERVOCOLLECT, WNDEPOSIT
+    }
 
-	public enum msgENUM { 
-		NECK, WHEELS, BLOCK, IMAGE, GATE, DOOR
-	}
+    public enum msgENUM { 
+        NECK, WHEELS, BLOCK, IMAGE, GATE, DOOR
+    }
 
-	private FSMState currentState;
-	private boolean inState;
+    private FSMState currentState;
+    private boolean inState;
 
-	public final long TIME_LIMIT = 10*60*1000;
+    public final long TIME_LIMIT = 10*60*1000;
 
-	public long startTime;
-	public final double RRT_TOLERANCE = 0.02;
-	public final double ROBOTVEL;			//coords/ms
-
-	
-	public int blocksCollected;
-	public MultiRRT RRTengine;
-	public Point2D.Double currentLocation;			//the current goal point we are at
-	public GoalAdjLists foundPaths;
-
-	protected String mapFileName;
-	private Publisher<GUIRectMsg> guiRectPub;
-	private Publisher<GUIPolyMsg> guiPolyPub;
-	private Publisher<GUIEraseMsg> guiErasePub;
-	private Publisher<GUIPointMsg> guiPtPub;
-	private Publisher<Object> ellipsePub;
-	private Publisher<Object> stringPub;
-	//public HashSet<Integer> visited;
+    public long startTime;
+    public final double RRT_TOLERANCE = 0.02;
+    public final double ROBOTVEL = 0.1;			//coords/ms
 
 
-	// public wheels publishers
-	// public servos publishers
-	
-	public FSM()
-		{
+    public int blocksCollected;
+    public MultiRRT RRTengine;
+    public Point2D.Double currentLocation;			//the current goal point we are at
+    public GoalAdjLists foundPaths;
 
-		//initialize publishers
-
-		currentState = new Initialize(this);
-		inState = false;
-
-		dispachState(null);
-
-		//initialize all listeners with dispatchState as the callback
-
-	}
-
-	public void setStartTime(){
-		startTime = System.currentTimeMillis();
-	}
-
-	public void updateState(FSMState newState)
-	{
-		currentState = newState;
-	}
-
-	public void dispachState(Object msg)
-	{
-		if (inState) return;					// may instead use a LOCK and queue for other msgs instead
-		inState = true;
-		//		if (currentState.accepts(msg.type))		//may not need this check
-		//			{currentState.update(msg);}		
-		inState = false;
-	}
+    protected String mapFileName;
+    private Publisher<GUIRectMsg> guiRectPub;
+    private Publisher<GUIPolyMsg> guiPolyPub;
+    private Publisher<GUIEraseMsg> guiErasePub;
+    private Publisher<GUIPointMsg> guiPtPub;
+    private Publisher<Object> ellipsePub;
+    private Publisher<Object> stringPub;
+    //public HashSet<Integer> visited;
 
 
-	@Override
-	public void onStart(Node node) {
-		stringPub = node.newPublisher("gui/String",
-				"Challenge_msgs/GUIStringMessage");
-		ellipsePub = node.newPublisher("/gui/Ellipse",
-				"Challenge_msgs/GUIEllipseMessage");
-		guiRectPub = node.newPublisher("gui/Rect", "lab6_msgs/GUIRectMsg");
-		guiPolyPub = node.newPublisher("gui/Poly", "lab6_msgs/GUIPolyMsg");
-		guiErasePub = node.newPublisher("gui/Erase", "lab5_msgs/GUIEraseMsg");
-		guiPtPub = node.newPublisher("gui/Point", "lab5_msgs/GUIPointMsg");
+    // public wheels publishers
+    // public servos publishers
 
-		// Reading in a map file whose name is set as the parameter mapFileName
-		ParameterTree paramTree = node.newParameterTree();
-		mapFileName = paramTree.getString(node.resolveName("~/mapFileName"));
-	}
-	
+    public FSM(){
+
+        //initialize publishers
+
+        currentState = new Initialize(this);
+        inState = false;
+
+        dispachState(null);
+
+        //initialize all listeners with dispatchState as the callback
+
+    }
+
+    public void setStartTime(){
+        startTime = System.currentTimeMillis();
+    }
+
+    public void updateState(FSMState newState)
+    {
+        currentState = newState;
+    }
+
+    public void dispachState(Object msg)
+    {
+        if (inState) return;					// may instead use a LOCK and queue for other msgs instead
+        inState = true;
+        //		if (currentState.accepts(msg.type))		//may not need this check
+        //			{currentState.update(msg);}		
+        inState = false;
+    }
+
+
+    @Override
+    public void onStart(Node node) {
+        stringPub = node.newPublisher("gui/String",
+                "Challenge_msgs/GUIStringMessage");
+        ellipsePub = node.newPublisher("/gui/Ellipse",
+                "Challenge_msgs/GUIEllipseMessage");
+        guiRectPub = node.newPublisher("gui/Rect", "lab6_msgs/GUIRectMsg");
+        guiPolyPub = node.newPublisher("gui/Poly", "lab6_msgs/GUIPolyMsg");
+        guiErasePub = node.newPublisher("gui/Erase", "lab5_msgs/GUIEraseMsg");
+        guiPtPub = node.newPublisher("gui/Point", "lab5_msgs/GUIPointMsg");
+
+        // Reading in a map file whose name is set as the parameter mapFileName
+        ParameterTree paramTree = node.newParameterTree();
+        mapFileName = paramTree.getString(node.resolveName("~/mapFileName"));
+    }
+
     @Override
     public void onShutdown(Node node) {
         if (node != null) {
