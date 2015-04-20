@@ -110,13 +110,11 @@ public class LocalizationTest implements NodeMain {
 //            System.out.println("Done with RRT");
             rrtPath = generateTestPath(challengeMap.getRobotStart());
             
-            
-            
             //            Localization Tests
             try {
                 System.out.println("Starting up particle filter");
                 //                Initialize Particle Filter
-                particleFilter = new ParticleFilter(10000, challengeMap, 0.00, 0.00, 0.00);
+                particleFilter = new ParticleFilter(10000, challengeMap, 0.05, 0.05, 5.00);
 
                 publishParticles();
 
