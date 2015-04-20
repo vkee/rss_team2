@@ -116,7 +116,7 @@ public class LocalizationTest implements NodeMain {
                 //                Initialize Particle Filter
                 particleFilter = new ParticleFilter(10000, challengeMap, 0.05, 0.05, 5.00);
 
-//                publishParticles();
+                //                publishParticles();
 
                 prevPt = robotStart;
                 long startTime = System.currentTimeMillis();
@@ -141,11 +141,12 @@ public class LocalizationTest implements NodeMain {
 
                     //                    Display the state after the motion and measurement update
                     prevPt = pt;
-//                                        refreshDisplay();
+                    //                                        refreshDisplay();
                     //                    Printing particles out
                     //                    Thread.sleep(5000); // Waiting 5 seconds between each step
                 }
-                                particleFilter.printParticles();
+                particleFilter.printParticles();
+                System.out.println("Robot Final Position: " + prevPt.toString());
                 double currTime = (System.currentTimeMillis() - startTime)/1000.0;
                 System.out.println("Runtime " + currTime);
                 refreshDisplay();
@@ -185,7 +186,7 @@ public class LocalizationTest implements NodeMain {
             Point2D.Double fidPos = fiducials[i].getPosition();
             System.out.println("Fiducial Pos " + fidPos);
 
-//            TODO: should only check if intersects with obstacles not cspace obstacles...
+            //            TODO: should only check if intersects with obstacles not cspace obstacles...
             if (!RRT.lineIntersectsObs(challengeMap.getPolygonObstacles(), robotPos, fidPos)) {
                 System.out.println("in here!");
                 fidsInFOV.add(i);
@@ -214,7 +215,7 @@ public class LocalizationTest implements NodeMain {
 
         return fidsDists;
     }
-    
+
     /**
      * Determines whether the line determined by the two points intersects any obstacles 
      * @param obstacles the obstacles
