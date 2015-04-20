@@ -108,7 +108,7 @@ public class LocalizationTest implements NodeMain {
 //                    challengeMap.getRobotGoal(), TOLERANCE);
 //            outputPath(rrtPath, Color.RED);
 //            System.out.println("Done with RRT");
-            rrtPath = generateTestPath();
+            rrtPath = generateTestPath(challengeMap.getRobotStart());
             
             
             
@@ -156,11 +156,11 @@ public class LocalizationTest implements NodeMain {
         }
     }
 
-    private ArrayList<Point2D.Double> generateTestPath(){
+    private ArrayList<Point2D.Double> generateTestPath(Double startPoint){
         ArrayList<Point2D.Double> testPath = new ArrayList<Point2D.Double>();
         
         for (int i = 0; i < 100; i++) {
-            testPath.add(new Point2D.Double(i/100.0, 0.0));
+            testPath.add(new Point2D.Double(i/50.0 + startPoint.getX(), 0.0 + startPoint.getY()));
         }
         
         return testPath;
