@@ -145,7 +145,7 @@ public class LocalizationTest implements NodeMain {
 //                    Printing particles out
 //                    Thread.sleep(5000); // Waiting 5 seconds between each step
                 }
-                particleFilter.printParticles();
+//                particleFilter.printParticles();
                 double currTime = (System.currentTimeMillis() - startTime)/1000.0;
                 System.out.println("Runtime " + currTime);
                 refreshDisplay();
@@ -165,7 +165,7 @@ public class LocalizationTest implements NodeMain {
     private ArrayList<Point2D.Double> generateTestPath(Double startPoint){
         ArrayList<Point2D.Double> testPath = new ArrayList<Point2D.Double>();
         
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 3; i++) {
             testPath.add(new Point2D.Double(i/25.0 + startPoint.getX(), i/50.0 + startPoint.getY()));
         }
         
@@ -180,11 +180,15 @@ public class LocalizationTest implements NodeMain {
     private ArrayList<Integer> getFidsInFOV(Point2D.Double robotPos) {
         ArrayList<Integer> fidsInFOV = new ArrayList<Integer>();
         Fiducial[] fiducials = challengeMap.getFiducials();
+        System.out.println("Num fiducials: " + fiducials.length);
         for (int i = 0; i < fiducials.length; i++) {
             Point2D.Double fidPos = fiducials[i].getPosition();
+            System.out.println("Fiducial Pos " + fidPos);
 
             ArrayList<PolygonObstacle> obstacles = obsCSpaces.get(cspaceIndex);
+            System.out.println("Num obs " + obstacles.size());
             if (!RRT.lineIntersectsObs(obstacles, robotPos, fidPos)) {
+                System.out.println("in here!");
                 fidsInFOV.add(i);
             }
         }
