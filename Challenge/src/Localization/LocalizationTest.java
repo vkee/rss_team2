@@ -166,7 +166,7 @@ public class LocalizationTest implements NodeMain {
     private ArrayList<Point2D.Double> generateTestPath(Double startPoint){
         ArrayList<Point2D.Double> testPath = new ArrayList<Point2D.Double>();
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             testPath.add(new Point2D.Double(i/25.0 + startPoint.getX(), i/50.0 + startPoint.getY()));
         }
 
