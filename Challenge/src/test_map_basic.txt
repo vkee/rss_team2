@@ -13,15 +13,7 @@ map {
     #composed of two Ball objects...at some point
 
     fiducials {
-    	num_fiducials 7
-	    0 {
-	        position { -0.6125 4.1375 } 
-		    top_color green
-		    bottom_color blue
-		    top_radius 0.055 #in meters
-		    bottom_radius 0.055 #in meters
-	    }
-	
+    	num_fiducials 6
 	    1 {
 	        position { 0.5 4.125 }
 		    top_color blue
