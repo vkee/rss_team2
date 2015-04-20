@@ -14,7 +14,7 @@ map {
 
     fiducials {
     	num_fiducials 5
-	    1 {
+	    0 {
 	        position { 0.5 4.125 }
 		    top_color blue
 		    bottom_color yellow
@@ -22,7 +22,7 @@ map {
 		    bottom_radius 0.055
 	    }
 	
-	    2 {
+	    1 {
 	        position { 2.4125 3.325 }
 		    top_color green
 		    bottom_color orange
@@ -30,7 +30,7 @@ map {
 		    bottom_radius 0.055
 	    }
 	
-	    3 {
+	    2 {
 	        position { 1.3875 -0.475 }
 		    top_color red
 		    bottom_color green
@@ -38,7 +38,7 @@ map {
 		    bottom_radius 0.055
 	    }
 	    
-	    4 {
+	    3 {
 	        position { -0.5125 0.65 }
 		    top_color yellow
 		    bottom_color red
@@ -46,7 +46,7 @@ map {
 		    bottom_radius 0.055
 	    }
 	    
-	    5 {
+	    4 {
 	       position { 1.45 1.425 }
 	           top_color blue
 		   bottom_color red
@@ -54,7 +54,7 @@ map {
 		   bottom_radius 0.055
 	    }
 
-	    6 {
+	    5 {
 	       position { 0.8625 1.225 }
 	           top_color orange
 		   bottom_color blue
