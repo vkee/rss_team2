@@ -133,6 +133,7 @@ public class LocalizationTest implements NodeMain {
 
                     //                    Determining which fiducials are in the FOV of the robot
                     ArrayList<Integer> measuredFiducials = getFidsInFOV(pt);
+                    System.out.println("Num of fids in FOV: " + measuredFiducials.size());
                     //                    Determining the distances to the fiducials that are in the FOV of the robot
                     HashMap<Integer, java.lang.Double> measuredDists = getFidsDists(pt, measuredFiducials);
 
