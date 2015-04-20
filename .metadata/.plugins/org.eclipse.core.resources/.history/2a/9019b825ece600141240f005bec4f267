@@ -38,7 +38,7 @@ public class FSM implements NodeMain{
 	private FSMState currentState;
 	private boolean inState;
 
-	public final long TIME_LIMIT = 10*60*1000;
+	public final long TIME_LIMIT = 10*60;
 
 	public long startTime;
 	public final double RRT_TOLERANCE = 0.02;

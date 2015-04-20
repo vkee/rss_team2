@@ -28,7 +28,7 @@ import org.ros.message.Challenge_msgs.*;
 public class FSM implements NodeMain{
 
 	public enum stateENUM {
-		INITIALIZE, SCAN, WNCLOSE, MOVEFORWARD, OPENGATE, APPROACHBLOCK, BLOCKCOLLECTED, RRTUPDATE, ORIENTDEPOSIT, VISUALSERVOCOLLECT, WNDEPOSIT
+		INITIALIZE, SCAN, WNCLOSE, MOVEFORWARD, OPENGATE, APPROACHBLOCK, BLOCKCOLLECTED, CHECKTIME, RRTUPDATE, CSPACE, ORIENTDEPOSIT, VISUALSERVOCOLLECT, WNDEPOSIT
 	}
 
 	public enum msgENUM { 
@@ -38,7 +38,7 @@ public class FSM implements NodeMain{
 	private FSMState currentState;
 	private boolean inState;
 
-	public final long TIME_LIMIT = 10*60*1000;
+	public final int TIME_LIMIT = 10*60;
 
 	public long startTime;
 	public final double RRT_TOLERANCE = 0.02;

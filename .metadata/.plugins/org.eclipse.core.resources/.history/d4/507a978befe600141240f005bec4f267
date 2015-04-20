@@ -4,14 +4,14 @@ import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
 
 /**
- * This state uses the visual servoing to approach the block.
+ * This state kicks off the extra RRT searches for new goals
  */
-public class VisualServoCollect implements FSMState {
+public class RRTUpdate implements FSMState {
 
 
 	private FSM fsm;	
 
-	public VisualServoCollect(FSM stateMachine)
+	public RRTUpdate(FSM stateMachine)
 		{
 		fsm = stateMachine;
 
@@ -21,12 +21,12 @@ public class VisualServoCollect implements FSMState {
 
 	
 	public stateENUM getName()
-		{return stateENUM.VISUALSERVOCOLLECT;}
+		{return stateENUM.RRTUPDATE;}
 
 	
 	public boolean accepts(msgENUM msgType)
 		{
-		if (msgType == msgENUM.WHEELS || msgType == msgENUM.IMAGE) return true;
+		if (msgType == msgENUM.WHEELS) return true;
 		return false;
 		}
 
@@ -36,7 +36,7 @@ public class VisualServoCollect implements FSMState {
 		//do stuff
 
 		//if condition to leave state
-		//fsm.updateState(new MoveForward(fsm));
+		//fsm.updateState(new NextState(fsm));
 
 		}
 

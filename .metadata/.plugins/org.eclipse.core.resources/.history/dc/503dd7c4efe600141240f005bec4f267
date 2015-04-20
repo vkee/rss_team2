@@ -22,8 +22,7 @@ public class RRTUpdate implements FSMState {
 		ArrayList<Point2D.Double> unvis = fsm.foundPaths.getUnvisited();
 		
 		for (Point2D.Double newMatLoc: newMaterialLocations)
-			{
-			RRTreeNode[] endpoints = fsm.RRTengine.getPaths(newMatLoc, unvis, fsm.RRT_TOLERANCE);
+			{RRTreeNode[] endpoints = fsm.RRTengine.getPaths(newMatLoc, unvis, fsm.RRT_TOLERANCE);
 			for (int i=0; i<endpoints.length; i++)
 				{fsm.foundPaths.addBiPath(newMatLoc, unvis.get(i), endpoints[i].pathFromParent(), endpoints[i].distFromRoot);}
 			}

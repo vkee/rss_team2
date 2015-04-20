@@ -36,7 +36,7 @@ public class VisualServoCollect implements FSMState {
 		//do stuff
 
 		//if condition to leave state
-		//fsm.updateState(new MoveForward(fsm));
+		//fsm.updateState(new NextState(fsm));
 
 		}
 
