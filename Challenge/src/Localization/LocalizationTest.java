@@ -148,7 +148,7 @@ public class LocalizationTest implements NodeMain {
                 //                particleFilter.printParticles();
                 double currTime = (System.currentTimeMillis() - startTime)/1000.0;
                 System.out.println("Runtime " + currTime);
-                refreshDisplay();
+//                refreshDisplay();
 
                 System.out.println("Done with particle filter");
             } catch (Exception e) {
