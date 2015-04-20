@@ -63,6 +63,10 @@ public class FSM implements NodeMain{
 
 	// public wheels publishers
 	// public servos publishers
+<<<<<<< HEAD
+
+=======
+>>>>>>> d2bf282ac913a30dc99aaffdd936722b71afae36
 	
 	public FSM()
 		{

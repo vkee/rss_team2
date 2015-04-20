@@ -58,10 +58,17 @@ public class Initialize implements FSMState {
 					}
 				
 				currLocation = objectLocations.remove(0);
-				}			
+				}
+<<<<<<< HEAD
+			
 			initialized = true;
 				
 		} catch (IOException | ParseException e) {
+=======
+			}
+			currLocation = objectLocations.remove(0);
+		} catch (Exception e) {
+>>>>>>> d2bf282ac913a30dc99aaffdd936722b71afae36
 			System.err.println("Unable to load map.");
 			e.printStackTrace();
 		}

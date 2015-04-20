@@ -11,10 +11,14 @@ import StateMachine.FSM.stateENUM;
  */
 public class WaypointNavDeposit implements FSMState {
 
+<<<<<<< HEAD
+
 	private FSM fsm;
 	public ArrayList<Point2D.Double> waypoints;
 	public int atWaypoint = 0;
-
+=======
+	private FSM fsm;	
+>>>>>>> d2bf282ac913a30dc99aaffdd936722b71afae36
 
 	public WaypointNavDeposit(FSM stateMachine)
 		{
