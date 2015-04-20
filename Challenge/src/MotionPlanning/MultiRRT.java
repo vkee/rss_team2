@@ -89,8 +89,8 @@ public class MultiRRT {
             }			//TODO: continues to sample even if its already found... this is just in case there is a better path to be found
 
             else {
-                testX = Math.random() * worldWidth + bottomLeftX;
-                testY = Math.random() * worldHeight + bottomLeftY;
+                double testX = Math.random() * worldWidth + bottomLeftX;
+                double testY = Math.random() * worldHeight + bottomLeftY;
                 testPt = new Point2D.Double(testX, testY);
             }
 
