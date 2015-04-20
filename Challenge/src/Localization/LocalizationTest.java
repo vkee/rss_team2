@@ -63,7 +63,7 @@ public class LocalizationTest implements NodeMain {
 
     // Index of the obstacle cspace list to display
     // (corresponds to the angle in degrees if num angles is 360)
-    private final int cspaceIndex = 90;
+    private final int cspaceIndex = 0;
     private final double TOLERANCE = 0.02;
 
     public LocalizationTest() {
@@ -185,9 +185,8 @@ public class LocalizationTest implements NodeMain {
             Point2D.Double fidPos = fiducials[i].getPosition();
             System.out.println("Fiducial Pos " + fidPos);
 
-            ArrayList<PolygonObstacle> obstacles = obsCSpaces.get(cspaceIndex);
-            System.out.println("Num obs " + obstacles.size());
-            if (!RRT.lineIntersectsObs(obstacles, robotPos, fidPos)) {
+//            TODO: should only check if intersects with obstacles not cspace obstacles...
+            if (!RRT.lineIntersectsObs(challengeMap.getPolygonObstacles(), robotPos, fidPos)) {
                 System.out.println("in here!");
                 fidsInFOV.add(i);
             }
@@ -214,6 +213,25 @@ public class LocalizationTest implements NodeMain {
         }
 
         return fidsDists;
+    }
+    
+    /**
+     * Determines whether the line determined by the two points intersects any obstacles 
+     * @param obstacles the obstacles
+     * @param testPt the first point of the line
+     * @param closestNodePt the second point of the line
+     * @return whether the line intersects any obstacles
+     */
+    public static boolean lineIntersectsObs(ArrayList<PolygonObstacle> obstacles, Point2D.Double testPt, Point2D.Double closestNodePt) {
+        //      Checking to see if the path between the current and new point intersects any obstacles
+        for (PolygonObstacle obstacle : obstacles) {
+            //              If the path to the new node intersects a polygon, we cannot add the node to the tree
+            if (RRT.lineIntersects(obstacle, testPt, closestNodePt)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void publishParticles() {

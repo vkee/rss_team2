@@ -262,6 +262,25 @@ public class RRT {
 
         return false;
     }
+    
+    /**
+     * Determines whether the line determined by the two points intersects any obstacles in the 2D C-Space 
+     * @param cSpace2D the 2D CSpace 
+     * @param testPt the first point of the line
+     * @param closestNodePt the second point of the line
+     * @return whether the line intersects any obstacles
+     */
+    public static boolean lineIntersectsObs(PolygonObstacle[] obstacles, Point2D.Double testPt, Point2D.Double closestNodePt) {
+        //      Checking to see if the path between the current and new point intersects any obstacles
+        for (PolygonObstacle obstacle : obstacles) {
+            //              If the path to the new node intersects a polygon, we cannot add the node to the tree
+            if (lineIntersects(obstacle, testPt, closestNodePt)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Generates the index of the 2D CSpace in the 3D CSpace data structure
