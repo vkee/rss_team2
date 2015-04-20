@@ -241,7 +241,7 @@ public class LocalizationTest implements NodeMain {
         CSpaceTest.fillPolyMsg(poMsg, poly, color, false, false);
         guiPolyPub.publish(poMsg);
     }
-    LocalizationTest
+    
     /**
      * Displays all the contents of the map in MapGUI
      */
