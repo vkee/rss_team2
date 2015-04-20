@@ -171,7 +171,7 @@ public class MultiRRT {
         }
 
         if (goalsFound!=numGoals) {
-            System.err.println("ALERT: SOME GOALS NOT FOUND! "+Integer.toString(goalsFound)+" of "+Integer.toString(numGoals));
+            System.err.println("ALERT: SOME GOALS NOT FOUND!");
         }
 
         //        Regardless of whether the goal is found (this executes even when RRT terminates),
@@ -216,7 +216,7 @@ public class MultiRRT {
                 //System.out.println("robotIndex for pt in obs: " + robotIndex);
                 //            If the point is in an obstacle, return collision
                 if (ptInObs(robotIndex, robotLoc)) {
-//                    System.out.println("collision at angle "+robotIndex);
+                    System.out.println("collision at angle "+robotIndex);
                     return true;
                 } else {
                     robotIndex += direction + CSpace.NUM_ANGLES;  //neg values not handled well with mod
