@@ -121,6 +121,7 @@ public class LocalizationTest implements NodeMain {
                 publishParticles();
 
                 prevPt = robotStart;
+                long startTime = System.currentTimeMillis();
                 for (Point2D.Double pt : rrtPath){
                     double transDist = RRT.getDist(prevPt.x, prevPt.y, pt.x, pt.y);
                     double rotAng = RRT.getAngle(prevPt.x, prevPt.y, pt.x, pt.y);
@@ -141,12 +142,14 @@ public class LocalizationTest implements NodeMain {
 
                     //                    Display the state after the motion and measurement update
                     prevPt = pt;
-                    refreshDisplay();
+//                    refreshDisplay();
 //                    Printing particles out
-                    Thread.sleep(5000); // Waiting 5 seconds between each step
+//                    Thread.sleep(5000); // Waiting 5 seconds between each step
                 }
                 particleFilter.printParticles();
-
+                double currTime = (System.currentTimeMillis() - startTime)/1000.0;
+                System.out.println("Runtime " + currTime);
+                refreshDisplay();
 
                 System.out.println("Done with particle filter");
             } catch (Exception e) {
