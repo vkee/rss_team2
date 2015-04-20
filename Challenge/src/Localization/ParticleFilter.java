@@ -120,6 +120,15 @@ public class ParticleFilter {
         return particles;
     }
 
+    public void printParticles() {
+        System.out.println("ParticleFilter with [numParticles=" + numParticles + ",  transNoise="
+                + transNoise + ", rotNoise="
+                + rotNoise + ", sensorNoise=" + sensorNoise + "]");
+        for (RobotParticle particle : particles) {
+            System.out.println(particle.toString());
+        }
+    }
+    
     @Override
     public String toString() {
         String stringRep = "ParticleFilter with [numParticles=" + numParticles + ",  transNoise="
