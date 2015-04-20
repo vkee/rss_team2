@@ -116,7 +116,7 @@ public class LocalizationTest implements NodeMain {
                 //                Initialize Particle Filter
                 particleFilter = new ParticleFilter(10000, challengeMap, 0.05, 0.05, 5.00);
 
-                publishParticles();
+//                publishParticles();
 
                 prevPt = robotStart;
                 long startTime = System.currentTimeMillis();
