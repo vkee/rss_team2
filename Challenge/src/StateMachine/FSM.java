@@ -61,8 +61,6 @@ public class FSM implements NodeMain{
 
 	// public wheels publishers
 	// public servos publishers
-
-    protected String mapFileName;
 	
 	public FSM()
 		{

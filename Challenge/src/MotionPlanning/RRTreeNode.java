@@ -1,6 +1,7 @@
 package MotionPlanning;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +39,7 @@ public class RRTreeNode {
      * @return the path
      */
     public ArrayList<Point2D.Double> pathFromParent() {
-        List<Point2D.Double> pathBack = new ArrayList<Point2D.Double>();
+        ArrayList<Double> pathBack = new ArrayList<Point2D.Double>();
         RRTreeNode currNode = this;
         while (currNode != null) {
             pathBack.add(currNode.point);

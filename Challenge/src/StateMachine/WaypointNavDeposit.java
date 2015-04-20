@@ -8,7 +8,6 @@ import StateMachine.FSM.stateENUM;
  */
 public class WaypointNavDeposit implements FSMState {
 
-
 	private FSM fsm;	
 
 	public WaypointNavDeposit(FSM stateMachine)
@@ -39,6 +38,4 @@ public class WaypointNavDeposit implements FSMState {
 		//fsm.updateState(new NextState(fsm));
 
 		}
-
-
 }

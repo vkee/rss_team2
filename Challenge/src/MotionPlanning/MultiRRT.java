@@ -44,22 +44,22 @@ public class MultiRRT {
     public RRTreeNode[] getPaths(Point2D.Double start,
             ArrayList<Point2D.Double> goals, double tolerance) {
 
-    	int goalsFound = 0;
+        int goalsFound = 0;
         final int numGoals = goals.size();
-        
+
         Rectangle2D[] goalRects = new Rectangle2D[numGoals];
         RRTreeNode[] goalEndPoints = new RRTreeNode[numGoals];
-    	List<Point2D.Double>[] goalPaths = (List<Point2D.Double>[]) new ArrayList[numGoals];
+        List<Point2D.Double>[] goalPaths = (List<Point2D.Double>[]) new ArrayList[numGoals];
 
-    	
-    	for (int i=0; i<numGoals; i++)
-    		{
-    		Point2D.Double goal = goals.get(i);
-        	//        Tolerance rectangle around the goal
-    		goalRects[i] = new Rectangle2D.Double(goal.x - worldWidth * tolerance / 2, 
+
+        for (int i=0; i<numGoals; i++)
+        {
+            Point2D.Double goal = goals.get(i);
+            //        Tolerance rectangle around the goal
+            goalRects[i] = new Rectangle2D.Double(goal.x - worldWidth * tolerance / 2, 
                     goal.y - worldHeight * tolerance / 2, worldWidth * tolerance, worldHeight * tolerance);
-    		}
-    	
+        }
+
         //        The orientation of the robot
         //        Note that the robot starts at 0 radians on the unit circle
         //        and can be oriented between 0 and 2PI radians
@@ -69,7 +69,7 @@ public class MultiRRT {
         List<RRTreeNode> currTreeNodes = new ArrayList<RRTreeNode>();
         currTreeNodes.add(startNode);
 
-        
+
         //RRTreeNode goalNode = startNode;
         int tries = 0;
 
@@ -81,17 +81,19 @@ public class MultiRRT {
 
             //          TODO: we may want to add a bias to selecting a point near the goal later on
             //            Getting the random point
-                        
+
             Point2D.Double testPt;
-            
-            if (tries % SAMPLE_GOALS < numGoals)
-            	{testPt = goals.get(tries%SAMPLE_GOALS);}			//TODO: continues to sample even if its already found... this is just in case there is a better path to be found
-            	
-            else
-            	{double testX = Math.random() * worldWidth + bottomLeftX;
-            	double testY = Math.random() * worldHeight + bottomLeftY;
-            	testPt = new Point2D.Double(testX, testY);}
-            
+
+            if (tries % SAMPLE_GOALS < numGoals){
+                testPt = goals.get(tries%SAMPLE_GOALS);
+            }			//TODO: continues to sample even if its already found... this is just in case there is a better path to be found
+
+            else {
+                testX = Math.random() * worldWidth + bottomLeftX;
+                testY = Math.random() * worldHeight + bottomLeftY;
+                testPt = new Point2D.Double(testX, testY);
+            }
+
             //            Finding the closest node in the current RRT tree to the sampled node
             //          The minimum distance between 2 nodes, initialized to the longest distance possible in the map
             double minDist = Math.sqrt(Math.pow(worldHeight, 2) + Math.pow(worldWidth, 2));
@@ -100,7 +102,7 @@ public class MultiRRT {
             for (RRTreeNode node : currTreeNodes) // slow search
             {
                 //System.out.println("Node Coord: " + node.toString());
-                double nodeDist = Math.sqrt(Math.pow(node.point.x - testX, 2) + Math.pow(node.point.y - testY, 2));
+                double nodeDist = Math.sqrt(Math.pow(node.point.x - testPt.x, 2) + Math.pow(node.point.y - testPt.y, 2));
                 //System.out.println("Node Dist: " + nodeDist);
                 if (nodeDist < minDist) {
                     closestNode = node;
@@ -116,21 +118,21 @@ public class MultiRRT {
                 //System.out.println("closestNode: " + closestNode.toString());
                 //              TODO: Then rotate so that the robot is aligned with the line connecting the 2 points and make sure it doesn't collide with anything. Then make sure that this path is collision free.
                 double angle2TestPt = MultiRRT.getAngle(closestNode.point.x, closestNode.point.y, testX, testY);
-                
+
                 //                Keeping the angle between 0 and 2PI
                 if (angle2TestPt < 0.0) {
                     angle2TestPt += 2*Math.PI; 
                 }
 
                 double robotAngleError = (angle2TestPt - robotOrientation) % (2*Math.PI);
-                
+
                 //                Keeping the error in angle between -PI and PI so that the robot minimizes rotation
                 //robotAngleError = (robotAngleError+Math.PI)%(2*Math.PI)-Math.PI;
-                
+
                 if (robotAngleError > Math.PI) {				
                     robotAngleError -= 2*Math.PI;
                 }
-                
+
                 //System.out.println("angle bad check:" + (Math.abs(robotAngleError) > Math.PI));
 
                 //                Checking whether the robot will collide with any obstacles while it rotates to face the new point
@@ -146,21 +148,21 @@ public class MultiRRT {
                         //                Adding the new node to the tree with an edge to the closest current node in the RRT
                         RRTreeNode newNode = new RRTreeNode(closestNode, testPt);
                         currTreeNodes.add(newNode);
-                        
+
                         robotOrientation = angle2TestPt;
-                        
+
                         //System.out.println("added a node, now:" + currTreeNodes.size());
 
                         //                If the test point is inside the goal rectangle, the goal is found
                         for (int i=0; i<numGoals; i++)
-                        	{if (goalRects[i].contains(testPt))
-                        		{if (goalEndPoints[i] == null)
-                        			{goalsFound++;
-                        			goalEndPoints[i] = newNode;}
-                        		else if (goalEndPoints[i].distFromRoot > newNode.distFromRoot)
-                        			{goalEndPoints[i] = newNode;}
-                        		}
-                        	}
+                        {if (goalRects[i].contains(testPt))
+                        {if (goalEndPoints[i] == null)
+                        {goalsFound++;
+                        goalEndPoints[i] = newNode;}
+                        else if (goalEndPoints[i].distFromRoot > newNode.distFromRoot)
+                        {goalEndPoints[i] = newNode;}
+                        }
+                        }
                     }
                 }
             }
@@ -177,7 +179,7 @@ public class MultiRRT {
         //        TODO: I don't think that this is a good thing to do... - Vincent
         //RRTreeNode realGoalNode = new RRTreeNode(goalNode, goal);
         //currTreeNodes.add(realGoalNode);
-        
+
         /*for (int i=0; i<numGoals; i++)
         	{if (goalEndPoints[i] != null)
         		goalPaths[i] = goalEndPoints[i].pathFromParent();}*/
@@ -194,13 +196,13 @@ public class MultiRRT {
      */
     private boolean collisionInRotation(double robotOrientation, double robotAngleError, Point2D.Double robotLoc) {
         int robotIndex = getCSpaceIndex(robotOrientation);
-        
+
         int errorIndex = getErrorIndex(robotAngleError);
-        
+
         int goalIndex = (robotIndex + errorIndex + CSpace.NUM_ANGLES) % CSpace.NUM_ANGLES;
-        
-       // System.out.println("robotIndex: " + robotIndex);
-       // System.out.println("errorIndex: " + errorIndex);
+
+        // System.out.println("robotIndex: " + robotIndex);
+        // System.out.println("errorIndex: " + errorIndex);
 
         //        If no rotation required, no collision
         if (0 == errorIndex) {
@@ -208,14 +210,14 @@ public class MultiRRT {
         } else {
             //            Direction to rotate
             int direction = (int) (errorIndex)/Math.abs(errorIndex);
-//            System.out.println("direction: " + direction);
+            //            System.out.println("direction: " + direction);
 
             while (robotIndex != goalIndex){
                 //System.out.println("robotIndex for pt in obs: " + robotIndex);
                 //            If the point is in an obstacle, return collision
                 if (ptInObs(robotIndex, robotLoc)) {
                     System.out.println("collision at angle "+robotIndex);
-                	return true;
+                    return true;
                 } else {
                     robotIndex += direction + CSpace.NUM_ANGLES;  //neg values not handled well with mod
                     robotIndex %= CSpace.NUM_ANGLES;
@@ -236,8 +238,8 @@ public class MultiRRT {
     private boolean ptInObs(int index, Point2D.Double testPt) {
         //      Checking to see if the path between the current and new point intersects any obstacles
         //System.out.println("how many obs:" + map.get2DCSpace(index).size());
-    	
-    	for (PolygonObstacle obstacle : map.get2DCSpace(index)) {
+
+        for (PolygonObstacle obstacle : map.get2DCSpace(index)) {
             //              If the path to the new node intersects a polygon, we cannot add the node to the tree
             if (obstacle.contains(testPt)) {
                 return true;
@@ -274,7 +276,7 @@ public class MultiRRT {
     private int getCSpaceIndex(double robotOrientation) {
         return ((int) Math.round(robotOrientation*180/Math.PI)) % (CSpace.NUM_ANGLES);
     }
-    
+
     /**
      * Converts the error in radians to degrees between -359 and 359 deg
      * @param robotAngleError the robot's angle of error in radians from -pi to pi
@@ -282,7 +284,7 @@ public class MultiRRT {
      */
     private int getErrorIndex(double robotAngleError) {
         int errorIndex = (int) Math.round(robotAngleError*180/Math.PI);
-        
+
         /*
         /// +pi %2pi -pi to put between -pi and pi? TODO?
 
@@ -291,15 +293,15 @@ public class MultiRRT {
             System.out.println("getErrorIndex -= 360");
             errorIndex -= 360;
         }
-        
+
         while (errorIndex <= -CSpace.NUM_ANGLES) {
             System.out.println("getErrorIndex += 360");
             errorIndex += 360;
         }
-             */   
+         */   
         return errorIndex;
     }
-    
+
     /**
      * Returns the distance between two points
      * 
