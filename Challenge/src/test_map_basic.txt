@@ -13,24 +13,9 @@ map {
     #composed of two Ball objects...at some point
 
     fiducials {
-    	num_fiducials 7
+    	num_fiducials 5
+
 	    0 {
-	        position { 1.26 1.00 } 
-		    top_color green
-		    bottom_color blue
-		    top_radius 0.055 #in meters
-		    bottom_radius 0.055 #in meters
-	    }
-
-	    1 {
-	        position { 2.5 0.55 } 
-		    top_color red
-		    bottom_color orange
-		    top_radius 0.055 #in meters
-		    bottom_radius 0.055 #in meters
-	    }
-
-	    2 {
 	        position { 0.0 0.0 } 
 		    top_color red
 		    bottom_color blue
@@ -38,7 +23,7 @@ map {
 		    bottom_radius 0.055 #in meters
 	    }
 
-	    3 {
+	    1 {
 	        position { 4.64 0.09 } 
 		    top_color yellow
 		    bottom_color orange
@@ -46,7 +31,7 @@ map {
 		    bottom_radius 0.055 #in meters
 	    }
 
-	    4 {
+	    2 {
 	        position { 4.64 3.05 } 
 		    top_color yellow
 		    bottom_color green
@@ -54,7 +39,7 @@ map {
 		    bottom_radius 0.055 #in meters
 	    }
 
-	    5 {
+	    3 {
 	        position { 2.44 3.05 } 
 		    top_color red
 		    bottom_color green
@@ -62,7 +47,7 @@ map {
 		    bottom_radius 0.055 #in meters
 	    }
 
-	    6 {
+	    4 {
 	        position { 1.25 3.05 } 
 		    top_color yellow
 		    bottom_color blue
