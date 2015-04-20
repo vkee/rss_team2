@@ -101,8 +101,7 @@ public class MultiRRTTest implements NodeMain {
             
             //            Prints out the path to the MapGUI
             for (RRTreeNode r: endpoints)
-            	{if (r==null) continue;
-            	outputPath(r.pathFromParent(), Color.RED);}
+            	{outputPath(r.pathFromParent(), Color.RED);}
         } catch (Exception e) {
             System.err.println("Failed to find path...");
             e.printStackTrace();
