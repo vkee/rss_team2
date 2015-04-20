@@ -99,6 +99,8 @@ public class MultiRRTTest implements NodeMain {
         	RRTreeNode[] endpoints = rrt.getPaths(challengeMap.getRobotStart(),
         			objectLocations, TOLERANCE);
             
+            System.out.println("Path found");
+
             //            Prints out the path to the MapGUI
             for (RRTreeNode r: endpoints)
             	{outputPath(r.pathFromParent(), Color.RED);}

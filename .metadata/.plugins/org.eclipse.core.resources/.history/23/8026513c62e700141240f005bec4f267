@@ -37,30 +37,28 @@ public class Initialize implements FSMState {
 			for (ConstructionObject cs : challengeMap.getConstructionObjects())
 				{objectLocations.add(cs.getPosition());}
 	
-			Point2D.Double start = challengeMap.getRobotStart();
-			Point2D.Double end = challengeMap.getRobotGoal();
-
-			objectLocations.add(end);
-
-			fsm.RRTengine =  new MultiRRT(challengeMap);
-			fsm.foundPaths = new GoalAdjLists(end);
-
-			Point2D.Double currLocation = start;
-			while (objectLocations.size() > 1)
-				{
-				RRTreeNode[] pathEnds = fsm.RRTengine.getPaths(currLocation, objectLocations, fsm.RRT_TOLERANCE);
-
-				for (int i=0; i<pathEnds.length; i++)
+				Point2D.Double start = challengeMap.getRobotStart();
+				Point2D.Double end = challengeMap.getRobotGoal();
+	
+				objectLocations.add(end);
+	
+				fsm.RRTengine =  new MultiRRT(challengeMap);
+				fsm.foundPaths = new GoalAdjLists(end);
+	
+				Point2D.Double currLocation = start;
+				while (objectLocations.size() > 1)
 					{
-					double dist = pathEnds[i].distFromRoot;
-					ArrayList<Point2D.Double> path = pathEnds[i].pathFromParent();
-					fsm.foundPaths.addBiPath(currLocation, objectLocations.get(i), path, dist);
+					RRTreeNode[] pathEnds = fsm.RRTengine.getPaths(currLocation, objectLocations, fsm.RRT_TOLERANCE);
+	
+					for (int i=0; i<pathEnds.length; i++)
+						{
+						double dist = pathEnds[i].distFromRoot;
+						ArrayList<Point2D.Double> path = pathEnds[i].pathFromParent();
+						fsm.foundPaths.addBiPath(currLocation, objectLocations.get(i), path, dist);
+						}
+					
+					currLocation = objectLocations.remove(0);
 					}
-				
-				currLocation = objectLocations.remove(0);
-				}
-			
-			initialized = true;
 				
 		} catch (IOException | ParseException e) {
 			System.err.println("Unable to load map.");
@@ -75,7 +73,7 @@ public class Initialize implements FSMState {
 
 	public boolean accepts(msgENUM msgType){
 		//if (msgType == msgENUM.WHEELS) return true;
-		if (msgType == null && initialized){
+		if (msgType == null){
 			return true;
 		}
 		return false;

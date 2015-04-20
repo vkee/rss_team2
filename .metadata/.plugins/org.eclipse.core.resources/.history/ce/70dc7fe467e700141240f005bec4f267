@@ -19,7 +19,6 @@ import org.ros.message.lab5_msgs.*;
 import org.ros.message.lab6_msgs.*;
 import org.ros.message.Challenge_msgs.*;
 
-import Challenge.ConstructionObject;
 import Challenge.GrandChallengeMap;
 
 /**
@@ -81,7 +80,6 @@ public class MultiRRTTest implements NodeMain {
             challengeMap = GrandChallengeMap.parseFile(mapFileName);
             obsCSpaces = cSpace.generateCSpace(challengeMap, false);
             challengeMap.set3DCSpace(obsCSpaces);
-            rrt = new MultiRRT(challengeMap);
             displayMap();
             displayMapCSpace();
 
@@ -92,16 +90,13 @@ public class MultiRRTTest implements NodeMain {
 
         try {
             //            TODO: put in the MultiRRT stuff here to replace rrt path here
-        	ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
-			for (ConstructionObject cs : challengeMap.getConstructionObjects())
-				{objectLocations.add(cs.getPosition());}
-			
-        	RRTreeNode[] endpoints = rrt.getPaths(challengeMap.getRobotStart(),
-        			objectLocations, TOLERANCE);
+            List<Point2D.Double> rrtPath = rrt.getPath(challengeMap.getRobotStart(),
+                    challengeMap.getRobotGoal(), TOLERANCE);
             
+            System.out.println("Path found");
+
             //            Prints out the path to the MapGUI
-            for (RRTreeNode r: endpoints)
-            	{outputPath(r.pathFromParent(), Color.RED);}
+            outputPath(rrtPath, Color.RED);
         } catch (Exception e) {
             System.err.println("Failed to find path...");
             e.printStackTrace();

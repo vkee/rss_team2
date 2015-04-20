@@ -1,8 +1,5 @@
 package StateMachine;
 
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
 
@@ -12,15 +9,13 @@ import StateMachine.FSM.stateENUM;
 public class WaypointNavDeposit implements FSMState {
 
 
-	private FSM fsm;
-	public ArrayList<Point2D.Double> waypoints;
-	public int atWaypoint = 0;
+	private FSM fsm;	
 
 	public WaypointNavDeposit(FSM stateMachine)
 		{
 		fsm = stateMachine;
-		
-		waypoints = fsm.foundPaths.getPathToGoal(fsm.currentLocation);
+
+		//init any variables for this state
 
 		}	
 

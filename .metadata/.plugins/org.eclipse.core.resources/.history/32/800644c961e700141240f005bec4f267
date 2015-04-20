@@ -43,8 +43,6 @@ public class FSM implements NodeMain{
 
 	public long startTime;
 	public final double RRT_TOLERANCE = 0.02;
-	public final double ROBOTVEL;			//coords/ms
-
 	
 	public int blocksCollected;
 	public MultiRRT RRTengine;
@@ -64,6 +62,7 @@ public class FSM implements NodeMain{
 	// public wheels publishers
 	// public servos publishers
 
+    protected String mapFileName;
 	
 	public FSM()
 		{

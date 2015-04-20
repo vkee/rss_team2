@@ -22,7 +22,6 @@ import StateMachine.FSM.stateENUM;
 public class Initialize implements FSMState {
 
 	private FSM fsm;	
-	private boolean initialized;
 
 	public Initialize(FSM stateMachine){
 		fsm = stateMachine;
@@ -35,8 +34,8 @@ public class Initialize implements FSMState {
 
 			ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
 			for (ConstructionObject cs : challengeMap.getConstructionObjects())
-				{objectLocations.add(cs.getPosition());}
-	
+			{objectLocations.add(cs.getPosition());}
+
 			Point2D.Double start = challengeMap.getRobotStart();
 			Point2D.Double end = challengeMap.getRobotGoal();
 
@@ -46,22 +45,16 @@ public class Initialize implements FSMState {
 			fsm.foundPaths = new GoalAdjLists(end);
 
 			Point2D.Double currLocation = start;
-			while (objectLocations.size() > 1)
-				{
+			while (objectLocations.size() > 1){
 				RRTreeNode[] pathEnds = fsm.RRTengine.getPaths(currLocation, objectLocations, fsm.RRT_TOLERANCE);
 
-				for (int i=0; i<pathEnds.length; i++)
-					{
+				for (int i=0; i<pathEnds.length; i++){
 					double dist = pathEnds[i].distFromRoot;
 					ArrayList<Point2D.Double> path = pathEnds[i].pathFromParent();
 					fsm.foundPaths.addBiPath(currLocation, objectLocations.get(i), path, dist);
-					}
-				
-				currLocation = objectLocations.remove(0);
 				}
-			
-			initialized = true;
-				
+			}
+			currLocation = objectLocations.remove(0);
 		} catch (IOException | ParseException e) {
 			System.err.println("Unable to load map.");
 			e.printStackTrace();
@@ -75,7 +68,7 @@ public class Initialize implements FSMState {
 
 	public boolean accepts(msgENUM msgType){
 		//if (msgType == msgENUM.WHEELS) return true;
-		if (msgType == null && initialized){
+		if (msgType == null){
 			return true;
 		}
 		return false;

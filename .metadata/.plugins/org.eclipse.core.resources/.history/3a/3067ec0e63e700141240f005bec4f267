@@ -43,7 +43,7 @@ public class FSM implements NodeMain{
 
 	public long startTime;
 	public final double RRT_TOLERANCE = 0.02;
-	public final double ROBOTVEL;			//coords/ms
+	public final double ROBOTVEL;
 
 	
 	public int blocksCollected;
