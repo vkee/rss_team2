@@ -30,7 +30,7 @@ public class GrandChallengeMap implements NodeMain {
     /**
      * <p>Toggles on/off debugging messages printed by {@link DEBUG}</p>
      **/
-    private static final boolean DEBUGGING_ON = true;
+    private static final boolean DEBUGGING_ON = false;
 
     /**
      * <p>Debugging utility.  Can toggle on/off debugging messages by setting {@link #DEBUGGING_ON}</p>
