@@ -13,7 +13,7 @@ map {
     #composed of two Ball objects...at some point
 
     fiducials {
-    	num_fiducials 5
+    	num_fiducials 6
 	    0 {
 	        position { 0.5 4.125 }
 		    top_color blue
