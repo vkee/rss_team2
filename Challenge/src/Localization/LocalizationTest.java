@@ -145,7 +145,7 @@ public class LocalizationTest implements NodeMain {
                     //                    Printing particles out
                     //                    Thread.sleep(5000); // Waiting 5 seconds between each step
                 }
-                //                particleFilter.printParticles();
+                                particleFilter.printParticles();
                 double currTime = (System.currentTimeMillis() - startTime)/1000.0;
                 System.out.println("Runtime " + currTime);
 //                refreshDisplay();
