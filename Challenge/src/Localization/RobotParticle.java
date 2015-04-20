@@ -132,7 +132,7 @@ public class RobotParticle {
 
     @Override
     public String toString() {
-        return "RobotParticle [x=" + x + ", y=" + y + ", theta=" + theta + "]\n";
+        return "RobotParticle [x=" + x + ", y=" + y + ", theta=" + theta + "]";
     }
 
     public double getX() {

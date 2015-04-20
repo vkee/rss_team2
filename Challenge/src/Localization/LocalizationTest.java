@@ -143,9 +143,10 @@ public class LocalizationTest implements NodeMain {
                     prevPt = pt;
                     refreshDisplay();
 //                    Printing particles out
-                    particleFilter.printParticles();
                     Thread.sleep(5000); // Waiting 5 seconds between each step
                 }
+                particleFilter.printParticles();
+
 
                 System.out.println("Done with particle filter");
             } catch (Exception e) {
