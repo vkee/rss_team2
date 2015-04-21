@@ -171,7 +171,7 @@ public class MultiRRT {
                         		}
                         	}
                     	}
-                    if (goalsFound==numGoals) System.out.println("Found: "+Integer.toString(goalsFound)+" of "+Integer.toString(numGoals));
+                    System.out.println("Found: "+Integer.toString(goalsFound)+" of "+Integer.toString(numGoals));
                 }
             }
 
