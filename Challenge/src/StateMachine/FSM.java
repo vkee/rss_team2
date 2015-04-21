@@ -90,8 +90,8 @@ public class FSM implements NodeMain{
     {
         if (inState) return;					// may instead use a LOCK and queue for other msgs instead
         inState = true;
-        if (currentState.accepts(msg.type))		//may not need this check TODO make sure type is sent in the message
-        	{currentState.update(msg);}		
+//        if (currentState.accepts(msg.type))		//may not need this check TODO make sure type is sent in the message
+//        	{currentState.update(msg);}		
         inState = false;
     }
 

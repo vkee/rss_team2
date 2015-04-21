@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.ros.message.lab5_msgs.*;
 import org.ros.message.lab6_msgs.*;
 import org.ros.message.rss_msgs.*;
+import org.ros.node.topic.Publisher;
 
 
 public class WaypointNav {
