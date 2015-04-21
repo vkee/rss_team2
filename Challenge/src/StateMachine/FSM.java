@@ -111,7 +111,7 @@ public class FSM implements NodeMain{
         // Reading in a map file whose name is set as the parameter mapFileName
         ParameterTree paramTree = node.newParameterTree();
         mapFileName = paramTree.getString(node.resolveName("~/mapFileName"));
-        
+        System.out.println("mapFileName " + mapFileName);
         //initialize publishers
         motionPub = node.newPublisher("command/Motors", "rss_msgs/MotionMsg");
         
