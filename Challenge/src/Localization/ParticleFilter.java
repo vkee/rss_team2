@@ -172,6 +172,14 @@ public class ParticleFilter {
 //            System.out.println(measurementProb);
 //        }
 
+        Collections.sort(measurementProbs);
+        
+        
+        System.out.println("Displaying top 5 measurement probs");
+        for (int i = measurementProbs.size(); i > measurementProbs.size() - 5; i--) {
+            System.out.println(measurementProbs.get(i));
+        }
+        
         particles = resampleParticles(measurementProbs);
     }
 
