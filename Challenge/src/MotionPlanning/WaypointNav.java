@@ -128,7 +128,7 @@ public class WaypointNav {
                 System.out.println("At the goal!");
             }
         }
-        motionPub.publish(msg);
+//        motionPub.publish(msg);
         if (wayptNav_debug == true) {
             System.out.println("Trans Vel: " + msg.translationalVelocity);
             System.out.println("Rot Vel: " + msg.rotationalVelocity);
