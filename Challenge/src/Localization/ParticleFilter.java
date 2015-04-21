@@ -177,7 +177,7 @@ public class ParticleFilter {
         
         System.out.println("Displaying top 5 measurement probs");
         for (int i = measurementProbs.size(); i > measurementProbs.size() - 5; i--) {
-            System.out.println(measurementProbs.get(i));
+            System.out.println(measurementProbs.get(i - 1));
         }
         
         particles = resampleParticles(measurementProbs);
