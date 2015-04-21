@@ -183,7 +183,9 @@ public class ParticleFilter {
      */
     protected void motionUpdate(double translation, double rotation) {
         for (RobotParticle particle : particles) {
+            System.out.println("Before motion update: " + particle);
             particle.motionUpdate(translation, rotation);
+            System.out.println("After motion update: " + particle);
         }
     }
 
@@ -200,26 +202,26 @@ public class ParticleFilter {
             measurementProbs.add(particle.measurementProb(measuredFiducials, measuredDists));
         }
 
-//        System.out.println("Particles");
-//        for (RobotParticle particle : particles) {
-//            System.out.println(particle);
-//        }        
-//        System.out.println("Measurement Update");
-//        for (Double measurementProb : measurementProbs) {
-//            System.out.println(measurementProb);
-//        }
+        System.out.println("Particles");
+        for (RobotParticle particle : particles) {
+            System.out.println(particle);
+        }        
+        System.out.println("Measurement Update");
+        for (Double measurementProb : measurementProbs) {
+            System.out.println(measurementProb);
+        }
 
         
         particles = resampleParticles(measurementProbs);
         
 
-        Collections.sort(measurementProbs);
-        
-        
-        System.out.println("Displaying top 5 measurement probs");
-        for (int i = measurementProbs.size(); i > measurementProbs.size() - 5; i--) {
-            System.out.println(measurementProbs.get(i - 1));
-        }
+//        Collections.sort(measurementProbs);
+//        
+//        
+//        System.out.println("Displaying top 5 measurement probs");
+//        for (int i = measurementProbs.size(); i > measurementProbs.size() - 5; i--) {
+//            System.out.println(measurementProbs.get(i - 1));
+//        }
     }
 
     /**
