@@ -22,7 +22,7 @@ public class MultiRRT {
     private double bottomLeftX;
     private double bottomLeftY;
 
-    private final int NUM_TRIES = 100000; //100K not 1M
+    private final int NUM_TRIES = 40000; //100K not 1M
     private final int SAMPLE_GOALS = 300;
 
     public MultiRRT(GrandChallengeMap map) {

@@ -75,7 +75,7 @@ public class FSM implements NodeMain{
 
     }
 
-    public void setStartTime(){
+    public void setStartTime(){ 
         startTime = System.currentTimeMillis();
     }
 
