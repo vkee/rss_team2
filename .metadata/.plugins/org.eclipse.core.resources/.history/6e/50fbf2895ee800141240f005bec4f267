@@ -1,0 +1,5 @@
+package StateMachine;
+
+public class GenericMessage {
+
+}
