@@ -87,7 +87,7 @@ public class ParticleFilter {
         this.botLeftY = worldRect.getMinY();
 
         //        Creating the particles
-        particles.add(new RobotParticle(0.0, 0.0, 0.0, fiducials, worldWidth, worldHeight, 
+        particles.add(new RobotParticle(0.6, 0.6, 0.0, fiducials, worldWidth, worldHeight, 
                 botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
         
         particles.add(new RobotParticle(worldWidth + botLeftX, worldHeight + botLeftY, 0.0, fiducials, worldWidth, worldHeight, 
