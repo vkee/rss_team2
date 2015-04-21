@@ -45,7 +45,7 @@ public class WaypointNavDeposit implements FSMState {
 		{
 		org.ros.message.rss_msgs.OdometryMsg message = msg.message;
 		//do stuff
-		waypointNavigator.wayptNav(message.x, message.y, message.theta);
+		//waypointNavigator.wayptNav(message.x, message.y, message.theta);
 
 
 		//if condition to leave state
