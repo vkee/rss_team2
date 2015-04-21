@@ -56,7 +56,7 @@ public class LocalizationTest implements NodeMain {
     private Point2D.Double robotGoal;
     private Point2D.Double prevPt;
 
-    private double PARTICLE_FILTER_RADIUS = .0625; // the radius in meters around the robot's starting position 
+    private double PARTICLE_FILTER_RADIUS = .125; // the radius in meters around the robot's starting position 
     //    defining the particle filter particle initial distribution
 
     // colors
