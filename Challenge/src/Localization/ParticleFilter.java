@@ -241,7 +241,9 @@ public class ParticleFilter {
             beta += (Math.random()*2*maxProb);
             while (measurementProbs.get(index) < beta) {
                 beta -= measurementProbs.get(index);
-                index = (index + 1) % numParticles;
+                index += 1;
+                index += numParticles;
+                index %= numParticles;
             }
             resampledParticles.add(particles.get(index));
         }

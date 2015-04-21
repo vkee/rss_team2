@@ -110,7 +110,7 @@ public class RobotParticle {
     protected void motionUpdate(double translation, double rotation) {
 //        System.out.println("Before update of " + translation + " trans and " + rotation + "rotation \n" + this);
         //        Update theta with gaussian noise w/ mean 0.0 and std dev of rotNoise
-        theta += (rotation + (random.nextGaussian()*this.rotNoise));
+        theta = (rotation + (random.nextGaussian()*this.rotNoise));
         theta += (2*Math.PI);
         theta %= (2*Math.PI);
 
