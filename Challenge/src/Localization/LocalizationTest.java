@@ -129,7 +129,9 @@ public class LocalizationTest implements NodeMain {
                 for (Point2D.Double pt : rrtPath){
                     double transDist = RRT.getDist(prevPt.x, prevPt.y, pt.x, pt.y);
                     double rotAng = RRT.getAngle(prevPt.x, prevPt.y, pt.x, pt.y);
-
+                    
+                    System.out.println("Trans Dist " + transDist);
+                    System.out.println("Rot Ang " + rotAng);
                     //                    Converting rotAng to go from 0 to 2*PI
                     if (rotAng < 0.0) {
                         rotAng += 2*Math.PI;
@@ -151,7 +153,7 @@ public class LocalizationTest implements NodeMain {
                     //                    Printing particles out
                                         Thread.sleep(5000); // Waiting 5 seconds between each step
                 }
-                particleFilter.printParticles();
+//                particleFilter.printParticles();
                 //                System.out.println(particleFilter.getParticles().get(0));
                 System.out.println("Number of particles is " + particleFilter.getParticles().size());
                 System.out.println("Robot Final Position: " + prevPt.toString());
