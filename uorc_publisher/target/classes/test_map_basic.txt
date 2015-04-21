@@ -2,10 +2,10 @@
 
 map {
 
-    bottom_left { -0.6096 -0.4953 }
-    top_right { 2.4384 4.1466 }
-    robot_start { 0.0 0.0 }
-    robot_goal { 2.0574 0.0000 }
+    bottom_left { 0.0 0.0 }
+    top_right { 4.6419 3.048 }
+    robot_start { 0.6 0.6 }
+    robot_goal { 4.0 2.0 }
 
     #Fiducials will contain a position,
     #a top_color, a bottom_color, a top_radius, and a bottom_radius
@@ -13,53 +13,46 @@ map {
     #composed of two Ball objects...at some point
 
     fiducials {
-    	num_fiducials 6
-	    1 {
-	        position { 0.5 4.125 }
-		    top_color blue
-		    bottom_color yellow
-		    top_radius 0.055
-		    bottom_radius 0.055
-	    }
-	
-	    2 {
-	        position { 2.4125 3.325 }
-		    top_color green
-		    bottom_color orange
-		    top_radius 0.055
-		    bottom_radius 0.055
-	    }
-	
-	    3 {
-	        position { 1.3875 -0.475 }
+    	num_fiducials 5
+
+	    0 {
+	        position { 0.0 0.0 } 
 		    top_color red
-		    bottom_color green
-		    top_radius 0.055
-		    bottom_radius 0.055
-	    }
-	    
-	    4 {
-	        position { -0.5125 0.65 }
-		    top_color yellow
-		    bottom_color red
-		    top_radius 0.055
-		    bottom_radius 0.055
-	    }
-	    
-	    5 {
-	       position { 1.45 1.425 }
-	           top_color blue
-		   bottom_color red
-		   top_radius 0.055
-		   bottom_radius 0.055
+		    bottom_color blue
+		    top_radius 0.055 #in meters
+		    bottom_radius 0.055 #in meters
 	    }
 
-	    6 {
-	       position { 0.8625 1.225 }
-	           top_color orange
-		   bottom_color blue
-		   top_radius 0.055
-		   bottom_radius 0.055
+	    1 {
+	        position { 4.64 0.09 } 
+		    top_color yellow
+		    bottom_color orange
+		    top_radius 0.055 #in meters
+		    bottom_radius 0.055 #in meters
+	    }
+
+	    2 {
+	        position { 4.64 3.05 } 
+		    top_color yellow
+		    bottom_color green
+		    top_radius 0.055 #in meters
+		    bottom_radius 0.055 #in meters
+	    }
+
+	    3 {
+	        position { 2.44 3.05 } 
+		    top_color red
+		    bottom_color green
+		    top_radius 0.055 #in meters
+		    bottom_radius 0.055 #in meters
+	    }
+
+	    4 {
+	        position { 1.25 3.05 } 
+		    top_color yellow
+		    bottom_color blue
+		    top_radius 0.055 #in meters
+		    bottom_radius 0.055 #in meters
 	    }
     }
 
@@ -67,33 +60,29 @@ map {
     #outside of the bounding box
 
     construction_objects {
-    	num_construction_objects 8 
-        0 {
-            position { 0.0 0.0 } # Tricky Under robot
-            #color color_name
-            #size 1 | 2
-        }
-        1 {
-            position { 0.0 1.22 } # Around first obstacle
-        }
-        2 {
-            position { 0.32 2.875 } # Near Diagonal Obstacles
-        }
-        3 {
-            position { 1.878 3.464 } #Impossible: In the obstacle
-        }
-        4 {
-            position { 2.262 -0.304 } #Hard: In the corner.  Moved out 7cm,7cm
-        }
-        5 {
-            position { 0.581 2.343 } # One of the further blocks
-        }
-        6 {
-            position { 2.30 2.595 } # Double block
-            size 2
-        }
-        7 {
-            position { -0.232 3.494 } # Around concave obstacle
-        }
+    	num_construction_objects 17
+        0 { position { 1.00 1.00 } color red }
+        1 { position { 2.00 1.00 } color blue }
+        2 { position { 3.00 1.00 } color yellow }
+        3 { position { 4.00 1.00 } color red }
+        4 { position { 1.00 2.00 } color green }
+        5 { position { 2.00 2.00 } color yellow }
+        6 { position { 3.00 2.00 } color red }
+	7 { position { 0.69 2.80 } color red }
+	8 { position { 1.00 2.70 } color green }
+	9 { position { 1.75 2.97 } color yellow }
+	10 { position { 0.40 1.00 } color green }
+	11 { position { 1.00 0.60 } color blue }
+	12 { position { 4.40 1.80 } color red }
+	13 { position { 4.30 2.60 } color blue }
+	14 { position { 2.70 2.55 } color blue }
+	15 { position { 3.50 0.55 } color blue } 
+	16 { position { 3.72 1.86 } color blue }	
     }
+
+	#Recall that obstacle points must be specified in CCW order
+	
+    obstacles {
+    	num_obstacles 0
+	}
 }

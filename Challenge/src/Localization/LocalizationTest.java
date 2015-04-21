@@ -145,7 +145,8 @@ public class LocalizationTest implements NodeMain {
                     //                    Printing particles out
                     //                    Thread.sleep(5000); // Waiting 5 seconds between each step
                 }
-                particleFilter.printParticles();
+//                particleFilter.printParticles();
+                System.out.println(particleFilter.getParticles().get(0));
                 System.out.println("Robot Final Position: " + prevPt.toString());
                 double currTime = (System.currentTimeMillis() - startTime)/1000.0;
                 System.out.println("Runtime " + currTime);
@@ -181,14 +182,10 @@ public class LocalizationTest implements NodeMain {
     private ArrayList<Integer> getFidsInFOV(Point2D.Double robotPos) {
         ArrayList<Integer> fidsInFOV = new ArrayList<Integer>();
         Fiducial[] fiducials = challengeMap.getFiducials();
-        System.out.println("Num fiducials: " + fiducials.length);
         for (int i = 0; i < fiducials.length; i++) {
             Point2D.Double fidPos = fiducials[i].getPosition();
-            System.out.println("Fiducial Pos " + fidPos);
 
-            //            TODO: should only check if intersects with obstacles not cspace obstacles...
             if (!RRT.lineIntersectsObs(challengeMap.getPolygonObstacles(), robotPos, fidPos)) {
-                System.out.println("in here!");
                 fidsInFOV.add(i);
             }
         }
@@ -210,6 +207,7 @@ public class LocalizationTest implements NodeMain {
             Point2D.Double fidPos = fiducials[index].getPosition();
 
             double dist = RRT.getDist(fidPos.x, fidPos.y, robotPos.x, robotPos.y);
+            System.out.println("Distance to Fiducial " + index + " at " + fidPos + " is " + dist);
             fidsDists.put(index, dist);
         }
 
