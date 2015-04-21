@@ -56,12 +56,12 @@ public class Initialize implements FSMState {
 
             Point2D.Double start = challengeMap.getRobotStart();
             Point2D.Double end = challengeMap.getRobotGoal();
-
+            fsm.currentLocation = start;
             objectLocations.add(end);
 
             fsm.RRTengine =  new MultiRRT(challengeMap);
             fsm.foundPaths = new GoalAdjLists(end);
-
+            
             Point2D.Double currLocation = start;
             while (objectLocations.size() > 1)
             {

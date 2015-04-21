@@ -36,7 +36,7 @@ public class NeckScan implements FSMState {
 		//do stuff
 
 		//if condition to leave state
-		//fsm.updateState(new NextState(fsm));
+//		fsm.updateState(new NextState(fsm));
 
 		}
 
