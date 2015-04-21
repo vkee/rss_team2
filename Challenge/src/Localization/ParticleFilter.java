@@ -172,6 +172,10 @@ public class ParticleFilter {
 //            System.out.println(measurementProb);
 //        }
 
+        
+        particles = resampleParticles(measurementProbs);
+        
+
         Collections.sort(measurementProbs);
         
         
@@ -179,8 +183,6 @@ public class ParticleFilter {
         for (int i = measurementProbs.size(); i > measurementProbs.size() - 5; i--) {
             System.out.println(measurementProbs.get(i - 1));
         }
-        
-        particles = resampleParticles(measurementProbs);
     }
 
     /**
