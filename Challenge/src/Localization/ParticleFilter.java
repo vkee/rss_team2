@@ -90,6 +90,9 @@ public class ParticleFilter {
         particles.add(new RobotParticle(0.6, 0.6, 0.0, fiducials, worldWidth, worldHeight, 
                 botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
         
+        particles.add(new RobotParticle(0.8, 0.8, 0.0, fiducials, worldWidth, worldHeight, 
+                botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
+        
         particles.add(new RobotParticle(worldWidth + botLeftX, worldHeight + botLeftY, 0.0, fiducials, worldWidth, worldHeight, 
                 botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
     }
