@@ -28,7 +28,13 @@ public class Initialize implements FSMState {
 		fsm = stateMachine;
 
 		try {
-			GrandChallengeMap challengeMap = GrandChallengeMap.parseFile(fsm.mapFileName);
+		    GrandChallengeMap challengeMap = null;
+			try{
+			    challengeMap = GrandChallengeMap.parseFile(fsm.mapFileName);
+			} catch (Exception e) {
+	            System.err.println("Unable to load map.");
+	            e.printStackTrace();
+	        }
 			CSpace cSpace = new CSpace(); 
 			ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = cSpace.generateCSpace(challengeMap, false);			//this was adding the robot as an OBSTACLE!!! was true TODO
 			challengeMap.set3DCSpace(obsCSpaces);
@@ -75,7 +81,7 @@ public class Initialize implements FSMState {
 			initialized = true;
 				
 		} catch (Exception e) {
-			System.err.println("Unable to load map.");
+			System.err.println("Error in Initialize.");
 			e.printStackTrace();
 		}
 	}	
