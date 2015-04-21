@@ -116,9 +116,9 @@ public class LocalizationTest implements NodeMain {
                 
                 Double robotStartPos = challengeMap.getRobotStart();
                 //                Initialize Particle Filter
-                particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, 10000, challengeMap, 0.00, 0.00, 0.0);
+//                particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, 10000, challengeMap, 0.00, 0.00, 0.0);
 
-//                particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, 10000, challengeMap, 0.05, 0.05, 5.0);
+                particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, 10000, challengeMap, 0.05, 0.05, 5.0);
 
                 //                publishParticles();
 
