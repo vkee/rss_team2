@@ -17,6 +17,7 @@ public class WaypointNavClose implements FSMState {
 	private FSM fsm;
 	private ArrayList<Point2D.Double> waypoints;
 	private WaypointNav waypointNavigator;
+	private Point2D.Double finalGoal;
 
 	public WaypointNavClose(FSM stateMachine)
 		{
@@ -31,10 +32,10 @@ public class WaypointNavClose implements FSMState {
 			fsm.updateState(new WaypointNavDeposit(fsm));
 			}
 		
-		Point2D.Double finalGoal = waypoints.remove(waypoints.size()-1);		
+		finalGoal = waypoints.remove(waypoints.size()-1);		
 		Point2D.Double goalpt = waypoints.get(waypoints.size()-1);
 		
-//		waypointNavigator = new WaypointNav(waypoints, fsm.motionPub);
+		waypointNavigator = new WaypointNav(waypoints, fsm.motionPub);
 
 		}	
 
@@ -50,16 +51,16 @@ public class WaypointNavClose implements FSMState {
 		}
 
 
-	public void update(Object msg)
+	public void update(GenericMessage msg)
 		{
 		//do waypoint nav stuff
-//		waypointNavigator.wayptNav(msg.x, msg.y, msg.theta);
+		waypointNavigator.wayptNav(msg.message.x, msg.message.y, msg.message.theta);
 
 		//if condition to leave state (one waypoint away)
 		//if (atWaypoint >= waypoints.size()-2)
-//		if (waypointNavigator.isDone())
-////			{fsm.updateState(new ApproachBlock(fsm, finalGoal));}		//Approach until visual servo
-//
+		if (waypointNavigator.isDone())
+			{fsm.updateState(new ApproachBlock(fsm, finalGoal));}		//Approach until visual servo
+
 		}
 
 

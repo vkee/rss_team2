@@ -86,12 +86,12 @@ public class FSM implements NodeMain{
         currentState = newState;
     }
 
-    public void dispatchState(Object msg)
+    public void dispatchState(GenericMessage msg)
     {
         if (inState) return;					// may instead use a LOCK and queue for other msgs instead
         inState = true;
-//        if (currentState.accepts(msg.type))		//may not need this check TODO make sure type is sent in the message
-//        	{currentState.update(msg);}		
+        if (currentState.accepts(msg.type))		//may not need this check
+        	{currentState.update(msg);}		
         inState = false;
     }
 
@@ -126,7 +126,7 @@ public class FSM implements NodeMain{
                         //robotY = message.y;
                         //robotTheta = message.theta;
                         //message.type = msgENUM.WHEELS;
-                        dispatchState(message);
+                        dispatchState(new GenericMessage(message, msgENUM.WHEELS));
                         }
                     });
     }
