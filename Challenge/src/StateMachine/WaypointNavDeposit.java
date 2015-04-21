@@ -41,16 +41,16 @@ public class WaypointNavDeposit implements FSMState {
 		}
 
 
-	public void update(Object msg)
+	public void update(GenericMessage msg)
 		{
 		//do stuff
-//		waypointNavigator.wayptNav(msg.x, msg.y, msg.theta);
-//
-//
-//		//if condition to leave state
-////	     if (waypointNavigator.isDone())
-//      {fsm.updateState(new OrientAtDeposit(fsm));}
-//
+		waypointNavigator.wayptNav(msg.message.x, msg.message.y, msg.message.theta);
+
+
+		//if condition to leave state
+		if (waypointNavigator.isDone())
+			{fsm.updateState(new OrientAtDeposit(fsm));}
+
 
 
 		}

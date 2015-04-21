@@ -31,7 +31,7 @@ public class MoveForward implements FSMState {
 		}
 
 
-	public void update(Object msg)
+	public void update(GenericMessage msg)
 		{
 		//do stuff
 
