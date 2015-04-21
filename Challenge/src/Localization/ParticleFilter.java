@@ -237,7 +237,7 @@ public class ParticleFilter {
                 index %= numParticles;
             }
             System.out.println("Index chosen: " + index);
-            resampledParticles.add(particles.get(index));
+            resampledParticles.add(new RobotParticle(particles.get(index)));
         }
         return resampledParticles;
     }
