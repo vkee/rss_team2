@@ -114,7 +114,7 @@ public class LocalizationTest implements NodeMain {
             try {
                 System.out.println("Starting up particle filter");
                 //                Initialize Particle Filter
-                particleFilter = new ParticleFilter(10, challengeMap, 0.05, 0.05, 5.0);
+                particleFilter = new ParticleFilter(challengeMap, 0.05, 0.05, 5.0);
 
                 //                publishParticles();
 

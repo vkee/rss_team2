@@ -68,6 +68,39 @@ public class RobotParticle {
 
         this.random = new Random();
     }
+    
+    /**
+     * Creates a particle modeling the robot
+     * @param x the x coordinate of the robot
+     * @param y the y coordinate of the robot
+     * @param theta the orientation of the robot
+     * @param fiducials the map fiducials
+     * @param worldWidth the width of the world in meters
+     * @param worldHeight the height of the world in meters
+     * @param botLeftX the bottom left x coordinate of the map
+     * @param botLeftY the bottom left y coordinate of the map
+     * @param transNoise the translational noise (std dev of translational measurements)
+     * @param rotNoise the rotational noise (std dev of rotation measurements)
+     * @param sensorNoise the sensor noise (std dev of sensor measurements)
+     */
+    public RobotParticle(double x, double y, double theta, Fiducial[] fiducials, double worldWidth, double worldHeight, 
+            double botLeftX, double botLeftY, double transNoise, double rotNoise, double sensorNoise) {
+        this.fiducials = fiducials;
+        this.worldWidth = worldWidth;
+        this.worldHeight = worldHeight;
+        this.botLeftX = botLeftX;
+        this.botLeftY = botLeftY;
+
+        this.x = x;
+        this.y = y;
+        this.theta = theta;
+
+        this.transNoise = transNoise;
+        this.rotNoise = rotNoise;
+        this.sensorNoise = sensorNoise;
+
+        this.random = new Random();
+    }
 
     /**
      * Updates the particle's probable pose with the translation and rotation updates.
