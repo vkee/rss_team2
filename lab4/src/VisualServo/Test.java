@@ -80,61 +80,15 @@ public class Test implements NodeMain, Runnable {
 	public void run() {
 		cl = new client();
 //		while (true) {
+
+			//assert image 
 			Image src = null;
 			try {
-				src = cl.getTestImage();
+				src = cl.getTestImage(4);
 			} catch (Exception e) {
 				//continue;
 			}
 			Image dest = new Image(src);
-			/*
-			for (int y = 0; y < height; y++) { //(Solution)
-				for (int x = 0; x < width; x++) { //(Solution)
-
-			float[] hsb_ = Color.RGBtoHSB(-157,255,0,null);
-			//System.out.println("A: " + hsb_[0] + " " + hsb_[1] + " " + hsb_[2]);
-			//hsb_ = Color.RGBtoHSB(157,255,0,null);
-			//System.out.println("B: " + hsb_[0] + " " + hsb_[1] + " " + hsb_[2]);
-			//hsb_ = Color.RGBtoHSB(98,255,0,null);
-			//System.out.println("C: " + hsb_[0] + " " + hsb_[1] + " " + hsb_[2]);
-
-
-			int pix = src.getPixel(x, y); // (Solution)
-			int red = Image.pixelRed(pix);
-			int blue = Image.pixelBlue(pix);
-			int green = Image.pixelGreen(pix);
-			
-			if (red < 0)
-				red += 255;
-			if (blue < 0)
-				blue += 255;
-			if (green < 0)
-				green += 255;
-			
-			float[] hsb = Color.RGBtoHSB(red,green,blue, null); // (Solution)
-			double threshold = 0.05;
-			
-			if (hsb[0] == 0 && hsb[1] > .2 && hsb[2] > .2){
-				dest.setPixel(x, y, (byte) 0xff, (byte) 0, (byte) 0);
-			}
-
-			if (Math.abs(hsb[0] - 120.0/360)< threshold && hsb[1] > .2 && hsb[2] > .1){
-				dest.setPixel(x, y, (byte) 0, (byte) 0xff, (byte) 0);
-			}
-
-			if (Math.abs(hsb[0] - 120.0/360)< threshold && hsb[1] > .2 && hsb[2] > .2){
-				dest.setPixel(x, y, (byte) 0, (byte) 0xff, (byte) 0);
-			}
-
-			if (Math.abs(hsb[0] - 240.0/360)< threshold && hsb[1] > .3 && hsb[2] > .2){
-				dest.setPixel(x, y, (byte) 0, (byte) 0, (byte) 0xff);
-			}
-
-			if (Math.abs(hsb[0] - 60.0/360)< threshold && hsb[1] > .8 && hsb[2] > .2){
-				dest.setPixel(x, y, (byte) 0xff, (byte) 0xff, (byte) 0);
-			}
-
-}}*/
 			//while(true){
 			blobTrack.apply(src, dest);
 			// update newly formed vision message
