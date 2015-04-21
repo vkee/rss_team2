@@ -58,7 +58,7 @@ public class FSM implements NodeMain{
     private Publisher<GUIPointMsg> guiPtPub;
     private Publisher<Object> ellipsePub;
     private Publisher<Object> stringPub;
-    
+
     private Subscriber<OdometryMsg> odometrySub;
     public Publisher<MotionMsg> motionPub;
 
@@ -68,10 +68,8 @@ public class FSM implements NodeMain{
 
     public FSM(){
 
-        currentState = new Initialize(this);
-        inState = false;
 
-        dispatchState(null);
+
 
         //initialize all listeners with dispatchState as the callback
 
@@ -84,7 +82,7 @@ public class FSM implements NodeMain{
     public void updateState(FSMState newState)
     {
         System.out.println("Just Entered "+newState.getName());
-    	currentState = newState;
+        currentState = newState;
     }
 
     public void dispatchState(GenericMessage msg)
@@ -92,7 +90,7 @@ public class FSM implements NodeMain{
         if (inState) return;					// may instead use a LOCK and queue for other msgs instead
         inState = true;
         if (currentState.accepts(msg.type))		//may not need this check
-        	{currentState.update(msg);}		
+        {currentState.update(msg);}		
         inState = false;
     }
 
@@ -114,22 +112,26 @@ public class FSM implements NodeMain{
         System.out.println("mapFileName " + mapFileName);
         //initialize publishers
         motionPub = node.newPublisher("command/Motors", "rss_msgs/MotionMsg");
-        
+
         //intialize subscribers
         odometrySub = node.newSubscriber("/rss/odometry",
                 "rss_msgs/OdometryMsg");
 
         odometrySub
-                .addMessageListener(new MessageListener<org.ros.message.rss_msgs.OdometryMsg>() {
-                    @Override
-                    public void onNewMessage(org.ros.message.rss_msgs.OdometryMsg message) {
-                        //robotX = message.x;
-                        //robotY = message.y;
-                        //robotTheta = message.theta;
-                        //message.type = msgENUM.WHEELS;
-                        dispatchState(new GenericMessage<org.ros.message.rss_msgs.OdometryMsg>(message, msgENUM.WHEELS));
-                        }
-                    });
+        .addMessageListener(new MessageListener<org.ros.message.rss_msgs.OdometryMsg>() {
+            @Override
+            public void onNewMessage(org.ros.message.rss_msgs.OdometryMsg message) {
+                //robotX = message.x;
+                //robotY = message.y;
+                //robotTheta = message.theta;
+                //message.type = msgENUM.WHEELS;
+                dispatchState(new GenericMessage<org.ros.message.rss_msgs.OdometryMsg>(message, msgENUM.WHEELS));
+            }
+        });
+        currentState = new Initialize(this);
+        inState = false;
+        dispatchState(null);
+
     }
 
     @Override
