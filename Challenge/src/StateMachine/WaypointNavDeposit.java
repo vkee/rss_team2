@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import MotionPlanning.WaypointNav;
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
+import org.ros.node.topic.Subscriber;
 
 /**
  * This state completely navigates to the deposit site using the existing path from our current location
@@ -23,7 +24,7 @@ public class WaypointNavDeposit implements FSMState {
 		
 		waypoints = fsm.foundPaths.getPathToGoal(fsm.currentLocation);
 		
-		waypointNavigator = new WaypointNav(waypoints, fsm.foundPaths.goal, fsm.motionPub);
+//		waypointNavigator = new WaypointNav(waypoints, fsm.foundPaths.goal, fsm.motionPub);
 
 
 		}	
@@ -43,12 +44,13 @@ public class WaypointNavDeposit implements FSMState {
 	public void update(Object msg)
 		{
 		//do stuff
-		waypointNavigator.wayptNav(msg.x, msg.y, msg.theta);
-
-
-		//if condition to leave state
-		if (waypointNavigator.isDone())
-			{fsm.updateState(new OrientAtDeposit(fsm));}
+//		waypointNavigator.wayptNav(msg.x, msg.y, msg.theta);
+//
+//
+//		//if condition to leave state
+////	     if (waypointNavigator.isDone())
+//      {fsm.updateState(new OrientAtDeposit(fsm));}
+//
 
 
 		}
