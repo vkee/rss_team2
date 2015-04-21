@@ -163,14 +163,14 @@ public class ParticleFilter {
             measurementProbs.add(particle.measurementProb(measuredFiducials, measuredDists));
         }
 
-        System.out.println("Particles");
-        for (RobotParticle particle : particles) {
-            System.out.println(particle);
-        }        
-        System.out.println("Measurement Update");
-        for (Double measurementProb : measurementProbs) {
-            System.out.println(measurementProb);
-        }
+//        System.out.println("Particles");
+//        for (RobotParticle particle : particles) {
+//            System.out.println(particle);
+//        }        
+//        System.out.println("Measurement Update");
+//        for (Double measurementProb : measurementProbs) {
+//            System.out.println(measurementProb);
+//        }
 
         particles = resampleParticles(measurementProbs);
     }
@@ -199,6 +199,11 @@ public class ParticleFilter {
         return resampledParticles;
     }
 
+    public RobotParticle sampleParticle() {
+        int index = (int) (Math.random() * numParticles);
+        return particles.get(index);
+    }
+    
     public ArrayList<RobotParticle> getParticles() {
         return particles;
     }

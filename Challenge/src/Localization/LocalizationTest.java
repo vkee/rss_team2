@@ -154,6 +154,8 @@ public class LocalizationTest implements NodeMain {
                 double currTime = (System.currentTimeMillis() - startTime)/1000.0;
                 System.out.println("Runtime " + currTime);
                 refreshDisplay();
+                
+                System.out.println("Sampled Particle: " + particleFilter.sampleParticle());
 
                 System.out.println("Done with particle filter");
             } catch (Exception e) {
@@ -174,8 +176,8 @@ public class LocalizationTest implements NodeMain {
 //            testPath.add(new Point2D.Double(i/25.0 + startPoint.getX(), i/50.0 + startPoint.getY()));
 //        }
 
-        for (int i = 1; i < 2; i++) {
-            testPath.add(new Point2D.Double(i/2.0 + startPoint.getX(), i/2.0 + startPoint.getY()));
+        for (int i = 1; i < 20; i++) {
+            testPath.add(new Point2D.Double(i/20.0 + startPoint.getX(), i/20.0 + startPoint.getY()));
         }
         
         return testPath;
