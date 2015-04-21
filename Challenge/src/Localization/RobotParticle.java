@@ -75,6 +75,7 @@ public class RobotParticle {
      * @param rotation the rotational distance the robot has moved (in radians)
      */
     protected void motionUpdate(double translation, double rotation) {
+        System.out.println("Before update of " + translation + " trans and " + rotation + "rotation \n" + this);
         //        Update theta with gaussian noise w/ mean 0.0 and std dev of rotNoise
         theta += (rotation + (random.nextGaussian()*this.rotNoise));
         theta %= (2*Math.PI);
@@ -87,6 +88,8 @@ public class RobotParticle {
         //        x and y positions outside map are clipped to the map boundaries
         x = Math.max(botLeftX, Math.min(x, worldWidth + botLeftX));
         y = Math.max(botLeftY, Math.min(y, worldHeight + botLeftY));
+        System.out.println("After update of " + translation + " trans and " + rotation + "rotation \n" + this);
+
     }
 
     /**

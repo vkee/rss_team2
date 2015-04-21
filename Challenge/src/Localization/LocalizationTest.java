@@ -114,7 +114,7 @@ public class LocalizationTest implements NodeMain {
             try {
                 System.out.println("Starting up particle filter");
                 //                Initialize Particle Filter
-                particleFilter = new ParticleFilter(10000, challengeMap, 0.05, 0.05, 5.0);
+                particleFilter = new ParticleFilter(10, challengeMap, 0.05, 0.05, 5.0);
 
                 //                publishParticles();
 
@@ -145,7 +145,7 @@ public class LocalizationTest implements NodeMain {
                     //                    Printing particles out
                     //                    Thread.sleep(5000); // Waiting 5 seconds between each step
                 }
-//                particleFilter.printParticles();
+                //                particleFilter.printParticles();
                 System.out.println(particleFilter.getParticles().get(0));
                 System.out.println("Robot Final Position: " + prevPt.toString());
                 double currTime = (System.currentTimeMillis() - startTime)/1000.0;
@@ -167,10 +167,14 @@ public class LocalizationTest implements NodeMain {
     private ArrayList<Point2D.Double> generateTestPath(Double startPoint){
         ArrayList<Point2D.Double> testPath = new ArrayList<Point2D.Double>();
 
-        for (int i = 0; i < 2; i++) {
-            testPath.add(new Point2D.Double(i/25.0 + startPoint.getX(), i/50.0 + startPoint.getY()));
-        }
+//        for (int i = 0; i < 2; i++) {
+//            testPath.add(new Point2D.Double(i/25.0 + startPoint.getX(), i/50.0 + startPoint.getY()));
+//        }
 
+        for (int i = 0; i < 1; i++) {
+            testPath.add(new Point2D.Double(i/2.0 + startPoint.getX(), i/2.0 + startPoint.getY()));
+        }
+        
         return testPath;
     }
 
@@ -206,7 +210,9 @@ public class LocalizationTest implements NodeMain {
         for (Integer index : measuredFiducials) {
             Point2D.Double fidPos = fiducials[index].getPosition();
 
-            double dist = RRT.getDist(fidPos.x, fidPos.y, robotPos.x, robotPos.y);
+            //            Potential bug site is if robot position at 0,0 and map goes negative, 
+            //            but this should be able to account for it in this ordering
+            double dist = RRT.getDist(robotPos.x, robotPos.y, fidPos.x, fidPos.y);
             System.out.println("Distance to Fiducial " + index + " at " + fidPos + " is " + dist);
             fidsDists.put(index, dist);
         }
