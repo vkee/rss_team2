@@ -94,6 +94,10 @@ public class MultipleBlobTracking extends BlobTracking {
 		} 
 	}
 
+	public boolean isDone(){
+		return targetArea[0] > 0;
+	}
+
 	protected void blobPresent(int[][] m_threshIm, int[][] m_connIm, int[][] m_blobIm) {
 		for(int i = 0; i < m_threshIm.length; i++){
 			int sx = 0;
@@ -158,6 +162,45 @@ public class MultipleBlobTracking extends BlobTracking {
 //		}
 		System.out.println(circle_counter/(double)(4*angles.length));
 	}
+	public void apply(Image src) {
+		stepTiming(); 
+		
+		if (useGaussianBlur) {// (Solution)
+			byte[] srcArray = src.toArray();// (Solution)
+			byte[] destArray = new byte[srcArray.length]; // (Solution)
+			if (approximateGaussian) { // (Solution)
+				GaussianBlur.applyBox(srcArray, destArray, src.getWidth(), src.getHeight());
+			} // (Solution)
+			else { // (Solution)
+				GaussianBlur.apply(srcArray, destArray, width, height); // (Solution)
+			} // (Solution)
+			src = new Image(destArray, src.getWidth(), src.getHeight()); // (Solution)
+		}
+		
+		blobPixel(src, multiBlobPixelMask); //(Solution)
+		blobPresent(multiBlobPixelMask, multiImageConnected, multiBlobMask); //(Solution)
+
+		//findFiducial(multiBlobMask,dest);
+
+	/*Pick one blob to go to, find it's index and fix on it*/
+
+		if (targetArea[0]>0) { // (Solution)
+			int index = 0;//finds red block because 0 is the first index
+			blobFix(index);
+			computeTranslationVelocityCommand(); // (Solution)
+			computeRotationVelocityCommand(); // (Solution)
+		} else { // (Solution)
+			translationVelocityCommand = 0.0; // (Solution)
+			rotationVelocityCommand = 0.0; // (Solution)
+		} /// (Solution)
+		/**/
+
+
+		// End Student Code
+	}
+
+
+
 
 	public void apply(Image src, Image dest) {
 		stepTiming(); 
@@ -196,21 +239,18 @@ public class MultipleBlobTracking extends BlobTracking {
 		}
 
 	/*Pick one blob to go to, find it's index and fix on it*/
-/*
-		if (true) { // (Solution)
-			index = 0;//find's red block because 0 is the first index
-			blobFix(index); // (Solution)
+
+		if (targetArea[0]>0) { // (Solution)
+			int index = 0;//find's red block because 0 is the first index
+			blobFix(index);
 			computeTranslationVelocityCommand(); // (Solution)
 			computeRotationVelocityCommand(); // (Solution)
-			
 		} else { // (Solution)
 			translationVelocityCommand = 0.0; // (Solution)
 			rotationVelocityCommand = 0.0; // (Solution)
 		} /// (Solution)
 		/**/
 
-		// (Solution)
-		// For a start, just copy src to dest. // (Solution)
 
 		// End Student Code
 	}
