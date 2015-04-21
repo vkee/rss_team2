@@ -36,7 +36,7 @@ public class GoalAdjLists {
 		if (pathGrid.get(from)==null) pathGrid.put(from, new HashMap<Point2D.Double,ArrayList<Point2D.Double>>());
 		if (pathGrid.get(to)==null) pathGrid.put(to, new HashMap<Point2D.Double,ArrayList<Point2D.Double>>());
 		
-		ArrayList<Point2D.Double> reversePath = new ArrayList<Point2D.Double>();
+		ArrayList<Point2D.Double> reversePath = new ArrayList<Point2D.Double>(path.size());
 		Collections.copy(reversePath, path);
 		Collections.reverse(reversePath);
 		
