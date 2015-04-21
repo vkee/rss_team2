@@ -116,7 +116,9 @@ public class LocalizationTest implements NodeMain {
                 
                 Double robotStartPos = challengeMap.getRobotStart();
                 //                Initialize Particle Filter
-                particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, 10000, challengeMap, 0.05, 0.05, 5.0);
+                particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, 10000, challengeMap, 0.00, 0.00, 0.0);
+
+//                particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, 10000, challengeMap, 0.05, 0.05, 5.0);
 
                 //                publishParticles();
 
@@ -147,7 +149,7 @@ public class LocalizationTest implements NodeMain {
                     //                    Printing particles out
                     //                    Thread.sleep(5000); // Waiting 5 seconds between each step
                 }
-                                particleFilter.printParticles();
+//                                particleFilter.printParticles();
 //                System.out.println(particleFilter.getParticles().get(0));
                                 System.out.println("Number of particles is " + particleFilter.getParticles().size());
                 System.out.println("Robot Final Position: " + prevPt.toString());
