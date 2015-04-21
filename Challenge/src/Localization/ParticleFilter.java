@@ -35,7 +35,43 @@ public class ParticleFilter {
     private double rotNoise;
     private double sensorNoise;
     private Fiducial[] fiducials;
+    
+    /**
+     * Creates a Particle filter with the provided parameters (including the robot's actual position)
+     * distributing the particles in a radius around the robot's initial position
+     * @param robotX the robot's starting x coordinate
+     * @param robotY the robot's starting y coordinate
+     * @param robotTheta the robot's starting orientation
+     * @param particleRadius the radius defining the circle the particles are distributed within
+     * @param numParticles the number of particles 
+     * @param map the map of the environment
+     * @param transNoise the translational noise (std dev of translational measurements)
+     * @param rotNoise the rotational noise (std dev of rotation measurements)
+     * @param sensorNoise the sensor noise (std dev of sensor measurements)
+     */
+    public ParticleFilter(double robotX, double robotY, double robotTheta, double particleRadius, int numParticles, GrandChallengeMap map, 
+            double transNoise, double rotNoise, double sensorNoise) {
+        this.numParticles = numParticles;
+        this.map = map;
+        this.transNoise = transNoise;
+        this.rotNoise = rotNoise;
+        this.sensorNoise = sensorNoise;
+        this.worldRect = map.getWorldRect();
+        this.fiducials = map.getFiducials();
+        this.worldWidth = worldRect.getWidth();
+        this.worldHeight = worldRect.getHeight();
+        this.botLeftX = worldRect.getMinX();
+        this.botLeftY = worldRect.getMinY();
+        
+        for (int i = 1; i < numParticles; i++) {
+            double particleX = robotX + Math.random() * particleRadius * Math.cos(robotTheta);
+            double particleY = robotY + Math.random() * particleRadius * Math.sin(robotTheta);
 
+            particles.add(new RobotParticle(particleX, particleY, robotTheta, fiducials, worldWidth, worldHeight, 
+                    botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
+        }
+    }
+    
     /**
      * Creates a Particle filter with the provided parameters.
      * @param numParticles the number of particles 

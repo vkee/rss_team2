@@ -70,7 +70,7 @@ public class RobotParticle {
     }
     
     /**
-     * Creates a particle modeling the robot
+     * Creates a particle modeling the robot with predefined coordinates.
      * @param x the x coordinate of the robot
      * @param y the y coordinate of the robot
      * @param theta the orientation of the robot
