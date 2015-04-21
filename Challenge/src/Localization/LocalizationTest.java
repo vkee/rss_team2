@@ -113,8 +113,10 @@ public class LocalizationTest implements NodeMain {
             //            Localization Tests
             try {
                 System.out.println("Starting up particle filter");
+                
+                Double robotStartPos = challengeMap.getRobotStart();
                 //                Initialize Particle Filter
-                particleFilter = new ParticleFilter(challengeMap, 0.05, 0.05, 5.0);
+                particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, 10000, challengeMap, 0.05, 0.05, 5.0);
 
                 //                publishParticles();
 
@@ -133,7 +135,7 @@ public class LocalizationTest implements NodeMain {
 
                     //                    Determining which fiducials are in the FOV of the robot
                     ArrayList<Integer> measuredFiducials = getFidsInFOV(pt);
-                    System.out.println("Num of fids in FOV: " + measuredFiducials.size());
+//                    System.out.println("Num of fids in FOV: " + measuredFiducials.size());
                     //                    Determining the distances to the fiducials that are in the FOV of the robot
                     HashMap<Integer, java.lang.Double> measuredDists = getFidsDists(pt, measuredFiducials);
 

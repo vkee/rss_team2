@@ -66,6 +66,42 @@ public class ParticleFilter {
     }
 
     /**
+     * Creates a Particle filter with the provided parameters (including the robot's actual position)
+     * @param robotX the robot's starting x coordinate
+     * @param robotY the robot's starting y coordinate
+     * @param robotTheta the robot's starting orientation
+     * @param numParticles the number of particles 
+     * @param map the map of the environment
+     * @param transNoise the translational noise (std dev of translational measurements)
+     * @param rotNoise the rotational noise (std dev of rotation measurements)
+     * @param sensorNoise the sensor noise (std dev of sensor measurements)
+     */
+    public ParticleFilter(double robotX, double robotY, double robotTheta, int numParticles, GrandChallengeMap map, 
+            double transNoise, double rotNoise, double sensorNoise) {
+        this.numParticles = numParticles;
+        this.map = map;
+        this.transNoise = transNoise;
+        this.rotNoise = rotNoise;
+        this.sensorNoise = sensorNoise;
+        this.worldRect = map.getWorldRect();
+        this.fiducials = map.getFiducials();
+        this.worldWidth = worldRect.getWidth();
+        this.worldHeight = worldRect.getHeight();
+        this.botLeftX = worldRect.getMinX();
+        this.botLeftY = worldRect.getMinY();
+
+        //        Creating the particles
+        
+        particles.add(new RobotParticle(robotX, robotY, robotTheta, fiducials, worldWidth, worldHeight, 
+                botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
+        
+        for (int i = 1; i < numParticles; i++) {
+            particles.add(new RobotParticle(fiducials, worldWidth, worldHeight, 
+                    botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
+        }
+    }
+
+    /**
      * Creates a Particle filter for testing purposes with the provided parameters.
      * @param map the map of the environment
      * @param transNoise the translational noise (std dev of translational measurements)
