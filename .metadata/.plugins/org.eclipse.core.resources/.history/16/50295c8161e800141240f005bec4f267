@@ -35,17 +35,7 @@ public class Initialize implements FSMState {
 
 			ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
 			for (ConstructionObject cobj : challengeMap.getConstructionObjects())
-				{boolean unreachable = false;
-				Point2D.Double loc = cobj.getPosition();
-				
-				for (Obstance obs : cSpace.getObstacels())
-					{if (obs.contains(loc))
-						{unreachable = true;
-						break;}
-					}
-				
-				if (!unreachable) objectLocations.add(loc);
-				}
+				{objectLocations.add(cobj.getPosition());}
 	
 			Point2D.Double start = challengeMap.getRobotStart();
 			Point2D.Double end = challengeMap.getRobotGoal();
