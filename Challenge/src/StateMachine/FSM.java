@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import Challenge.GrandChallengeMap;
-import GlobalNavigation.MotionMsg;
-import GlobalNavigation.OdometryMsg;
 import MotionPlanning.GoalAdjLists;
 import MotionPlanning.MultiRRT;
 import MotionPlanning.RRT;
