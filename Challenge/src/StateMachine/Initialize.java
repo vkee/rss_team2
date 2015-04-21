@@ -105,6 +105,6 @@ public class Initialize implements FSMState {
         //do stuff
 
         //if condition to leave state
-        fsm.updateState(new NeckScan(fsm));
+        fsm.updateState(new WaypointNavClose(fsm));
     }
 }
