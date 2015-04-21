@@ -130,7 +130,7 @@ public class FSM implements NodeMain{
         });
         currentState = new Initialize(this);
         inState = false;
-        dispatchState(null);
+        dispatchState(new GenericMessage(null, null));
 
     }
 
