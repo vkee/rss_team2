@@ -74,7 +74,7 @@ public class ParticleFilter {
      */
     public ParticleFilter(GrandChallengeMap map, 
             double transNoise, double rotNoise, double sensorNoise) {
-        numParticles = 2;
+        numParticles = 5;
         this.map = map;
         this.transNoise = transNoise;
         this.rotNoise = rotNoise;
@@ -90,7 +90,13 @@ public class ParticleFilter {
         particles.add(new RobotParticle(0.6, 0.6, 0.0, fiducials, worldWidth, worldHeight, 
                 botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
         
-        particles.add(new RobotParticle(0.8, 0.8, 0.0, fiducials, worldWidth, worldHeight, 
+        particles.add(new RobotParticle(0.9, 0.9, 0.0, fiducials, worldWidth, worldHeight, 
+                botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
+        
+        particles.add(new RobotParticle(0.6, 1.6, 0.0, fiducials, worldWidth, worldHeight, 
+                botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
+        
+        particles.add(new RobotParticle(1.6, 0.6, 0.0, fiducials, worldWidth, worldHeight, 
                 botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
         
         particles.add(new RobotParticle(worldWidth + botLeftX, worldHeight + botLeftY, 0.0, fiducials, worldWidth, worldHeight, 
