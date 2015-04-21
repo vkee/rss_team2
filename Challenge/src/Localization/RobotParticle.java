@@ -83,8 +83,8 @@ public class RobotParticle {
      * @param rotNoise the rotational noise (std dev of rotation measurements)
      * @param sensorNoise the sensor noise (std dev of sensor measurements)
      */
-    public RobotParticle(double x, double y, double theta, Fiducial[] fiducials, double worldWidth, double worldHeight, 
-            double botLeftX, double botLeftY, double transNoise, double rotNoise, double sensorNoise) {
+    public RobotParticle(double x, double y, double theta, Fiducial[] fiducials, double worldWidth, 
+            double worldHeight, double botLeftX, double botLeftY, double transNoise, double rotNoise, double sensorNoise) {
         this.fiducials = fiducials;
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
