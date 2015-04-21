@@ -147,6 +147,7 @@ public class LocalizationTest implements NodeMain {
                 }
                                 particleFilter.printParticles();
 //                System.out.println(particleFilter.getParticles().get(0));
+                                System.out.println("Number of particles is " + particleFilter.getParticles().size());
                 System.out.println("Robot Final Position: " + prevPt.toString());
                 double currTime = (System.currentTimeMillis() - startTime)/1000.0;
                 System.out.println("Runtime " + currTime);
