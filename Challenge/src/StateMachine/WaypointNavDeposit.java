@@ -3,6 +3,7 @@ package StateMachine;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import MotionPlanning.WaypointNav;
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
 
@@ -12,8 +13,8 @@ import StateMachine.FSM.stateENUM;
 public class WaypointNavDeposit implements FSMState {
 
 	private FSM fsm;
-	public ArrayList<Point2D.Double> waypoints;
-	public int atWaypoint = 0;
+	private ArrayList<Point2D.Double> waypoints;
+	private WaypointNav waypointNavigator;
 
 
 	public WaypointNavDeposit(FSM stateMachine)
@@ -21,6 +22,9 @@ public class WaypointNavDeposit implements FSMState {
 		fsm = stateMachine;
 		
 		waypoints = fsm.foundPaths.getPathToGoal(fsm.currentLocation);
+		
+		waypointNavigator = new WaypointNav(waypoints, fsm.foundPaths.goal, fsm.motionPub);
+
 
 		}	
 
@@ -39,9 +43,13 @@ public class WaypointNavDeposit implements FSMState {
 	public void update(Object msg)
 		{
 		//do stuff
+		waypointNavigator.wayptNav(msg.x, msg.y, msg.theta);
+
 
 		//if condition to leave state
-		//fsm.updateState(new NextState(fsm));
+		if (waypointNavigator.isDone())
+			{fsm.updateState(new OrientAtDeposit(fsm));}
+
 
 		}
 }
