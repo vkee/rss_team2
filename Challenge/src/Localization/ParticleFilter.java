@@ -64,8 +64,9 @@ public class ParticleFilter {
         this.botLeftY = worldRect.getMinY();
         
         for (int i = 0; i < numParticles; i++) {
-            double particleX = robotX + Math.random() * particleRadius * Math.cos(robotTheta);
-            double particleY = robotY + Math.random() * particleRadius * Math.sin(robotTheta);
+            double particleTheta = Math.random() * 2*Math.PI;
+            double particleX = robotX + Math.random() * particleRadius * Math.cos(particleTheta);
+            double particleY = robotY + Math.random() * particleRadius * Math.sin(particleTheta);
 
             particles.add(new RobotParticle(particleX, particleY, robotTheta, fiducials, worldWidth, worldHeight, 
                     botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
