@@ -125,8 +125,11 @@ public class LocalizationTest implements NodeMain {
                 publishParticles();
 
                 prevPt = robotStart;
+                System.out.println("Robot Start Position" + robotStart);
                 long startTime = System.currentTimeMillis();
                 for (Point2D.Double pt : rrtPath){
+                    System.out.println("Waypoint Coords " + pt);
+                    
                     double transDist = RRT.getDist(prevPt.x, prevPt.y, pt.x, pt.y);
                     double rotAng = RRT.getAngle(prevPt.x, prevPt.y, pt.x, pt.y);
 
