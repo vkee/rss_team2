@@ -39,35 +39,35 @@ public class RobotParticle {
     private double sensorNoise;
     private Random random;
 
-    /**
-     * Creates a particle modeling the robot
-     * @param fiducials the map fiducials
-     * @param worldWidth the width of the world in meters
-     * @param worldHeight the height of the world in meters
-     * @param botLeftX the bottom left x coordinate of the map
-     * @param botLeftY the bottom left y coordinate of the map
-     * @param transNoise the translational noise (std dev of translational measurements)
-     * @param rotNoise the rotational noise (std dev of rotation measurements)
-     * @param sensorNoise the sensor noise (std dev of sensor measurements)
-     */
-    public RobotParticle(Fiducial[] fiducials, double worldWidth, double worldHeight, 
-            double botLeftX, double botLeftY, double transNoise, double rotNoise, double sensorNoise) {
-        this.fiducials = fiducials;
-        this.worldWidth = worldWidth;
-        this.worldHeight = worldHeight;
-        this.botLeftX = botLeftX;
-        this.botLeftY = botLeftY;
-
-        this.x = Math.random() * worldWidth + botLeftX;
-        this.y = Math.random() * worldHeight + botLeftY;
-        this.theta = Math.random() * (2*Math.PI);
-
-        this.transNoise = transNoise;
-        this.rotNoise = rotNoise;
-        this.sensorNoise = sensorNoise;
-
-        this.random = new Random();
-    }
+//    /**
+//     * Creates a particle modeling the robot
+//     * @param fiducials the map fiducials
+//     * @param worldWidth the width of the world in meters
+//     * @param worldHeight the height of the world in meters
+//     * @param botLeftX the bottom left x coordinate of the map
+//     * @param botLeftY the bottom left y coordinate of the map
+//     * @param transNoise the translational noise (std dev of translational measurements)
+//     * @param rotNoise the rotational noise (std dev of rotation measurements)
+//     * @param sensorNoise the sensor noise (std dev of sensor measurements)
+//     */
+//    public RobotParticle(Fiducial[] fiducials, double worldWidth, double worldHeight, 
+//            double botLeftX, double botLeftY, double transNoise, double rotNoise, double sensorNoise) {
+//        this.fiducials = fiducials;
+//        this.worldWidth = worldWidth;
+//        this.worldHeight = worldHeight;
+//        this.botLeftX = botLeftX;
+//        this.botLeftY = botLeftY;
+//
+//        this.x = Math.random() * worldWidth + botLeftX;
+//        this.y = Math.random() * worldHeight + botLeftY;
+//        this.theta = Math.random() * (2*Math.PI);
+//
+//        this.transNoise = transNoise;
+//        this.rotNoise = rotNoise;
+//        this.sensorNoise = sensorNoise;
+//
+//        this.random = new Random();
+//    }
     
     /**
      * Creates a particle modeling the robot with predefined coordinates.
