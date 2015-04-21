@@ -120,7 +120,7 @@ public class LocalizationTest implements NodeMain {
                 //                Initialize Particle Filter
                 //                particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, 10000, challengeMap, 0.00, 0.00, 0.0);
 
-                particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, PARTICLE_FILTER_RADIUS, 10000, challengeMap, 0.00, 0.00, 5.0);
+                particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, PARTICLE_FILTER_RADIUS, 10000, challengeMap, 0.05, 0.05, 5.0);
 
                 publishParticles();
 
@@ -180,7 +180,7 @@ public class LocalizationTest implements NodeMain {
         //            testPath.add(new Point2D.Double(i/25.0 + startPoint.getX(), i/50.0 + startPoint.getY()));
         //        }
 
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < 2; i++) {
             testPath.add(new Point2D.Double(i/5.0 + startPoint.getX(), i/5.0 + startPoint.getY()));
         }
 
