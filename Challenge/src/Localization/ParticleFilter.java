@@ -88,6 +88,11 @@ public class ParticleFilter {
         for (RobotParticle particle : particles) {
             measurementProbs.add(particle.measurementProb(measuredFiducials, measuredDists));
         }
+        
+        System.out.println("Measurement Update");
+        for (Double measurementProb : measurementProbs) {
+            System.out.print(measurementProb + " ");
+        }
 
         particles = resampleParticles(measurementProbs);
     }
