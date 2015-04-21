@@ -63,10 +63,10 @@ public class ParticleFilter {
         this.botLeftX = worldRect.getMinX();
         this.botLeftY = worldRect.getMinY();
         
-        particles.add(new RobotParticle(robotX, robotY, robotTheta, fiducials, worldWidth, worldHeight, 
-                botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
+//        particles.add(new RobotParticle(robotX, robotY, robotTheta, fiducials, worldWidth, worldHeight, 
+//                botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
         
-        for (int i = 1; i < numParticles; i++) {
+        for (int i = 0; i < numParticles; i++) {
             double particleTheta = Math.random() * 2*Math.PI;
             double particleX = robotX + Math.random() * particleRadius * Math.cos(particleTheta);
             double particleY = robotY + Math.random() * particleRadius * Math.sin(particleTheta);
@@ -193,14 +193,14 @@ public class ParticleFilter {
             measurementProbs.add(particle.measurementProb(measuredFiducials, measuredDists));
         }
 
-        System.out.println("Particles");
-        for (RobotParticle particle : particles) {
-            System.out.println(particle);
-        }        
-        System.out.println("Measurement Update");
-        for (Double measurementProb : measurementProbs) {
-            System.out.println(measurementProb);
-        }
+//        System.out.println("Particles");
+//        for (RobotParticle particle : particles) {
+//            System.out.println(particle);
+//        }        
+//        System.out.println("Measurement Update");
+//        for (Double measurementProb : measurementProbs) {
+//            System.out.println(measurementProb);
+//        }
 
         
         particles = resampleParticles(measurementProbs);
@@ -236,7 +236,8 @@ public class ParticleFilter {
                 index += numParticles;
                 index %= numParticles;
             }
-            resampledParticles.add(particles.get(index));
+//            System.out.println("Index chosen: " + index);
+            resampledParticles.add(new RobotParticle(particles.get(index)));
         }
         return resampledParticles;
     }

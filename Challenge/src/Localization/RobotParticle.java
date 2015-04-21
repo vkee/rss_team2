@@ -101,6 +101,24 @@ public class RobotParticle {
 
         this.random = new Random();
     }
+    
+    public RobotParticle(RobotParticle oldParticle) {
+        this.fiducials = oldParticle.fiducials;
+        this.worldWidth = oldParticle.worldWidth;
+        this.worldHeight = oldParticle.worldHeight;
+        this.botLeftX = oldParticle.botLeftX;
+        this.botLeftY = oldParticle.botLeftY;
+
+        this.x = oldParticle.x;
+        this.y = oldParticle.y;
+        this.theta = oldParticle.theta;
+
+        this.transNoise = oldParticle.transNoise;
+        this.rotNoise = oldParticle.rotNoise;
+        this.sensorNoise = oldParticle.sensorNoise;
+
+        this.random = new Random();
+    }
 
     /**
      * Updates the particle's probable pose with the translation and rotation updates.
