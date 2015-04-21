@@ -83,8 +83,7 @@ public class FSM implements NodeMain{
 
     public void updateState(FSMState newState)
     {
-        System.out.println("Just Entered "+newState.getName());
-    	currentState = newState;
+        currentState = newState;
     }
 
     public void dispatchState(GenericMessage msg)
