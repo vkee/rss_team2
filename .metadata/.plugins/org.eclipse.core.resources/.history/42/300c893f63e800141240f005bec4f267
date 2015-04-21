@@ -38,7 +38,7 @@ public class Initialize implements FSMState {
 				{boolean unreachable = false;
 				Point2D.Double loc = cobj.getPosition();
 				
-				for (PolygonObstacle obs : obsCSpaces.get(0))		//TODO only the 0degree now
+				for (Obstance obs : cSpace.getObstacels())
 					{if (obs.contains(loc))
 						{unreachable = true;
 						break;}
