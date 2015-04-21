@@ -49,8 +49,8 @@ public class ParticleFilter {
      * @param rotNoise the rotational noise (std dev of rotation measurements)
      * @param sensorNoise the sensor noise (std dev of sensor measurements)
      */
-    public ParticleFilter(double robotX, double robotY, double robotTheta, double particleRadius, int numParticles, GrandChallengeMap map, 
-            double transNoise, double rotNoise, double sensorNoise) {
+    public ParticleFilter(double robotX, double robotY, double robotTheta, double particleRadius, 
+            int numParticles, GrandChallengeMap map, double transNoise, double rotNoise, double sensorNoise) {
         this.numParticles = numParticles;
         this.map = map;
         this.transNoise = transNoise;
