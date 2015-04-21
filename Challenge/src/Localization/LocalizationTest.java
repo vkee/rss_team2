@@ -120,8 +120,8 @@ public class LocalizationTest implements NodeMain {
                 //                Initialize Particle Filter
                 //                particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, 10000, challengeMap, 0.00, 0.00, 0.0);
 
-//                particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, PARTICLE_FILTER_RADIUS, 10, challengeMap, 0.001, 0.001, 10.00);
-              particleFilter = new ParticleFilter(challengeMap, 0.001, 0.001, 5.00);
+                particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, PARTICLE_FILTER_RADIUS, 10, challengeMap, 0.001, 0.001, 10.00);
+                //              particleFilter = new ParticleFilter(challengeMap, 0.001, 0.001, 5.00);
 
                 publishParticles();
 
@@ -130,7 +130,7 @@ public class LocalizationTest implements NodeMain {
                 long startTime = System.currentTimeMillis();
                 for (Point2D.Double pt : rrtPath){
                     System.out.println("Waypoint Coords " + pt);
-                    
+
                     double transDist = RRT.getDist(prevPt.x, prevPt.y, pt.x, pt.y);
                     double rotAng = RRT.getAngle(prevPt.x, prevPt.y, pt.x, pt.y);
 
