@@ -9,9 +9,9 @@ import java.util.Set;
 
 public class GoalAdjLists {
 	
-	HashMap<Point2D.Double, HashMap<Point2D.Double, ArrayList<Point2D.Double>>> pathGrid;
-	HashMap<Point2D.Double, HashMap<Point2D.Double, Double>> distanceGrid;
-	Point2D.Double goal;
+	private HashMap<Point2D.Double, HashMap<Point2D.Double, ArrayList<Point2D.Double>>> pathGrid;
+	private HashMap<Point2D.Double, HashMap<Point2D.Double, Double>> distanceGrid;
+	public Point2D.Double goal;
 	
 	public GoalAdjLists(Point2D.Double goalPoint)
 		{

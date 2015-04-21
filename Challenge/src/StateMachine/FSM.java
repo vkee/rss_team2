@@ -1,11 +1,12 @@
 package StateMachine;
 
 import java.awt.geom.Point2D;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import Challenge.GrandChallengeMap;
+import GlobalNavigation.MotionMsg;
+import GlobalNavigation.OdometryMsg;
 import MotionPlanning.GoalAdjLists;
 import MotionPlanning.MultiRRT;
 import MotionPlanning.RRT;
@@ -50,6 +51,7 @@ public class FSM implements NodeMain{
     public MultiRRT RRTengine;
     public Point2D.Double currentLocation;			//the current goal point we are at
     public GoalAdjLists foundPaths;
+    //public HashSet<Integer> visited;
 
     protected String mapFileName;
     private Publisher<GUIRectMsg> guiRectPub;
@@ -58,7 +60,9 @@ public class FSM implements NodeMain{
     private Publisher<GUIPointMsg> guiPtPub;
     private Publisher<Object> ellipsePub;
     private Publisher<Object> stringPub;
-    //public HashSet<Integer> visited;
+    
+    private Subscriber<OdometryMsg> odometrySub;
+    public Publisher<MotionMsg> motionPub;
 
 
     // public wheels publishers
@@ -66,12 +70,10 @@ public class FSM implements NodeMain{
 
     public FSM(){
 
-        //initialize publishers
-
         currentState = new Initialize(this);
         inState = false;
 
-        dispachState(null);
+        dispatchState(null);
 
         //initialize all listeners with dispatchState as the callback
 
@@ -86,12 +88,12 @@ public class FSM implements NodeMain{
         currentState = newState;
     }
 
-    public void dispachState(Object msg)
+    public void dispatchState(Object msg)
     {
         if (inState) return;					// may instead use a LOCK and queue for other msgs instead
         inState = true;
-        //		if (currentState.accepts(msg.type))		//may not need this check
-        //			{currentState.update(msg);}		
+        if (currentState.accepts(msg.type))		//may not need this check TODO make sure type is sent in the message
+        	{currentState.update(msg);}		
         inState = false;
     }
 
@@ -110,6 +112,25 @@ public class FSM implements NodeMain{
         // Reading in a map file whose name is set as the parameter mapFileName
         ParameterTree paramTree = node.newParameterTree();
         mapFileName = paramTree.getString(node.resolveName("~/mapFileName"));
+        
+        //initialize publishers
+        motionPub = node.newPublisher("command/Motors", "rss_msgs/MotionMsg");
+        
+        //intialize subscribers
+        odometrySub = node.newSubscriber("/rss/odometry",
+                "rss_msgs/OdometryMsg");
+
+        odometrySub
+                .addMessageListener(new MessageListener<org.ros.message.rss_msgs.OdometryMsg>() {
+                    @Override
+                    public void onNewMessage(org.ros.message.rss_msgs.OdometryMsg message) {
+                        //robotX = message.x;
+                        //robotY = message.y;
+                        //robotTheta = message.theta;
+                        //message.type = msgENUM.WHEELS;
+                        dispatchState(message);
+                        }
+                    });
     }
 
     @Override
