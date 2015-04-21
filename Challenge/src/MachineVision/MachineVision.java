@@ -1,5 +1,5 @@
 package MachineVision;
-
+import VisualServo.*;
 /**
  * 
  *

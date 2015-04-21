@@ -29,7 +29,7 @@ public class ParticleFilter {
     private double worldHeight;
     private double botLeftX;
     private double botLeftY;
-    
+
     //    Noise Variables
     private double transNoise;
     private double rotNoise;
@@ -57,12 +57,41 @@ public class ParticleFilter {
         this.worldHeight = worldRect.getHeight();
         this.botLeftX = worldRect.getMinX();
         this.botLeftY = worldRect.getMinY();
-        
+
         //        Creating the particles
         for (int i = 0; i < numParticles; i++) {
             particles.add(new RobotParticle(fiducials, worldWidth, worldHeight, 
                     botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
         }
+    }
+
+    /**
+     * Creates a Particle filter for testing purposes with the provided parameters.
+     * @param map the map of the environment
+     * @param transNoise the translational noise (std dev of translational measurements)
+     * @param rotNoise the rotational noise (std dev of rotation measurements)
+     * @param sensorNoise the sensor noise (std dev of sensor measurements)
+     */
+    public ParticleFilter(GrandChallengeMap map, 
+            double transNoise, double rotNoise, double sensorNoise) {
+        numParticles = 2;
+        this.map = map;
+        this.transNoise = transNoise;
+        this.rotNoise = rotNoise;
+        this.sensorNoise = sensorNoise;
+        this.worldRect = map.getWorldRect();
+        this.fiducials = map.getFiducials();
+        this.worldWidth = worldRect.getWidth();
+        this.worldHeight = worldRect.getHeight();
+        this.botLeftX = worldRect.getMinX();
+        this.botLeftY = worldRect.getMinY();
+
+        //        Creating the particles
+        particles.add(new RobotParticle(0.0, 0.0, 0.0, fiducials, worldWidth, worldHeight, 
+                botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
+        
+        particles.add(new RobotParticle(worldWidth + botLeftX, worldHeight + botLeftY, 0.0, fiducials, worldWidth, worldHeight, 
+                botLeftX, botLeftY, transNoise, rotNoise, sensorNoise));
     }
 
     /**
@@ -87,6 +116,15 @@ public class ParticleFilter {
         ArrayList<Double> measurementProbs = new ArrayList<Double>();
         for (RobotParticle particle : particles) {
             measurementProbs.add(particle.measurementProb(measuredFiducials, measuredDists));
+        }
+
+        System.out.println("Particles");
+        for (RobotParticle particle : particles) {
+            System.out.println(particle);
+        }        
+        System.out.println("Measurement Update");
+        for (Double measurementProb : measurementProbs) {
+            System.out.println(measurementProb);
         }
 
         particles = resampleParticles(measurementProbs);
@@ -120,16 +158,25 @@ public class ParticleFilter {
         return particles;
     }
 
+    public void printParticles() {
+        System.out.println("ParticleFilter with [numParticles=" + numParticles + ",  transNoise="
+                + transNoise + ", rotNoise="
+                + rotNoise + ", sensorNoise=" + sensorNoise + "]");
+        for (RobotParticle particle : particles) {
+            System.out.println(particle.toString());
+        }
+    }
+
     @Override
     public String toString() {
         String stringRep = "ParticleFilter with [numParticles=" + numParticles + ",  transNoise="
                 + transNoise + ", rotNoise="
                 + rotNoise + ", sensorNoise=" + sensorNoise + "]";
-        
+
         for (RobotParticle particle : particles) {
             stringRep = stringRep + particle.toString();
         }
-        
+
         return stringRep;
     }
 }

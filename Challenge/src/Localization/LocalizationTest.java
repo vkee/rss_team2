@@ -63,7 +63,7 @@ public class LocalizationTest implements NodeMain {
 
     // Index of the obstacle cspace list to display
     // (corresponds to the angle in degrees if num angles is 360)
-    private final int cspaceIndex = 90;
+    private final int cspaceIndex = 0;
     private final double TOLERANCE = 0.02;
 
     public LocalizationTest() {
@@ -96,7 +96,7 @@ public class LocalizationTest implements NodeMain {
             challengeMap.set3DCSpace(obsCSpaces);
             rrt = new RRT(challengeMap);
             displayMap(); // --Works: Remember to plug into Robot
-            //            displayMapCSpace(); don't display 
+            displayMapCSpace(); //don't display 
         } catch (Exception e) {
             System.err.println("Failed trying to load file " + mapFileName);
             e.printStackTrace();
@@ -104,35 +104,36 @@ public class LocalizationTest implements NodeMain {
 
         try {
             //            Generate RRT
-//            rrtPath = rrt.getPath(challengeMap.getRobotStart(),
-//                    challengeMap.getRobotGoal(), TOLERANCE);
-//            outputPath(rrtPath, Color.RED);
-//            System.out.println("Done with RRT");
+            //            rrtPath = rrt.getPath(challengeMap.getRobotStart(),
+            //                    challengeMap.getRobotGoal(), TOLERANCE);
+            //            outputPath(rrtPath, Color.RED);
+            //            System.out.println("Done with RRT");
             rrtPath = generateTestPath(challengeMap.getRobotStart());
-            
-            
-            
+
             //            Localization Tests
             try {
+                System.out.println("Starting up particle filter");
                 //                Initialize Particle Filter
-                particleFilter = new ParticleFilter(10000, challengeMap, 0.00, 0.00, 0.00);
+                particleFilter = new ParticleFilter(challengeMap, 0.05, 0.05, 5.0);
 
-                publishParticles();
+                //                publishParticles();
 
                 prevPt = robotStart;
+                long startTime = System.currentTimeMillis();
                 for (Point2D.Double pt : rrtPath){
                     double transDist = RRT.getDist(prevPt.x, prevPt.y, pt.x, pt.y);
                     double rotAng = RRT.getAngle(prevPt.x, prevPt.y, pt.x, pt.y);
-                    
+
                     //                    Converting rotAng to go from 0 to 2*PI
                     if (rotAng < 0.0) {
                         rotAng += 2*Math.PI;
                     }
-                    
+
                     particleFilter.motionUpdate(transDist, rotAng);
 
                     //                    Determining which fiducials are in the FOV of the robot
                     ArrayList<Integer> measuredFiducials = getFidsInFOV(pt);
+                    System.out.println("Num of fids in FOV: " + measuredFiducials.size());
                     //                    Determining the distances to the fiducials that are in the FOV of the robot
                     HashMap<Integer, java.lang.Double> measuredDists = getFidsDists(pt, measuredFiducials);
 
@@ -140,9 +141,17 @@ public class LocalizationTest implements NodeMain {
 
                     //                    Display the state after the motion and measurement update
                     prevPt = pt;
-                    refreshDisplay();
-                    Thread.sleep(5000); // Waiting 5 seconds between each step
+                    //                                        refreshDisplay();
+                    //                    Printing particles out
+                    //                    Thread.sleep(5000); // Waiting 5 seconds between each step
                 }
+                                particleFilter.printParticles();
+//                System.out.println(particleFilter.getParticles().get(0));
+                                System.out.println("Number of particles is " + particleFilter.getParticles().size());
+                System.out.println("Robot Final Position: " + prevPt.toString());
+                double currTime = (System.currentTimeMillis() - startTime)/1000.0;
+                System.out.println("Runtime " + currTime);
+                refreshDisplay();
 
                 System.out.println("Done with particle filter");
             } catch (Exception e) {
@@ -158,14 +167,18 @@ public class LocalizationTest implements NodeMain {
 
     private ArrayList<Point2D.Double> generateTestPath(Double startPoint){
         ArrayList<Point2D.Double> testPath = new ArrayList<Point2D.Double>();
-        
-        for (int i = 0; i < 100; i++) {
-            testPath.add(new Point2D.Double(i/50.0 + startPoint.getX(), 0.0 + startPoint.getY()));
+
+//        for (int i = 0; i < 2; i++) {
+//            testPath.add(new Point2D.Double(i/25.0 + startPoint.getX(), i/50.0 + startPoint.getY()));
+//        }
+
+        for (int i = 1; i < 2; i++) {
+            testPath.add(new Point2D.Double(i/2.0 + startPoint.getX(), i/2.0 + startPoint.getY()));
         }
         
         return testPath;
     }
-    
+
     /**
      * Determines the fiducials that are in the robot's field of view (FOV)
      * @param robotPos the robot's current position
@@ -177,8 +190,7 @@ public class LocalizationTest implements NodeMain {
         for (int i = 0; i < fiducials.length; i++) {
             Point2D.Double fidPos = fiducials[i].getPosition();
 
-            ArrayList<PolygonObstacle> obstacles = obsCSpaces.get(cspaceIndex);
-            if (!RRT.lineIntersectsObs(obstacles, robotPos, fidPos)) {
+            if (!RRT.lineIntersectsObs(challengeMap.getPolygonObstacles(), robotPos, fidPos)) {
                 fidsInFOV.add(i);
             }
         }
@@ -195,15 +207,37 @@ public class LocalizationTest implements NodeMain {
     private HashMap<Integer, java.lang.Double> getFidsDists(Point2D.Double robotPos, ArrayList<Integer> measuredFiducials) {
         HashMap<Integer, java.lang.Double> fidsDists = new HashMap<Integer, java.lang.Double>();
         Fiducial[] fiducials = challengeMap.getFiducials();
-
+        System.out.println("Robot Position: " + robotPos);
         for (Integer index : measuredFiducials) {
             Point2D.Double fidPos = fiducials[index].getPosition();
 
-            double dist = RRT.getDist(fidPos.x, fidPos.y, robotPos.x, robotPos.y);
+            //            Potential bug site is if robot position at 0,0 and map goes negative, 
+            //            but this should be able to account for it in this ordering
+            double dist = RRT.getDist(robotPos.x, robotPos.y, fidPos.x, fidPos.y);
+            System.out.println("Distance to Fiducial " + index + " at " + fidPos + " is " + dist);
             fidsDists.put(index, dist);
         }
 
         return fidsDists;
+    }
+
+    /**
+     * Determines whether the line determined by the two points intersects any obstacles 
+     * @param obstacles the obstacles
+     * @param testPt the first point of the line
+     * @param closestNodePt the second point of the line
+     * @return whether the line intersects any obstacles
+     */
+    public static boolean lineIntersectsObs(ArrayList<PolygonObstacle> obstacles, Point2D.Double testPt, Point2D.Double closestNodePt) {
+        //      Checking to see if the path between the current and new point intersects any obstacles
+        for (PolygonObstacle obstacle : obstacles) {
+            //              If the path to the new node intersects a polygon, we cannot add the node to the tree
+            if (RRT.lineIntersects(obstacle, testPt, closestNodePt)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void publishParticles() {
@@ -241,7 +275,7 @@ public class LocalizationTest implements NodeMain {
         CSpaceTest.fillPolyMsg(poMsg, poly, color, false, false);
         guiPolyPub.publish(poMsg);
     }
-    
+
     /**
      * Displays all the contents of the map in MapGUI
      */
@@ -266,7 +300,7 @@ public class LocalizationTest implements NodeMain {
 
         for(Fiducial f : challengeMap.getFiducials()){
             Point2D.Double pos = f.getPosition();
-//            System.out.println("Fiducial at ("+f.getTopColor()+"/"+f.getBottomColor()+")at: "+pos.getX()+", "+pos.getY());
+            //            System.out.println("Fiducial at ("+f.getTopColor()+"/"+f.getBottomColor()+")at: "+pos.getX()+", "+pos.getY());
             publishEllipse(f.getPosition().x+0.1, f.getPosition().y+0.1, f.getBottomSize()*4.0, 
                     f.getBottomSize()*4.0, f.getBottomColor());
             publishEllipse(f.getPosition().x, f.getPosition().y, f.getTopSize()*4.0, 
@@ -278,10 +312,10 @@ public class LocalizationTest implements NodeMain {
 
         publishEllipse(robotStart.getX(), robotStart.getY(), 0.1, 0.1, Color.RED);
         publishEllipse(robotGoal.getX(), robotGoal.getY(), 0.1, 0.1, Color.CYAN);
-//        System.out.println("Robot Start: " + robotStart);
-//        System.out.println("Robot Goal: " + robotGoal);
-//        System.out.println("Num obstacles " + challengeMap.getPolygonObstacles().length);
-//        System.out.println("Done running displayMap");
+        //        System.out.println("Robot Start: " + robotStart);
+        //        System.out.println("Robot Goal: " + robotGoal);
+        //        System.out.println("Num obstacles " + challengeMap.getPolygonObstacles().length);
+        //        System.out.println("Done running displayMap");
     }
 
     /**
