@@ -158,7 +158,7 @@ public class MultiRRT {
 
                         robotOrientation = angle2TestPt;
 
-                        //System.out.println("added a node, now:" + currTreeNodes.size());
+                        System.out.println("added a node, now:" + currTreeNodes.size());
 
                         //                If the test point is inside the goal rectangle, the goal is found
                         for (int i=0; i<numGoals; i++)
@@ -192,7 +192,7 @@ public class MultiRRT {
         	{if (goalEndPoints[i] != null)
         		goalPaths[i] = goalEndPoints[i].pathFromParent();}*/
 
-        //System.out.println("DONE");
+        System.out.println("DONE");
         return goalEndPoints;
     }
 
