@@ -99,7 +99,7 @@ public class MultiRRTTest implements NodeMain {
 				for (PolygonObstacle obs : obsCSpaces.get(0))		//TODO only the 0degree now
 					{if (obs.contains(loc))
 						{unreachable = true;
-						System.out.println("one unreachable");
+						System.out.println("one unrechable");
 						break;}
 					}
 				
