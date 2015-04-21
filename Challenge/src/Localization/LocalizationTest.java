@@ -151,7 +151,7 @@ public class LocalizationTest implements NodeMain {
                     //                    Printing particles out
                     //                    Thread.sleep(5000); // Waiting 5 seconds between each step
                 }
-                //                                particleFilter.printParticles();
+                particleFilter.printParticles();
                 //                System.out.println(particleFilter.getParticles().get(0));
                 System.out.println("Number of particles is " + particleFilter.getParticles().size());
                 System.out.println("Robot Final Position: " + prevPt.toString());
