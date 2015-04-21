@@ -91,6 +91,7 @@ public class MultiRRTTest implements NodeMain {
         }
 
         try {
+            //            TODO: put in the MultiRRT stuff here to replace rrt path here
         	ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
 			for (ConstructionObject cobj : challengeMap.getConstructionObjects())
 				{boolean unreachable = false;
