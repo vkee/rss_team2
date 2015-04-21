@@ -1,6 +1,7 @@
 package MotionPlanning;
 
 import java.awt.geom.Point2D;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -58,7 +59,10 @@ public class GoalAdjLists {
         Point2D.Double closestPoint = null;
         double closestDistance = Double.MAX_VALUE;
 
-        ArrayList<Point2D.Double> destinations = (ArrayList<Point2D.Double>) originDistMap.keySet();
+        Point2D.Double[] tempArray = new Point2D.Double[originDistMap.keySet().size()];
+        originDistMap.keySet().toArray(tempArray);
+        
+        ArrayList<Point2D.Double> destinations = new ArrayList<Point2D.Double>(Arrays.asList(tempArray));
 
         if (destinations.size() == 1) return null;
 
