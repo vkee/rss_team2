@@ -174,9 +174,9 @@ public class ParticleFilter {
      */
     protected void motionUpdate(double translation, double rotation) {
         for (RobotParticle particle : particles) {
-//            System.out.println("Before motion update: " + particle);
+            System.out.println("Before motion update: " + particle);
             particle.motionUpdate(translation, rotation);
-//            System.out.println("After motion update: " + particle);
+            System.out.println("After motion update: " + particle);
         }
     }
 
@@ -236,6 +236,7 @@ public class ParticleFilter {
                 index += numParticles;
                 index %= numParticles;
             }
+            System.out.println("Index chosen: " + index);
             resampledParticles.add(particles.get(index));
         }
         return resampledParticles;
