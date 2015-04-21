@@ -2,11 +2,11 @@ package MotionPlanning;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+
 import org.ros.message.lab5_msgs.*;
 import org.ros.message.lab6_msgs.*;
 import org.ros.message.rss_msgs.*;
 import org.ros.node.topic.Publisher;
-
 
 public class WaypointNav {
 	
@@ -25,7 +25,7 @@ public class WaypointNav {
 	private boolean atGoal = false;
 	private Object motionPub;
 	
-	public WaypointNav(ArrayList<Point2D.Double> waypts, Point2D.Double goalpt, Object motionPublisher)
+	public WaypointNav(ArrayList<Point2D.Double> waypts, Point2D.Double goalpt, Publisher<MotionMsg> motionPublisher)
     	{
     	waypoints=waypts;
     	goal = goalpt;
