@@ -24,9 +24,21 @@ public class client{
 	 return ( data.getData() );
 	}
 
-	public Image getTestImage(){
+	public Image getTestImage(int image_index){
 		try{
-			File file = new File("/mnt/hgfs/snaps/rgb_4blocks.bin");
+			File file = null;
+			if (image_index == 1){
+			 file = new File("/mnt/hgfs/snaps/rgb_4blocks.bin");
+			}else if (image_index == 2){
+			 file = new File("/mnt/hgfs/snaps/rgb_fiducial.bin");
+			}else if (image_index == 3){
+			 file = new File("/mnt/hgfs/snaps/rgb_fiducial_calibration.bin");
+			}else if (image_index == 4){
+			 file = new File("/mnt/hgfs/snaps/rgb_blue_calibration.bin");
+			}else{
+
+			 file = new File("/mnt/hgfs/snaps/rgb_4blocks.bin");			
+			}
 			FileInputStream fis = new FileInputStream(file);
 			byte[] data_ = new byte[(int)file.length()];
 			fis.read(data_);
