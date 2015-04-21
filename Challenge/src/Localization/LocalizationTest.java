@@ -211,14 +211,14 @@ public class LocalizationTest implements NodeMain {
     private HashMap<Integer, java.lang.Double> getFidsDists(Point2D.Double robotPos, ArrayList<Integer> measuredFiducials) {
         HashMap<Integer, java.lang.Double> fidsDists = new HashMap<Integer, java.lang.Double>();
         Fiducial[] fiducials = challengeMap.getFiducials();
-        System.out.println("Robot Position: " + robotPos);
+//        System.out.println("Robot Position: " + robotPos);
         for (Integer index : measuredFiducials) {
             Point2D.Double fidPos = fiducials[index].getPosition();
 
             //            Potential bug site is if robot position at 0,0 and map goes negative, 
             //            but this should be able to account for it in this ordering
             double dist = RRT.getDist(robotPos.x, robotPos.y, fidPos.x, fidPos.y);
-            System.out.println("Distance to Fiducial " + index + " at " + fidPos + " is " + dist);
+//            System.out.println("Distance to Fiducial " + index + " at " + fidPos + " is " + dist);
             fidsDists.put(index, dist);
         }
 
