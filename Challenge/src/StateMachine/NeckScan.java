@@ -31,12 +31,12 @@ public class NeckScan implements FSMState {
 		}
 
 
-	public void update(Object msg)
+	public void update(GenericMessage msg)
 		{
 		//do stuff
 
 		//if condition to leave state
-		//fsm.updateState(new NextState(fsm));
+//		fsm.updateState(new NextState(fsm));
 
 		}
 

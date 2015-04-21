@@ -112,7 +112,8 @@ public class MultiRRT {
 
             //            Checking whether the node can be added to the RRT
             boolean ptInObs = ptInObs(getCSpaceIndex(robotOrientation), testPt);			//why check, wont you discover this during line test? TODO
-
+            //System.out.println("pt in obs "+Boolean.toString(ptInObs));
+            
             if (!ptInObs) {
 
                 //System.out.println("closestNode: " + closestNode.toString());
@@ -138,13 +139,19 @@ public class MultiRRT {
                 //                Checking whether the robot will collide with any obstacles while it rotates to face the new point
                 boolean collisionInRotation = collisionInRotation(robotOrientation, robotAngleError, closestNode.point);
 
+                //System.out.println("collides "+Boolean.toString(collisionInRotation));
+
+                
                 if (!collisionInRotation) {
                     //                Making the robot aligned pointing from the closest node to the test point
                     double testRobotOrientation = angle2TestPt;
                     //                Checking that there is a path in the robot orientation when moving straight to the point
                     boolean noClearPath = lineIntersectsObs(getCSpaceIndex(testRobotOrientation), testPt, closestNode.point);
 
-                    if (!noClearPath) {
+                   // System.out.println("no clear path "+Boolean.toString(noClearPath));
+                    
+                    if (!noClearPath) 
+                    	{
                         //                Adding the new node to the tree with an edge to the closest current node in the RRT
                         RRTreeNode newNode = new RRTreeNode(closestNode, testPt);
                         currTreeNodes.add(newNode);
@@ -155,15 +162,16 @@ public class MultiRRT {
 
                         //                If the test point is inside the goal rectangle, the goal is found
                         for (int i=0; i<numGoals; i++)
-                        {if (goalRects[i].contains(testPt))
-                        {if (goalEndPoints[i] == null)
-                        {goalsFound++;
-                        goalEndPoints[i] = newNode;}
-                        else if (goalEndPoints[i].distFromRoot > newNode.distFromRoot)
-                        {goalEndPoints[i] = newNode;}
-                        }
-                        }
-                    }
+                        	{if (goalRects[i].contains(testPt))
+                        		{if (goalEndPoints[i] == null)
+                        			{goalsFound++;
+                        			goalEndPoints[i] = newNode;}
+                        		else if (goalEndPoints[i].distFromRoot > newNode.distFromRoot)
+                        			{goalEndPoints[i] = newNode;}
+                        		}
+                        	}
+                    	}
+                    if (goalsFound==numGoals) System.out.println("Found: "+Integer.toString(goalsFound)+" of "+Integer.toString(numGoals));
                 }
             }
 
@@ -184,6 +192,7 @@ public class MultiRRT {
         	{if (goalEndPoints[i] != null)
         		goalPaths[i] = goalEndPoints[i].pathFromParent();}*/
 
+        //System.out.println("DONE");
         return goalEndPoints;
     }
 
@@ -216,7 +225,7 @@ public class MultiRRT {
                 //System.out.println("robotIndex for pt in obs: " + robotIndex);
                 //            If the point is in an obstacle, return collision
                 if (ptInObs(robotIndex, robotLoc)) {
-//                    System.out.println("collision at angle "+robotIndex);
+                    //System.out.println("collision at angle "+robotIndex);
                     return true;
                 } else {
                     robotIndex += direction + CSpace.NUM_ANGLES;  //neg values not handled well with mod

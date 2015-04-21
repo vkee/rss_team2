@@ -3,6 +3,7 @@ package StateMachine;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import MotionPlanning.WaypointNav;
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
 
@@ -14,8 +15,9 @@ public class WaypointNavClose implements FSMState {
 
 
 	private FSM fsm;
-	public ArrayList<Point2D.Double> waypoints;
-	public int atWaypoint = 0;
+	private ArrayList<Point2D.Double> waypoints;
+	private WaypointNav waypointNavigator;
+	private Point2D.Double finalGoal;
 
 	public WaypointNavClose(FSM stateMachine)
 		{
@@ -29,6 +31,11 @@ public class WaypointNavClose implements FSMState {
 			{
 			fsm.updateState(new WaypointNavDeposit(fsm));
 			}
+		
+		finalGoal = waypoints.remove(waypoints.size()-1);		
+		Point2D.Double goalpt = waypoints.get(waypoints.size()-1);
+		
+		waypointNavigator = new WaypointNav(waypoints, goalpt, fsm.motionPub);
 
 		}	
 
@@ -44,13 +51,17 @@ public class WaypointNavClose implements FSMState {
 		}
 
 
-	public void update(Object msg)
+	public void update(GenericMessage msg)
 		{
 		//do waypoint nav stuff
+		org.ros.message.rss_msgs.OdometryMsg message = (org.ros.message.rss_msgs.OdometryMsg)msg.message;
+		
+		waypointNavigator.wayptNav(message.x, message.y, message.theta);
 
 		//if condition to leave state (one waypoint away)
-		if (atWaypoint >= waypoints.size()-2)
-			{fsm.updateState(new ApproachBlock(fsm));}		//apprach until visual servo
+		//if (atWaypoint >= waypoints.size()-2)
+		if (waypointNavigator.isDone()) {}
+		//	{fsm.updateState(new ApproachBlock(fsm, finalGoal));}		//Approach until visual servo
 
 		}
 

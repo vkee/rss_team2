@@ -1,0 +1,25 @@
+<launch>
+  <include file="$(find lab4)/launch/config.launch" />
+
+  <node name="nav" pkg="rosjava_bootstrap" type="run.py" args="Challenge MotionPlanning.MultiRRTTest" machine="workstation" output="screen">
+
+<!-- Construction Map 2011-->
+  	<!-- <param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/src/construction_map_2011.txt" />   -->
+
+<!-- Construction Map 2012
+  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/src/construction_map_2012.txt" />  
+     -->
+<!-- Challenge Map 2012-->
+  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/src/challenge_2012.txt" /> 
+  	
+  	 
+<!-- Challenge Map 2015
+  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/challenge_2015.txt" />  
+-->
+<!-- Empty Map 
+  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/no_obstacles.txt" />  
+-->
+
+
+  </node>
+</launch>

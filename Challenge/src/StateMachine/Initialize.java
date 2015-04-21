@@ -21,73 +21,90 @@ import StateMachine.FSM.stateENUM;
  */
 public class Initialize implements FSMState {
 
-	private FSM fsm;	
-	private boolean initialized;
+    private FSM fsm;	
+    private boolean initialized;
 
-	public Initialize(FSM stateMachine){
-		fsm = stateMachine;
+    public Initialize(FSM stateMachine){
+        fsm = stateMachine;
 
-		try {
-			GrandChallengeMap challengeMap = GrandChallengeMap.parseFile(fsm.mapFileName);
-			CSpace cSpace = new CSpace(); 
-			ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = cSpace.generateCSpace(challengeMap, false);			//this was adding the robot as an OBSTACLE!!! was true TODO
-			challengeMap.set3DCSpace(obsCSpaces);
+        try {
+            GrandChallengeMap challengeMap = null;
+            try{
+                challengeMap = GrandChallengeMap.parseFile(fsm.mapFileName);
+            } catch (Exception e) {
+                System.err.println("Unable to load map.");
+                e.printStackTrace();
+            }
+            CSpace cSpace = new CSpace(); 
+            ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = cSpace.generateCSpace(challengeMap, false);
+            challengeMap.set3DCSpace(obsCSpaces);
 
-			ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
-			for (ConstructionObject cs : challengeMap.getConstructionObjects())
-				{objectLocations.add(cs.getPosition());}
-	
-			Point2D.Double start = challengeMap.getRobotStart();
-			Point2D.Double end = challengeMap.getRobotGoal();
+            ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
+            for (ConstructionObject cobj : challengeMap.getConstructionObjects()){
+                boolean unreachable = false;
+                Point2D.Double loc = cobj.getPosition();
 
-			objectLocations.add(end);
+                for (PolygonObstacle obs : obsCSpaces.get(0)) {		//TODO only the 0degree now
+                    if (obs.contains(loc)){
+                        unreachable = true;
+                        break;
+                    }
+                }
 
-			fsm.RRTengine =  new MultiRRT(challengeMap);
-			fsm.foundPaths = new GoalAdjLists(end);
+                if (!unreachable) objectLocations.add(loc);
+            }
 
-			Point2D.Double currLocation = start;
-			while (objectLocations.size() > 1)
-				{
-				RRTreeNode[] pathEnds = fsm.RRTengine.getPaths(currLocation, objectLocations, fsm.RRT_TOLERANCE);
+            Point2D.Double start = challengeMap.getRobotStart();
+            Point2D.Double end = challengeMap.getRobotGoal();
+            fsm.currentLocation = start;
+            objectLocations.add(end);
 
-				for (int i=0; i<pathEnds.length; i++)
-					{
-					if (pathEnds[i] == null)
-						{objectLocations.remove(i);			//if path was not found, remove it from possible locations
-						continue;}
-					double dist = pathEnds[i].distFromRoot;
-					ArrayList<Point2D.Double> path = pathEnds[i].pathFromParent();
-					fsm.foundPaths.addBiPath(currLocation, objectLocations.get(i), path, dist);
-					}
-				
-				currLocation = objectLocations.remove(0);
-				}			
-			initialized = true;
-				
-		} catch (Exception e) {
-			System.err.println("Unable to load map.");
-			e.printStackTrace();
-		}
-	}	
+            fsm.RRTengine =  new MultiRRT(challengeMap);
+            fsm.foundPaths = new GoalAdjLists(end);
+            
+            Point2D.Double currLocation = start;
+            while (objectLocations.size() > 1)
+            {
+                RRTreeNode[] pathEnds = fsm.RRTengine.getPaths(currLocation, objectLocations, fsm.RRT_TOLERANCE);
 
-	public stateENUM getName(){
-		return stateENUM.INITIALIZE;
-	}
+                for (int i=0; i<pathEnds.length; i++)
+                {
+                    if (pathEnds[i] == null)
+                    {objectLocations.remove(i);			//if path was not found, remove it from possible locations
+                    continue;}
+                    double dist = pathEnds[i].distFromRoot;
+                    ArrayList<Point2D.Double> path = pathEnds[i].pathFromParent();
+                    fsm.foundPaths.addBiPath(currLocation, objectLocations.get(i), path, dist);
+                }
+
+                currLocation = objectLocations.remove(0);
+            }			
+            initialized = true;
+
+        } catch (Exception e) {
+            System.err.println("Error in Initialize.");
+            e.printStackTrace();
+        }
+    }	
+
+    public stateENUM getName(){
+        return stateENUM.INITIALIZE;
+    }
 
 
-	public boolean accepts(msgENUM msgType){
-		//if (msgType == msgENUM.WHEELS) return true;
-		if (msgType == null && initialized){
-			return true;
-		}
-		return false;
-	}
+    public boolean accepts(msgENUM msgType){
+        //if (msgType == msgENUM.WHEELS) return true;
+        if (msgType == null && initialized){
+            return true;
+        }
+        return false;
+    }
 
 
-	public void update(Object msg){
-		//do stuff
+    public void update(GenericMessage msg){
+        //do stuff
 
-		//if condition to leave state
-		fsm.updateState(new NeckScan(fsm));
-	}
+        //if condition to leave state
+        fsm.updateState(new WaypointNavClose(fsm));
+    }
 }

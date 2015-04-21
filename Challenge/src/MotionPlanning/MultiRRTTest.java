@@ -91,10 +91,20 @@ public class MultiRRTTest implements NodeMain {
         }
 
         try {
-            //            TODO: put in the MultiRRT stuff here to replace rrt path here
         	ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
-			for (ConstructionObject cs : challengeMap.getConstructionObjects())
-				{objectLocations.add(cs.getPosition());}
+			for (ConstructionObject cobj : challengeMap.getConstructionObjects())
+				{boolean unreachable = false;
+				Point2D.Double loc = cobj.getPosition();
+				
+				for (PolygonObstacle obs : obsCSpaces.get(0))		//TODO only the 0degree now
+					{if (obs.contains(loc))
+						{unreachable = true;
+						System.out.println("one unreachable");
+						break;}
+					}
+				
+				if (!unreachable) objectLocations.add(loc);
+				}
 			
         	RRTreeNode[] endpoints = rrt.getPaths(challengeMap.getRobotStart(),
         			objectLocations, TOLERANCE);

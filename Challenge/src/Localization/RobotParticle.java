@@ -39,8 +39,41 @@ public class RobotParticle {
     private double sensorNoise;
     private Random random;
 
+//    /**
+//     * Creates a particle modeling the robot
+//     * @param fiducials the map fiducials
+//     * @param worldWidth the width of the world in meters
+//     * @param worldHeight the height of the world in meters
+//     * @param botLeftX the bottom left x coordinate of the map
+//     * @param botLeftY the bottom left y coordinate of the map
+//     * @param transNoise the translational noise (std dev of translational measurements)
+//     * @param rotNoise the rotational noise (std dev of rotation measurements)
+//     * @param sensorNoise the sensor noise (std dev of sensor measurements)
+//     */
+//    public RobotParticle(Fiducial[] fiducials, double worldWidth, double worldHeight, 
+//            double botLeftX, double botLeftY, double transNoise, double rotNoise, double sensorNoise) {
+//        this.fiducials = fiducials;
+//        this.worldWidth = worldWidth;
+//        this.worldHeight = worldHeight;
+//        this.botLeftX = botLeftX;
+//        this.botLeftY = botLeftY;
+//
+//        this.x = Math.random() * worldWidth + botLeftX;
+//        this.y = Math.random() * worldHeight + botLeftY;
+//        this.theta = Math.random() * (2*Math.PI);
+//
+//        this.transNoise = transNoise;
+//        this.rotNoise = rotNoise;
+//        this.sensorNoise = sensorNoise;
+//
+//        this.random = new Random();
+//    }
+    
     /**
-     * Creates a particle modeling the robot
+     * Creates a particle modeling the robot with predefined coordinates.
+     * @param x the x coordinate of the robot
+     * @param y the y coordinate of the robot
+     * @param theta the orientation of the robot
      * @param fiducials the map fiducials
      * @param worldWidth the width of the world in meters
      * @param worldHeight the height of the world in meters
@@ -50,21 +83,39 @@ public class RobotParticle {
      * @param rotNoise the rotational noise (std dev of rotation measurements)
      * @param sensorNoise the sensor noise (std dev of sensor measurements)
      */
-    public RobotParticle(Fiducial[] fiducials, double worldWidth, double worldHeight, 
-            double botLeftX, double botLeftY, double transNoise, double rotNoise, double sensorNoise) {
+    public RobotParticle(double x, double y, double theta, Fiducial[] fiducials, double worldWidth, 
+            double worldHeight, double botLeftX, double botLeftY, double transNoise, double rotNoise, double sensorNoise) {
         this.fiducials = fiducials;
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
         this.botLeftX = botLeftX;
         this.botLeftY = botLeftY;
 
-        this.x = Math.random() * worldWidth + botLeftX;
-        this.y = Math.random() * worldHeight + botLeftY;
-        this.theta = Math.random() * (2*Math.PI);
+        this.x = x;
+        this.y = y;
+        this.theta = theta;
 
         this.transNoise = transNoise;
         this.rotNoise = rotNoise;
         this.sensorNoise = sensorNoise;
+
+        this.random = new Random();
+    }
+    
+    public RobotParticle(RobotParticle oldParticle) {
+        this.fiducials = oldParticle.fiducials;
+        this.worldWidth = oldParticle.worldWidth;
+        this.worldHeight = oldParticle.worldHeight;
+        this.botLeftX = oldParticle.botLeftX;
+        this.botLeftY = oldParticle.botLeftY;
+
+        this.x = oldParticle.x;
+        this.y = oldParticle.y;
+        this.theta = oldParticle.theta;
+
+        this.transNoise = oldParticle.transNoise;
+        this.rotNoise = oldParticle.rotNoise;
+        this.sensorNoise = oldParticle.sensorNoise;
 
         this.random = new Random();
     }
@@ -75,9 +126,11 @@ public class RobotParticle {
      * @param rotation the rotational distance the robot has moved (in radians)
      */
     protected void motionUpdate(double translation, double rotation) {
-        System.out.println("Before update of " + translation + " trans and " + rotation + "rotation \n" + this);
+//        System.out.println("Before update of " + translation + " trans and " + rotation + "rotation \n" + this);
         //        Update theta with gaussian noise w/ mean 0.0 and std dev of rotNoise
-        theta += (rotation + (random.nextGaussian()*this.rotNoise));
+//        originally += but particle should move in the same direction as particle movement
+        theta = (rotation + (random.nextGaussian()*this.rotNoise));
+        theta += (2*Math.PI);
         theta %= (2*Math.PI);
 
         //        Update x and y position with gaussian noise w/ mean 0.0 and std dev of transNoise
@@ -88,7 +141,7 @@ public class RobotParticle {
         //        x and y positions outside map are clipped to the map boundaries
         x = Math.max(botLeftX, Math.min(x, worldWidth + botLeftX));
         y = Math.max(botLeftY, Math.min(y, worldHeight + botLeftY));
-        System.out.println("After update of " + translation + " trans and " + rotation + "rotation \n" + this);
+//        System.out.println("After update of " + translation + " trans and " + rotation + "rotation \n" + this);
 
     }
 

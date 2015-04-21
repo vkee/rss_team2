@@ -1,0 +1,67 @@
+package StateMachine;
+
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
+import MotionPlanning.WaypointNav;
+import StateMachine.FSM.msgENUM;
+import StateMachine.FSM.stateENUM;
+
+/**
+ * This state chooses the closest reachable here->goal->deposit path and goes starts waypoint navigation to it. 
+ * If no such goal exists, it starts navigation directly to the deposit site by yielding to the waypoint nav deposit state
+ */
+public class WaypointNavClose implements FSMState {
+
+
+	private FSM fsm;
+	private ArrayList<Point2D.Double> waypoints;
+	private WaypointNav waypointNavigator;
+	private Point2D.Double finalGoal;
+
+	public WaypointNavClose(FSM stateMachine)
+		{
+		fsm = stateMachine;
+		
+		double maxDist = fsm.ROBOTVEL * (fsm.TIME_LIMIT - (System.currentTimeMillis() - fsm.startTime));
+		
+		waypoints = fsm.foundPaths.getClosestFeasiblePathFrom(fsm.currentLocation, maxDist);
+		
+		if (waypoints == null)	//no path to goal point left, go to deposit site
+			{
+			fsm.updateState(new WaypointNavDeposit(fsm));
+			}
+		
+		finalGoal = waypoints.remove(waypoints.size()-1);		
+		Point2D.Double goalpt = waypoints.get(waypoints.size()-1);
+		
+		waypointNavigator = new WaypointNav(waypoints, goalpt, fsm.motionPub);
+
+		}	
+
+	
+	public stateENUM getName()
+		{return stateENUM.WNCLOSE;}
+
+	
+	public boolean accepts(msgENUM msgType)
+		{
+		if (msgType == msgENUM.WHEELS) return true;
+		return false;
+		}
+
+
+	public void update(GenericMessage msg)
+		{
+		//do waypoint nav stuff
+		waypointNavigator.wayptNav(msg.message.x, msg.message.y, msg.message.theta);
+
+		//if condition to leave state (one waypoint away)
+		//if (atWaypoint >= waypoints.size()-2)
+		//if (waypointNavigator.isDone())
+		//	{fsm.updateState(new ApproachBlock(fsm, finalGoal));}		//Approach until visual servo
+
+		}
+
+
+}

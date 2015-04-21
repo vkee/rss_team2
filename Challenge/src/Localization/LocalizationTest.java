@@ -56,6 +56,8 @@ public class LocalizationTest implements NodeMain {
     private Point2D.Double robotGoal;
     private Point2D.Double prevPt;
 
+    private double PARTICLE_FILTER_RADIUS = .125; // the radius in meters around the robot's starting position 
+    //    defining the particle filter particle initial distribution
 
     // colors
     private Color lightBlue = new Color(115, 115, 230);
@@ -113,17 +115,27 @@ public class LocalizationTest implements NodeMain {
             //            Localization Tests
             try {
                 System.out.println("Starting up particle filter");
-                //                Initialize Particle Filter
-                particleFilter = new ParticleFilter(10, challengeMap, 0.05, 0.05, 5.0);
 
-                //                publishParticles();
+                Double robotStartPos = challengeMap.getRobotStart();
+                //                Initialize Particle Filter
+                particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, PARTICLE_FILTER_RADIUS, 10000, challengeMap, 0.00, 0.00, 5.0);
+
+                //                particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, PARTICLE_FILTER_RADIUS, 3, challengeMap, 0.001, 0.001, 5.00);
+                //                              particleFilter = new ParticleFilter(challengeMap, 0.001, 0.001, 5.00);
+
+                publishParticles();
 
                 prevPt = robotStart;
+                System.out.println("Robot Start Position" + robotStart);
                 long startTime = System.currentTimeMillis();
                 for (Point2D.Double pt : rrtPath){
+                    //                    System.out.println("Waypoint Coords " + pt);
+
                     double transDist = RRT.getDist(prevPt.x, prevPt.y, pt.x, pt.y);
                     double rotAng = RRT.getAngle(prevPt.x, prevPt.y, pt.x, pt.y);
 
+                    //                    System.out.println("Trans Dist " + transDist);
+                    //                    System.out.println("Rot Ang " + rotAng);
                     //                    Converting rotAng to go from 0 to 2*PI
                     if (rotAng < 0.0) {
                         rotAng += 2*Math.PI;
@@ -133,7 +145,7 @@ public class LocalizationTest implements NodeMain {
 
                     //                    Determining which fiducials are in the FOV of the robot
                     ArrayList<Integer> measuredFiducials = getFidsInFOV(pt);
-                    System.out.println("Num of fids in FOV: " + measuredFiducials.size());
+                    //                    System.out.println("Num of fids in FOV: " + measuredFiducials.size());
                     //                    Determining the distances to the fiducials that are in the FOV of the robot
                     HashMap<Integer, java.lang.Double> measuredDists = getFidsDists(pt, measuredFiducials);
 
@@ -141,16 +153,21 @@ public class LocalizationTest implements NodeMain {
 
                     //                    Display the state after the motion and measurement update
                     prevPt = pt;
-                    //                                        refreshDisplay();
+                    //                    refreshDisplay();
+                    //                    particleFilter.printParticles();
+
                     //                    Printing particles out
                     //                    Thread.sleep(5000); // Waiting 5 seconds between each step
                 }
                 //                particleFilter.printParticles();
-                System.out.println(particleFilter.getParticles().get(0));
+                //                System.out.println(particleFilter.getParticles().get(0));
+                System.out.println("Number of particles is " + particleFilter.getParticles().size());
                 System.out.println("Robot Final Position: " + prevPt.toString());
                 double currTime = (System.currentTimeMillis() - startTime)/1000.0;
                 System.out.println("Runtime " + currTime);
                 refreshDisplay();
+
+                System.out.println("Sampled Particle: " + particleFilter.sampleParticle());
 
                 System.out.println("Done with particle filter");
             } catch (Exception e) {
@@ -167,14 +184,14 @@ public class LocalizationTest implements NodeMain {
     private ArrayList<Point2D.Double> generateTestPath(Double startPoint){
         ArrayList<Point2D.Double> testPath = new ArrayList<Point2D.Double>();
 
-//        for (int i = 0; i < 2; i++) {
-//            testPath.add(new Point2D.Double(i/25.0 + startPoint.getX(), i/50.0 + startPoint.getY()));
-//        }
+        //        for (int i = 0; i < 2; i++) {
+        //            testPath.add(new Point2D.Double(i/25.0 + startPoint.getX(), i/50.0 + startPoint.getY()));
+        //        }
 
-        for (int i = 1; i < 2; i++) {
-            testPath.add(new Point2D.Double(i/2.0 + startPoint.getX(), i/2.0 + startPoint.getY()));
+        for (int i = 1; i < 10; i++) {
+            testPath.add(new Point2D.Double(i/5.0 + startPoint.getX() , i/5.0 + startPoint.getY()));
         }
-        
+
         return testPath;
     }
 
@@ -206,14 +223,14 @@ public class LocalizationTest implements NodeMain {
     private HashMap<Integer, java.lang.Double> getFidsDists(Point2D.Double robotPos, ArrayList<Integer> measuredFiducials) {
         HashMap<Integer, java.lang.Double> fidsDists = new HashMap<Integer, java.lang.Double>();
         Fiducial[] fiducials = challengeMap.getFiducials();
-        System.out.println("Robot Position: " + robotPos);
+        //        System.out.println("Robot Position: " + robotPos);
         for (Integer index : measuredFiducials) {
             Point2D.Double fidPos = fiducials[index].getPosition();
 
             //            Potential bug site is if robot position at 0,0 and map goes negative, 
             //            but this should be able to account for it in this ordering
             double dist = RRT.getDist(robotPos.x, robotPos.y, fidPos.x, fidPos.y);
-            System.out.println("Distance to Fiducial " + index + " at " + fidPos + " is " + dist);
+            //            System.out.println("Distance to Fiducial " + index + " at " + fidPos + " is " + dist);
             fidsDists.put(index, dist);
         }
 

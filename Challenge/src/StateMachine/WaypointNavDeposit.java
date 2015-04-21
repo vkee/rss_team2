@@ -3,8 +3,10 @@ package StateMachine;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import MotionPlanning.WaypointNav;
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
+import org.ros.node.topic.Subscriber;
 
 /**
  * This state completely navigates to the deposit site using the existing path from our current location
@@ -12,8 +14,8 @@ import StateMachine.FSM.stateENUM;
 public class WaypointNavDeposit implements FSMState {
 
 	private FSM fsm;
-	public ArrayList<Point2D.Double> waypoints;
-	public int atWaypoint = 0;
+	private ArrayList<Point2D.Double> waypoints;
+	private WaypointNav waypointNavigator;
 
 
 	public WaypointNavDeposit(FSM stateMachine)
@@ -21,6 +23,9 @@ public class WaypointNavDeposit implements FSMState {
 		fsm = stateMachine;
 		
 		waypoints = fsm.foundPaths.getPathToGoal(fsm.currentLocation);
+		
+//		waypointNavigator = new WaypointNav(waypoints, fsm.foundPaths.goal, fsm.motionPub);
+
 
 		}	
 
@@ -36,12 +41,18 @@ public class WaypointNavDeposit implements FSMState {
 		}
 
 
-	public void update(Object msg)
+	public void update(GenericMessage msg)
 		{
+		org.ros.message.rss_msgs.OdometryMsg message = (org.ros.message.rss_msgs.OdometryMsg)msg.message;
 		//do stuff
+		waypointNavigator.wayptNav(message.x, message.y, message.theta);
+
 
 		//if condition to leave state
-		//fsm.updateState(new NextState(fsm));
+		if (waypointNavigator.isDone())
+			{fsm.updateState(new OrientAtDeposit(fsm));}
+
+
 
 		}
 }
