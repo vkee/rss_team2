@@ -2,6 +2,9 @@ package MotionPlanning;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import org.ros.message.lab5_msgs.*;
+import org.ros.message.lab6_msgs.*;
+import org.ros.message.rss_msgs.*;
 
 
 public class WaypointNav {
