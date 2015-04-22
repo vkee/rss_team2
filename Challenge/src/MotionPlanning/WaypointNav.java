@@ -23,7 +23,7 @@ public class WaypointNav {
 	private Point2D.Double goal;
 	private int currWaypt = 0;
 	private boolean atGoal = false;
-	private Object motionPub;
+	private Publisher<MotionMsg> motionPub;
 	
 	public WaypointNav(ArrayList<Point2D.Double> waypts, Point2D.Double goalpt, Publisher<MotionMsg> motionPublisher)
     	{
@@ -128,7 +128,7 @@ public class WaypointNav {
                 System.out.println("At the goal!");
             }
         }
-//        motionPub.publish(msg);
+        motionPub.publish(msg);
         if (wayptNav_debug == true) {
             System.out.println("Trans Vel: " + msg.translationalVelocity);
             System.out.println("Rot Vel: " + msg.rotationalVelocity);
