@@ -3,7 +3,9 @@
      <env name="ROS_MASTER_URI" value="http://workstation:11311" />
      <env name="ROS_HOSTNAME" value="workstation" />
   </machine>
-
+  <node name="lis" pkg="rosjava_bootstrap" type="run.py" args="uorc_listener Listener" machine="netbook" /> 
+  <node name="pub" pkg="rosjava_bootstrap" type="run.py" args="uorc_publisher Publisher" machine="netbook" />
+  <node name="odo" pkg="rosjava_bootstrap" type="run.py" args="odometry odometry.Odometry" machine="netbook" /> 
   <node name="gui" pkg="rosjava_bootstrap" type="run.py" args="Challenge Challenge.ConstructionGUI" machine="workstation" output="screen">
   </node> 	  
 
