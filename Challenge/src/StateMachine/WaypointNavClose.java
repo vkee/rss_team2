@@ -22,40 +22,39 @@ public class WaypointNavClose implements FSMState {
 	public WaypointNavClose(FSM stateMachine)
 		{
 		fsm = stateMachine;
-		
-		double maxDist = fsm.ROBOTVEL * (fsm.TIME_LIMIT - (System.currentTimeMillis() - fsm.startTime));
-		
+
+//		double maxDist = fsm.ROBOTVEL * (fsm.TIME_LIMIT - (System.currentTimeMillis() - fsm.startTime));
+		double maxDist = 1000000.0;
 		waypoints = fsm.foundPaths.getClosestFeasiblePathFrom(fsm.currentLocation, maxDist);
-		
+
 		if (waypoints == null)	//no path to goal point left, go to deposit site
 			{
 			fsm.updateState(new WaypointNavDeposit(fsm));
-			}
-		
-		finalGoal = waypoints.remove(waypoints.size()-1);		
-		Point2D.Double goalpt = waypoints.get(waypoints.size()-1);
-		
-		waypointNavigator = new WaypointNav(waypoints, goalpt, fsm.motionPub);
+			
+		} else {
+			finalGoal = waypoints.remove(waypoints.size()-1);		
+			Point2D.Double goalpt = waypoints.get(waypoints.size()-1);
 
+			waypointNavigator = new WaypointNav(waypoints, goalpt, fsm.motionPub);
+			}
 		}	
 
-	
-	public stateENUM getName()
-		{return stateENUM.WNCLOSE;}
 
-	
+	public stateENUM getName() {return stateENUM.WNCLOSE;}
+
+
 	public boolean accepts(msgENUM msgType)
-		{
+	{
 		if (msgType == msgENUM.WHEELS) return true;
 		return false;
-		}
+	}
 
 
 	public void update(GenericMessage msg)
-		{
+	{
 		//do waypoint nav stuff
 		org.ros.message.rss_msgs.OdometryMsg message = (org.ros.message.rss_msgs.OdometryMsg)msg.message;
-		
+
 		waypointNavigator.wayptNav(message.x, message.y, message.theta);
 
 		//if condition to leave state (one waypoint away)
@@ -63,7 +62,7 @@ public class WaypointNavClose implements FSMState {
 		if (waypointNavigator.isDone()) {}
 		//	{fsm.updateState(new ApproachBlock(fsm, finalGoal));}		//Approach until visual servo
 
-		}
+	}
 
 
 }
