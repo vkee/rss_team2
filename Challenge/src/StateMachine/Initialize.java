@@ -65,7 +65,7 @@ public class Initialize implements FSMState {
             fsm.foundPaths = new GoalAdjLists(end);
             
             Point2D.Double currLocation = start;
-            while (objectLocations.size() > 1)
+            while (objectLocations.size() > 0)
             {
                 RRTreeNode[] pathEnds = fsm.RRTengine.getPaths(currLocation, objectLocations, fsm.RRT_TOLERANCE);
 
