@@ -103,6 +103,7 @@ public class GlobalNavigation implements NodeMain {
                     @Override
                     public void onNewMessage(
                             org.ros.message.rss_msgs.OdometryMsg message) {
+                        System.out.println("In here");
                         robotX = message.x;
                         robotY = message.y;
                         robotTheta = message.theta;
