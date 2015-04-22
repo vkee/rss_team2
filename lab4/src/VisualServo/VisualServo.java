@@ -60,7 +60,6 @@ public class VisualServo implements NodeMain, Runnable {
 
 	protected boolean firstUpdate = true;
 
-	public Subscriber<org.ros.message.sensor_msgs.Image> vidSub;
 	public Subscriber<org.ros.message.rss_msgs.OdometryMsg> odoSub;
 
 	/**

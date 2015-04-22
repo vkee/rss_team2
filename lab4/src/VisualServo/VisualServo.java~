@@ -99,7 +99,7 @@ public class VisualServo implements NodeMain, Runnable {
 		while (true) {
 			Image src = null;
 			try {
-				src = cl.getTestImage();
+				src = cl.getImage();
 				if (src == null)
 					continue;
 			} catch (Exception e) {
