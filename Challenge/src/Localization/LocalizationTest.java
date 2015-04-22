@@ -153,11 +153,11 @@ public class LocalizationTest implements NodeMain {
 
                     //                    Display the state after the motion and measurement update
                     prevPt = pt;
-                    //                    refreshDisplay();
+                                        refreshDisplay();
                     //                    particleFilter.printParticles();
 
                     //                    Printing particles out
-                    //                    Thread.sleep(5000); // Waiting 5 seconds between each step
+                                        Thread.sleep(5000); // Waiting 5 seconds between each step
                 }
                 //                particleFilter.printParticles();
                 //                System.out.println(particleFilter.getParticles().get(0));
