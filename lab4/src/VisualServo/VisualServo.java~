@@ -60,7 +60,6 @@ public class VisualServo implements NodeMain, Runnable {
 
 	protected boolean firstUpdate = true;
 
-	public Subscriber<org.ros.message.sensor_msgs.Image> vidSub;
 	public Subscriber<org.ros.message.rss_msgs.OdometryMsg> odoSub;
 
 	/**
@@ -98,15 +97,17 @@ public class VisualServo implements NodeMain, Runnable {
 		cl = new client();
 		while (true) {
 			Image src = null;
+			float [] depth_array = null;
 			try {
 				src = cl.getImage();
+				depth_array = cl.getDepthImage(); 
 				if (src == null)
 					continue;
 			} catch (Exception e) {
 				continue;
 			}
 			Image dest = new Image(src);
-
+			blobTrack.apply(src,depth_array);
 			blobTrack.apply(src, dest);
 
 			// update newly formed vision message

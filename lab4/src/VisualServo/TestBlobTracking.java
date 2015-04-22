@@ -8,7 +8,30 @@ public class TestBlobTracking extends MultipleBlobTracking {
 	public TestBlobTracking(int width, int height){
 		super(width,height);	
 	}
-	public double[] apply(Image src, Image dest, int testIndex) {
+
+	public double[][] apply(Image src, int testIndex) {
+		stepTiming(); 
+		
+		if (useGaussianBlur) {// (Solution)
+			byte[] srcArray = src.toArray();// (Solution)
+			byte[] destArray = new byte[srcArray.length]; // (Solution)
+			if (approximateGaussian) { // (Solution)
+				GaussianBlur.applyBox(srcArray, destArray, src.getWidth(), src.getHeight());
+			} // (Solution)
+			else { // (Solution)
+				GaussianBlur.apply(srcArray, destArray, width, height); // (Solution)
+			} // (Solution)
+			src = new Image(destArray, src.getWidth(), src.getHeight()); // (Solution)
+		}
+		
+		blobPixel(src, multiBlobPixelMask); //(Solution)
+		blobPresent(multiBlobPixelMask, multiImageConnected, multiBlobMask); //(Solution)
+
+		return new double[][] {centroidX,centroidY};
+}
+
+
+public void apply(Image src, Image dest,int testIndex) {
 		stepTiming(); 
 		
 		if (useGaussianBlur) {// (Solution)
@@ -42,9 +65,24 @@ public class TestBlobTracking extends MultipleBlobTracking {
 					}
 				}
 			}
-		}	
-				return centroidX;
-}
+		}
+
+	/*Pick one blob to go to, find it's index and fix on it*/
+
+		if (targetArea[0]>0) { // (Solution)
+			int index = 0;//find's red block because 0 is the first index
+			blobFix(index);
+			computeTranslationVelocityCommand(); // (Solution)
+			computeRotationVelocityCommand(); // (Solution)
+		} else { // (Solution)
+			translationVelocityCommand = 0.0; // (Solution)
+			rotationVelocityCommand = 0.0; // (Solution)
+		} /// (Solution)
+		/**/
+
+
+		// End Student Code
+	}
 
 
 }

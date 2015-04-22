@@ -33,7 +33,7 @@ public class Test implements NodeMain, Runnable {
 	 * </p>
 	 **/
 //	protected BlobTracking blobTrack = null;
-	protected MultipleBlobTracking blobTrack = null;
+	protected TestBlobTracking blobTrack = null;
 
 	private double target_hue_level = 0; // (Solution)
 	private double hue_threshold = 0.08; // (Solution)
@@ -57,6 +57,8 @@ public class Test implements NodeMain, Runnable {
 	private boolean use_gaussian_blur = true;// (Solution)
 	private boolean approximate_gaussian = false;// (Solution)
 
+	boolean all = false;
+	boolean depth = true;
 	private VisionGUI gui;
 
 	public Subscriber<org.ros.message.sensor_msgs.Image> vidSub;
@@ -69,7 +71,9 @@ public class Test implements NodeMain, Runnable {
 	 */
 	public Test() {
 		setInitialParams();
-		gui = new VisionGUI();
+		if (!all && !depth){
+			gui = new VisionGUI();
+		}
 	}
 
 	protected void setInitialParams() {
@@ -79,46 +83,43 @@ public class Test implements NodeMain, Runnable {
 	@Override
 	public void run() {
 		cl = new client();
-//		while (true) {
-
-			//assert image 
+		if (all && !depth){
+		for (int i = 0; i < 5; i++){
 			Image src = null;
 			try {
-				src = cl.getTestImage(3);
+				src = cl.getTestImage(i);
 			} catch (Exception e) {
-				//continue;
+			}
+			double[][] reply = blobTrack.apply(src,i);
+			for(double[] arr : reply){
+				for(double val : arr){
+					//PUT IN COMPARISONS HERE
+					//System.out.println(val);
+				}
+			}
+		}}
+		else if (depth){
+			cl.getDepthImage();
+		}
+		else{
+			Image src = null;
+			int index = 0;
+			try {
+				src = cl.getTestImage(index);
+			} catch (Exception e) {
 			}
 			Image dest = new Image(src);
-			//while(true){
-			blobTrack.apply(src, dest);
-			// update newly formed vision message
+			blobTrack.apply(src,dest,index);
+
 			gui.setVisionImage(dest.toArray(), width, height);
-			
-			// Begin Student Code
-
-			// publish velocity messages to move the robot towards the target
-/*
-			 MotionMsg msg = new MotionMsg(); // (Solution)
-			 msg.translationalVelocity = blobTrack.translationVelocityCommand;
-			// // (Solution)
-			msg.rotationalVelocity = .75*blobTrack.rotationVelocityCommand; //
-			// (Solution)
-			 publisher.publish(msg); // (Solution)
-*/
-			// End Student Code
-//		}
-
+		
+			}
 	}
 
 
 	@Override
 	public void onStart(Node node) {
-		blobTrack = new MultipleBlobTracking(width, height);
-//		blobTrack = new BlobTracking(width,height);
-		// Begin Student Code
-
-		// set parameters on blobTrack as you desire
-
+		blobTrack = new TestBlobTracking(width, height);
 		blobTrack.targetHueLevel = target_hue_level;// (Solution)
 		blobTrack.hueThreshold = hue_threshold;// (Solution)
 		blobTrack.saturationLevel = saturation_level;// (Solution)

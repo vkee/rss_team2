@@ -95,7 +95,13 @@ public class MultipleBlobTracking extends BlobTracking {
 	}
 
 	public boolean isDone(){
-		return targetArea[0] > 0;
+		//if there are no blobs in the frame
+		for (int target : targetArea){
+			if (target > 0){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	protected void blobPresent(int[][] m_threshIm, int[][] m_connIm, int[][] m_blobIm) {
@@ -162,7 +168,7 @@ public class MultipleBlobTracking extends BlobTracking {
 //		}
 		System.out.println(circle_counter/(double)(4*angles.length));
 	}
-	public boolean apply(Image src) {
+	public void apply(Image src) {
 		stepTiming(); 
 		
 		if (useGaussianBlur) {// (Solution)
@@ -182,27 +188,79 @@ public class MultipleBlobTracking extends BlobTracking {
 
 		//findFiducial(multiBlobMask,dest);
 
+		/*Pick one blob to go to, find it's index and fix on it*/
+		int index = 0;
+		for (int i = 0; i < targetArea.length; i++){
+			if (targetArea[i] > 0){
+				index = i;
+				break;
+			}
+		}
+		if (!isDone()) {
+			blobFix(index);
+			computeTranslationVelocityCommand(); 
+			computeRotationVelocityCommand(); 
+		} else {
+			translationVelocityCommand = 0.0; 
+			rotationVelocityCommand = 0.0;
+		} 
+	}
+
+
+	public void apply(Image src, Image dest, float[] float_array) {
+		stepTiming(); 
+		
+		if (useGaussianBlur) {// (Solution)
+			byte[] srcArray = src.toArray();// (Solution)
+			byte[] destArray = new byte[srcArray.length]; // (Solution)
+			if (approximateGaussian) { // (Solution)
+				GaussianBlur.applyBox(srcArray, destArray, src.getWidth(), src.getHeight());
+			} // (Solution)
+			else { // (Solution)
+				GaussianBlur.apply(srcArray, destArray, width, height); // (Solution)
+			} // (Solution)
+			src = new Image(destArray, src.getWidth(), src.getHeight()); // (Solution)
+		}
+		
+		blobPixel(src, multiBlobPixelMask); //(Solution)
+		blobPresent(multiBlobPixelMask, multiImageConnected, multiBlobMask); //(Solution)
+
+		if (dest != null) { // (Solution)
+			//dest = Histogram.getHistogram(src, dest, true); // (Solution)
+			markBlob(src, dest); // (Solution)
+		} // (Solution)
+		findFiducial(multiBlobMask,dest);
+		int x;
+		int y;
+		for(int i = 0; i < multiTargetDetected.length; i++){
+			x = (int)centroidX[i];
+			y = (int)centroidY[i];
+			if (x>10 && y>10){
+				for(int j = 0; j< 10; j++){
+					for(int k = 0; k< 10; k++){				
+						dest.setPixel(x+j, y+k, (byte) 0,(byte) 0,(byte) 0);
+					}
+				}
+			}
+		}
+		System.out.println(float_array[(int)(x*this.width+y)]);
+
 	/*Pick one blob to go to, find it's index and fix on it*/
 
 		if (targetArea[0]>0) { // (Solution)
-			int index = 0;//finds red block because 0 is the first index
+			int index = 0;//find's red block because 0 is the first index
 			blobFix(index);
 			computeTranslationVelocityCommand(); // (Solution)
 			computeRotationVelocityCommand(); // (Solution)
-			return false;
 		} else { // (Solution)
 			translationVelocityCommand = 0.0; // (Solution)
 			rotationVelocityCommand = 0.0; // (Solution)
-			return true;
 		} /// (Solution)
 		/**/
 
 
 		// End Student Code
 	}
-
-
-
 
 	public void apply(Image src, Image dest) {
 		stepTiming(); 
