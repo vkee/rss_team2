@@ -24,7 +24,7 @@ public class Image{
 			if (value > 255){
 				value = 255;
 			}
-//			System.out.println("Width" + i%640 + " Height" + i/640);
+			System.out.println("Width" + i%640 + " Height" + i/640);
 			r = value;
 			g = value;
 			b = value;

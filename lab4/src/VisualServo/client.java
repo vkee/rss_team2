@@ -54,13 +54,14 @@ public class client{
 	public float[] getDepthImage(){
 		float[] float_array = null;
 		try{
-			File file = new File("/mnt/hgfs/snaps/depth.bin");
+			File file = new File("/mnt/hgfs/fast/depth.bin");
 			FileInputStream fis = new FileInputStream(file);
 			byte[] data_ = new byte[(int)file.length()];
 			fis.read(data_);
 			int asInt;
 			float asFloat;
 			float_array = new float[data_.length/4];
+			
 			for (int i = 0; i < data_.length-3; i+=4){
 				asInt = (data_[i] & 0xFF) 
 					| ((data_[i+1] & 0xFF) << 8)
@@ -68,9 +69,7 @@ public class client{
 					| ((data_[i+3] & 0xFF) << 24);
 				asFloat = Float.intBitsToFloat(asInt);
 				float_array[(int)(i/4.0)] = asFloat; 
-				// System.out.println("FORWARD: " + asFloat);
 			}
-
 		}catch(Exception e){
 		}
 		return float_array;

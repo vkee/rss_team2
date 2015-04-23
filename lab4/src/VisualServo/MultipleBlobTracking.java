@@ -254,7 +254,7 @@ public class MultipleBlobTracking extends BlobTracking {
 			// dest = Histogram.getHistogram(src, dest, true); // (Solution)
 			markBlob(src, dest); // (Solution)
 		} // (Solution)
-		findFiducial(multiBlobMask, dest);
+		//findFiducial(multiBlobMask, dest);
 		int x = 0;
 		int y = 0;
 		for (int i = 0; i < multiTargetDetected.length; i++) {
@@ -269,22 +269,8 @@ public class MultipleBlobTracking extends BlobTracking {
 				}
 			}
 		}
-		System.out.println(float_array[(int) (x * this.width + y)]);
+		System.out.println(float_array[(int) (this.height/2.0 * this.width + this.width/2.0)]);
 
-		/* Pick one blob to go to, find it's index and fix on it */
-
-		if (targetArea[0] > 0) { // (Solution)
-			int index = 0;// find's red block because 0 is the first index
-			blobFix(index);
-			computeTranslationVelocityCommand(); // (Solution)
-			computeRotationVelocityCommand(); // (Solution)
-		} else { // (Solution)
-			translationVelocityCommand = 0.0; // (Solution)
-			rotationVelocityCommand = 0.0; // (Solution)
-		} // / (Solution)
-		/**/
-
-		// End Student Code
 	}
 
 	public void apply(Image src, Image dest) {
