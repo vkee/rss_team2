@@ -14,3 +14,14 @@
 /WallSegment.class
 /RotationError.class
 /RotationErrorTest.class
+/.svn/
+/LocalNavigation/
+/Motor/
+/Servo/
+/VisualServo/
+/analogIO/
+/digitalIO/
+/motion/
+/odometry/
+/sonar/
+/Grasping/
