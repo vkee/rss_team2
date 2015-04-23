@@ -17,9 +17,8 @@ import java.awt.Color;
  * 
  */
 public class Test implements NodeMain, Runnable {
-	
-	public client cl = null;
 
+	public client cl = null;
 
 	protected static final int width = 640;
 
@@ -32,17 +31,17 @@ public class Test implements NodeMain, Runnable {
 	 * The blob tracker.
 	 * </p>
 	 **/
-//	protected BlobTracking blobTrack = null;
+	// protected BlobTracking blobTrack = null;
 	protected TestBlobTracking blobTrack = null;
 
 	private double target_hue_level = 0; // (Solution)
 	private double hue_threshold = 0.08; // (Solution)
 	private double saturation_level = 0.5; // (Solution)
 	/*
-	private double target_hue_level = 130/360; // (Solution)
-	private double hue_threshold = 0.1; // (Solution)
-	private double saturation_level = 0.4; // (Solution)
-	*/
+	 * private double target_hue_level = 130/360; // (Solution) private double
+	 * hue_threshold = 0.1; // (Solution) private double saturation_level = 0.4;
+	 * // (Solution)
+	 */
 	// // Units are fraction of total number of pixels detected in blob //
 	// (Solution)
 	private double blob_size_threshold = 0.005; // (Solution)
@@ -71,7 +70,7 @@ public class Test implements NodeMain, Runnable {
 	 */
 	public Test() {
 		setInitialParams();
-		if (!all){
+		if (!all) {
 			gui = new VisionGUI();
 		}
 	}
@@ -83,25 +82,24 @@ public class Test implements NodeMain, Runnable {
 	@Override
 	public void run() {
 		cl = new client();
-		if (all && !depth){
-		for (int i = 0; i < 5; i++){
-			Image src = null;
-			try {
-				src = cl.getTestImage(i);
-			} catch (Exception e) {
-			}
-			double[][] reply = blobTrack.apply(src,i);
-			for(double[] arr : reply){
-				for(double val : arr){
-					//PUT IN COMPARISONS HERE
-					//System.out.println(val);
+		if (all && !depth) {
+			for (int i = 0; i < 5; i++) {
+				Image src = null;
+				try {
+					src = cl.getTestImage(i);
+				} catch (Exception e) {
+				}
+				double[][] reply = blobTrack.apply(src, i);
+				for (double[] arr : reply) {
+					for (double val : arr) {
+						// PUT IN COMPARISONS HERE
+						// System.out.println(val);
+					}
 				}
 			}
-		}}
-		else if (depth){
+		} else if (depth) {
 			cl.getDepthImage();
-		}
-		else{
+		} else {
 			Image src = null;
 			int index = 0;
 			try {
@@ -109,13 +107,12 @@ public class Test implements NodeMain, Runnable {
 			} catch (Exception e) {
 			}
 			Image dest = new Image(src);
-			blobTrack.apply(src,dest,index);
+			blobTrack.apply(src, dest, index);
 
 			gui.setVisionImage(dest.toArray(), width, height);
-		
-			}
-	}
 
+		}
+	}
 
 	@Override
 	public void onStart(Node node) {
@@ -137,7 +134,8 @@ public class Test implements NodeMain, Runnable {
 
 		// initialize the ROS publication to command/Motors
 
-//		publisher = node.newPublisher("command/Motors", "rss_msgs/MotionMsg"); // (Solution)
+		// publisher = node.newPublisher("command/Motors",
+		// "rss_msgs/MotionMsg"); // (Solution)
 
 		// End Student Code
 
@@ -163,38 +161,27 @@ public class Test implements NodeMain, Runnable {
 }
 
 /*
-			int pix = src.getPixel(x, y); // (Solution)
-			int red = Image.pixelRed(pix);
-			int blue = Image.pixelBlue(pix);
-			int green = Image.pixelGreen(pix);
-			
-			if (red < 0)
-				red += 255;
-			if (blue < 0)
-				blue += 255;
-			if (green < 0)
-				green += 255;
-			
-			float[] hsb = Color.RGBtoHSB(red,green,blue, null); // (Solution)
-			double threshold = 0.05;
-			
-			if (hsb[0] == 0 && hsb[1] > .2 && hsb[2] > .2){
-				dest.setPixel(x, y, (byte) 0xff, (byte) 0, (byte) 0);
-			}
-
-			if (Math.abs(hsb[0] - 120.0/360)< threshold && hsb[1] > .2 && hsb[2] > .1){
-				dest.setPixel(x, y, (byte) 0, (byte) 0xff, (byte) 0);
-			}
-
-			if (Math.abs(hsb[0] - 120.0/360)< threshold && hsb[1] > .2 && hsb[2] > .2){
-				dest.setPixel(x, y, (byte) 0, (byte) 0xff, (byte) 0);
-			}
-
-			if (Math.abs(hsb[0] - 240.0/360)< threshold && hsb[1] > .3 && hsb[2] > .2){
-				dest.setPixel(x, y, (byte) 0, (byte) 0, (byte) 0xff);
-			}
-
-			if (Math.abs(hsb[0] - 60.0/360)< threshold && hsb[1] > .8 && hsb[2] > .2){
-				dest.setPixel(x, y, (byte) 0xff, (byte) 0xff, (byte) 0);
-			}
-*/
+ * int pix = src.getPixel(x, y); // (Solution) int red = Image.pixelRed(pix);
+ * int blue = Image.pixelBlue(pix); int green = Image.pixelGreen(pix);
+ * 
+ * if (red < 0) red += 255; if (blue < 0) blue += 255; if (green < 0) green +=
+ * 255;
+ * 
+ * float[] hsb = Color.RGBtoHSB(red,green,blue, null); // (Solution) double
+ * threshold = 0.05;
+ * 
+ * if (hsb[0] == 0 && hsb[1] > .2 && hsb[2] > .2){ dest.setPixel(x, y, (byte)
+ * 0xff, (byte) 0, (byte) 0); }
+ * 
+ * if (Math.abs(hsb[0] - 120.0/360)< threshold && hsb[1] > .2 && hsb[2] > .1){
+ * dest.setPixel(x, y, (byte) 0, (byte) 0xff, (byte) 0); }
+ * 
+ * if (Math.abs(hsb[0] - 120.0/360)< threshold && hsb[1] > .2 && hsb[2] > .2){
+ * dest.setPixel(x, y, (byte) 0, (byte) 0xff, (byte) 0); }
+ * 
+ * if (Math.abs(hsb[0] - 240.0/360)< threshold && hsb[1] > .3 && hsb[2] > .2){
+ * dest.setPixel(x, y, (byte) 0, (byte) 0, (byte) 0xff); }
+ * 
+ * if (Math.abs(hsb[0] - 60.0/360)< threshold && hsb[1] > .8 && hsb[2] > .2){
+ * dest.setPixel(x, y, (byte) 0xff, (byte) 0xff, (byte) 0); }
+ */

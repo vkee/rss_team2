@@ -68,7 +68,7 @@ public class client{
 					| ((data_[i+3] & 0xFF) << 24);
 				asFloat = Float.intBitsToFloat(asInt);
 				float_array[(int)(i/4.0)] = asFloat; 
-//				System.out.println("FORWARD: " + asFloat);
+				// System.out.println("FORWARD: " + asFloat);
 			}
 
 		}catch(Exception e){
