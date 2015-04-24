@@ -52,7 +52,7 @@ public class GoalAdjLists {
      * @param from
      * @return
      */
-    public ArrayList<Point2D.Double> getClosestFeasiblePathFrom(Point2D.Double from, double maxDist)
+    public Point2D.Double getClosestFeasiblePointFrom(Point2D.Double from, double maxDist)
     {
         HashMap<Point2D.Double,Double> originDistMap = distanceGrid.get(from);
 
@@ -77,7 +77,18 @@ public class GoalAdjLists {
                 closestPoint = tos;
             }
         }
-        return pathGrid.get(from).get(closestPoint);
+//        return pathGrid.get(from).get(closestPoint);
+        return closestPoint;
+    }
+    
+    /**
+     * Gives the path from from pt to to pt
+     * @param from
+     * @param to
+     * @return
+     */
+    public ArrayList<Point2D.Double> getPath(Point2D.Double from, Point2D.Double to){
+    	return pathGrid.get(from).get(to);
     }
 
     public ArrayList<Point2D.Double> getPathToGoal(Point2D.Double from)
@@ -92,10 +103,13 @@ public class GoalAdjLists {
     public void useBiPath(Point2D.Double from, Point2D.Double to)
     {
         //distanceGrid.get(from).remove(to);
-        distanceGrid.remove(from);
+    	
+    	if (!to.equals(from)){
+            distanceGrid.remove(from);
+            pathGrid.remove(from);
+    	}
         distanceGrid.get(to).remove(from);
         //pathGrid.get(from).remove(to);
-        pathGrid.remove(from);
         pathGrid.get(to).remove(from);
     }
 

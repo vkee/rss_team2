@@ -61,15 +61,13 @@ public class FSM implements NodeMain{
 
     private Subscriber<OdometryMsg> odometrySub;
     public Publisher<MotionMsg> motionPub;
+	public MapDrawer mapDrawer;
 
 
     // public wheels publishers
     // public servos publishers
 
     public FSM(){
-
-
-
 
         //initialize all listeners with dispatchState as the callback
 
@@ -114,20 +112,23 @@ public class FSM implements NodeMain{
         motionPub = node.newPublisher("command/Motors", "rss_msgs/MotionMsg");
 
         //intialize subscribers
-        odometrySub = node.newSubscriber("/rss/odometry",
-                "rss_msgs/OdometryMsg");
+        odometrySub = node.newSubscriber("/rss/odometry", "rss_msgs/OdometryMsg");
 
         odometrySub
-        .addMessageListener(new MessageListener<org.ros.message.rss_msgs.OdometryMsg>() {
+        .addMessageListener(new MessageListener<OdometryMsg>() {
             @Override
-            public void onNewMessage(org.ros.message.rss_msgs.OdometryMsg message) {
+            public void onNewMessage(OdometryMsg message) {
                 //robotX = message.x;
                 //robotY = message.y;
                 //robotTheta = message.theta;
                 //message.type = msgENUM.WHEELS;
-                dispatchState(new GenericMessage<org.ros.message.rss_msgs.OdometryMsg>(message, msgENUM.WHEELS));
+                dispatchState(new GenericMessage<OdometryMsg>(message, msgENUM.WHEELS));
             }
         });
+        
+        mapDrawer = new MapDrawer(guiRectPub, guiPolyPub, guiErasePub, guiPtPub, ellipsePub, 
+        		stringPub, odometrySub, motionPub);
+        
         currentState = new Initialize(this);
         inState = false;
         dispatchState(new GenericMessage(null, null));

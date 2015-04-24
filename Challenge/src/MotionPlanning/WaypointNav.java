@@ -114,11 +114,11 @@ public class WaypointNav {
         } else {
             if (currWaypt < waypoints.size()) {
                 int way = currWaypt + 1;
-                System.out.println("WAYPOINT: " + way + " REACHED at X: "
-                        + wayPoint.getX() + " Y: " + wayPoint.getY()
-                        + " ROBOT-X:" + currX + " ROBOT-Y:" + currY
-                        + " out of " + waypoints.size() + " waypoints.");
-                System.out.println("xError " + xError + " yError " + yError);
+//                System.out.println("WAYPOINT: " + way + " REACHED at X: "
+//                        + wayPoint.getX() + " Y: " + wayPoint.getY()
+//                        + " ROBOT-X:" + currX + " ROBOT-Y:" + currY
+//                        + " out of " + waypoints.size() + " waypoints.");
+//                System.out.println("xError " + xError + " yError " + yError);
                 currWaypt += 1;
 
             } else {
