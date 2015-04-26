@@ -24,10 +24,25 @@ public class Image{
 			if (value > 255){
 				value = 255;
 			}
-			System.out.println("Width" + i%640 + " Height" + i/640);
-			r = value;
-			g = value;
-			b = value;
+//			System.out.println("Width" + i%640 + " Height" + i/640);
+			if (ratio > 0.75){
+				r = value;
+				g = 0;
+				b = 0;
+			}else if (ratio > 0.5){
+				r = 0;
+				g = value;
+				b = 0;
+			}else if (ratio > .25){
+				r = 0;
+				g = 0;
+				b = value;
+			}else{
+				r = value;
+				g = value;
+				b = value;
+			}
+
 			ret.setPixel((int)(i%640.0),(int)(i/640.0),(byte)r,(byte)g,(byte)b);
 		}
 	//System.out.println(max);

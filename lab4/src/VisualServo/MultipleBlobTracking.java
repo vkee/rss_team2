@@ -189,7 +189,7 @@ public class MultipleBlobTracking extends BlobTracking {
 			}
 		}
 		// }
-		System.out.println(circle_counter / (double) (4 * angles.length));
+//		System.out.println(circle_counter / (double) (4 * angles.length));
 	}
 
 	public void apply(Image src) {
