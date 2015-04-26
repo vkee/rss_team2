@@ -33,6 +33,10 @@ public class WaypointNavClose implements FSMState {
 		finalGoal = fsm.foundPaths.getClosestFeasiblePointFrom(fsm.currentLocation, maxDist);
 		System.out.println("Final Goal: " + finalGoal);
 
+	}	
+
+	@Override
+	public void onStart() {
 		if (finalGoal == null)	//no path to goal point left, go to deposit site
 		{
 			fsm.updateState(new WaypointNavDeposit(fsm));
@@ -47,12 +51,11 @@ public class WaypointNavClose implements FSMState {
 			} else {
 				Point2D.Double goalpt = waypoints.get(waypoints.size()-1);
 
-				waypointNavigator = new WaypointNav(waypoints, goalpt, fsm.motionPub);
+				waypointNavigator = new WaypointNav(waypoints, goalpt, fsm);
 			}
-		}
-	}	
-
-
+		}		
+	}
+	
 	public stateENUM getName() {return stateENUM.WNCLOSE;}
 
 
@@ -78,6 +81,9 @@ public class WaypointNavClose implements FSMState {
 		//	{fsm.updateState(new ApproachBlock(fsm, finalGoal));}		//Approach until visual servo
 
 	}
+
+
+
 
 
 }

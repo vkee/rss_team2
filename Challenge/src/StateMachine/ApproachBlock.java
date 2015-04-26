@@ -26,7 +26,7 @@ public class ApproachBlock implements FSMState {
 		goal = goalPoint;
 		ArrayList<Point2D.Double> waypoints = new ArrayList<Point2D.Double>();
 		waypoints.add(goalPoint);
-		waypointNavigator = new WaypointNav(waypoints, goalPoint, fsm.motionPub);
+		waypointNavigator = new WaypointNav(waypoints, goalPoint, fsm);
 		
 //		TODO: possibly update this in the vision instead of here
 //		may need to add a state if the block location is not where it is supposed to be
@@ -66,5 +66,12 @@ public class ApproachBlock implements FSMState {
 				fsm.updateState(new WaypointNavClose(fsm));
 			}		
 		}
+	}
+
+
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		
 	}
 }

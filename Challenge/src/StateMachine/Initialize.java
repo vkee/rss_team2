@@ -1,11 +1,6 @@
 package StateMachine;
 
-import java.awt.Color;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D.Double;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 import Challenge.ConstructionObject;
@@ -37,11 +32,11 @@ public class Initialize implements FSMState {
 				System.err.println("Unable to load map.");
 				e.printStackTrace();
 			}
-			fsm.mapDrawer.displayMap(challengeMap);
 
 			CSpace cSpace = new CSpace(); 
 			ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = cSpace.generateCSpace(challengeMap, false);
 			challengeMap.set3DCSpace(obsCSpaces);
+			fsm.mapDrawer.displayMap(challengeMap);
 
 			fsm.mapDrawer.displayMapCSpace(obsCSpaces, 0);
 
@@ -124,5 +119,11 @@ public class Initialize implements FSMState {
 
 		//if condition to leave state
 		fsm.updateState(new WaypointNavClose(fsm));
+	}
+
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		
 	}
 }

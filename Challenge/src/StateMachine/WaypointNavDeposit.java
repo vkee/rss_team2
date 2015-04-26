@@ -24,11 +24,16 @@ public class WaypointNavDeposit implements FSMState {
 		
 		waypoints = fsm.foundPaths.getPathToGoal(fsm.currentLocation);
 		
-//		waypointNavigator = new WaypointNav(waypoints, fsm.foundPaths.goal, fsm.motionPub);
+		waypointNavigator = new WaypointNav(waypoints, fsm.foundPaths.goal, fsm);
 
 
 		}	
-
+	
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	public stateENUM getName()
 		{return stateENUM.WNDEPOSIT;}
@@ -55,4 +60,7 @@ public class WaypointNavDeposit implements FSMState {
 
 
 		}
+
+
+
 }

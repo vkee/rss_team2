@@ -63,12 +63,16 @@ public class GoalAdjLists {
         originDistMap.keySet().toArray(tempArray);
         
         ArrayList<Point2D.Double> destinations = new ArrayList<Point2D.Double>(Arrays.asList(tempArray));
-
+        
+        System.out.println("destinations.size() " + destinations.size());
         if (destinations.size() == 1) return null;
-
+        for (Point2D.Double dests : destinations){
+        	System.out.println(dests);
+        }
+        
         for (Point2D.Double tos : destinations)
         {
-            if (tos == goal) continue;		//not goal node
+            if (tos.equals(goal)) continue;		//not goal node
             if (originDistMap.get(tos) + distanceGrid.get(tos).get(goal) > maxDist) continue;
 
             if (originDistMap.get(tos) < closestDistance)
@@ -108,9 +112,12 @@ public class GoalAdjLists {
             distanceGrid.remove(from);
             pathGrid.remove(from);
     	}
-        distanceGrid.get(to).remove(from);
-        //pathGrid.get(from).remove(to);
-        pathGrid.get(to).remove(from);
+    	
+    	for (Point2D.Double tos : distanceGrid.keySet()){
+            distanceGrid.get(tos).remove(from);
+            //pathGrid.get(from).remove(to);
+            pathGrid.get(tos).remove(from);
+    	}
     }
 
     private double getDistance(ArrayList<Point2D.Double> path)

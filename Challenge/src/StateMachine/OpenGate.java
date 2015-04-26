@@ -41,4 +41,11 @@ public class OpenGate implements FSMState {
 		}
 
 
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }

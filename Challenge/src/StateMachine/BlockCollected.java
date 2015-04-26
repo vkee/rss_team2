@@ -41,4 +41,11 @@ public class BlockCollected implements FSMState {
 		}
 
 
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }
