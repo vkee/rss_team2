@@ -10,7 +10,7 @@ import Challenge.GrandChallengeMap;
  * CSpace is part of the MotionPlanning module. It contains methods for dealing with the 3D
  * configuration space of the environment.
  */
-public class CSpace {
+public class CSpace3D {
     //    Robot Corner Coordinates wrt coordinate origin at the robot axis of rotation, where x is pointing forward,
     //    y is pointing left, and z is pointing up (when the robot is at 0 rad position in polar coordinates, x and y
     //    are aligned with the polar axes)
@@ -31,7 +31,7 @@ public class CSpace {
     //    Reflected robot polygons
     private final ArrayList<PolygonObstacle> robotPolys = new ArrayList<PolygonObstacle>();
 
-    public CSpace() {
+    public CSpace3D() {
         //        Constructing a robot polygon for each angle
         for (int i = 0; i < NUM_ANGLES; i++) {
             PolygonObstacle robotPoly = new PolygonObstacle();

@@ -41,9 +41,9 @@ public class MultiRRTTest implements NodeMain {
 
     private String mapFileName;
     private GrandChallengeMap challengeMap;
-    private CSpace cSpace;
+    private CSpace3D cSpace;
     private ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = new ArrayList<ArrayList<PolygonObstacle>>();
-    private MultiRRT rrt;
+    private MultiRRT3D rrt;
     // colors
     private Color lightBlue = new Color(115, 115, 230);
     private Color darkBlue = new Color(50, 40, 120);
@@ -54,7 +54,7 @@ public class MultiRRTTest implements NodeMain {
     private final double TOLERANCE = 0.02;
 
     public MultiRRTTest() {
-        cSpace = new CSpace();
+        cSpace = new CSpace3D();
     }
 
     @Override
@@ -81,7 +81,7 @@ public class MultiRRTTest implements NodeMain {
             challengeMap = GrandChallengeMap.parseFile(mapFileName);
             obsCSpaces = cSpace.generateCSpace(challengeMap, false);
             challengeMap.set3DCSpace(obsCSpaces);
-            rrt = new MultiRRT(challengeMap);
+            rrt = new MultiRRT3D(challengeMap);
             displayMap();
             displayMapCSpace();
 

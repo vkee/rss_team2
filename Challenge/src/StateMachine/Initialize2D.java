@@ -8,7 +8,7 @@ import Challenge.GrandChallengeMap;
 import MotionPlanning.CSpace3D;
 import MotionPlanning.GoalAdjLists;
 import MotionPlanning.MultiRRT2D;
-//import MotionPlanning.MultiRRT3D;
+import MotionPlanning.MultiRRT3D;
 import MotionPlanning.PolygonObstacle;
 import MotionPlanning.RRTreeNode;
 import StateMachine.FSM.msgENUM;
@@ -34,39 +34,30 @@ public class Initialize implements FSMState {
 				e.printStackTrace();
 			}
 
-			CSpace2D cSpace = new CSpace2D(); 
-			ArrayList<PolygonObstacle> cSpace = cSpace.generateCSpace(challengeMap, false);
-			challengeMap.cSpace = cSpace;
-			fsm.mapDrawer.displayMap(challengeMap);
-
-			fsm.mapDrawer.displayMapCSpace(cSpace);
-
-			ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
-			for (ConstructionObject cobj : challengeMap.getConstructionObjects()){
-				boolean unreachable = false;
-				Point2D.Double loc = cobj.getPosition();
-
-				//				System.out.println(obsCSpaces.get(0).size());
-
-				for (PolygonObstacle obs : cSpace) {		//TODO only the 0degree now
-					if (obs.contains(loc)){
-						unreachable = true;
-						break;
-					}
-				}
-
-				if (!unreachable) objectLocations.add(loc);
+			if (fsm.THREED)
+				{
+				CSpace3D cSpace = new CSpace3D(); 
+				ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = cSpace.generateCSpace(challengeMap, false);
+				challengeMap.set3DCSpace(obsCSpaces);
+				fsm.mapDrawer.displayMapCSpace(obsCSpaces.get(0));
 				
+				fsm.RRTengine =  new MultiRRT3D(challengeMap);
+				
+				}
+		
+			else
+				{
+				CSpace3D cSpace = new CSpace2D(); 
+				ArrayList<PolygonObstacle> cSpace = cSpace.generateCSpace(challengeMap, false);
+				challengeMap.cSpace = cSpace;
+				fsm.mapDrawer.displayMapCSpace(cSpace);
+				
+				fsm.RRTengine =  new MultiRRT2D(challengeMap);
 
-			}
+				}
 			
-			
-			/*CSpace3D cSpace = new CSpace3D(); 
-			ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = cSpace.generateCSpace(challengeMap, false);
-			challengeMap.set3DCSpace(obsCSpaces);
 			fsm.mapDrawer.displayMap(challengeMap);
 
-			fsm.mapDrawer.displayMapCSpace(obsCSpaces.get(0));
 
 			ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
 			for (ConstructionObject cobj : challengeMap.getConstructionObjects()){
@@ -83,9 +74,8 @@ public class Initialize implements FSMState {
 				}
 
 				if (!unreachable) objectLocations.add(loc);
-				
 
-			}*/
+			}
 
 			fsm.mapDrawer.displayCObj(challengeMap.getConstructionObjects());
 			
@@ -94,7 +84,6 @@ public class Initialize implements FSMState {
 			fsm.currentLocation = start;
 			objectLocations.add(end);
 
-			fsm.RRTengine =  new MultiRRT2D(challengeMap);
 			fsm.foundPaths = new GoalAdjLists(end);
 
 			Point2D.Double currLocation = start;

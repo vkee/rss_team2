@@ -100,8 +100,8 @@ public class MapDrawer {
 	 * @param cspace3D the 3d cspace
 	 * @param cspaceIndex the index corresponding to the 2D cspace to be displayed in the provided 3D cspace
 	 */
-	public void displayMapCSpace(ArrayList<ArrayList<PolygonObstacle>> cspace3D, int cspaceIndex) {
-		ArrayList<PolygonObstacle> obstacles = cspace3D.get(cspaceIndex);
+	public void displayMapCSpace(ArrayList<PolygonObstacle> obstacles) {
+		//ArrayList<PolygonObstacle> obstacles = cspace3D.get(cspaceIndex);
 		// print cspace around obstacles
 		for (PolygonObstacle obstacle : obstacles) {
 			GUIPolyMsg polyMsg = new GUIPolyMsg();

@@ -473,6 +473,7 @@ public class GrandChallengeMap implements NodeMain {
     protected Publisher<Object> rectPub;
     private Publisher<Object> erasePub;
     private Publisher<Object> polyPub;
+	public ArrayList<PolygonObstacle> cSpace;
 
     protected void publishEllipse(double x, double y, double w, double h, Color color) {
         GUIEllipseMessage ellipseMsg = new GUIEllipseMessage();

@@ -39,7 +39,7 @@ public class CSpaceTest implements NodeMain{
 
     protected String mapFileName;
     protected GrandChallengeMap challengeMap;
-    protected CSpace cSpace;
+    protected CSpace3D cSpace;
     protected ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = new ArrayList<ArrayList<PolygonObstacle>>();
 
     // colors
@@ -51,7 +51,7 @@ public class CSpaceTest implements NodeMain{
     protected final int cspaceIndex = 90;
 
     public CSpaceTest() {
-        cSpace = new CSpace();
+        cSpace = new CSpace3D();
     }
 
     @Override
