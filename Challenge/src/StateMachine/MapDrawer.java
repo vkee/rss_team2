@@ -18,6 +18,7 @@ import org.ros.message.Challenge_msgs.*;
 import MotionPlanning.CSpaceTest;
 import MotionPlanning.PolygonObstacle;
 import Challenge.ConstructionObject;
+import Challenge.Fiducial;
 import Challenge.GrandChallengeMap;
 
 /**
@@ -35,10 +36,10 @@ public class MapDrawer {
 	private Subscriber<OdometryMsg> odometrySub;
 	private Publisher<MotionMsg> motionPub;
 
-    // colors
-    private final Color LIGHT_BLUE = new Color(115,115,230);
-    private final Color DARK_BLUE = new Color(50,40,120);
-	
+	// colors
+	private final Color LIGHT_BLUE = new Color(115,115,230);
+	private final Color DARK_BLUE = new Color(50,40,120);
+
 	public MapDrawer(Publisher<GUIRectMsg> guiRectPub, Publisher<GUIPolyMsg> guiPolyPub,
 			Publisher<GUIEraseMsg> guiErasePub, Publisher<GUIPointMsg> guiPtPub,
 			Publisher<Object> ellipsePub, Publisher<Object> stringPub,
@@ -59,6 +60,7 @@ public class MapDrawer {
 	 * @param challengeMap
 	 */
 	public void displayMap(GrandChallengeMap challengeMap) {
+		System.out.println("Starting display map");
 		// Based on instanceMain in PolygonMap
 		// Erase the GUI
 		guiErasePub.publish(new GUIEraseMsg());
@@ -78,78 +80,86 @@ public class MapDrawer {
 
 		Point2D.Double robotStart = challengeMap.getRobotStart();
 		Point2D.Double robotGoal = challengeMap.getRobotGoal();
-		
+
 		publishEllipse(robotStart.getX(), robotStart.getY(), 0.05, 0.05, Color.RED);
-        publishEllipse(robotGoal.getX(), robotGoal.getY(), 0.05, 0.05, Color.CYAN);
-		
+		publishEllipse(robotGoal.getX(), robotGoal.getY(), 0.05, 0.05, Color.GREEN);
+
+		for(Fiducial f : challengeMap.getFiducials()){
+			Point2D.Double pos = f.getPosition();
+			publishEllipse(f.getPosition().x+0.1, f.getPosition().y+0.1, f.getBottomSize()*4.0, 
+					f.getBottomSize()*4.0, f.getBottomColor());
+			publishEllipse(f.getPosition().x, f.getPosition().y, f.getTopSize()*4.0, 
+					f.getTopSize()*4.0, f.getTopColor());
+		}
+
 		System.out.println("Done running displayMap");
 	}
 
 	/**
-     * Displays the configuration space of the environment.
+	 * Displays the configuration space of the environment.
 	 * @param cspace3D the 3d cspace
 	 * @param cspaceIndex the index corresponding to the 2D cspace to be displayed in the provided 3D cspace
 	 */
-    public void displayMapCSpace(ArrayList<ArrayList<PolygonObstacle>> cspace3D, int cspaceIndex) {
-        ArrayList<PolygonObstacle> obstacles = cspace3D.get(cspaceIndex);
-        // print cspace around obstacles
-        for (PolygonObstacle obstacle : obstacles) {
-            GUIPolyMsg polyMsg = new GUIPolyMsg();
-            fillPolyMsg(polyMsg, obstacle, LIGHT_BLUE, false, true);
-            guiPolyPub.publish(polyMsg);
-        }
+	public void displayMapCSpace(ArrayList<ArrayList<PolygonObstacle>> cspace3D, int cspaceIndex) {
+		ArrayList<PolygonObstacle> obstacles = cspace3D.get(cspaceIndex);
+		// print cspace around obstacles
+		for (PolygonObstacle obstacle : obstacles) {
+			GUIPolyMsg polyMsg = new GUIPolyMsg();
+			fillPolyMsg(polyMsg, obstacle, LIGHT_BLUE, false, true);
+			guiPolyPub.publish(polyMsg);
+		}
 
-        System.out.println("Done running displayMapCSpace");
-    }
-    
-    public void displayCObj(ConstructionObject[] constrObjs){
-    	for(int i=0; i < constrObjs.length; i++) {
-            ConstructionObject b = constrObjs[i];
-            Point2D.Double pos = b.getPosition();
-            System.out.println("ConstructionObject at: "+pos.getX()+", "+pos.getY());
-            Rectangle2D.Double r = new Rectangle2D.Double();
-            if ( b.getSize() == 2 ) {
-                r = new Rectangle2D.Double(b.getPosition().x, b.getPosition().y, 0.05, 0.05);
-            } else { 
-                r = new Rectangle2D.Double(b.getPosition().x, b.getPosition().y, 0.05, 0.1);
-            }
-            publishRect(r, true, b.getColor());
-            publishString(b.getPosition().x, b.getPosition().y, Integer.toString(i));
-        }
-    }
-    
-    /**
-     * Outputs the path to the MapGUI
-     *
-     * @param points
-     * @param color
-     */
-    public void outputPath(List<Point2D.Double> points, java.awt.Color color) {
+		System.out.println("Done running displayMapCSpace");
+	}
 
-        GUIPolyMsg poMsg = new GUIPolyMsg();
+	public void displayCObj(ConstructionObject[] constrObjs){
+		for(int i=0; i < constrObjs.length; i++) {
+			ConstructionObject b = constrObjs[i];
+			Point2D.Double pos = b.getPosition();
+			System.out.println("ConstructionObject at: "+pos.getX()+", "+pos.getY());
+			Rectangle2D.Double r = new Rectangle2D.Double();
+			if ( b.getSize() == 2 ) {
+				r = new Rectangle2D.Double(b.getPosition().x, b.getPosition().y, 0.05, 0.05);
+			} else { 
+				r = new Rectangle2D.Double(b.getPosition().x, b.getPosition().y, 0.05, 0.1);
+			}
+			publishRect(r, true, b.getColor());
+			publishString(b.getPosition().x, b.getPosition().y, Integer.toString(i));
+		}
+	}
 
-        PolygonObstacle poly = new PolygonObstacle();
+	/**
+	 * Outputs the path to the MapGUI
+	 *
+	 * @param points
+	 * @param color
+	 */
+	public void outputPath(List<Point2D.Double> points, java.awt.Color color) {
 
-        for (Point2D.Double point : points) {
-            poly.addVertex(point.x, point.y);
-        }
+		GUIPolyMsg poMsg = new GUIPolyMsg();
 
-        fillPolyMsg(poMsg, poly, color, false, false);
-        guiPolyPub.publish(poMsg);
-    }
-    
-    /**
-     * Outputs the path to the MapGUI
-     *
-     * @param points
-     * @param color
-     */
-    public void outputPath(List<Point2D.Double> points) {
-    	Random rand = new Random();
-    	outputPath(points, new Color(rand.nextFloat(), rand.nextFloat(),rand.nextFloat()));
-        
-    }
-	
+		PolygonObstacle poly = new PolygonObstacle();
+
+		for (Point2D.Double point : points) {
+			poly.addVertex(point.x, point.y);
+		}
+
+		fillPolyMsg(poMsg, poly, color, false, false);
+		guiPolyPub.publish(poMsg);
+	}
+
+	/**
+	 * Outputs the path to the MapGUI
+	 *
+	 * @param points
+	 * @param color
+	 */
+	public void outputPath(List<Point2D.Double> points) {
+		Random rand = new Random();
+		outputPath(points, new Color(rand.nextFloat(), rand.nextFloat(),rand.nextFloat()));
+
+	}
+
 	/**
 	 * Given an empty GUIPointMsg and the appropriate parameters, fills in the
 	 * message
@@ -240,73 +250,73 @@ public class MapDrawer {
 		msg.filled = filled ? 1 : 0;
 		msg.closed = closed ? 1 : 0;
 	}
-	
-	protected void publishEllipse(double x, double y, double w, double h, Color color) {
-        GUIEllipseMessage ellipseMsg = new GUIEllipseMessage();
-        ellipseMsg.x = (float)x;
-        ellipseMsg.y = (float)y;
-        ellipseMsg.width = (float)w;
-        ellipseMsg.height = (float)h;
-        ellipseMsg.filled = 1;
-        ellipseMsg.c.r = color.getRed();
-        ellipseMsg.c.g = color.getGreen();
-        ellipseMsg.c.b = color.getBlue();
-        ellipsePub.publish(ellipseMsg);
-    }
-	
+
+	public void publishEllipse(double x, double y, double w, double h, Color color) {
+		GUIEllipseMessage ellipseMsg = new GUIEllipseMessage();
+		ellipseMsg.x = (float)x;
+		ellipseMsg.y = (float)y;
+		ellipseMsg.width = (float)w;
+		ellipseMsg.height = (float)h;
+		ellipseMsg.filled = 1;
+		ellipseMsg.c.r = color.getRed();
+		ellipseMsg.c.g = color.getGreen();
+		ellipseMsg.c.b = color.getBlue();
+		ellipsePub.publish(ellipseMsg);
+	}
+
 	protected void publishPoint(double x, double y, int shape, Color color) {
-        GUIPointMsg msg = new GUIPointMsg();
-        msg.x = x;
-        msg.y = y;
-        msg.shape = shape;
-        msg.color.r = color.getRed();
-        msg.color.g = color.getGreen();
-        msg.color.b = color.getBlue();
-        guiPtPub.publish(msg);
-    }
-	
-    protected void publishRect(Rectangle2D.Double r, boolean filled, Color c) {
-        GUIRectMsg msg = new GUIRectMsg();
-        msg.filled = filled ? 1 : 0;
-        if ( c == null ) {
-            c = Color.GREEN;
-        }
-        msg.c.r = c.getRed();
-        msg.c.b = c.getBlue();
-        msg.c.g = c.getGreen();
-        msg.height = (float) r.height;
-        msg.width = (float) r.width;
-        msg.x = (float) r.x;
-        msg.y = (float) r.y;
-        guiRectPub.publish(msg);
-    }
-    
-    protected void publishPoly(PolygonObstacle obstacle, Color c, boolean filled, boolean closed) {
-        List<Point2D.Double> vertices = obstacle.getVertices();
-        GUIPolyMsg msg = new GUIPolyMsg();
-        msg.numVertices = vertices.size();
-        float[] x = new float[msg.numVertices];
-        float[] y = new float[msg.numVertices];
-        for (int i = 0; i < msg.numVertices; i++){
-            x[i] = (float) vertices.get(i).x;
-            y[i] = (float) vertices.get(i).y;
-        }
-        msg.c.r = c.getRed();
-        msg.c.b = c.getBlue();
-        msg.c.g = c.getGreen();
-        msg.x = x;
-        msg.y = y;
-        msg.closed = closed?1:0;
-        msg.filled = filled?1:0;
-        guiPolyPub.publish(msg);
-    }
-    
-    protected void publishString(double x, double y, String s) {
-        GUIStringMessage msg = new GUIStringMessage();
-        msg.x = (float)x;
-        msg.y = (float)y;
-        msg.text = s;
-        stringPub.publish(msg);
-    }
+		GUIPointMsg msg = new GUIPointMsg();
+		msg.x = x;
+		msg.y = y;
+		msg.shape = shape;
+		msg.color.r = color.getRed();
+		msg.color.g = color.getGreen();
+		msg.color.b = color.getBlue();
+		guiPtPub.publish(msg);
+	}
+
+	protected void publishRect(Rectangle2D.Double r, boolean filled, Color c) {
+		GUIRectMsg msg = new GUIRectMsg();
+		msg.filled = filled ? 1 : 0;
+		if ( c == null ) {
+			c = Color.GREEN;
+		}
+		msg.c.r = c.getRed();
+		msg.c.b = c.getBlue();
+		msg.c.g = c.getGreen();
+		msg.height = (float) r.height;
+		msg.width = (float) r.width;
+		msg.x = (float) r.x;
+		msg.y = (float) r.y;
+		guiRectPub.publish(msg);
+	}
+
+	protected void publishPoly(PolygonObstacle obstacle, Color c, boolean filled, boolean closed) {
+		List<Point2D.Double> vertices = obstacle.getVertices();
+		GUIPolyMsg msg = new GUIPolyMsg();
+		msg.numVertices = vertices.size();
+		float[] x = new float[msg.numVertices];
+		float[] y = new float[msg.numVertices];
+		for (int i = 0; i < msg.numVertices; i++){
+			x[i] = (float) vertices.get(i).x;
+			y[i] = (float) vertices.get(i).y;
+		}
+		msg.c.r = c.getRed();
+		msg.c.b = c.getBlue();
+		msg.c.g = c.getGreen();
+		msg.x = x;
+		msg.y = y;
+		msg.closed = closed?1:0;
+		msg.filled = filled?1:0;
+		guiPolyPub.publish(msg);
+	}
+
+	protected void publishString(double x, double y, String s) {
+		GUIStringMessage msg = new GUIStringMessage();
+		msg.x = (float)x;
+		msg.y = (float)y;
+		msg.text = s;
+		stringPub.publish(msg);
+	}
 
 }
