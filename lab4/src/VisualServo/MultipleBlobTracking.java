@@ -8,34 +8,46 @@ import Challenge.*;
 public class MultipleBlobTracking extends BlobTracking {
 
 	private double[] targetHueLevels = { 0.0, 120.0 / 360, 240.0 / 360,
-			60.0 / 360, 24.0 / 360, 300.0 / 360 };
-	// red, green, blue,yellow,orange,purple
-	private double[] hueThresholds = { 0.1, 0.1, 0.15, 0.05, 0.05, 0.05 };
+			60.0 / 360, 24.0 / 360 };
+	// red, green, blue,yellow,orange
+	private double[] hueThresholds = { 0.1, 0.1, 0.15, 0.05, 0.05 };
 	private double other_hueThreshold = 0.1;
 
-	protected double[] multiSaturationLevel = { 0.6, 0.3, 0.3, 0.8, 0.8, 0.2 };
+	protected double[] multiSaturationLevel = { 0.6, 0.3, 0.3, 0.8, 0.8 };
 	double other_saturation = 0.6;
-	double[] multiBrightnessLevel = { 0.55, 0.0, 0.0, 0.5, 0.3, 0.2 };
+	double[] multiBrightnessLevel = { 0.55, 0.0, 0.0, 0.5, 0.3 };
 	double other_brightness = 0.55;
 	int[][] multiBlobPixelMask = null;
 	int[][] multiBlobMask = null;
 	int[][] multiImageConnected = null;
 	int[] blobPixelMask = null;
 
+	int[] targetArea = new int[targetHueLevels.length];
+	boolean[] multiTargetDetected = { false, false, false, false, false };
+
 	List<BlobObject> bos = new ArrayList<BlobObject>();
 
-	int[] targetArea = new int[targetHueLevels.length];
-	boolean[] multiTargetDetected = { false, false, false, false, false, false };
-
-	public MultipleBlobTracking(int width, int height) {
-		super(width, height);
+	public MultipleBlobTracking() {
+		super(640, 480);
 		blobPixelMask = new int[width * height];
-
 		multiBlobPixelMask = new int[targetHueLevels.length][width * height];
 		multiBlobMask = new int[targetHueLevels.length][width * height];
 		multiImageConnected = new int[targetHueLevels.length][width * height];
 	}
 
+	public MultipleBlobTracking(int width, int height) {
+		super(width, height);
+		blobPixelMask = new int[width * height];
+		multiBlobPixelMask = new int[targetHueLevels.length][width * height];
+		multiBlobMask = new int[targetHueLevels.length][width * height];
+		multiImageConnected = new int[targetHueLevels.length][width * height];
+	}
+
+	/**
+	 * fix to a particular color based on index
+	 * 
+	 * @param index
+	 */
 	protected void blobFix(int index) { // (Solution)
 		double deltaX = bos.get(index).getCentroidX() - width / 2.0; // (Solution)
 		targetRange = // (Solution)
@@ -44,6 +56,9 @@ public class MultipleBlobTracking extends BlobTracking {
 		targetBearing = Math.atan2(deltaX, focalPlaneDistance); // (Solution)
 	} // (Solution)
 
+	/**
+	 * Color blob for debugging
+	 */
 	protected void markBlob(Image src, Image dest) { // (Solution)
 
 		for (BlobObject bo : bos) { // loop through every blob
@@ -77,6 +92,13 @@ public class MultipleBlobTracking extends BlobTracking {
 		}
 	}
 
+	/**
+	 * checks if the two blob objects are fiducials
+	 * 
+	 * @param blob1
+	 * @param blob2
+	 * @return
+	 */
 	protected boolean isBlobFiducial(BlobObject blob1, BlobObject blob2) {
 		// top & bottom
 		// yellow & red
@@ -106,6 +128,12 @@ public class MultipleBlobTracking extends BlobTracking {
 
 	}
 
+	/**
+	 * checks if blob object is block
+	 * 
+	 * @param blob
+	 * @return
+	 */
 	protected boolean isBlobBlock(BlobObject blob) {
 		return false;
 	}
@@ -155,22 +183,6 @@ public class MultipleBlobTracking extends BlobTracking {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Checks if visual servo is done
-	 * 
-	 * @return bool
-	 */
-	public boolean isDone() {
-
-		// if there are no blobs in the frame
-		for (int target : targetArea) {
-			if (target > 0) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -279,6 +291,22 @@ public class MultipleBlobTracking extends BlobTracking {
 		}
 		// }
 		// System.out.println(circle_counter / (double) (4 * angles.length));
+	}
+
+	/**
+	 * Checks if visual servo is done
+	 * 
+	 * @return bool
+	 */
+	public boolean isDone() {
+
+		// if there are no blobs in the frame
+		for (int target : targetArea) {
+			if (target > 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -429,4 +457,5 @@ public class MultipleBlobTracking extends BlobTracking {
 				.println(float_array[(int) (this.height / 2.0 * this.width + this.width / 2.0)]);
 
 	}
+
 }
