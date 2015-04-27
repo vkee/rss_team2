@@ -1,15 +1,20 @@
 package VisualServo;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
- * Edsinger: from http://homepages.inf.ed.ac.uk/rbf/HIPR2/flatjavasrc/ImageLabel.java
+ * Edsinger: from
+ * http://homepages.inf.ed.ac.uk/rbf/HIPR2/flatjavasrc/ImageLabel.java
  * ImageLabel is an algorithm that applies Connected Component Labeling
  * alogrithm to an input image. Only mono images are catered for.
+ * 
  * @author Neil Brown, DAI
  * @author Judy Robertson, SELLIC OnLine
  * @see code.iface.imagelabel
  */
 public class ConnectedComponents {
-	//the width and height of the output image
+	// the width and height of the output image
 	private int d_w;
 	private int d_h;
 	private int labels[];
@@ -17,8 +22,9 @@ public class ConnectedComponents {
 	private boolean labelsValid = false;
 	private int colorMax = 0;
 	private int countMax = 0;
+	int[] labelCnt;
 
-
+	int[] labelColors;
 	/**
 	 * Constructs a new Image Operator
 	 */
@@ -26,16 +32,19 @@ public class ConnectedComponents {
 
 	}
 
-
 	/**
 	 * Get the value of a pixel at some distance away from a specified pixel.
 	 * 
-	 * @param src1d the image
-	 * @param i the pixel whose neighbor is sought
-	 * @param ox the horizontal offset
-	 * @param oy the vertical offset
+	 * @param src1d
+	 *            the image
+	 * @param i
+	 *            the pixel whose neighbor is sought
+	 * @param ox
+	 *            the horizontal offset
+	 * @param oy
+	 *            the vertical offset
 	 * @return The pixel value of i's neighbor which is ox and oy away from i,
-	 * or 0 if this is outside the image.
+	 *         or 0 if this is outside the image.
 	 */
 	private int getNeighbour(int[] src1d, int i, int ox, int oy) {
 		int x, y;
@@ -49,12 +58,10 @@ public class ConnectedComponents {
 		return src1d[y * d_w + x] & 0x000000ff;
 	}
 
-
 	/**
-	 * Associate (equivalence) a with b.
-	 * a should be less than b to give some ordering (sorting)
-	 * if b is already associated with some other value, then propagate
-	 * down the list.
+	 * Associate (equivalence) a with b. a should be less than b to give some
+	 * ordering (sorting) if b is already associated with some other value, then
+	 * propagate down the list.
 	 */
 	private void associate(int a, int b) {
 		if (a > b) {
@@ -71,7 +78,6 @@ public class ConnectedComponents {
 		}
 	}
 
-
 	/**
 	 * Reduces the number of labels.
 	 */
@@ -83,14 +89,17 @@ public class ConnectedComponents {
 		}
 	}
 
-
 	/**
-	 * doLabel applies the Labeling algorithm plus offset and scaling
-	 * The input image is expected to be 8-bit mono 0=black everything else=white
-	 * @param src1_1d The input pixel array
-	 * @param width width of the destination image in pixels
-	 * @param height height of the destination image in pixels
-	 * @return A pixel array containing the labelled image
+	 * doLabel applies the Labeling algorithm plus offset and scaling The input
+	 * image is expected to be 8-bit mono 0=black everything else=white
+	 * 
+	 * @param src1_1d
+	 *            The input pixel array
+	 * @param width
+	 *            width of the destination image in pixels
+	 * @param height
+	 *            height of the destination image in pixels
+	 * @return A pixel array containing the labeled image
 	 */
 	// NB For images 0,0 is the top left corner.
 	public int[] doLabel(int[] src1_1d, int[] dest_1d, int width, int height) {
@@ -99,49 +108,50 @@ public class ConnectedComponents {
 		int nbs[] = new int[4];
 		int nbls[] = new int[4];
 
-		//Get size of image and make 1d_arrays
+		// Get size of image and make 1d_arrays
 		d_w = width;
 		d_h = height;
 
-		labels = new int[d_w * d_h / 3]; // the most there can be is 9/25 of the point
+		labels = new int[d_w * d_h / 3]; // the most there can be is 9/25 of the
+											// point
 
 		int src1rgb;
 		int result = 0;
 		int count, found;
 
 		labelsValid = false; // only set to true once we've complete the task
-		//initialise labels
+		// initialise labels
 		for (int i = 0; i < labels.length; i++)
 			labels[i] = i;
 
-		//now Label the image
+		// now Label the image
 		for (int i = 0; i < src1_1d.length; i++) {
 
 			src1rgb = src1_1d[i] & 0x000000ff;
 
 			if (src1rgb == 0) {
-				result = 0; //nothing here
+				result = 0; // nothing here
 			} else {
 
-				//The 4 visited neighbours
+				// The 4 visited neighbours
 				nbs[0] = getNeighbour(src1_1d, i, -1, 0);
 				nbs[1] = getNeighbour(src1_1d, i, 0, -1);
 				nbs[2] = getNeighbour(src1_1d, i, -1, -1);
 				nbs[3] = getNeighbour(src1_1d, i, 1, -1);
 
-				//Their corresponding labels
+				// Their corresponding labels
 				nbls[0] = getNeighbour(dest_1d, i, -1, 0);
 				nbls[1] = getNeighbour(dest_1d, i, 0, -1);
 				nbls[2] = getNeighbour(dest_1d, i, -1, -1);
 				nbls[3] = getNeighbour(dest_1d, i, 1, -1);
 
-				//label the point
+				// label the point
 				if ((nbs[0] == nbs[1]) && (nbs[1] == nbs[2])
 						&& (nbs[2] == nbs[3]) && (nbs[0] == 0)) {
 					// all neighbours are 0 so gives this point a new label
 					result = nextlabel;
 					nextlabel++;
-				} else { //one or more neighbours have already got labels
+				} else { // one or more neighbours have already got labels
 					count = 0;
 					found = -1;
 					for (int j = 0; j < 4; j++) {
@@ -151,7 +161,8 @@ public class ConnectedComponents {
 						}
 					}
 					if (count == 1) {
-						// only one neighbour has a label, so assign the same label to this.
+						// only one neighbour has a label, so assign the same
+						// label to this.
 						result = nbls[found];
 					} else {
 						// more than 1 neighbour has a label
@@ -169,18 +180,20 @@ public class ConnectedComponents {
 			dest_1d[i] = result;
 		}
 
-		//reduce labels ie 76=23=22=3 -> 76=3
-		//done in reverse order to preserve sorting
+		// reduce labels ie 76=23=22=3 -> 76=3
+		// done in reverse order to preserve sorting
 		for (int i = labels.length - 1; i > 0; i--) {
 			labels[i] = reduce(i);
 		}
 
-		/*now labels will look something like 1=1 2=2 3=2 4=2 5=5.. 76=5 77=5
-     this needs to be condensed down again, so that there is no wasted
-     space eg in the above, the labels 3 and 4 are not used instead it jumps
-     to 5.
+		/*
+		 * now labels will look something like 1=1 2=2 3=2 4=2 5=5.. 76=5 77=5
+		 * this needs to be condensed down again, so that there is no wasted
+		 * space eg in the above, the labels 3 and 4 are not used instead it
+		 * jumps to 5.
 		 */
-		int condensed[] = new int[nextlabel]; // cant be more than nextlabel labels
+		int condensed[] = new int[nextlabel]; // cant be more than nextlabel
+												// labels
 
 		count = 0;
 		for (int i = 0; i < nextlabel; i++) {
@@ -191,13 +204,15 @@ public class ConnectedComponents {
 		numberOfLabels = count - 1;
 
 		// now run back through our preliminary results, replacing the raw label
-		// with the reduced and condensed one, and do the scaling and offsets too
+		// with the reduced and condensed one, and do the scaling and offsets
+		// too
 
-		//Now generate an array of colours which will be used to label the image
-		int[] labelColors = new int[numberOfLabels + 1];
-		int[] labelCnt = new int[numberOfLabels + 1];
+		// Now generate an array of colours which will be used to label the
+		// image
+		labelColors = new int[numberOfLabels + 1];
+		labelCnt = new int[numberOfLabels + 1];
 
-		//Variable used to check if the color generated is acceptable
+		// Variable used to check if the color generated is acceptable
 		boolean acceptColor = false;
 
 		for (int i = 0; i < labelColors.length; i++) {
@@ -209,7 +224,7 @@ public class ConnectedComponents {
 				if (((labelColors[i] & 0x000000ff) < 200)
 						&& (((labelColors[i] & 0x0000ff00) >> 8) < 64)
 						&& (((labelColors[i] & 0x00ff0000) >> 16) < 64)) {
-					//Color to be rejected so don't set acceptColor
+					// Color to be rejected so don't set acceptColor
 				} else {
 					acceptColor = true;
 				}
@@ -227,19 +242,20 @@ public class ConnectedComponents {
 				colorMax = labelColors[result] + 0xff000000;
 			}
 
-			//result = (int) ( scale * (float) result + oset );
-			//truncate if necessary
-			//if( result > 255 ) result = 255;
-			//if( result <  0  ) result = 0;
-			//produce grayscale
-			//dest_1d[i] =  0xff000000 | (result + (result << 16) + (result << 8));
+			// result = (int) ( scale * (float) result + oset );
+			// truncate if necessary
+			// if( result > 255 ) result = 255;
+			// if( result < 0 ) result = 0;
+			// produce grayscale
+			// dest_1d[i] = 0xff000000 | (result + (result << 16) + (result <<
+			// 8));
+
 			dest_1d[i] = labelColors[result] + 0xff000000;
 		}
 
 		labelsValid = true; // only set to true now we've complete the task
 		return dest_1d;
 	}
-
 
 	/**
 	 * @return the number of unique, nonzero colours, or -1 if invalid
@@ -251,7 +267,6 @@ public class ConnectedComponents {
 			return -1;
 		}
 	}
-
 
 	/**
 	 * @return the number of labels.
@@ -272,5 +287,16 @@ public class ConnectedComponents {
 	 */
 	public int getCountMax() {
 		return countMax;
+	}
+
+
+	public HashMap<Integer, Integer> getBlobPixel(double threshold) {
+		HashMap<Integer, Integer> result = new HashMap<Integer, Integer>();
+		for (int i = 1; i < labelCnt.length; i++) {
+			if (labelCnt[i] >= threshold) {
+				result.put(labelColors[i] + 0xff000000, labelCnt[i]);
+			}
+		}
+		return result;
 	}
 }

@@ -41,7 +41,7 @@ public class RRTTest implements NodeMain {
 
     private String mapFileName;
     private GrandChallengeMap challengeMap;
-    private CSpace cSpace;
+    private CSpace3D cSpace;
     private ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = new ArrayList<ArrayList<PolygonObstacle>>();
     private RRT rrt;
     // colors
@@ -54,7 +54,7 @@ public class RRTTest implements NodeMain {
     private final double TOLERANCE = 0.02;
 
     public RRTTest() {
-        cSpace = new CSpace();
+        cSpace = new CSpace3D();
     }
  
     @Override

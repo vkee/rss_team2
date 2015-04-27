@@ -77,14 +77,10 @@ public class client{
 	public Image getImage(){
 
 		try{
-//			byte[] data = extractBytes("/mnt/hgfs/snaps/test1.png");
-
 			File file = new File("/mnt/hgfs/fast/rgb.bin");
 			FileInputStream fis = new FileInputStream(file);
 			byte[] data_ = new byte[(int)file.length()];
 			fis.read(data_);
-//			Scanner scan_width = new Scanner(new FileReader("/mnt/hgfs/snaps/width.txt"));
-//			Scanner scan_height = new Scanner(new FileReader("/mnt/hgfs/snaps/height.txt"));
 			int width = 640;//scan_width.nextInt();
 			int height = 480;//scan_height.nextInt();
 			byte[] data = Image.RGB2BGR(data_,width,height);

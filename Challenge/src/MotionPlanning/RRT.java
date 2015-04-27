@@ -175,7 +175,7 @@ public class RRT {
         
         int errorIndex = getErrorIndex(robotAngleError);
         
-        int goalIndex = (robotIndex + errorIndex + CSpace.NUM_ANGLES) % CSpace.NUM_ANGLES;
+        int goalIndex = (robotIndex + errorIndex + CSpace3D.NUM_ANGLES) % CSpace3D.NUM_ANGLES;
         
        // System.out.println("robotIndex: " + robotIndex);
        // System.out.println("errorIndex: " + errorIndex);
@@ -195,8 +195,8 @@ public class RRT {
 //                    System.out.println("collision at angle "+robotIndex);
                 	return true;
                 } else {
-                    robotIndex += direction + CSpace.NUM_ANGLES;  //neg values not handled well with mod
-                    robotIndex %= CSpace.NUM_ANGLES;
+                    robotIndex += direction + CSpace3D.NUM_ANGLES;  //neg values not handled well with mod
+                    robotIndex %= CSpace3D.NUM_ANGLES;
                     //System.out.println("trying next:"+robotIndex);
                 }
             }
@@ -288,7 +288,7 @@ public class RRT {
      * @return the index from 0 - 359
      */
     private int getCSpaceIndex(double robotOrientation) {
-        return ((int) Math.round(robotOrientation*180/Math.PI)) % (CSpace.NUM_ANGLES);
+        return ((int) Math.round(robotOrientation*180/Math.PI)) % (CSpace3D.NUM_ANGLES);
     }
     
     /**

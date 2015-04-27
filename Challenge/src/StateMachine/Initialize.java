@@ -5,9 +5,12 @@ import java.util.ArrayList;
 
 import Challenge.ConstructionObject;
 import Challenge.GrandChallengeMap;
-import MotionPlanning.CSpace;
+import MotionPlanning.CSpace2D;
+import MotionPlanning.CSpace3D;
 import MotionPlanning.GoalAdjLists;
-import MotionPlanning.MultiRRT;
+import MotionPlanning.MultiRRT2D;
+import MotionPlanning.MultiRRT3D;
+//import MotionPlanning.MultiRRT3D;
 import MotionPlanning.PolygonObstacle;
 import MotionPlanning.RRTreeNode;
 import StateMachine.FSM.msgENUM;
@@ -33,12 +36,12 @@ public class Initialize implements FSMState {
 				e.printStackTrace();
 			}
 
-			CSpace cSpace = new CSpace(); 
-			ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = cSpace.generateCSpace(challengeMap, false);
-			challengeMap.set3DCSpace(obsCSpaces);
+			/*CSpace2D cSpace = new CSpace2D(); 
+			ArrayList<PolygonObstacle> cSpaces = cSpace.generateCSpace(challengeMap, false);
+			challengeMap.cSpace = cSpaces;
 			fsm.mapDrawer.displayMap(challengeMap);
 
-			fsm.mapDrawer.displayMapCSpace(obsCSpaces, 0);
+			fsm.mapDrawer.displayMapCSpace(cSpaces);
 
 			ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
 			for (ConstructionObject cobj : challengeMap.getConstructionObjects()){
@@ -47,7 +50,7 @@ public class Initialize implements FSMState {
 
 				//				System.out.println(obsCSpaces.get(0).size());
 
-				for (PolygonObstacle obs : obsCSpaces.get(0)) {		//TODO only the 0degree now
+				for (PolygonObstacle obs : cSpaces) {		//TODO only the 0degree now
 					if (obs.contains(loc)){
 						unreachable = true;
 						break;
@@ -56,16 +59,51 @@ public class Initialize implements FSMState {
 
 				if (!unreachable) objectLocations.add(loc);
 
+
+			}*/
+
+
+			CSpace3D cSpace3D = new CSpace3D(); 
+			ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = cSpace3D.generateCSpace(challengeMap, false);
+			challengeMap.set3DCSpace(obsCSpaces);
+			fsm.mapDrawer.displayMap(challengeMap);
+
+			fsm.mapDrawer.displayMapCSpace(obsCSpaces.get(0));
+
+			//			2D CSpace for checking if can reach obstacles 
+			CSpace2D cSpace2D = new CSpace2D(); 
+			ArrayList<PolygonObstacle> obs2DCSpaces = cSpace2D.generateCSpace(challengeMap, false);
+
+			ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
+			for (ConstructionObject cobj : challengeMap.getConstructionObjects()){
+				boolean unreachable = false;
+				Point2D.Double loc = cobj.getPosition();
+
+				//				System.out.println(obsCSpaces.get(0).size());
+
+				for (PolygonObstacle obs : obs2DCSpaces) {		//TODO only the 0degree now obs2DCSpaces
+					if (obs.contains(loc)){
+						unreachable = true;
+						break;
+					}
+				}
+
+
+				if (!unreachable) objectLocations.add(loc);
+
+
 			}
 
+			System.out.println("Num obs: " + objectLocations.size());
+
 			fsm.mapDrawer.displayCObj(challengeMap.getConstructionObjects());
-			
+
 			Point2D.Double start = challengeMap.getRobotStart();
 			Point2D.Double end = challengeMap.getRobotGoal();
 			fsm.currentLocation = start;
 			objectLocations.add(end);
 
-			fsm.RRTengine =  new MultiRRT(challengeMap);
+			fsm.RRTengine =  new MultiRRT3D(challengeMap);
 			fsm.foundPaths = new GoalAdjLists(end);
 
 			Point2D.Double currLocation = start;
@@ -124,6 +162,6 @@ public class Initialize implements FSMState {
 	@Override
 	public void onStart() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

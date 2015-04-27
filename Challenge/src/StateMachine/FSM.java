@@ -6,7 +6,8 @@ import java.util.HashMap;
 
 import Challenge.GrandChallengeMap;
 import MotionPlanning.GoalAdjLists;
-import MotionPlanning.MultiRRT;
+import MotionPlanning.MultiRRT2D;
+import MotionPlanning.MultiRRT3D;
 import MotionPlanning.RRT;
 import Servoing.*;
 
@@ -47,7 +48,7 @@ public class FSM implements NodeMain{
 
 
     public int blocksCollected;
-    public MultiRRT RRTengine;
+    public MultiRRT3D RRTengine;
     public Point2D.Double currentLocation;			//the current goal point we are at
     public GoalAdjLists foundPaths;
     public NeckController topNeckServo;
