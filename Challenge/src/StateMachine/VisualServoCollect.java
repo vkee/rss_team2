@@ -70,8 +70,9 @@ public class VisualServoCollect implements FSMState {
 		return stateENUM.VISUALSERVOCOLLECT;
 	}
 
-	public boolean accepts(msgENUM msgType) {
-		if (msgType == msgENUM.WHEELS)
+	public boolean accepts(msgENUM msgType)
+		{
+		if (msgType == msgENUM.WHEELS || msgType == msgENUM.FLAP) return true;
 			return true;
 		return false;
 	}
@@ -92,8 +93,12 @@ public class VisualServoCollect implements FSMState {
 		mo_msg.rotationalVelocity = .2 * blobTrack.rotationVelocityCommand;
 		fsm.motionPub.publish(mo_msg); // (Solution)
 
-		// if condition to leave state
-		if (blobTrack.isDone()) {
+		//TODO: add bump message handling
+		//TODO: increment counter of collected blocks
+			// do we have a counter for this yet?
+
+		//if condition to leave state
+		if(blobTrack.isDone()){		
 			fsm.updateState(new MoveForward(fsm));
 		}
 
