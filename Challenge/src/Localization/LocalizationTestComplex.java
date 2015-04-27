@@ -188,8 +188,15 @@ public class LocalizationTestComplex implements NodeMain {
 		testPath.add(new Point2D.Double(0.4, 1.0));
 		testPath.add(new Point2D.Double(0.4, 2.3));
 		testPath.add(new Point2D.Double(-0.2, 3.5));
+		testPath.add(new Point2D.Double(-0.2, 2.5));
+		testPath.add(new Point2D.Double(1.0, 2.5));
+		testPath.add(new Point2D.Double(0.875, 3.8));
+		testPath.add(new Point2D.Double(2.25, 3.875));
+		testPath.add(new Point2D.Double(0.875, 3.8));
+		testPath.add(new Point2D.Double(1.0, 2.5));
 		testPath.add(new Point2D.Double(1.7, 2.5));
 		testPath.add(new Point2D.Double(2.0, 1.0));
+		testPath.add(new Point2D.Double(2.0, 0.875));
 		
 		return testPath;
 	}
