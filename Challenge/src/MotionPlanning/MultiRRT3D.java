@@ -14,7 +14,7 @@ import Challenge.GrandChallengeMap;
  * It deals with the path planning that may be used in a graph search.
  *
  */
-public class MultiRRT {
+public class MultiRRT3D {
     private GrandChallengeMap map;
     private Rectangle2D.Double worldRect;
     private double worldWidth;
@@ -25,7 +25,7 @@ public class MultiRRT {
     private final int NUM_TRIES = 40000; //100K not 1M
     private final int SAMPLE_GOALS = 300;
 
-    public MultiRRT(GrandChallengeMap map) {
+    public MultiRRT3D(GrandChallengeMap map) {
         this.map = map;
         this.worldRect = map.getWorldRect();
         this.worldWidth = worldRect.getWidth();
@@ -118,7 +118,7 @@ public class MultiRRT {
 
                 //System.out.println("closestNode: " + closestNode.toString());
                 //              TODO: Then rotate so that the robot is aligned with the line connecting the 2 points and make sure it doesn't collide with anything. Then make sure that this path is collision free.
-                double angle2TestPt = MultiRRT.getAngle(closestNode.point.x, closestNode.point.y, testPt.x, testPt.y);
+                double angle2TestPt = MultiRRT3D.getAngle(closestNode.point.x, closestNode.point.y, testPt.x, testPt.y);
 
                 //                Keeping the angle between 0 and 2PI
                 if (angle2TestPt < 0.0) {
@@ -208,7 +208,7 @@ public class MultiRRT {
 
         int errorIndex = getErrorIndex(robotAngleError);
 
-        int goalIndex = (robotIndex + errorIndex + CSpace.NUM_ANGLES) % CSpace.NUM_ANGLES;
+        int goalIndex = (robotIndex + errorIndex + CSpace3D.NUM_ANGLES) % CSpace3D.NUM_ANGLES;
 
         // System.out.println("robotIndex: " + robotIndex);
         // System.out.println("errorIndex: " + errorIndex);
@@ -228,8 +228,8 @@ public class MultiRRT {
                     //System.out.println("collision at angle "+robotIndex);
                     return true;
                 } else {
-                    robotIndex += direction + CSpace.NUM_ANGLES;  //neg values not handled well with mod
-                    robotIndex %= CSpace.NUM_ANGLES;
+                    robotIndex += direction + CSpace3D.NUM_ANGLES;  //neg values not handled well with mod
+                    robotIndex %= CSpace3D.NUM_ANGLES;
                     //System.out.println("trying next:"+robotIndex);
                 }
             }
@@ -283,7 +283,7 @@ public class MultiRRT {
      * @return the index from 0 - 359
      */
     private int getCSpaceIndex(double robotOrientation) {
-        return ((int) Math.round(robotOrientation*180/Math.PI)) % (CSpace.NUM_ANGLES);
+        return ((int) Math.round(robotOrientation*180/Math.PI)) % (CSpace3D.NUM_ANGLES);
     }
 
     /**

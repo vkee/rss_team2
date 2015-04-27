@@ -95,7 +95,7 @@ public class WaypointNav {
 			// only when theta has been reached, adjust translation
 		} else if ((Math.abs(xError)+Math.abs(yError)) > WAYPT_TOL) {
 			msg.translationalVelocity = Math.min(
-					FWD_GAIN * MultiRRT.getDist(0.0, 0.0, xError, yError),
+					FWD_GAIN * MultiRRT3D.getDist(0.0, 0.0, xError, yError),
 					0.5);
 			msg.rotationalVelocity = 0.0;
 		} else {

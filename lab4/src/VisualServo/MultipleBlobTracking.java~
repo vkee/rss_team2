@@ -269,7 +269,7 @@ public class MultipleBlobTracking extends BlobTracking {
 				}
 			}
 		}
-		System.out.println(float_array[(int) (this.height/2.0 * this.width + centroidY[1])]);
+		System.out.println(float_array[(int) (this.height/2.0 * this.width + this.width/2.0)]);
 
 	}
 

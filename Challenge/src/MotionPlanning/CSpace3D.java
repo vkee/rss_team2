@@ -10,20 +10,20 @@ import Challenge.GrandChallengeMap;
  * CSpace is part of the MotionPlanning module. It contains methods for dealing with the 3D
  * configuration space of the environment.
  */
-public class CSpace {
+public class CSpace3D {
     //    Robot Corner Coordinates wrt coordinate origin at the robot axis of rotation, where x is pointing forward,
     //    y is pointing left, and z is pointing up (when the robot is at 0 rad position in polar coordinates, x and y
     //    are aligned with the polar axes)
     //    NOTE: These are not necessary the corners of the robot, but the outer dimension of the entire robot
     //    TODO: double check these measurements
-    private final double ROBOT_TL_X = 0.190; // robot top left x dimension
-    private final double ROBOT_TL_Y = 0.215; // robot top left y dimension
-    private final double ROBOT_TR_X = 0.190; // robot top right x dimension
-    private final double ROBOT_TR_Y = -0.215; // robot top right y dimension
-    private final double ROBOT_BR_X = -0.310; // robot bottom right x dimension
-    private final double ROBOT_BR_Y = -0.190; // robot bottom right y dimension
-    private final double ROBOT_BL_X = -0.310; // robot bottom left x dimension
-    private final double ROBOT_BL_Y = 0.190; // robot bottom left y dimension
+    private final double ROBOT_TL_X = 0.055; // robot top left x dimension
+    private final double ROBOT_TL_Y = 0.225; // robot top left y dimension
+    private final double ROBOT_TR_X = 0.055; // robot top right x dimension
+    private final double ROBOT_TR_Y = -0.225; // robot top right y dimension
+    private final double ROBOT_BR_X = -0.330; // robot bottom right x dimension
+    private final double ROBOT_BR_Y = -0.225; // robot bottom right y dimension
+    private final double ROBOT_BL_X = -0.330; // robot bottom left x dimension
+    private final double ROBOT_BL_Y = 0.225; // robot bottom left y dimension
 
     //    Number of angles to compute the configuration space for
     protected static final int NUM_ANGLES = 360;
@@ -31,7 +31,7 @@ public class CSpace {
     //    Reflected robot polygons
     private final ArrayList<PolygonObstacle> robotPolys = new ArrayList<PolygonObstacle>();
 
-    public CSpace() {
+    public CSpace3D() {
         //        Constructing a robot polygon for each angle
         for (int i = 0; i < NUM_ANGLES; i++) {
             PolygonObstacle robotPoly = new PolygonObstacle();
