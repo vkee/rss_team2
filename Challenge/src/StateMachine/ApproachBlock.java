@@ -32,6 +32,7 @@ public class ApproachBlock implements FSMState {
 		waypointNavigator = new WaypointNav(waypoints, goalPoint, fsm);
 		mbt = new MultipleBlobTracking();
 		
+		
 //		TODO: possibly update this in the vision instead of here
 //		may need to add a state if the block location is not where it is supposed to be
 		fsm.foundPaths.useBiPath(fsm.currentLocation, goal);
