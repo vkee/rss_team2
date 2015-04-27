@@ -75,7 +75,7 @@ public class WaypointNavClose implements FSMState {
 
 		//if condition to leave state (one waypoint away)
 		//if (atWaypoint >= waypoints.size()-2)
-		if (waypointNavigator.isDone()) {
+		if (waypointNavigator.isDone() || true) {
 			fsm.updateState(new ApproachBlock(fsm, finalGoal));
 		}
 		//	{fsm.updateState(new ApproachBlock(fsm, finalGoal));}		//Approach until visual servo

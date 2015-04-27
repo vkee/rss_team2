@@ -73,7 +73,6 @@ public class VisualServoCollect implements FSMState {
 	public boolean accepts(msgENUM msgType)
 		{
 		if (msgType == msgENUM.WHEELS || msgType == msgENUM.FLAP) return true;
-			return true;
 		return false;
 	}
 

@@ -51,9 +51,9 @@ public class FSM implements NodeMain{
     public MultiRRT3D RRTengine;
     public Point2D.Double currentLocation;			//the current goal point we are at
     public GoalAdjLists foundPaths;
-    public NeckController topNeckServo;
-    public NeckController bottomNeckServo;
-    public GateController gateServo;
+//    public NeckController topNeckServo;
+//    public NeckController bottomNeckServo;
+//    public GateController gateServo;
         //public HashSet<Integer> visited;
 
     protected String mapFileName;
@@ -91,7 +91,7 @@ public class FSM implements NodeMain{
     public void copyToInitialize() {
         TopNeckController topNeckServo = new TopNeckController();
         BottomNeckController bottomNeckServo = new BottomNeckController();
-        GateController gateServo = new GateController();
+//        GateController gateServo = new GateController();
     }
 
     public void setStartTime(){ 
