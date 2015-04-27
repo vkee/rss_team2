@@ -7,7 +7,7 @@ import StateMachine.FSM.stateENUM;
  * This state turns the neck all around taking snapshots of the world at different angles
  */
 public class NeckScan implements FSMState {
-
+	//TODO: make servos rotate
 
 	private FSM fsm;	
 

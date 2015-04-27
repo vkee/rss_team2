@@ -26,7 +26,7 @@ public class BlockCollected implements FSMState {
 	
 	public boolean accepts(msgENUM msgType)
 		{
-		if (msgType == msgENUM.DOOR) return true;
+		if (msgType == msgENUM.FLAP) return true;
 		return false;
 		}
 

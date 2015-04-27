@@ -7,7 +7,7 @@ import StateMachine.FSM.stateENUM;
  * This state rotates the back servo until the gate is open
  */
 public class OpenGate implements FSMState {
-
+//TODO: make it actually open the gate
 
 	private FSM fsm;	
 
