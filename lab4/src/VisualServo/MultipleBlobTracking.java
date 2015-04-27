@@ -3,8 +3,6 @@ package VisualServo;
 import java.awt.Color;
 import java.util.*;
 
-import Challenge.*;
-
 public class MultipleBlobTracking extends BlobTracking {
 
 	private double[] targetHueLevels = { 0.0, 120.0 / 360, 240.0 / 360,

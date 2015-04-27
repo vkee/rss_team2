@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import MotionPlanning.WaypointNav;
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
-import VisualServo.MultipleBlobTracking;
+import VisualServo.*;
 
 import org.ros.message.rss_msgs.*;
 import org.ros.message.lab5_msgs.*;
@@ -30,8 +30,7 @@ public class ApproachBlock implements FSMState {
 		ArrayList<Point2D.Double> waypoints = new ArrayList<Point2D.Double>();
 		waypoints.add(goalPoint);
 		waypointNavigator = new WaypointNav(waypoints, goalPoint, fsm);
-		mbt = new MultipleBlobTracking();
-		
+		mbt = new MultipleBlobTracking(640,480);
 		
 //		TODO: possibly update this in the vision instead of here
 //		may need to add a state if the block location is not where it is supposed to be
