@@ -106,9 +106,9 @@ public class VisualServo implements NodeMain, Runnable {
 			} catch (Exception e) {
 				continue;
 			}
-//			Image dest = new Image(src);
-			Image dest = Image.floatRGB(depth_array);
-		//	blobTrack.apply(src, dest, depth_array);
+			Image dest = new Image(src);
+//			Image dest = Image.floatRGB(depth_array);
+			blobTrack.apply(src, dest);//, depth_array);
 //
 			// update newly formed vision message
 			gui.setVisionImage(dest.toArray(), width, height);
