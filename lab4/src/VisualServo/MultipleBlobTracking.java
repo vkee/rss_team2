@@ -173,6 +173,13 @@ public class MultipleBlobTracking extends BlobTracking {
 		return false;
 	}
 
+	/**
+	 * Determines the centroid of a blob. Currently runs on one blob/color
+	 * 
+	 * @param m_threshIm
+	 * @param m_connIm
+	 * @param m_blobIm
+	 */
 	protected void blobPresent(int[][] m_threshIm, int[][] m_connIm,
 			int[][] m_blobIm) {
 

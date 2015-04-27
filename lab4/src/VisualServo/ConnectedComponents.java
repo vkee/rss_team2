@@ -1,5 +1,8 @@
 package VisualServo;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Edsinger: from
  * http://homepages.inf.ed.ac.uk/rbf/HIPR2/flatjavasrc/ImageLabel.java
@@ -21,6 +24,7 @@ public class ConnectedComponents {
 	private int countMax = 0;
 	int[] labelCnt;
 
+	int[] labelColors;
 	/**
 	 * Constructs a new Image Operator
 	 */
@@ -205,7 +209,7 @@ public class ConnectedComponents {
 
 		// Now generate an array of colours which will be used to label the
 		// image
-		int[] labelColors = new int[numberOfLabels + 1];
+		labelColors = new int[numberOfLabels + 1];
 		labelCnt = new int[numberOfLabels + 1];
 
 		// Variable used to check if the color generated is acceptable
@@ -245,7 +249,7 @@ public class ConnectedComponents {
 			// produce grayscale
 			// dest_1d[i] = 0xff000000 | (result + (result << 16) + (result <<
 			// 8));
-			
+
 			dest_1d[i] = labelColors[result] + 0xff000000;
 		}
 
@@ -285,16 +289,14 @@ public class ConnectedComponents {
 		return countMax;
 	}
 
-	public int[] getBlobColor(){
-		return new int[2];
-	}
-	public int[] getBlobPixelCount(double threshold) {
-		for (int label : labelCnt) {
-			if (countMax < labelCnt[result] && result != 0) {
-				countMax = labelCnt[result];
-				colorMax = labelColors[result] + 0xff000000;
+
+	public HashMap<Integer, Integer> getBlobPixel(double threshold) {
+		HashMap<Integer, Integer> result = new HashMap<Integer, Integer>();
+		for (int i = 1; i < labelCnt.length; i++) {
+			if (labelCnt[i] >= threshold) {
+				result.put(labelColors[i] + 0xff000000, labelCnt[i]);
 			}
 		}
-		return new int[2];
+		return result;
 	}
 }
