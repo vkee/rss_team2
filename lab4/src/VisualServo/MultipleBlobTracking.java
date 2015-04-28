@@ -333,7 +333,7 @@ public class MultipleBlobTracking extends BlobTracking {
 				}
 			}
 		}
-		return circle_counter > threshold;
+		return (circle_counter/(double)angles.length) > threshold;
 	}
 
 	/**
