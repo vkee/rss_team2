@@ -8,6 +8,10 @@ public class MultipleBlobTracking extends BlobTracking {
 	private double[] targetHueLevels = { 0.0, 120.0 / 360, 240.0 / 360,
 			60.0 / 360, 24.0 / 360 };
 	// red, green, blue,yellow,orange
+
+	private Color[] colorwheel = { Color.RED, Color.GREEN, Color.BLUE,
+			Color.YELLOW, Color.ORANGE };
+
 	private double[] hueThresholds = { 0.1, 0.1, 0.15, 0.05, 0.05 };
 	private double other_hueThreshold = 0.1;
 
@@ -24,6 +28,8 @@ public class MultipleBlobTracking extends BlobTracking {
 	boolean[] multiTargetDetected = { false, false, false, false, false };
 
 	List<BlobObject> bos = new ArrayList<BlobObject>();
+	List<FiducialObject> fos = new ArrayList<FiducialObject>();
+	List<BlockObject> blos = new ArrayList<BlockObject>();
 
 	public MultipleBlobTracking() {
 		super(640, 480);
@@ -46,13 +52,19 @@ public class MultipleBlobTracking extends BlobTracking {
 	 * 
 	 * @param index
 	 */
-	protected void blobFix(int index) { // (Solution)
-		double deltaX = bos.get(index).getCentroidX() - width / 2.0; // (Solution)
-		targetRange = // (Solution)
-		focalPlaneDistance * targetRadius
-				/ Math.sqrt(targetArea[index] / Math.PI); // (Solution)
-		targetBearing = Math.atan2(deltaX, focalPlaneDistance); // (Solution)
-	} // (Solution)
+	protected void blobFix() {
+		double deltaX = bos.get(0).getCentroidX() - width / 2.0;
+		targetRange = focalPlaneDistance * targetRadius
+				/ Math.sqrt(bos.get(0).getTargetArea() / Math.PI);
+		targetBearing = Math.atan2(deltaX, focalPlaneDistance);
+	}
+
+	private void blobFix(int index) {
+		double deltaX = bos.get(0).getCentroidX() - width / 2.0;
+		targetRange = focalPlaneDistance * targetRadius
+				/ Math.sqrt(targetArea[0] / Math.PI);
+		targetBearing = Math.atan2(deltaX, focalPlaneDistance);
+	}
 
 	/**
 	 * Color blob for debugging
@@ -91,13 +103,14 @@ public class MultipleBlobTracking extends BlobTracking {
 	}
 
 	/**
-	 * checks if the two blob objects are fiducials
+	 * checks if the two blob objects are the proper colors and orientation for
+	 * fiducials
 	 * 
 	 * @param blob1
 	 * @param blob2
 	 * @return
 	 */
-	protected boolean isBlobFiducial(BlobObject blob1, BlobObject blob2) {
+	protected boolean isFiducialColorMatch(BlobObject top, BlobObject bottom) {
 		// top & bottom
 		// yellow & red
 		// red & green
@@ -105,35 +118,25 @@ public class MultipleBlobTracking extends BlobTracking {
 		// blue & yellow
 		// green & orange
 		// blue & red
-		if (blob1.getColor() == Color.YELLOW && blob2.getColor() == Color.RED) {
+		if (top.getColor() == Color.YELLOW && bottom.getColor() == Color.RED) {
 
-		} else if (blob1.getColor() == Color.RED
-				&& blob2.getColor() == Color.GREEN) {
+		} else if (top.getColor() == Color.RED
+				&& bottom.getColor() == Color.GREEN) {
 
-		} else if (blob1.getColor() == Color.GREEN
-				&& blob2.getColor() == Color.BLUE) {
+		} else if (top.getColor() == Color.GREEN
+				&& bottom.getColor() == Color.BLUE) {
 
-		} else if (blob1.getColor() == Color.GREEN
-				&& blob2.getColor() == Color.ORANGE) {
+		} else if (top.getColor() == Color.GREEN
+				&& bottom.getColor() == Color.ORANGE) {
 
-		} else if (blob1.getColor() == Color.BLUE
-				&& blob2.getColor() == Color.RED) {
+		} else if (top.getColor() == Color.BLUE
+				&& bottom.getColor() == Color.RED) {
 
 		} else {
-
+			return false;// if the color pair is not one of the above, it is NOT
+							// a fidcuial
 		}
-		return false;
-
-	}
-
-	/**
-	 * checks if blob object is block
-	 * 
-	 * @param blob
-	 * @return
-	 */
-	protected boolean isBlobBlock(BlobObject blob) {
-		return false;
+		return true;
 	}
 
 	/**
@@ -181,6 +184,56 @@ public class MultipleBlobTracking extends BlobTracking {
 				}
 			}
 		}
+	}
+
+	protected void multiBlobPresent(Image depth_img, int[][] threshIm,
+			int[][] connIm, int[][] m_blobIm) {
+		for (int i = 0; i < targetHueLevels.length; i++) {
+			ConnectedComponents connComp = new ConnectedComponents(); // (Solution)
+			connComp.doLabel(threshIm[i], connIm[i], width, height); // (Solution)
+
+			HashMap<Integer, Integer> blob_info = connComp.getBlobPixel(0.005);
+
+			double centroidX;
+			double centroidY;
+
+			for (Map.Entry<Integer, Integer> entry : blob_info.entrySet()) {
+
+				int colorMax = entry.getKey();
+				int countMax = entry.getValue();
+
+				int sx = 0;
+				int sy = 0;
+
+				if (countMax > blobSizeThreshold * height * width) { // (Solution)
+					targetArea[i] = countMax; // (Solution)
+					int destIndex = 0; // (Solution)
+					for (int y = 0; y < height; y++) {
+						for (int x = 0; x < width; x++) {
+							if (connIm[i][destIndex] == colorMax) {
+								sx += x;
+								sy += y;
+								m_blobIm[i][destIndex++] = 255;
+							} else {
+								m_blobIm[i][destIndex++] = 0;
+							}
+						}
+					}
+					centroidX = sx / (double) countMax;
+					centroidY = sy / (double) countMax;
+
+					int distToCentroid = depth_img.getPixel((int) centroidX,
+							(int) centroidY);
+
+					BlobObject bo = new BlobObject(centroidX, centroidY,
+							distToCentroid, countMax, colorwheel[i],
+							m_blobIm[i]);
+
+					bos.add(bo);
+				}
+			}
+		} // End of blob present
+
 	}
 
 	/**
@@ -240,7 +293,46 @@ public class MultipleBlobTracking extends BlobTracking {
 	}
 
 	/**
-	 * Circle Detector to help locate fiducials
+	 * Detects circles in blobs. Useful for fiducial tracking
+	 * 
+	 * @param blob
+	 * @param threshold
+	 */
+	public boolean detectCircle(BlobObject blob, double threshold) {
+		double rad_d = Math.sqrt((blob.getTargetArea() / Math.PI));
+		int x = (int) blob.getCentroidX();
+		int y = (int) blob.getCentroidY();
+		int[] mask = blob.getBlobArr();
+		int circle_counter = 0;
+		// int z = y * this.width + x;
+		double[] angles = { 0, Math.PI / 12, Math.PI / 8, Math.PI / 6,
+				Math.PI / 5, Math.PI / 4, Math.PI / 3, Math.PI / 2.5,
+				Math.PI / 2 };
+		for (double ang : angles) {
+			int x_angle = (int) (rad_d * Math.cos(ang));
+			int y_angle = (int) (rad_d * Math.sin(ang));
+
+			if (x + x_angle < this.width && x - x_angle > 0
+					&& y + y_angle < this.height && y - y_angle > 0) {
+				if (mask[(x + x_angle) + ((y + y_angle) * this.width)] > 0) {
+					circle_counter++;
+				}
+				if (mask[(x - x_angle) + ((y - y_angle) * this.width)] > 0) {
+					circle_counter++;
+				}
+				if (mask[(x - x_angle) + ((y + y_angle) * this.width)] > 0) {
+					circle_counter++;
+				}
+				if (mask[(x + x_angle) + ((y - y_angle) * this.width)] > 0) {
+					circle_counter++;
+				}
+			}
+		}
+		return circle_counter > threshold;
+	}
+
+	/**
+	 * Deprecated findFiducial Method to help locate fiducials
 	 * 
 	 * @param multiBlobMask
 	 * @param dest
@@ -292,19 +384,42 @@ public class MultipleBlobTracking extends BlobTracking {
 	}
 
 	/**
+	 * 
+	 */
+	public void sortBlobs() {
+		boolean isTopFiducial;
+		for (int j = 0; j < bos.size(); j++) {
+			BlobObject top = bos.get(j);
+			isTopFiducial = false;
+			for (int k = 0; k < bos.size(); k++) {
+				BlobObject bottom = bos.get(k);
+				if (top != bottom && isFiducialColorMatch(top, bottom)
+						&& detectCircle(top, .5) && detectCircle(bottom, .5)
+						&& isAbove(top, bottom)) {
+					FiducialObject fo = new FiducialObject(top, bottom);
+					fos.add(fo);
+					isTopFiducial = true;
+				}
+			}
+			if (!isTopFiducial) {
+				BlockObject blo = new BlockObject(top);
+				blos.add(blo);
+			}
+		}
+	}
+
+	private boolean isAbove(BlobObject top, BlobObject bottom) {
+		return top.getCentroidY() < bottom.getCentroidY();
+	}
+
+	/**
 	 * Checks if visual servo is done
 	 * 
 	 * @return bool
 	 */
 	public boolean isDone() {
-
-		// if there are no blobs in the frame
-		for (int target : targetArea) {
-			if (target > 0) {
-				return true;
-			}
-		}
-		return false;
+		// if there are 0 blocks then it's Done
+		return blos.size() == 0;
 	}
 
 	/**
@@ -327,22 +442,14 @@ public class MultipleBlobTracking extends BlobTracking {
 			src = new Image(destArray, src.getWidth(), src.getHeight());
 		}
 
-		blobPixel(src, multiBlobPixelMask); // (Solution)
-		blobPresent(multiBlobPixelMask, multiImageConnected, multiBlobMask); // (Solution)
+		blobPixel(src, multiBlobPixelMask);
+		blobPresent(multiBlobPixelMask, multiImageConnected, multiBlobMask);
 
-		// findFiducial(multiBlobMask,dest);
+		// sorts blobs into fiducials and blocks
+		sortBlobs();
 
-		/* Pick one blob to go to, find it's index and fix on it */
-		int index = 0;
-		for (int i = 0; i < targetArea.length; i++) {
-			if (targetArea[i] > 0) {
-				index = i;
-				break;
-			}
-		}
 		if (!isDone()) {
-			// blobFix(index);
-			blobFix(0);// only look for red during debugging
+			blobFix();
 			computeTranslationVelocityCommand();
 			computeRotationVelocityCommand();
 		} else {
@@ -393,17 +500,14 @@ public class MultipleBlobTracking extends BlobTracking {
 		}
 
 		/* Pick one blob to go to, find it's index and fix on it */
-
-		if (targetArea[0] > 0) { // (Solution)
-			int index = 0;// find's red block because 0 is the first index
-			blobFix(index);
-			computeTranslationVelocityCommand(); // (Solution)
-			computeRotationVelocityCommand(); // (Solution)
-		} else { // (Solution)
-			translationVelocityCommand = 0.0; // (Solution)
-			rotationVelocityCommand = 0.0; // (Solution)
-		} // / (Solution)
-
+		/*
+		 * if (targetArea[0] > 0) { // (Solution) int index = 0;// find's red
+		 * block because 0 is the first index blobFix(index);
+		 * computeTranslationVelocityCommand(); // (Solution)
+		 * computeRotationVelocityCommand(); // (Solution) } else { //
+		 * (Solution) translationVelocityCommand = 0.0; // (Solution)
+		 * rotationVelocityCommand = 0.0; // (Solution) } // / (Solution)
+		 */
 	}
 
 	/**
