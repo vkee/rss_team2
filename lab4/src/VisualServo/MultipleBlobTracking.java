@@ -399,14 +399,14 @@ public class MultipleBlobTracking extends BlobTracking {
 			for (int k = 0; k < bos.size(); k++) {
 				BlobObject bottom = bos.get(k);
 				if (top != bottom && isFiducialColorMatch(top, bottom)
-						&& detectCircle(top, .5) && detectCircle(bottom, .5)
+						&& detectCircle(top, .65) && detectCircle(bottom, .65)
 						&& isAbove(top, bottom)) {
 					FiducialObject fo = new FiducialObject(top, bottom);
 					fos.add(fo);
 					isTopFiducial = true;
 				}
 			}
-			if (detectCircle(top, .5)) {
+			if (detectCircle(top, .65)) {
 				// it is a blob but not a block
 			} else if (!isTopFiducial) {
 				BlockObject blo = new BlockObject(top);
