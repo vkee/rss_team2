@@ -310,9 +310,10 @@ public class MultipleBlobTracking extends BlobTracking {
 		int[] mask = blob.getBlobArr();
 		int circle_counter = 0;
 		// int z = y * this.width + x;
-		double[] angles = { 0, Math.PI / 12, Math.PI / 8, Math.PI / 6,
-				Math.PI / 5, Math.PI / 4, Math.PI / 3, Math.PI / 2.5,
-				Math.PI / 2 };
+		double[] angles = { 0, Math.PI / 12.0, Math.PI / 10.0, Math.PI / 8.0,
+				Math.PI / 7.0, Math.PI / 6.0, Math.PI / 5.5, Math.PI / 5.0,
+				Math.PI / 4.5, Math.PI / 4.0, Math.PI / 3.5, Math.PI / 3.0,
+				Math.PI / 2.5, Math.PI / 2.0 };
 		for (double ang : angles) {
 			int x_angle = (int) (rad_d * Math.cos(ang));
 			int y_angle = (int) (rad_d * Math.sin(ang));
@@ -333,7 +334,9 @@ public class MultipleBlobTracking extends BlobTracking {
 				}
 			}
 		}
-		return (circle_counter/((double)angles.length*4)) > threshold;
+		System.out.println("How well "
+				+ (circle_counter / ((double) angles.length * 4)));
+		return (circle_counter / ((double) angles.length * 4)) > threshold;
 	}
 
 	/**
@@ -396,16 +399,16 @@ public class MultipleBlobTracking extends BlobTracking {
 		for (int j = 0; j < bos.size(); j++) {
 			BlobObject top = bos.get(j);
 			isTopFiducial = false;
-//			for (int k = 0; k < bos.size(); k++) {
-//				BlobObject bottom = bos.get(k);
-//				if (top != bottom && isFiducialColorMatch(top, bottom)
-//						&& detectCircle(top, .8) && detectCircle(bottom, .8)
-//						&& isAbove(top, bottom, .1)) {
-//					FiducialObject fo = new FiducialObject(top, bottom);
-//					fos.add(fo);
-//					isTopFiducial = true;
-//				}
-//			}
+			// for (int k = 0; k < bos.size(); k++) {
+			// BlobObject bottom = bos.get(k);
+			// if (top != bottom && isFiducialColorMatch(top, bottom)
+			// && detectCircle(top, .8) && detectCircle(bottom, .8)
+			// && isAbove(top, bottom, .1)) {
+			// FiducialObject fo = new FiducialObject(top, bottom);
+			// fos.add(fo);
+			// isTopFiducial = true;
+			// }
+			// }
 			if (detectCircle(top, .5)) {
 				System.out.println(" The Circle is " + top.getColor());
 				// it is a blob but not a block
