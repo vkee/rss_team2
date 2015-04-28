@@ -222,9 +222,14 @@ public class MultipleBlobTracking extends BlobTracking {
 					centroidX = sx / (double) countMax;
 					centroidY = sy / (double) countMax;
 
-					int distToCentroid = (int) depth_img[(int) (centroidY
-							* width + centroidX)];
-
+					int ind = (int) (centroidY * width + centroidX);
+					int distToCentroid;
+					if (ind < depth_img.length) {
+						distToCentroid = (int) depth_img[(int) (centroidY
+								* width + centroidX)];
+					} else {
+						distToCentroid = 0;
+					}
 					BlobObject bo = new BlobObject(centroidX, centroidY,
 							distToCentroid, countMax, colorwheel[i],
 							m_blobIm[i]);
@@ -402,7 +407,7 @@ public class MultipleBlobTracking extends BlobTracking {
 				}
 			}
 			if (detectCircle(top, .5)) {
-				//it is a blob but not a block
+				// it is a blob but not a block
 			} else if (!isTopFiducial) {
 				BlockObject blo = new BlockObject(top);
 				blos.add(blo);
