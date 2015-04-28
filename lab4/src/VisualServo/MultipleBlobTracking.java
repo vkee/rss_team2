@@ -186,7 +186,7 @@ public class MultipleBlobTracking extends BlobTracking {
 		}
 	}
 
-	protected void multiBlobPresent(Image depth_img, int[][] threshIm,
+	protected void multiBlobPresent(float[] depth_img, int[][] threshIm,
 			int[][] connIm, int[][] m_blobIm) {
 		for (int i = 0; i < targetHueLevels.length; i++) {
 			ConnectedComponents connComp = new ConnectedComponents(); // (Solution)
@@ -222,8 +222,8 @@ public class MultipleBlobTracking extends BlobTracking {
 					centroidX = sx / (double) countMax;
 					centroidY = sy / (double) countMax;
 
-					int distToCentroid = depth_img.getPixel((int) centroidX,
-							(int) centroidY);
+					int distToCentroid = (int) depth_img[(int) (centroidY
+							* width + centroidX)];
 
 					BlobObject bo = new BlobObject(centroidX, centroidY,
 							distToCentroid, countMax, colorwheel[i],
@@ -480,24 +480,26 @@ public class MultipleBlobTracking extends BlobTracking {
 		blobPixel(src, multiBlobPixelMask); // (Solution)
 		blobPresent(multiBlobPixelMask, multiImageConnected, multiBlobMask); // (Solution)
 
+		sortBlobs();
+
 		if (dest != null) { // (Solution)
 			// dest = Histogram.getHistogram(src, dest, true); // (Solution)
 			markBlob(src, dest); // (Solution)
 		} // (Solution)
-			// findFiducial(multiBlobMask, dest);
-
-		for (int i = 0; i < multiTargetDetected.length; i++) {
-			int x = (int) bos.get(0).getCentroidX();
-			int y = (int) bos.get(0).getCentroidY();
-			if (x > 10 && y > 10) {
-				for (int j = 0; j < 10; j++) {
-					for (int k = 0; k < 10; k++) {
-						dest.setPixel(x + j, y + k, (byte) 0, (byte) 0,
-								(byte) 0);
-					}
-				}
-			}
-		}
+			// // findFiducial(multiBlobMask, dest);
+			//
+			// for (int i = 0; i < multiTargetDetected.length; i++) {
+			// int x = (int) bos.get(0).getCentroidX();
+			// int y = (int) bos.get(0).getCentroidY();
+			// if (x > 10 && y > 10) {
+			// for (int j = 0; j < 10; j++) {
+			// for (int k = 0; k < 10; k++) {
+			// dest.setPixel(x + j, y + k, (byte) 0, (byte) 0,
+			// (byte) 0);
+			// }
+			// }
+			// }
+			// }
 
 		/* Pick one blob to go to, find it's index and fix on it */
 		/*
@@ -534,29 +536,24 @@ public class MultipleBlobTracking extends BlobTracking {
 		}
 
 		blobPixel(src, multiBlobPixelMask); // (Solution)
-		blobPresent(multiBlobPixelMask, multiImageConnected, multiBlobMask); // (Solution)
+		multiBlobPresent(float_array, multiBlobPixelMask, multiImageConnected,
+				multiBlobMask); // (Solution)
+
+		sortBlobs();
 
 		if (dest != null) { // (Solution)
 			// dest = Histogram.getHistogram(src, dest, true); // (Solution)
 			markBlob(src, dest); // (Solution)
 		} // (Solution)
 			// findFiducial(multiBlobMask, dest);
-		int x = 0;
-		int y = 0;
-		for (int i = 0; i < multiTargetDetected.length; i++) {
-			x = (int) bos.get(0).getCentroidX();
-			y = (int) bos.get(0).getCentroidY();
-			if (x > 10 && y > 10) {
-				for (int j = 0; j < 10; j++) {
-					for (int k = 0; k < 10; k++) {
-						dest.setPixel(x + j, y + k, (byte) 0, (byte) 0,
-								(byte) 0);
-					}
-				}
-			}
+		if (!isDone()) {
+			blobFix();
+			computeTranslationVelocityCommand();
+			computeRotationVelocityCommand();
+		} else {
+			translationVelocityCommand = 0.0;
+			rotationVelocityCommand = 0.0;
 		}
-		System.out
-				.println(float_array[(int) (this.height / 2.0 * this.width + this.width / 2.0)]);
 
 	}
 
