@@ -27,9 +27,9 @@ public class MultipleBlobTracking extends BlobTracking {
 	int[] targetArea = new int[targetHueLevels.length];
 	boolean[] multiTargetDetected = { false, false, false, false, false };
 
-	List<BlobObject> bos = new ArrayList<BlobObject>();
-	List<FiducialObject> fos = new ArrayList<FiducialObject>();
-	List<BlockObject> blos = new ArrayList<BlockObject>();
+	List<BlobObject> bos;
+	List<FiducialObject> fos;
+	List<BlockObject> blos;
 
 	public MultipleBlobTracking() {
 		super(640, 480);
@@ -521,6 +521,9 @@ public class MultipleBlobTracking extends BlobTracking {
 	 */
 	public void apply(Image src, Image dest, float[] float_array) {
 		stepTiming();
+		bos = new ArrayList<BlobObject>();
+		fos = new ArrayList<FiducialObject>();
+		blos = new ArrayList<BlockObject>();
 
 		if (useGaussianBlur) {// (Solution)
 			byte[] srcArray = src.toArray();// (Solution)
