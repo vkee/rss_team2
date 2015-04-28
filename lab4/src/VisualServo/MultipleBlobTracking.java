@@ -400,7 +400,7 @@ public class MultipleBlobTracking extends BlobTracking {
 				BlobObject bottom = bos.get(k);
 				if (top != bottom && isFiducialColorMatch(top, bottom)
 						&& detectCircle(top, .65) && detectCircle(bottom, .65)
-						&& isAbove(top, bottom)) {
+						&& isAbove(top, bottom, .1)) {
 					FiducialObject fo = new FiducialObject(top, bottom);
 					fos.add(fo);
 					isTopFiducial = true;
@@ -415,8 +415,9 @@ public class MultipleBlobTracking extends BlobTracking {
 		}
 	}
 
-	private boolean isAbove(BlobObject top, BlobObject bottom) {
-		return top.getCentroidY() < bottom.getCentroidY();
+	private boolean isAbove(BlobObject top, BlobObject bottom, double threshold) {
+		return top.getCentroidY() < bottom.getCentroidY()
+				&& Math.abs(top.getCentroidX() - bottom.getCentroidX()) < threshold;
 	}
 
 	/**
