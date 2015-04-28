@@ -333,8 +333,8 @@ public class MultipleBlobTracking extends BlobTracking {
 				}
 			}
 		}
-		System.out.println("How well : " + circle_counter/(double)angles.length);
-		return (circle_counter/(double)angles.length) > threshold;
+		System.out.println("How well : " + circle_counter/((double)angles.length*4));
+		return (circle_counter/((double)angles.length*4)) > threshold;
 	}
 
 	/**
