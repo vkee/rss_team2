@@ -528,17 +528,15 @@ public class MultipleBlobTracking extends BlobTracking {
 			if (approximateGaussian) { // (Solution)
 				GaussianBlur.applyBox(srcArray, destArray, src.getWidth(),
 						src.getHeight());
-			} // (Solution)
-			else { // (Solution)
+			} else {
 				GaussianBlur.apply(srcArray, destArray, width, height); // (Solution)
-			} // (Solution)
+			}
 			src = new Image(destArray, src.getWidth(), src.getHeight()); // (Solution)
 		}
 
-		blobPixel(src, multiBlobPixelMask); // (Solution)
+		blobPixel(src, multiBlobPixelMask);
 		multiBlobPresent(float_array, multiBlobPixelMask, multiImageConnected,
-				multiBlobMask); // (Solution)
-
+				multiBlobMask);
 		sortBlobs();
 
 		System.out.println("Number of blobs " + bos.size());
@@ -547,9 +545,21 @@ public class MultipleBlobTracking extends BlobTracking {
 
 		if (dest != null) { // (Solution)
 			// dest = Histogram.getHistogram(src, dest, true); // (Solution)
-			markBlob(src, dest); // (Solution)
-		} // (Solution)
-			// findFiducial(multiBlobMask, dest);
+			markBlob(src, dest);
+			for (BlobObject bo : bos) {
+				int x = (int) bo.getCentroidX();
+				int y = (int) bo.getCentroidY();
+				if (x > 10 && y > 10) {
+					for (int j = 0; j < 10; j++) {
+						for (int k = 0; k < 10; k++) {
+							dest.setPixel(x + j, y + k, (byte) 0, (byte) 0,
+									(byte) 0);
+						}
+					}
+				}
+			}
+
+		}
 		if (!isDone()) {
 			blobFix();
 			computeTranslationVelocityCommand();
