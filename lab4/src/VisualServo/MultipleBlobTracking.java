@@ -401,7 +401,9 @@ public class MultipleBlobTracking extends BlobTracking {
 					isTopFiducial = true;
 				}
 			}
-			if (!isTopFiducial) {
+			if (detectCircle(top, .5)) {
+				//it is a blob but not a block
+			} else if (!isTopFiducial) {
 				BlockObject blo = new BlockObject(top);
 				blos.add(blo);
 			}
