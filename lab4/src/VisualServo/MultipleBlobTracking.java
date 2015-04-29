@@ -454,6 +454,7 @@ public class MultipleBlobTracking extends BlobTracking {
 	 * 
 	 */
 	// DEPRECATED 4/28/15//
+	/*
 	public void sortBlobs(Image dest) {
 		boolean isTopFiducial;
 		for (int j = 0; j < bos.size(); j++) {
@@ -477,10 +478,12 @@ public class MultipleBlobTracking extends BlobTracking {
 			}
 		}
 	}
-
+	
+*/
 	/**
 	 * sortBlobs Iterates through blob objects to sort into fiducial and block
 	 */
+	/*
 	public void sortBlobs() {
 		boolean isTopFiducial;
 		for (int j = 0; j < bos.size(); j++) {
@@ -501,7 +504,7 @@ public class MultipleBlobTracking extends BlobTracking {
 			}
 		}
 	}
-
+*/
 	private boolean isAbove(BlobObject top, BlobObject bottom,
 			double thresholdX, double thresholdY) {
 
