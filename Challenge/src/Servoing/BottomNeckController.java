@@ -1,12 +1,15 @@
 package Servoing;
 
+import org.ros.node.topic.Publisher;
+import org.ros.message.rss_msgs.*;
+
 public class BottomNeckController extends ServoController {
 
     private static final int BOTTOM_PWM_0 = 2323;
     private static final int BOTTOM_PWM_180 = 726;
 
-    public BottomNeckController() {
-        super(BOTTOM_PWM_180, BOTTOM_PWM_0, Math.PI, BOTTOM_PWM_0, BOTTOM_PWM_180);
+    public BottomNeckController(Publisher<ArmMsg> armPWMPub) {
+        super(BOTTOM_PWM_180, BOTTOM_PWM_0, Math.PI, BOTTOM_PWM_0, BOTTOM_PWM_180, armPWMPub);
     }
 
     /**
