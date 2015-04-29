@@ -37,6 +37,9 @@ public class MultipleBlobTracking extends BlobTracking {
 		multiBlobPixelMask = new int[targetHueLevels.length][width * height];
 		multiBlobMask = new int[targetHueLevels.length][width * height];
 		multiImageConnected = new int[targetHueLevels.length][width * height];
+		bos = new ArrayList<BlobObject>();
+		fos = new ArrayList<FiducialObject>();
+		blos = new ArrayList<BlockObject>();
 	}
 
 	public MultipleBlobTracking(int width, int height) {
@@ -45,6 +48,9 @@ public class MultipleBlobTracking extends BlobTracking {
 		multiBlobPixelMask = new int[targetHueLevels.length][width * height];
 		multiBlobMask = new int[targetHueLevels.length][width * height];
 		multiImageConnected = new int[targetHueLevels.length][width * height];
+		bos = new ArrayList<BlobObject>();
+		fos = new ArrayList<FiducialObject>();
+		blos = new ArrayList<BlockObject>();
 	}
 
 	/**
@@ -625,9 +631,6 @@ public class MultipleBlobTracking extends BlobTracking {
 	 */
 	public void apply(Image src, Image dest, float[] float_array) {
 		stepTiming();
-		bos = new ArrayList<BlobObject>();
-		fos = new ArrayList<FiducialObject>();
-		blos = new ArrayList<BlockObject>();
 
 		if (useGaussianBlur) {// (Solution)
 			byte[] srcArray = src.toArray();// (Solution)
