@@ -68,6 +68,7 @@ public class ApproachBlock implements FSMState {
 		}
 
 		if (blockInVision) {
+			System.out.println("BLOCK IN VISION");
 			fsm.updateState(new VisualServoCollect(fsm));
 		} else {
 			OdometryMsg message = (OdometryMsg) msg.message;
