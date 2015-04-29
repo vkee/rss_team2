@@ -53,6 +53,8 @@ public class MultipleBlobTracking extends BlobTracking {
 	 * @param index
 	 */
 	protected void blobFix() {
+		targetRadius = 0.01;
+		focalPlaneDistance = 0.01;
 		double deltaX = bos.get(0).getCentroidX() - width / 2.0;
 		targetRange = focalPlaneDistance * targetRadius
 				/ Math.sqrt(bos.get(0).getTargetArea() / Math.PI);
