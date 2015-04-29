@@ -41,6 +41,7 @@ public class OpenGate implements FSMState {
 		int gatePWM = (int) message.pwms[1]; // convert from long to int
 		
 		// if gate is not open, open gate
+		System.out.println("Open PWM: 740");
 		if (!fsm.gateServo.isOpen(gatePWM))
 			{
 			int[] messagePWMs = new int[3];
@@ -48,6 +49,7 @@ public class OpenGate implements FSMState {
 			messagePWMs[1] = (int) message.pwms[1]; // convert from long to int
 			messagePWMs[2] = (int) message.pwms[2]; // convert from long to int
 			fsm.gateServo.open(messagePWMs);
+			System.out.println("CurrPWM: "+gatePWM);
 			}
 		else //if condition to leave state
 			{
