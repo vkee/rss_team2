@@ -24,7 +24,7 @@ public class ApproachBlock implements FSMState {
 	private WaypointNav waypointNavigator;
 	private MultipleBlobTracking mbt;
 	private client cl;
-	
+
 	public ApproachBlock(FSM stateMachine, Point2D.Double goalPoint) {
 		fsm = stateMachine;
 		goal = goalPoint;
@@ -63,11 +63,12 @@ public class ApproachBlock implements FSMState {
 			depth_array = cl.getDepthImage();
 			mbt.apply(src, depth_array);
 			blockInVision = !mbt.isDone();
-
+			System.out.println("Processing Image");
 		} catch (Exception e) {
+			blockInVision = false;
 		}
-
 		if (blockInVision) {
+			System.out.println("BLOCK IN VISION");
 			fsm.updateState(new VisualServoCollect(fsm));
 		} else {
 			OdometryMsg message = (OdometryMsg) msg.message;

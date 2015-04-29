@@ -41,6 +41,7 @@ public class VisualServoCollect implements FSMState {
 	}
 
 	public void update(GenericMessage msg) {
+		System.out.println("Beginning Update");
 		// do stuff
 		org.ros.message.rss_msgs.OdometryMsg message = (org.ros.message.rss_msgs.OdometryMsg) msg.message;
 
@@ -66,7 +67,7 @@ public class VisualServoCollect implements FSMState {
 		if(blobTrack.isDone()){		
 			fsm.updateState(new MoveForward(fsm));
 		}
-
+		System.out.println("End Update");
 	}
 
 	@Override
