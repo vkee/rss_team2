@@ -6,3 +6,4 @@ lab6_msgs/
 rss_msgs/
 *.cmake
 *.jar
+*.class
