@@ -147,16 +147,16 @@ public class ServoController {
 	 * Sends PWM commands to neck and gate servos by publishing 
 	 * an ArmMsg with desired PWM commands to the armPWMPub 
 	 * associated with the ServoController instance
-	 * @param topNeck desired PWM value to command to top neck servo
 	 * @param botNeck desired PWM value to command to bottom neck servo
 	 * @param gate desired PWM value to command to gate servo
+	 * @param topNeck desired PWM value to command to top neck servo
 	 */
-    public void sendPWM(int topNeck, int botNeck, int gate) {
+    public void sendPWM(int botNeck, int gate, int topNeck) {
 
         ArmMsg msg = new ArmMsg();
-        msg.pwms[0] = topNeck;
-        msg.pwms[1] = botNeck;
-        msg.pwms[2] = gate;
+        msg.pwms[0] = botNeck;
+        msg.pwms[1] = gate;
+        msg.pwms[2] = topNeck;
         armPWMPub.publish(msg);
 
         // System.out.println("message sent");
