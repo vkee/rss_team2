@@ -197,7 +197,7 @@ public class BlobTracking {
 	/**
 	 * <p>Computes frame rate of vision processing</p>
 	 */
-	private void stepTiming() {
+	protected void stepTiming() {
 		double currTime = System.currentTimeMillis();
 		stepCounter++;
 		// if it's been a second, compute frames-per-second

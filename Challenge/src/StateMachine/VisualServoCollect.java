@@ -41,7 +41,13 @@ public class VisualServoCollect implements FSMState {
 	}
 
 	public void update(GenericMessage msg) {
-		System.out.println("Beginning Update");
+		if (msg.type == msgENUM.WHEELS)  updateDrive(msg);
+		else if (msg.type == msgENUM.FLAP) updateGate(msg);
+	}
+
+	private void updateDrive(GenericMessage msg){
+
+		System.out.println("Beginning drive Update");
 		// do stuff
 		org.ros.message.rss_msgs.OdometryMsg message = (org.ros.message.rss_msgs.OdometryMsg) msg.message;
 
@@ -57,11 +63,8 @@ public class VisualServoCollect implements FSMState {
 		MotionMsg mo_msg = new MotionMsg(); // (Solution)
 		mo_msg.translationalVelocity = .2 * blobTrack.translationVelocityCommand;
 		mo_msg.rotationalVelocity = .2 * blobTrack.rotationVelocityCommand;
+		System.out.println(" TRANS VEL: " + mo_msg.translationalVelocity + " ROT VEL: " + mo_msg.rotationalVelocity);
 		fsm.motionPub.publish(mo_msg); // (Solution)
-
-		//TODO: add bump message handling
-		//TODO: increment counter of collected blocks
-			// do we have a counter for this yet?
 
 		//if condition to leave state
 		if(blobTrack.isDone()){		
@@ -69,6 +72,13 @@ public class VisualServoCollect implements FSMState {
 		}
 		System.out.println("End Update");
 	}
+
+	private void updateGate(GenericMessage msg){
+
+		//TODO: add bump message handling
+		//TODO: increment counter of collected blocks
+			// do we have a counter for this yet?
+}
 
 	@Override
 	public void onStart() {

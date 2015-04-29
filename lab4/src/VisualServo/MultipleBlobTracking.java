@@ -54,7 +54,7 @@ public class MultipleBlobTracking extends BlobTracking {
 	 */
 	protected void blobFix() {
 		targetRadius = 0.01;
-		focalPlaneDistance = 0.01;
+		focalPlaneDistance = 107.0;
 		double deltaX = bos.get(0).getCentroidX() - width / 2.0;
 		targetRange = focalPlaneDistance * targetRadius
 				/ Math.sqrt(bos.get(0).getTargetArea() / Math.PI);
@@ -147,6 +147,7 @@ public class MultipleBlobTracking extends BlobTracking {
 	 * @param src
 	 * @param mask
 	 */
+
 	protected void blobPixel(Image src, int[][] mask) {
 		for (int i = 0; i < targetHueLevels.length; i++) { // loop through every
 															// color

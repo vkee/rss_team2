@@ -165,6 +165,7 @@ public class BlobTracking {
 	 * @return translational velocity command //(Solution)
 	 */ //(Solution)
 	protected void computeTranslationVelocityCommand() { //(Solution)
+		System.out.println("RUNNING TRANSLATIONAL");
 		double translationError = targetRange - desiredFixationDistance; //(Solution)
 		if (Math.abs(translationError) < translationErrorTolerance) //(Solution)
 			translationVelocityCommand = 0.0; //(Solution)
