@@ -23,7 +23,7 @@ public class MultiRRT3D {
     private double bottomLeftY;
 
     private final int NUM_TRIES = 40000; //100K not 1M
-    private final int SAMPLE_GOALS = 300;
+    private final int SAMPLE_GOALS = 1000;
 
     public MultiRRT3D(GrandChallengeMap map) {
         this.map = map;

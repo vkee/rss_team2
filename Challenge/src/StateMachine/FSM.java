@@ -43,12 +43,12 @@ public class FSM implements NodeMain{
     public final long TIME_LIMIT = 10*60*1000;
 
     public long startTime;
-    public final double RRT_TOLERANCE = 0.02;
+    public final double RRT_TOLERANCE = 0.05;
     public final double ROBOTVEL = 0.1;			//coords/ms
 
 
     public int blocksCollected;
-    public MultiRRT3D RRTengine;
+    public MultiRRT2D RRTengine;
     public Point2D.Double currentLocation;			//the current goal point we are at
     public GoalAdjLists foundPaths;
     public TopNeckController topNeckServo;
