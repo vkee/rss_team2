@@ -629,8 +629,6 @@ public class MultipleBlobTracking extends BlobTracking {
 		blobPixel(src, multiBlobPixelMask);
 		multiBlobPresent(float_array, multiBlobPixelMask, multiImageConnected,
 				multiBlobMask);
-		sortBlobs();
-
 		System.out.println("Number of blobs " + bos.size());
 		System.out.println("Number of fiducials " + fos.size());
 		System.out.println("Number of blocks " + blos.size());
@@ -652,6 +650,8 @@ public class MultipleBlobTracking extends BlobTracking {
 			}
 
 		}
+		sortBlobs();
+
 		if (!isDone()) {
 			blobFix();
 			computeTranslationVelocityCommand();
