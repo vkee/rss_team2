@@ -295,6 +295,7 @@ public class ConnectedComponents {
 		for (int i = 1; i < labelCnt.length; i++) {
 			if (labelCnt[i] >= threshold) {
 				result.put(labelColors[i] + 0xff000000, labelCnt[i]);
+				//Color, Area
 			}
 		}
 		return result;

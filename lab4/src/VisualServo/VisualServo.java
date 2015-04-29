@@ -16,7 +16,7 @@ import org.ros.node.topic.Subscriber;
  * 
  */
 public class VisualServo implements NodeMain, Runnable {
-	
+
 	public client cl = null;
 
 	protected static final int width = 640;
@@ -36,10 +36,10 @@ public class VisualServo implements NodeMain, Runnable {
 	private double hue_threshold = 0.08; // (Solution)
 	private double saturation_level = 0.5; // (Solution)
 	/*
-	private double target_hue_level = 130/360; // (Solution)
-	private double hue_threshold = 0.1; // (Solution)
-	private double saturation_level = 0.4; // (Solution)
-	*/
+	 * private double target_hue_level = 130/360; // (Solution) private double
+	 * hue_threshold = 0.1; // (Solution) private double saturation_level = 0.4;
+	 * // (Solution)
+	 */
 	// // Units are fraction of total number of pixels detected in blob //
 	// (Solution)
 	private double blob_size_threshold = 0.005; // (Solution)
@@ -97,28 +97,29 @@ public class VisualServo implements NodeMain, Runnable {
 		cl = new client();
 		while (true) {
 			Image src = null;
-			float [] depth_array = null;
+			float[] depth_array = null;
 			try {
 				src = cl.getImage();
-				depth_array = cl.getDepthImage(); 
+				depth_array = cl.getDepthImage();
 				if (src == null)
 					continue;
 			} catch (Exception e) {
 				continue;
 			}
 			Image dest = new Image(src);
-//			Image dest = Image.floatRGB(depth_array);
-			blobTrack.apply(src, dest);//, depth_array);
-//
+			// Image depth = Image.floatRGB(depth_array);
+			blobTrack.apply(src, dest, depth_array);// , depth_array);
+			//
 			// update newly formed vision message
 			gui.setVisionImage(dest.toArray(), width, height);
 
 			// Begin Student Code
 			// publish velocity messages to move the robot towards the target
-			 MotionMsg msg = new MotionMsg(); // (Solution)
-			 msg.translationalVelocity = .2*blobTrack.translationVelocityCommand;
- 			 msg.rotationalVelocity = .2*blobTrack.rotationVelocityCommand; 
-			 publisher.publish(msg); // (Solution)
+
+			MotionMsg msg = new MotionMsg(); // (Solution)
+			msg.translationalVelocity = .2 * blobTrack.translationVelocityCommand;
+			msg.rotationalVelocity = .2 * blobTrack.rotationVelocityCommand;
+			publisher.publish(msg); // (Solution)
 
 			// End Student Code
 		}
