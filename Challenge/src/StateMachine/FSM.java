@@ -51,8 +51,7 @@ public class FSM implements NodeMain{
     public MultiRRT2D RRTengine;
     public Point2D.Double currentLocation;			//the current goal point we are at
     public GoalAdjLists foundPaths;
-    public TopNeckController topNeckServo;
-    public BottomNeckController bottomNeckServo;
+    public NeckController neckServo;
     public GateController gateServo;
         //public HashSet<Integer> visited;
 
@@ -168,8 +167,7 @@ public class FSM implements NodeMain{
             	}
         	});
 
-        topNeckServo = new TopNeckController(armPWMPub);
-        bottomNeckServo = new BottomNeckController(armPWMPub);
+        neckServo = new NeckController(armPWMPub);
         gateServo = new GateController(armPWMPub);
         System.out.println("Gate servo initialized");
         
