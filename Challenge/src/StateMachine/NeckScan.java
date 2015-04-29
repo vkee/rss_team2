@@ -26,7 +26,8 @@ public class NeckScan implements FSMState {
 	
 	public boolean accepts(msgENUM msgType)
 		{
-		if (msgType == msgENUM.NECK || msgType == msgENUM.IMAGE) return true;
+		if (msgType == msgENUM.SERVO) return true;
+		if (msgType == msgENUM.IMAGE) return true;
 		return false;
 		}
 

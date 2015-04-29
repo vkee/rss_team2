@@ -1,5 +1,9 @@
 package Servoing;
 
+import org.ros.node.topic.Publisher;
+import org.ros.message.rss_msgs.*;
+
+
 public class ServoController {
     protected int       MIN_PWM;
     protected int       MAX_PWM;
@@ -10,8 +14,10 @@ public class ServoController {
     protected double    LINE_THETA_INTERCEPT; // intercept of the line between PWM_90 and PWM_0
     protected int       MAX_PWM_CHANGE;       // the largest PWM change in value that can be safety written to the servo (for 1 radian of rotation)
     protected int       SHIFT_AMOUNT = 10;    // number of divisions of the rotation
-
-    public ServoController(int minPWM, int maxPWM, double thetaRange, int pwm0, int pwm180) {
+    private Publisher<ArmMsg> armPWMPub;
+ 
+    
+    public ServoController(int minPWM, int maxPWM, double thetaRange, int pwm0, int pwm180, Publisher<ArmMsg> armPWMPub) {
         this.MIN_PWM = minPWM;
         this.MAX_PWM = maxPWM;
         this.PWM_0   = pwm0;
@@ -20,6 +26,7 @@ public class ServoController {
         this.LINE_SLOPE = (-Math.PI/2)/(PWM_180 - PWM_0);
         this.LINE_THETA_INTERCEPT = 0 - LINE_SLOPE*PWM_0;
         this.MAX_PWM_CHANGE = (int) (1/THETA_RANGE * (MAX_PWM - MIN_PWM));
+        this.armPWMPub = armPWMPub;
     }
 
     public double getThetaDeg(double PWM) {
@@ -133,4 +140,27 @@ public class ServoController {
     public boolean atMax(int currPWM) {
         return currPWM == MAX_PWM;
     }
+    
+    
+
+	/**
+	 * Sends PWM commands to neck and gate servos by publishing 
+	 * an ArmMsg with desired PWM commands to the armPWMPub 
+	 * associated with the ServoController instance
+	 * @param topNeck desired PWM value to command to top neck servo
+	 * @param botNeck desired PWM value to command to bottom neck servo
+	 * @param gate desired PWM value to command to gate servo
+	 */
+    public void sendPWM(int topNeck, int botNeck, int gate) {
+
+        ArmMsg msg = new ArmMsg();
+        msg.pwms[0] = topNeck;
+        msg.pwms[1] = botNeck;
+        msg.pwms[2] = gate;
+        armPWMPub.publish(msg);
+
+        // System.out.println("message sent");
+        // System.out.println(Arrays.toString(pwm_stat));
+    }
+
 }
