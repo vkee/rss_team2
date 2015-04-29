@@ -24,7 +24,7 @@ public class ApproachBlock implements FSMState {
 	private WaypointNav waypointNavigator;
 	private MultipleBlobTracking mbt;
 	private client cl;
-
+	
 	public ApproachBlock(FSM stateMachine, Point2D.Double goalPoint) {
 		fsm = stateMachine;
 		goal = goalPoint;
@@ -75,7 +75,7 @@ public class ApproachBlock implements FSMState {
 			waypointNavigator.wayptNav(message.x, message.y, message.theta);
 
 			if (waypointNavigator.isDone()) {
-				fsm.updateState(new VisualServoCollect(fsm));
+				fsm.updateState(new WaypointNavClose(fsm));
 			}
 		}
 	}
