@@ -302,6 +302,58 @@ public class MultipleBlobTracking extends BlobTracking {
 	 * 
 	 * @param blob
 	 * @param threshold
+	 * @param dest
+	 */
+	public boolean detectCircle(BlobObject blob, double threshold, Image dest) {
+		double rad_d = Math.sqrt((blob.getTargetArea() / Math.PI));
+		int x = (int) blob.getCentroidX();
+		int y = (int) blob.getCentroidY();
+		int[] mask = blob.getBlobArr();
+		int circle_counter = 0;
+		// int z = y * this.width + x;
+		double[] angles = { 0, Math.PI / 12.0, Math.PI / 10.0, Math.PI / 8.0,
+				Math.PI / 7.0, Math.PI / 6.0, Math.PI / 5.5, Math.PI / 5.0,
+				Math.PI / 4.5, Math.PI / 4.0, Math.PI / 3.5, Math.PI / 3.0,
+				Math.PI / 2.5, Math.PI / 2.0 };
+		for (double ang : angles) {
+			int x_angle = (int) (rad_d * Math.cos(ang));
+			int y_angle = (int) (rad_d * Math.sin(ang));
+
+			if (x + x_angle < this.width && x - x_angle > 0
+					&& y + y_angle < this.height && y - y_angle > 0) {
+				if (mask[(x + x_angle) + ((y + y_angle) * this.width)] > 0) {
+					circle_counter++;
+				}
+				if (mask[(x - x_angle) + ((y - y_angle) * this.width)] > 0) {
+					circle_counter++;
+				}
+				if (mask[(x - x_angle) + ((y + y_angle) * this.width)] > 0) {
+					circle_counter++;
+				}
+				if (mask[(x + x_angle) + ((y - y_angle) * this.width)] > 0) {
+					circle_counter++;
+				}
+				dest.setPixel(x + x_angle, y + y_angle, (byte) 0xff,
+						(byte) 0xff, (byte) 0xff);
+				dest.setPixel(x - x_angle, y - y_angle, (byte) 0xff,
+						(byte) 0xff, (byte) 0xff);
+				dest.setPixel(x - x_angle, y + y_angle, (byte) 0xff,
+						(byte) 0xff, (byte) 0xff);
+				dest.setPixel(x + x_angle, y - y_angle, (byte) 0xff,
+						(byte) 0xff, (byte) 0xff);
+
+			}
+		}
+		System.out.println("How well "
+				+ (circle_counter / ((double) angles.length * 4)));
+		return (circle_counter / ((double) angles.length * 4)) > threshold;
+	}
+
+	/**
+	 * 
+	 * @param blob
+	 * @param threshold
+	 * @return
 	 */
 	public boolean detectCircle(BlobObject blob, double threshold) {
 		double rad_d = Math.sqrt((blob.getTargetArea() / Math.PI));
@@ -394,6 +446,31 @@ public class MultipleBlobTracking extends BlobTracking {
 	/**
 	 * 
 	 */
+	public void sortBlobs(Image dest) {
+		boolean isTopFiducial;
+		for (int j = 0; j < bos.size(); j++) {
+			BlobObject top = bos.get(j);
+			isTopFiducial = false;
+			// for (int k = 0; k < bos.size(); k++) {
+			// BlobObject bottom = bos.get(k);
+			// if (top != bottom && isFiducialColorMatch(top, bottom)
+			// && detectCircle(top, .8) && detectCircle(bottom, .8)
+			// && isAbove(top, bottom, .1)) {
+			// FiducialObject fo = new FiducialObject(top, bottom);
+			// fos.add(fo);
+			// isTopFiducial = true;
+			// }
+			// }
+			if (detectCircle(top, .5, dest)) {
+				System.out.println(" The Circle is " + top.getColor());
+				// it is a blob but not a block
+			} else if (!isTopFiducial) {
+				BlockObject blo = new BlockObject(top);
+				blos.add(blo);
+			}
+		}
+	}
+
 	public void sortBlobs() {
 		boolean isTopFiducial;
 		for (int j = 0; j < bos.size(); j++) {
