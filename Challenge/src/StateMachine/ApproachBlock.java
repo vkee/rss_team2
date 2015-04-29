@@ -63,11 +63,10 @@ public class ApproachBlock implements FSMState {
 			depth_array = cl.getDepthImage();
 			mbt.apply(src, depth_array);
 			blockInVision = !mbt.isDone();
-
+			System.out.println("Processing Image");
 		} catch (Exception e) {
 			blockInVision = false;
 		}
-
 		if (blockInVision) {
 			System.out.println("BLOCK IN VISION");
 			fsm.updateState(new VisualServoCollect(fsm));
