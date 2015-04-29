@@ -521,6 +521,7 @@ public class MultipleBlobTracking extends BlobTracking {
 	 */
 	public boolean isDone() {
 		// if there are 0 blocks then it's Done
+		System.out.println("number of blocks " + blos.size()  + " number of blobs" +  bos.size());
 		return blos.size() == 0 || bos.size() == 0;
 	}
 
