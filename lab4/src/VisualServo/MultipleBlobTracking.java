@@ -583,7 +583,7 @@ public class MultipleBlobTracking extends BlobTracking {
 		blobPixel(src, multiBlobPixelMask); // (Solution)
 		blobPresent(multiBlobPixelMask, multiImageConnected, multiBlobMask); // (Solution)
 
-		sortBlobs();
+		//sortBlobs();
 
 		if (dest != null) { // (Solution)
 			// dest = Histogram.getHistogram(src, dest, true); // (Solution)
