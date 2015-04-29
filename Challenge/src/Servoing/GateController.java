@@ -55,7 +55,7 @@ public class GateController extends ServoController {
     	// send PWM commands to open gate only
     	// the neck servo commands are just their current PWM
     	// the gate servo command is the safe PWM value to write while opening gate
-        sendPWM(currPWM[0],currPWM[1],getSafePWM(currPWM[2], GATE_OPEN_PWM));
+        sendPWM(currPWM[0],getSafePWM(currPWM[1], GATE_OPEN_PWM),currPWM[2]);
     }
 
 

@@ -53,4 +53,8 @@ public class BlobObject {
 	public int[] getBlobArr() {
 		return this.blobArr;
 	}
+	
+	public double getRadius(){
+		return Math.sqrt(this.targetArea/Math.PI);
+	}
 }

@@ -171,6 +171,7 @@ public class FSM implements NodeMain{
         topNeckServo = new TopNeckController(armPWMPub);
         bottomNeckServo = new BottomNeckController(armPWMPub);
         gateServo = new GateController(armPWMPub);
+        System.out.println("Gate servo initialized");
         
         mapDrawer = new MapDrawer(guiRectPub, guiPolyPub, guiErasePub, guiPtPub, ellipsePub, 
         		stringPub, odometrySub, motionPub);

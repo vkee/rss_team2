@@ -191,14 +191,16 @@ public class MultipleBlobTracking extends BlobTracking {
 	protected void multiBlobPresent(float[] depth_img, int[][] threshIm,
 			int[][] connIm, int[][] m_blobIm) {
 		for (int i = 0; i < targetHueLevels.length; i++) {
-			ConnectedComponents connComp = new ConnectedComponents(); // (Solution)
-			connComp.doLabel(threshIm[i], connIm[i], width, height); // (Solution)
+			ConnectedComponents connComp = new ConnectedComponents();
+			connComp.doLabel(threshIm[i], connIm[i], width, height);
 
-			HashMap<Integer, Integer> blob_info = connComp.getBlobPixel(0.005);
+			HashMap<Integer, Integer> blob_info = connComp.getBlobPixel(0.005
+					* height * width);
 
 			double centroidX;
 			double centroidY;
-
+			System.out.println(blob_info.entrySet() + " " + colorwheel[i]
+					+ " found");// use this to debug 4/29/15
 			for (Map.Entry<Integer, Integer> entry : blob_info.entrySet()) {
 
 				int colorMax = entry.getKey();
@@ -207,9 +209,8 @@ public class MultipleBlobTracking extends BlobTracking {
 				int sx = 0;
 				int sy = 0;
 
-				if (countMax > blobSizeThreshold * height * width) { // (Solution)
-					targetArea[i] = countMax; // (Solution)
-					int destIndex = 0; // (Solution)
+				if (countMax > blobSizeThreshold * height * width) {
+					int destIndex = 0;
 					for (int y = 0; y < height; y++) {
 						for (int x = 0; x < width; x++) {
 							if (connIm[i][destIndex] == colorMax) {
@@ -239,8 +240,9 @@ public class MultipleBlobTracking extends BlobTracking {
 					bos.add(bo);
 				}
 			}
-		} // End of blob present
-
+		}
+		System.out.println(bos.size() + " blobs detected."); // use this to
+																// debug 4/29
 	}
 
 	/**
@@ -306,6 +308,7 @@ public class MultipleBlobTracking extends BlobTracking {
 	 * @param threshold
 	 * @param dest
 	 */
+	// DEPRECATED 4/28/15//
 	public boolean detectCircle(BlobObject blob, double threshold, Image dest) {
 		double rad_d = Math.sqrt((blob.getTargetArea() / Math.PI));
 		int x = (int) blob.getCentroidX();
@@ -357,6 +360,7 @@ public class MultipleBlobTracking extends BlobTracking {
 	 * @param threshold
 	 * @return
 	 */
+	// DEPRECATED 4/28/15//
 	public boolean detectCircle(BlobObject blob, double threshold) {
 		double rad_d = Math.sqrt((blob.getTargetArea() / Math.PI));
 		int x = (int) blob.getCentroidX();
@@ -399,6 +403,7 @@ public class MultipleBlobTracking extends BlobTracking {
 	 * @param multiBlobMask
 	 * @param dest
 	 */
+	// DEPRECATED 4/28/15//
 	public void findFiducial(int[][] multiBlobMask, Image dest) {
 		// for (int i = 0; i < multiBlobMask.length; i++){
 		double rad_d = Math.sqrt((targetArea[0] / Math.PI));
@@ -448,21 +453,21 @@ public class MultipleBlobTracking extends BlobTracking {
 	/**
 	 * 
 	 */
+	// DEPRECATED 4/28/15//
 	public void sortBlobs(Image dest) {
 		boolean isTopFiducial;
 		for (int j = 0; j < bos.size(); j++) {
 			BlobObject top = bos.get(j);
 			isTopFiducial = false;
-			// for (int k = 0; k < bos.size(); k++) {
-			// BlobObject bottom = bos.get(k);
-			// if (top != bottom && isFiducialColorMatch(top, bottom)
-			// && detectCircle(top, .8) && detectCircle(bottom, .8)
-			// && isAbove(top, bottom, .1)) {
-			// FiducialObject fo = new FiducialObject(top, bottom);
-			// fos.add(fo);
-			// isTopFiducial = true;
-			// }
-			// }
+			for (int k = 0; k < bos.size(); k++) {
+				BlobObject bottom = bos.get(k);
+				if (top != bottom && isFiducialColorMatch(top, bottom)
+						&& isAbove(top, bottom, .1, .1)) {
+					FiducialObject fo = new FiducialObject(top, bottom);
+					fos.add(fo);
+					isTopFiducial = true;
+				}
+			}
 			if (detectCircle(top, .5, dest)) {
 				System.out.println(" The Circle is " + top.getColor());
 				// it is a blob but not a block
@@ -473,6 +478,9 @@ public class MultipleBlobTracking extends BlobTracking {
 		}
 	}
 
+	/**
+	 * sortBlobs Iterates through blob objects to sort into fiducial and block
+	 */
 	public void sortBlobs() {
 		boolean isTopFiducial;
 		for (int j = 0; j < bos.size(); j++) {
@@ -481,7 +489,7 @@ public class MultipleBlobTracking extends BlobTracking {
 			for (int k = 0; k < bos.size(); k++) {
 				BlobObject bottom = bos.get(k);
 				if (top != bottom && isFiducialColorMatch(top, bottom)
-						&& isAbove(top, bottom, .1)) {
+						&& isAbove(top, bottom, 0.1, 0.1)) {
 					FiducialObject fo = new FiducialObject(top, bottom);
 					fos.add(fo);
 					isTopFiducial = true;
@@ -494,9 +502,13 @@ public class MultipleBlobTracking extends BlobTracking {
 		}
 	}
 
-	private boolean isAbove(BlobObject top, BlobObject bottom, double threshold) {
+	private boolean isAbove(BlobObject top, BlobObject bottom,
+			double thresholdX, double thresholdY) {
+
 		return top.getCentroidY() < bottom.getCentroidY()
-				&& Math.abs(top.getCentroidX() - bottom.getCentroidX()) < threshold;
+				&& Math.abs(bottom.getCentroidY() - top.getCentroidY()
+						- (top.getRadius() + bottom.getRadius())) < thresholdY
+				&& (Math.abs(top.getCentroidX() - bottom.getCentroidX()) < thresholdX);
 	}
 
 	/**
@@ -506,7 +518,7 @@ public class MultipleBlobTracking extends BlobTracking {
 	 */
 	public boolean isDone() {
 		// if there are 0 blocks then it's Done
-		return blos.size() == 0;
+		return blos.size() == 0 || bos.size() == 0;
 	}
 
 	/**
@@ -628,9 +640,9 @@ public class MultipleBlobTracking extends BlobTracking {
 		blobPixel(src, multiBlobPixelMask);
 		multiBlobPresent(float_array, multiBlobPixelMask, multiImageConnected,
 				multiBlobMask);
-		System.out.println("Number of blobs " + bos.size());
-		System.out.println("Number of fiducials " + fos.size());
-		System.out.println("Number of blocks " + blos.size());
+		//System.out.println("Number of blobs " + bos.size());
+		//System.out.println("Number of fiducials " + fos.size());
+		//System.out.println("Number of blocks " + blos.size());
 
 		if (dest != null) { // (Solution)
 			// dest = Histogram.getHistogram(src, dest, true); // (Solution)
@@ -649,7 +661,7 @@ public class MultipleBlobTracking extends BlobTracking {
 			}
 
 		}
-		sortBlobs();
+		//sortBlobs();
 
 		if (!isDone()) {
 			blobFix();

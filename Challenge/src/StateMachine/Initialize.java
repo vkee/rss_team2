@@ -17,153 +17,160 @@ import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
 
 /**
- * This state initializes the robot to the starting positions engaging all motors and servos
+ * This state initializes the robot to the starting positions engaging all
+ * motors and servos
  */
 public class Initialize implements FSMState {
 
-	private FSM fsm;	
+	private FSM fsm;
 	private boolean initialized;
 
-	public Initialize(FSM stateMachine){
+	public Initialize(FSM stateMachine) {
 		fsm = stateMachine;
 
 		try {
 			GrandChallengeMap challengeMap = null;
-			try{
+			try {
 				challengeMap = GrandChallengeMap.parseFile(fsm.mapFileName);
 			} catch (Exception e) {
 				System.err.println("Unable to load map.");
 				e.printStackTrace();
 			}
 
-			CSpace2D cSpace = new CSpace2D(); 
-			ArrayList<PolygonObstacle> cSpaces = cSpace.generateCSpace(challengeMap, false);
+			CSpace2D cSpace = new CSpace2D();
+			ArrayList<PolygonObstacle> cSpaces = cSpace.generateCSpace(
+					challengeMap, false);
 			challengeMap.cSpace = cSpaces;
 			fsm.mapDrawer.displayMap(challengeMap);
 
 			fsm.mapDrawer.displayMapCSpace(cSpaces);
 
 			ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
-			for (ConstructionObject cobj : challengeMap.getConstructionObjects()){
+			for (ConstructionObject cobj : challengeMap
+					.getConstructionObjects()) {
 				boolean unreachable = false;
 				Point2D.Double loc = cobj.getPosition();
 
-				//				System.out.println(obsCSpaces.get(0).size());
+				// System.out.println(obsCSpaces.get(0).size());
 
-				for (PolygonObstacle obs : cSpaces) {		//TODO only the 0degree now
-					if (obs.contains(loc)){
+				for (PolygonObstacle obs : cSpaces) { // TODO only the 0degree
+														// now
+					if (obs.contains(loc)) {
 						unreachable = true;
 						break;
 					}
 				}
 
-				if (!unreachable) objectLocations.add(loc);
-
+				if (!unreachable)
+					objectLocations.add(loc);
 
 			}
 
-
-			/*CSpace3D cSpace3D = new CSpace3D(); 
-			ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = cSpace3D.generateCSpace(challengeMap, false);
-			challengeMap.set3DCSpace(obsCSpaces);
-			fsm.mapDrawer.displayMap(challengeMap);
-
-			fsm.mapDrawer.displayMapCSpace(obsCSpaces.get(90));
-
-			//			2D CSpace for checking if can reach obstacles 
-			CSpace2D cSpace2D = new CSpace2D(); 
-			ArrayList<PolygonObstacle> obs2DCSpaces = cSpace2D.generateCSpace(challengeMap, false);
-
-			ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
-			Point2D.Double start = challengeMap.getRobotStart();
-			Point2D.Double end = challengeMap.getRobotGoal();
-
-			for (ConstructionObject cobj : challengeMap.getConstructionObjects()){
-				boolean unreachable = false;
-				Point2D.Double loc = cobj.getPosition();
-
-				//				System.out.println(obsCSpaces.get(0).size());
-
-				for (PolygonObstacle obs : obs2DCSpaces) {		//TODO only the 0degree now obs2DCSpaces
-					if (obs.contains(loc)||loc.equals(start)){
-						unreachable = true;
-						break;
-					}
-				}
-
-
-				if (!unreachable) objectLocations.add(loc);
-
-
-			}*/
+			/*
+			 * CSpace3D cSpace3D = new CSpace3D();
+			 * ArrayList<ArrayList<PolygonObstacle>> obsCSpaces =
+			 * cSpace3D.generateCSpace(challengeMap, false);
+			 * challengeMap.set3DCSpace(obsCSpaces);
+			 * fsm.mapDrawer.displayMap(challengeMap);
+			 * 
+			 * fsm.mapDrawer.displayMapCSpace(obsCSpaces.get(90));
+			 * 
+			 * // 2D CSpace for checking if can reach obstacles CSpace2D
+			 * cSpace2D = new CSpace2D(); ArrayList<PolygonObstacle>
+			 * obs2DCSpaces = cSpace2D.generateCSpace(challengeMap, false);
+			 * 
+			 * ArrayList<Point2D.Double> objectLocations = new
+			 * ArrayList<Point2D.Double>(); Point2D.Double start =
+			 * challengeMap.getRobotStart(); Point2D.Double end =
+			 * challengeMap.getRobotGoal();
+			 * 
+			 * for (ConstructionObject cobj :
+			 * challengeMap.getConstructionObjects()){ boolean unreachable =
+			 * false; Point2D.Double loc = cobj.getPosition();
+			 * 
+			 * // System.out.println(obsCSpaces.get(0).size());
+			 * 
+			 * for (PolygonObstacle obs : obs2DCSpaces) { //TODO only the
+			 * 0degree now obs2DCSpaces if
+			 * (obs.contains(loc)||loc.equals(start)){ unreachable = true;
+			 * break; } }
+			 * 
+			 * 
+			 * if (!unreachable) objectLocations.add(loc);
+			 * 
+			 * 
+			 * }
+			 */
 
 			System.out.println("Num obs: " + objectLocations.size());
 
 			fsm.mapDrawer.displayCObj(challengeMap.getConstructionObjects());
-Point2D.Double start = challengeMap.getRobotStart();
+			Point2D.Double start = challengeMap.getRobotStart();
 			Point2D.Double end = challengeMap.getRobotGoal();
 
 			fsm.currentLocation = start;
 			objectLocations.add(end);
 
-			fsm.RRTengine =  new MultiRRT2D(challengeMap);
+			fsm.RRTengine = new MultiRRT2D(challengeMap);
 			fsm.foundPaths = new GoalAdjLists(end);
 
 			Point2D.Double currLocation = start;
-			while (objectLocations.size() > 0)
-			{
-System.out.println("starting loc " + currLocation);
-System.out.println("Printing locs");
-for (Point2D.Double locs : objectLocations){
-	System.out.println(locs);
-}
-				RRTreeNode[] pathEnds = fsm.RRTengine.getPaths(currLocation, objectLocations, fsm.RRT_TOLERANCE);
+			while (objectLocations.size() > 0) {
+				System.out.println("starting loc " + currLocation);
+				System.out.println("Printing locs");
+				for (Point2D.Double locs : objectLocations) {
+					System.out.println(locs);
+				}
+				RRTreeNode[] pathEnds = fsm.RRTengine.getPaths(currLocation,
+						objectLocations, fsm.RRT_TOLERANCE);
 
-				//            Prints out the path to the MapGUI
-				for (RRTreeNode r: pathEnds)
-				{
-					if (r==null) continue;
+				// Prints out the path to the MapGUI
+				for (RRTreeNode r : pathEnds) {
+					if (r == null)
+						continue;
 					fsm.mapDrawer.outputPath(r.pathFromParent());
 				}
 
-				for (int i=0; i<pathEnds.length; i++)
-				{
-					if (pathEnds[i] == null)
-					{objectLocations.remove(i);			//if path was not found, remove it from possible locations
-					continue;}
+				for (int i = 0; i < pathEnds.length; i++) {
+					if (pathEnds[i] == null) {
+						objectLocations.remove(i); // if path was not found,
+													// remove it from possible
+													// locations
+						continue;
+					}
 					double dist = pathEnds[i].distFromRoot;
-					ArrayList<Point2D.Double> path = pathEnds[i].pathFromParent();
-					fsm.foundPaths.addBiPath(currLocation, objectLocations.get(i), path, dist);
+					ArrayList<Point2D.Double> path = pathEnds[i]
+							.pathFromParent();
+					fsm.foundPaths.addBiPath(currLocation,
+							objectLocations.get(i), path, dist);
 				}
 
 				currLocation = objectLocations.remove(0);
-			}			
+			}
 			initialized = true;
 
 		} catch (Exception e) {
 			System.err.println("Error in Initialize.");
 			e.printStackTrace();
 		}
-	}	
+	}
 
-	public stateENUM getName(){
+	public stateENUM getName() {
 		return stateENUM.INITIALIZE;
 	}
 
-
-	public boolean accepts(msgENUM msgType){
-		//if (msgType == msgENUM.WHEELS) return true;
-		if (msgType == null && initialized){
+	public boolean accepts(msgENUM msgType) {
+		// if (msgType == msgENUM.WHEELS) return true;
+		if (msgType == null && initialized) {
 			return true;
 		}
 		return false;
 	}
 
-
-	public void update(GenericMessage msg){
-		//do stuff
-
-		//if condition to leave state
+	public void update(GenericMessage msg) {
+		// do stuff
+		System.out.println("hi");
+		// if condition to leave state
 		fsm.updateState(new OpenGate(fsm));
 	}
 
