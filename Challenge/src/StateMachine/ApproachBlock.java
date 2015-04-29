@@ -24,7 +24,7 @@ public class ApproachBlock implements FSMState {
 	private WaypointNav waypointNavigator;
 	private MultipleBlobTracking mbt;
 	private client cl;
-	
+
 	public ApproachBlock(FSM stateMachine, Point2D.Double goalPoint) {
 		fsm = stateMachine;
 		goal = goalPoint;
@@ -65,6 +65,7 @@ public class ApproachBlock implements FSMState {
 			blockInVision = !mbt.isDone();
 
 		} catch (Exception e) {
+			blockInVision = false;
 		}
 
 		if (blockInVision) {
