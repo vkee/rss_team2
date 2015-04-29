@@ -640,9 +640,9 @@ public class MultipleBlobTracking extends BlobTracking {
 		blobPixel(src, multiBlobPixelMask);
 		multiBlobPresent(float_array, multiBlobPixelMask, multiImageConnected,
 				multiBlobMask);
-		System.out.println("Number of blobs " + bos.size());
-		System.out.println("Number of fiducials " + fos.size());
-		System.out.println("Number of blocks " + blos.size());
+		//System.out.println("Number of blobs " + bos.size());
+		//System.out.println("Number of fiducials " + fos.size());
+		//System.out.println("Number of blocks " + blos.size());
 
 		if (dest != null) { // (Solution)
 			// dest = Histogram.getHistogram(src, dest, true); // (Solution)
@@ -661,7 +661,7 @@ public class MultipleBlobTracking extends BlobTracking {
 			}
 
 		}
-		sortBlobs();
+		//sortBlobs();
 
 		if (!isDone()) {
 			blobFix();
