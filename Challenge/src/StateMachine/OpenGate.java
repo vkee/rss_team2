@@ -36,10 +36,9 @@ public class OpenGate implements FSMState {
 		{
 		//do stuff
 
-		// get gate PWM value
-		
+		// get gate PWM value from arm message
 		ArmMsg message = (ArmMsg)msg.message;
-		int gatePWM = (int) message.pwms[2]; // convert from long to int
+		int gatePWM = (int) message.pwms[1]; // convert from long to int
 		
 		// if gate is not open, open gate
 		if (!fsm.gateServo.isOpen(gatePWM))

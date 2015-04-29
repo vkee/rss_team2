@@ -162,7 +162,7 @@ for (Point2D.Double locs : objectLocations){
 
 	public void update(GenericMessage msg){
 		//do stuff
-
+		System.out.println("hi");
 		//if condition to leave state
 		fsm.updateState(new OpenGate(fsm));
 	}
