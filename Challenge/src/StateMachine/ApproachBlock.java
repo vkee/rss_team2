@@ -51,6 +51,7 @@ public class ApproachBlock implements FSMState {
 	}
 
 	public void update(GenericMessage msg) {
+	    System.out.println("Entered update");
 		// do stuff
 
 		// if condition to leave state
