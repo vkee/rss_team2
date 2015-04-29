@@ -45,9 +45,11 @@ public class VisualServoCollect implements FSMState {
 		org.ros.message.rss_msgs.OdometryMsg message = (org.ros.message.rss_msgs.OdometryMsg) msg.message;
 
 		Image src = null;
+		float[] depth_array - null;
 		try {
 			src = cl.getImage();
-			blobTrack.apply(src);
+			depth_array = cl.getDepthImage();
+			blobTrack.apply(src,depth_array);
 		} catch (Exception e) {
 		}
 

@@ -516,7 +516,7 @@ public class MultipleBlobTracking extends BlobTracking {
 	 * 
 	 * @param src
 	 */
-	public void apply(Image src) {
+	public void apply(Image src, float[] array) {
 		stepTiming();
 
 		if (useGaussianBlur) {
@@ -532,7 +532,7 @@ public class MultipleBlobTracking extends BlobTracking {
 		}
 
 		blobPixel(src, multiBlobPixelMask);
-		blobPresent(multiBlobPixelMask, multiImageConnected, multiBlobMask);
+		multiBlobPresent(array, multiBlobPixelMask, multiImageConnected, multiBlobMask);
 
 		// sorts blobs into fiducials and blocks
 		//sortBlobs();
