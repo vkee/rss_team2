@@ -77,7 +77,7 @@ public class ApproachBlock implements FSMState {
 			System.out.println("Something bad is happening");
 			OdometryMsg message = (OdometryMsg) msg.message;
 
-			waypointNavigator.wayptNav(message.x, message.y, message.theta);
+//			waypointNavigator.wayptNav(message.x, message.y, message.theta);
 
 			if (waypointNavigator.isDone()) {
 				fsm.updateState(new WaypointNavClose(fsm));
