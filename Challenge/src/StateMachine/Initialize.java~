@@ -100,8 +100,7 @@ public class Initialize implements FSMState {
 			System.out.println("Num obs: " + objectLocations.size());
 
 			fsm.mapDrawer.displayCObj(challengeMap.getConstructionObjects());
-Point2D.Double start = challengeMap.getRobotStart();
-			Point2D.Double end = challengeMap.getRobotGoal();
+
 
 			fsm.currentLocation = start;
 			objectLocations.add(end);
