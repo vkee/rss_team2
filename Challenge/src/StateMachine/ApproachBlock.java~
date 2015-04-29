@@ -24,7 +24,7 @@ public class ApproachBlock implements FSMState {
 	private WaypointNav waypointNavigator;
 	private MultipleBlobTracking mbt;
 	private client cl;
-	
+
 	public ApproachBlock(FSM stateMachine, Point2D.Double goalPoint) {
 		fsm = stateMachine;
 		goal = goalPoint;
@@ -32,6 +32,7 @@ public class ApproachBlock implements FSMState {
 		waypoints.add(goalPoint);
 		waypointNavigator = new WaypointNav(waypoints, goalPoint, fsm);
 		mbt = new MultipleBlobTracking(640, 480);
+		cl = new client();
 
 		// TODO: possibly update this in the vision instead of here
 		// may need to add a state if the block location is not where it is
@@ -51,6 +52,7 @@ public class ApproachBlock implements FSMState {
 	}
 
 	public void update(GenericMessage msg) {
+	    System.out.println("Entered update");
 		// do stuff
 
 		// if condition to leave state
@@ -59,20 +61,24 @@ public class ApproachBlock implements FSMState {
 		float[] depth_array = null;
 		boolean blockInVision;
 		try {
+			System.out.println("starting");
 			src = cl.getImage();
 			depth_array = cl.getDepthImage();
 			mbt.apply(src, depth_array);
 			blockInVision = !mbt.isDone();
-
+			System.out.println("Processing Image");
 		} catch (Exception e) {
+			blockInVision = false;
+			e.printStackTrace();
 		}
-
 		if (blockInVision) {
+			System.out.println("BLOCK IN VISION");
 			fsm.updateState(new VisualServoCollect(fsm));
 		} else {
+			System.out.println("Something bad is happening");
 			OdometryMsg message = (OdometryMsg) msg.message;
 
-			waypointNavigator.wayptNav(message.x, message.y, message.theta);
+//			waypointNavigator.wayptNav(message.x, message.y, message.theta);
 
 			if (waypointNavigator.isDone()) {
 				fsm.updateState(new WaypointNavClose(fsm));

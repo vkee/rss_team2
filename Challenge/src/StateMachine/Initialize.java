@@ -153,6 +153,7 @@ public class Initialize implements FSMState {
 			System.err.println("Error in Initialize.");
 			e.printStackTrace();
 		}
+
 	}
 
 	public stateENUM getName() {
@@ -171,7 +172,7 @@ public class Initialize implements FSMState {
 		// do stuff
 		System.out.println("hi");
 		// if condition to leave state
-		fsm.updateState(new WaypointNavClose(fsm));
+		fsm.updateState(new WaypointNavClose(fsm)); 
 	}
 
 	@Override
