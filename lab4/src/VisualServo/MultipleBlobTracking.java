@@ -37,9 +37,6 @@ public class MultipleBlobTracking extends BlobTracking {
 		multiBlobPixelMask = new int[targetHueLevels.length][width * height];
 		multiBlobMask = new int[targetHueLevels.length][width * height];
 		multiImageConnected = new int[targetHueLevels.length][width * height];
-		bos = new ArrayList<BlobObject>();
-		fos = new ArrayList<FiducialObject>();
-		blos = new ArrayList<BlockObject>();
 	}
 
 	public MultipleBlobTracking(int width, int height) {
@@ -48,9 +45,6 @@ public class MultipleBlobTracking extends BlobTracking {
 		multiBlobPixelMask = new int[targetHueLevels.length][width * height];
 		multiBlobMask = new int[targetHueLevels.length][width * height];
 		multiImageConnected = new int[targetHueLevels.length][width * height];
-		bos = new ArrayList<BlobObject>();
-		fos = new ArrayList<FiducialObject>();
-		blos = new ArrayList<BlockObject>();
 	}
 
 	/**
@@ -527,8 +521,8 @@ public class MultipleBlobTracking extends BlobTracking {
 	 */
 	public boolean isDone() {
 		// if there are 0 blocks then it's Done
-		System.out.println("number of blocks " + blos.size()  + " number of blobs" +  bos.size());
-		return blos.size() == 0 || bos.size() == 0;
+		System.out.println("number of blocks " + blos.size()  + " number of blobs " +  bos.size());
+		return bos.size() == 0;
 	}
 
 	/**
@@ -538,6 +532,9 @@ public class MultipleBlobTracking extends BlobTracking {
 	 */
 	public void apply(Image src, float[] array) {
 		stepTiming();
+		bos = new ArrayList<BlobObject>();
+		fos = new ArrayList<FiducialObject>();
+		blos = new ArrayList<BlockObject>();
 
 		if (useGaussianBlur) {
 			byte[] srcArray = src.toArray();
@@ -573,6 +570,9 @@ public class MultipleBlobTracking extends BlobTracking {
 	 */
 	public void apply(Image src, Image dest) {
 		stepTiming();
+		bos = new ArrayList<BlobObject>();
+		fos = new ArrayList<FiducialObject>();
+		blos = new ArrayList<BlockObject>();
 
 		if (useGaussianBlur) {// (Solution)
 			byte[] srcArray = src.toArray();// (Solution)
@@ -631,6 +631,9 @@ public class MultipleBlobTracking extends BlobTracking {
 	 */
 	public void apply(Image src, Image dest, float[] float_array) {
 		stepTiming();
+		bos = new ArrayList<BlobObject>();
+		fos = new ArrayList<FiducialObject>();
+		blos = new ArrayList<BlockObject>();
 
 		if (useGaussianBlur) {// (Solution)
 			byte[] srcArray = src.toArray();// (Solution)
