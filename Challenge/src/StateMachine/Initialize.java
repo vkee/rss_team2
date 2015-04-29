@@ -171,7 +171,7 @@ public class Initialize implements FSMState {
 		// do stuff
 		System.out.println("hi");
 		// if condition to leave state
-		fsm.updateState(new OpenGate(fsm));
+		fsm.updateState(new WaypointNavClose(fsm));
 	}
 
 	@Override
