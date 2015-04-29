@@ -59,6 +59,7 @@ public class ApproachBlock implements FSMState {
 		float[] depth_array = null;
 		boolean blockInVision;
 		try {
+			System.out.println("starting");
 			src = cl.getImage();
 			depth_array = cl.getDepthImage();
 			mbt.apply(src, depth_array);
@@ -66,11 +67,13 @@ public class ApproachBlock implements FSMState {
 			System.out.println("Processing Image");
 		} catch (Exception e) {
 			blockInVision = false;
+			e.printStackTrace();
 		}
 		if (blockInVision) {
 			System.out.println("BLOCK IN VISION");
 			fsm.updateState(new VisualServoCollect(fsm));
 		} else {
+			System.out.println("Something bad is happening");
 			OdometryMsg message = (OdometryMsg) msg.message;
 
 			waypointNavigator.wayptNav(message.x, message.y, message.theta);
