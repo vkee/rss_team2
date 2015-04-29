@@ -107,8 +107,8 @@ public class ServoController {
         //        int correction;
         int diff = (getPWM(angle)-currPWM);
         if (diff!=0)
-        {int direction = diff/Math.abs(diff);
-        return Math.max(Math.min(currPWM + direction*(MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MAX_PWM), MIN_PWM);}
+        	{int direction = diff/Math.abs(diff);
+        	return Math.max(Math.min(currPWM + direction*(MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MAX_PWM), MIN_PWM);}
         else return currPWM;
     } 
 
