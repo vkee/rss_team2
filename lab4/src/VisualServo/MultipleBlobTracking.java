@@ -535,7 +535,7 @@ public class MultipleBlobTracking extends BlobTracking {
 		blobPresent(multiBlobPixelMask, multiImageConnected, multiBlobMask);
 
 		// sorts blobs into fiducials and blocks
-		sortBlobs();
+		//sortBlobs();
 
 		if (!isDone()) {
 			blobFix();
