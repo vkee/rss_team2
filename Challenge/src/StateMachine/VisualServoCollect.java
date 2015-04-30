@@ -19,7 +19,7 @@ public class VisualServoCollect implements FSMState {
 	client cl = null;
 	protected static final int width = 640;
 	protected static final int height = 480;
-
+	int count;
 
 	public VisualServoCollect(FSM stateMachine, MultipleBlobTracking blobTrack_in) {
 		fsm = stateMachine;
@@ -50,6 +50,7 @@ public class VisualServoCollect implements FSMState {
 
 //		System.out.println("Beginning drive Update");
 		// do stuff
+		
 		org.ros.message.rss_msgs.OdometryMsg message = (org.ros.message.rss_msgs.OdometryMsg) msg.message;
 
 		Image src = null;

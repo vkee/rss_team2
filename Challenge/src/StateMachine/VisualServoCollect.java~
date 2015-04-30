@@ -19,15 +19,17 @@ public class VisualServoCollect implements FSMState {
 	client cl = null;
 	protected static final int width = 640;
 	protected static final int height = 480;
+	int count;
 
-
-	public VisualServoCollect(FSM stateMachine) {
+	public VisualServoCollect(FSM stateMachine, MultipleBlobTracking blobTrack_in) {
 		fsm = stateMachine;
 		// publisher = node.newPublisher("command/Motors",
 		// "rss_msgs/MotionMsg"); // How do I actually get the publisher?
-		blobTrack = new MultipleBlobTracking(width, height);
+		//blobTrack = new MultipleBlobTracking(width, height);
+		blobTrack = blobTrack_in;
 		// init any variables for this state
 		cl = new client();
+		count = 0;
 	}
 
 	public stateENUM getName() {
@@ -47,8 +49,9 @@ public class VisualServoCollect implements FSMState {
 
 	private void updateDrive(GenericMessage msg){
 
-		System.out.println("Beginning drive Update");
+//		System.out.println("Beginning drive Update");
 		// do stuff
+		
 		org.ros.message.rss_msgs.OdometryMsg message = (org.ros.message.rss_msgs.OdometryMsg) msg.message;
 
 		Image src = null;
@@ -63,14 +66,14 @@ public class VisualServoCollect implements FSMState {
 		MotionMsg mo_msg = new MotionMsg(); // (Solution)
 		mo_msg.translationalVelocity = .2 * blobTrack.translationVelocityCommand;
 		mo_msg.rotationalVelocity = .2 * blobTrack.rotationVelocityCommand;
-		System.out.println(" TRANS VEL: " + mo_msg.translationalVelocity + " ROT VEL: " + mo_msg.rotationalVelocity);
+		//System.out.println(" TRANS VEL: " + mo_msg.translationalVelocity + " ROT VEL: " + mo_msg.rotationalVelocity);
 		fsm.motionPub.publish(mo_msg); // (Solution)
 
 		//if condition to leave state
 		if(blobTrack.isDone()){		
 			fsm.updateState(new MoveForward(fsm));
 		}
-		System.out.println("End Update");
+//		System.out.println("End Update");
 	}
 
 	private void updateGate(GenericMessage msg){
