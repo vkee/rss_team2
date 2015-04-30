@@ -59,9 +59,9 @@ public class MultipleBlobTracking extends BlobTracking {
 		targetRange = focalPlaneDistance * targetRadius
 				/ Math.sqrt(bos.get(0).getTargetArea() / Math.PI);
 		targetBearing = Math.atan2(deltaX, focalPlaneDistance);
-		System.out.println("Target Range " + targetRange);
-		System.out.println("Target Bearing " + targetBearing);
-		System.out.println("deltaX " + deltaX );
+		//System.out.println("Target Range " + targetRange);
+		//System.out.println("Target Bearing " + targetBearing);
+		//System.out.println("deltaX " + deltaX );
 	}
 
 	private void blobFix(int index) {

@@ -21,11 +21,12 @@ public class VisualServoCollect implements FSMState {
 	protected static final int height = 480;
 
 
-	public VisualServoCollect(FSM stateMachine) {
+	public VisualServoCollect(FSM stateMachine, MultipleBlobTracking blobTrack_in) {
 		fsm = stateMachine;
 		// publisher = node.newPublisher("command/Motors",
 		// "rss_msgs/MotionMsg"); // How do I actually get the publisher?
-		blobTrack = new MultipleBlobTracking(width, height);
+		//blobTrack = new MultipleBlobTracking(width, height);
+		blobTrack = blobTrack_in;
 		// init any variables for this state
 		cl = new client();
 	}
