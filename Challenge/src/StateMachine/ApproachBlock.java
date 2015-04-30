@@ -76,7 +76,7 @@ public class ApproachBlock implements FSMState {
 			fsm.updateState(new VisualServoCollect(fsm, mbt));
 		} else {
 			// System.out.println("Something bad is happening");
-			OdometryMsg message = (OdometryMsg) msg.message;
+			//OdometryMsg message = (OdometryMsg) msg.message;
 
 			// waypointNavigator.wayptNav(message.x, message.y, message.theta);
 
