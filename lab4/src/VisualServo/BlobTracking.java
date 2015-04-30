@@ -30,7 +30,7 @@ public class BlobTracking {
 	public double saturationLevel; // (Solution)
 	public double blobSizeThreshold; // (Solution)
 	public double desiredFixationDistance; // (Solution)
-	public double translationErrorTolerance; // (Solution)
+	public double translationErrorTolerance = 0.01; // (Solution)
 	public double rotationErrorTolerance; // (Solution)
 	public boolean useGaussianBlur; // (Solution)
 	public boolean approximateGaussian; // (Solution)
