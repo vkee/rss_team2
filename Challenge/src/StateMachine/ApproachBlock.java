@@ -52,7 +52,7 @@ public class ApproachBlock implements FSMState {
 	}
 
 	public void update(GenericMessage msg) {
-		System.out.println("Entered update");
+		// System.out.println("Entered update");
 		// do stuff
 
 		// if condition to leave state
@@ -61,7 +61,7 @@ public class ApproachBlock implements FSMState {
 		float[] depth_array = null;
 		boolean blockInVision;
 		try {
-			System.out.println("starting");
+			// System.out.println("starting");
 			src = cl.getImage();
 			depth_array = cl.getDepthImage();
 			mbt.apply(src, depth_array);
@@ -76,7 +76,7 @@ public class ApproachBlock implements FSMState {
 			fsm.updateState(new VisualServoCollect(fsm, mbt));
 		} else {
 			// System.out.println("Something bad is happening");
-			//OdometryMsg message = (OdometryMsg) msg.message;
+			// OdometryMsg message = (OdometryMsg) msg.message;
 
 			// waypointNavigator.wayptNav(message.x, message.y, message.theta);
 
