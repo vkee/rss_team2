@@ -47,7 +47,7 @@ public class VisualServoCollect implements FSMState {
 
 	private void updateDrive(GenericMessage msg){
 
-		System.out.println("Beginning drive Update");
+//		System.out.println("Beginning drive Update");
 		// do stuff
 		org.ros.message.rss_msgs.OdometryMsg message = (org.ros.message.rss_msgs.OdometryMsg) msg.message;
 

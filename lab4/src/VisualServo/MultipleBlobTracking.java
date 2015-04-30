@@ -59,6 +59,8 @@ public class MultipleBlobTracking extends BlobTracking {
 		targetRange = focalPlaneDistance * targetRadius
 				/ Math.sqrt(bos.get(0).getTargetArea() / Math.PI);
 		targetBearing = Math.atan2(deltaX, focalPlaneDistance);
+		System.out.println(targetRange);
+		System.out.println(targetBearing);
 	}
 
 	private void blobFix(int index) {
@@ -200,8 +202,8 @@ public class MultipleBlobTracking extends BlobTracking {
 
 			double centroidX;
 			double centroidY;
-			System.out.println(blob_info.entrySet() + " " + colorwheel[i]
-					+ " found");// use this to debug 4/29/15
+			// System.out.println(blob_info.entrySet() + " " + colorwheel[i]
+			// + " found");// use this to debug 4/29/15
 			for (Map.Entry<Integer, Integer> entry : blob_info.entrySet()) {
 
 				int colorMax = entry.getKey();
@@ -242,8 +244,8 @@ public class MultipleBlobTracking extends BlobTracking {
 				}
 			}
 		}
-		System.out.println(bos.size() + " blobs detected."); // use this to
-																// debug 4/29
+		// System.out.println(bos.size() + " blobs detected."); // use this to
+		// debug 4/29
 	}
 
 	/**
@@ -350,8 +352,8 @@ public class MultipleBlobTracking extends BlobTracking {
 
 			}
 		}
-		System.out.println("How well "
-				+ (circle_counter / ((double) angles.length * 4)));
+		// System.out.println("How well "
+		// + (circle_counter / ((double) angles.length * 4)));
 		return (circle_counter / ((double) angles.length * 4)) > threshold;
 	}
 
@@ -393,8 +395,8 @@ public class MultipleBlobTracking extends BlobTracking {
 				}
 			}
 		}
-		System.out.println("How well "
-				+ (circle_counter / ((double) angles.length * 4)));
+		// System.out.println("How well "
+		// + (circle_counter / ((double) angles.length * 4)));
 		return (circle_counter / ((double) angles.length * 4)) > threshold;
 	}
 
@@ -456,56 +458,29 @@ public class MultipleBlobTracking extends BlobTracking {
 	 */
 	// DEPRECATED 4/28/15//
 	/*
-	public void sortBlobs(Image dest) {
-		boolean isTopFiducial;
-		for (int j = 0; j < bos.size(); j++) {
-			BlobObject top = bos.get(j);
-			isTopFiducial = false;
-			for (int k = 0; k < bos.size(); k++) {
-				BlobObject bottom = bos.get(k);
-				if (top != bottom && isFiducialColorMatch(top, bottom)
-						&& isAbove(top, bottom, .1, .1)) {
-					FiducialObject fo = new FiducialObject(top, bottom);
-					fos.add(fo);
-					isTopFiducial = true;
-				}
-			}
-			if (detectCircle(top, .5, dest)) {
-				System.out.println(" The Circle is " + top.getColor());
-				// it is a blob but not a block
-			} else if (!isTopFiducial) {
-				BlockObject blo = new BlockObject(top);
-				blos.add(blo);
-			}
-		}
-	}
-	
-*/
+	 * public void sortBlobs(Image dest) { boolean isTopFiducial; for (int j =
+	 * 0; j < bos.size(); j++) { BlobObject top = bos.get(j); isTopFiducial =
+	 * false; for (int k = 0; k < bos.size(); k++) { BlobObject bottom =
+	 * bos.get(k); if (top != bottom && isFiducialColorMatch(top, bottom) &&
+	 * isAbove(top, bottom, .1, .1)) { FiducialObject fo = new
+	 * FiducialObject(top, bottom); fos.add(fo); isTopFiducial = true; } } if
+	 * (detectCircle(top, .5, dest)) { System.out.println(" The Circle is " +
+	 * top.getColor()); // it is a blob but not a block } else if
+	 * (!isTopFiducial) { BlockObject blo = new BlockObject(top); blos.add(blo);
+	 * } } }
+	 */
 	/**
 	 * sortBlobs Iterates through blob objects to sort into fiducial and block
 	 */
 	/*
-	public void sortBlobs() {
-		boolean isTopFiducial;
-		for (int j = 0; j < bos.size(); j++) {
-			BlobObject top = bos.get(j);
-			isTopFiducial = false;
-			for (int k = 0; k < bos.size(); k++) {
-				BlobObject bottom = bos.get(k);
-				if (top != bottom && isFiducialColorMatch(top, bottom)
-						&& isAbove(top, bottom, 0.1, 0.1)) {
-					FiducialObject fo = new FiducialObject(top, bottom);
-					fos.add(fo);
-					isTopFiducial = true;
-				}
-			}
-			if (!isTopFiducial) {
-				BlockObject blo = new BlockObject(top);
-				blos.add(blo);
-			}
-		}
-	}
-*/
+	 * public void sortBlobs() { boolean isTopFiducial; for (int j = 0; j <
+	 * bos.size(); j++) { BlobObject top = bos.get(j); isTopFiducial = false;
+	 * for (int k = 0; k < bos.size(); k++) { BlobObject bottom = bos.get(k); if
+	 * (top != bottom && isFiducialColorMatch(top, bottom) && isAbove(top,
+	 * bottom, 0.1, 0.1)) { FiducialObject fo = new FiducialObject(top, bottom);
+	 * fos.add(fo); isTopFiducial = true; } } if (!isTopFiducial) { BlockObject
+	 * blo = new BlockObject(top); blos.add(blo); } } }
+	 */
 	private boolean isAbove(BlobObject top, BlobObject bottom,
 			double thresholdX, double thresholdY) {
 
@@ -522,7 +497,8 @@ public class MultipleBlobTracking extends BlobTracking {
 	 */
 	public boolean isDone() {
 		// if there are 0 blocks then it's Done
-		System.out.println("number of blocks " + blos.size()  + " number of blobs " +  bos.size());
+		System.out.println("number of blocks " + blos.size()
+				+ "  number of blobs " + bos.size());
 		return bos.size() == 0;
 	}
 
@@ -591,7 +567,7 @@ public class MultipleBlobTracking extends BlobTracking {
 		blobPixel(src, multiBlobPixelMask); // (Solution)
 		blobPresent(multiBlobPixelMask, multiImageConnected, multiBlobMask); // (Solution)
 
-		//sortBlobs();
+		// sortBlobs();
 
 		if (dest != null) { // (Solution)
 			// dest = Histogram.getHistogram(src, dest, true); // (Solution)
@@ -651,9 +627,9 @@ public class MultipleBlobTracking extends BlobTracking {
 		blobPixel(src, multiBlobPixelMask);
 		multiBlobPresent(float_array, multiBlobPixelMask, multiImageConnected,
 				multiBlobMask);
-		//System.out.println("Number of blobs " + bos.size());
-		//System.out.println("Number of fiducials " + fos.size());
-		//System.out.println("Number of blocks " + blos.size());
+		// System.out.println("Number of blobs " + bos.size());
+		// System.out.println("Number of fiducials " + fos.size());
+		// System.out.println("Number of blocks " + blos.size());
 
 		if (dest != null) { // (Solution)
 			// dest = Histogram.getHistogram(src, dest, true); // (Solution)
@@ -672,7 +648,7 @@ public class MultipleBlobTracking extends BlobTracking {
 			}
 
 		}
-		//sortBlobs();
+		// sortBlobs();
 
 		if (!isDone()) {
 			blobFix();
