@@ -63,14 +63,14 @@ public class VisualServoCollect implements FSMState {
 		MotionMsg mo_msg = new MotionMsg(); // (Solution)
 		mo_msg.translationalVelocity = .2 * blobTrack.translationVelocityCommand;
 		mo_msg.rotationalVelocity = .2 * blobTrack.rotationVelocityCommand;
-		System.out.println(" TRANS VEL: " + mo_msg.translationalVelocity + " ROT VEL: " + mo_msg.rotationalVelocity);
+		//System.out.println(" TRANS VEL: " + mo_msg.translationalVelocity + " ROT VEL: " + mo_msg.rotationalVelocity);
 		fsm.motionPub.publish(mo_msg); // (Solution)
 
 		//if condition to leave state
 		if(blobTrack.isDone()){		
 			fsm.updateState(new MoveForward(fsm));
 		}
-		System.out.println("End Update");
+//		System.out.println("End Update");
 	}
 
 	private void updateGate(GenericMessage msg){
