@@ -37,6 +37,8 @@ public class FSM implements NodeMain{
         WHEELS, BLOCK, IMAGE, SERVO, FLAP
     }
 
+	public final double BLOCKVISUAL_DIST = 0.46;		// must be half of robot plus two walls to avoid seeing block around corner
+
     private FSMState currentState;
     private boolean inState;
 

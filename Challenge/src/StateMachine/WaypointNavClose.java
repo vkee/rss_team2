@@ -4,9 +4,11 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
+import MotionPlanning.RRTreeNode;
 import MotionPlanning.WaypointNav;
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
+
 import org.ros.message.rss_msgs.*;
 import org.ros.message.lab5_msgs.*;
 import org.ros.message.lab6_msgs.*;
@@ -75,7 +77,9 @@ public class WaypointNavClose implements FSMState {
 
 		//if condition to leave state (one waypoint away)
 		//if (atWaypoint >= waypoints.size()-2)
-		if (waypointNavigator.isDone()) {
+		
+		if (RRTreeNode.distance(new Point2D.Double(message.x, message.y), finalGoal) <= fsm.BLOCKVISUAL_DIST) {
+		//if (waypointNavigator.isDone()) {
 			fsm.updateState(new ApproachBlock(fsm, finalGoal));
 		}
 		//	{fsm.updateState(new ApproachBlock(fsm, finalGoal));}		//Approach until visual servo
