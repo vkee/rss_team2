@@ -167,7 +167,7 @@ public class BlobTracking {
 	protected void computeTranslationVelocityCommand() { //(Solution)
 		//System.out.println("RUNNING TRANSLATIONAL");
 		double translationError = targetRange - desiredFixationDistance; //(Solution)
-		System.out.println("targetRange " + targetRange);
+	//	System.out.println("targetRange " + targetRange);
 		if (Math.abs(translationError) < translationErrorTolerance) //(Solution)
 			translationVelocityCommand = 0.0; //(Solution)
 		else //(Solution)
@@ -186,7 +186,7 @@ public class BlobTracking {
 	 */ //(Solution)
 	protected void computeRotationVelocityCommand() { //(Solution)
 		double rotationError = targetBearing; //(Solution)
-		System.out.println(rotationError);
+		//System.out.println(rotationError);
 		if (Math.abs(rotationError) < rotationErrorTolerance) //(Solution)
 			rotationVelocityCommand = 0.0; //(Solution)
 		else //(Solution)
