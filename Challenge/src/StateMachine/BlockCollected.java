@@ -42,6 +42,7 @@ public class BlockCollected implements FSMState {
 	}
 
 	public void update(GenericMessage msg) {
+		org.ros.message.rss_msgs.OdometryMsg message = (org.ros.message.rss_msgs.OdometryMsg) msg.message;
 
 		waypointNavigator.wayptNav(message.x, message.y, message.theta);
 
