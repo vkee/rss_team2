@@ -31,7 +31,7 @@ import org.ros.message.Challenge_msgs.*;
 public class FSM implements NodeMain{
 
     public enum stateENUM {
-        INITIALIZE, SCAN, WNCLOSE, MOVEFORWARD, OPENGATE, APPROACHBLOCK, BLOCKCOLLECTED, RRTUPDATE, ORIENTDEPOSIT, VISUALSERVOCOLLECT, WNDEPOSIT
+        INITIALIZE, SCAN, WNCLOSE, MOVEFORWARD, OPENGATE, APPROACHBLOCK, BLOCKCOLLECTED, RRTUPDATE, ORIENTDEPOSIT, VISUALSERVOCOLLECT, WNDEPOSIT, MOVETORELEASE
     }
 
     public enum msgENUM { 
@@ -50,6 +50,7 @@ public class FSM implements NodeMain{
     public double ROT_NOISE = 0.025;
     public double SENSOR_NOISE = 5.0;
     public Point2D.Double prevPt;
+	public final double BLOCKVISUAL_DIST = 0.46;		// must be half of robot plus two walls to avoid seeing block around corner
 
     private FSMState currentState;
     private boolean inState;

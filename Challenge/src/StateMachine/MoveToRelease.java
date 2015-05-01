@@ -4,18 +4,16 @@ import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
 
 /**
- * Capture the block after visual servo centers
+ * This state moves the robot forward to release the blocks
  */
-public class MoveForward implements FSMState {
+public class MoveToRelease implements FSMState {
 
 
     private FSM fsm;	
-    private int count;
-    
-    public MoveForward(FSM stateMachine)
+
+    public MoveToRelease(FSM stateMachine)
     {
         fsm = stateMachine;
-        count = 0;
 
         //init any variables for this state
 
@@ -23,7 +21,7 @@ public class MoveForward implements FSMState {
 
 
     public stateENUM getName()
-    {return stateENUM.MOVEFORWARD;}
+    {return stateENUM.MOVETORELEASE;}
 
 
     public boolean accepts(msgENUM msgType)
@@ -36,9 +34,9 @@ public class MoveForward implements FSMState {
     public void update(GenericMessage msg)
     {
         //do stuff
-    	count++;
-    	if (count > 1000)         //if condition to leave state
-    		{fsm.updateState(new BlockCollected(fsm));}
+
+        //if condition to leave state
+        //fsm.updateState(new NextState(fsm));
 
     }
 

@@ -30,8 +30,8 @@ public class BlobTracking {
 	public double saturationLevel; // (Solution)
 	public double blobSizeThreshold; // (Solution)
 	public double desiredFixationDistance = 0.0; // (Solution)
-	public double translationErrorTolerance = 0.1; // (Solution)
-	public double rotationErrorTolerance = 0.1; // (Solution)
+	public double translationErrorTolerance = 0.25; // (Solution)
+	public double rotationErrorTolerance = 0.25; // (Solution)
 	public boolean useGaussianBlur; // (Solution)
 	public boolean approximateGaussian; // (Solution)
 	public double translationVelocityGain = .2; // (Solution)
@@ -167,7 +167,7 @@ public class BlobTracking {
 	protected void computeTranslationVelocityCommand() { //(Solution)
 		//System.out.println("RUNNING TRANSLATIONAL");
 		double translationError = targetRange - desiredFixationDistance; //(Solution)
-		System.out.println("targetRange " + targetRange);
+	//	System.out.println("targetRange " + targetRange);
 		if (Math.abs(translationError) < translationErrorTolerance) //(Solution)
 			translationVelocityCommand = 0.0; //(Solution)
 		else //(Solution)
@@ -186,7 +186,7 @@ public class BlobTracking {
 	 */ //(Solution)
 	protected void computeRotationVelocityCommand() { //(Solution)
 		double rotationError = targetBearing; //(Solution)
-		System.out.println(rotationError);
+		//System.out.println(rotationError);
 		if (Math.abs(rotationError) < rotationErrorTolerance) //(Solution)
 			rotationVelocityCommand = 0.0; //(Solution)
 		else //(Solution)

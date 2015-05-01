@@ -44,13 +44,16 @@ public class VisualServo implements NodeMain, Runnable {
 	// (Solution)
 	private double blob_size_threshold = 0.005; // (Solution)
 	private double target_radius = 0.1; // (Solution)
-	private double desired_fixation_distance = .5; // (Solution)
-	private double translation_error_tolerance = .05;// (Solution)
+	private double desired_fixation_distance = .1; // (Solution)
+	
+	private double translation_error_tolerance = .05;
 	private double translation_velocity_gain = .75;// (Solution)
 	private double translation_velocity_max = .75;// (Solution)
+
 	private double rotation_error_tolerance = 0.2; // (Solution)
-	private double rotation_velocity_gain = 0.15; // (Solution)
+	private double rotation_velocity_gain = 0.05; // (Solution)
 	private double rotation_velocity_max = 0.15; // (Solution)
+	
 	private boolean use_gaussian_blur = true;// (Solution)
 	private boolean approximate_gaussian = false;// (Solution)
 
