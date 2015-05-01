@@ -470,27 +470,27 @@ public class MultipleBlobTracking extends BlobTracking {
 	/**
 	 * sortBlobs Iterates through blob objects to sort into fiducial and block
 	 */
-
-	public void sortBlobs() {
-		boolean isTopFiducial;
-		for (int j = 0; j < bos.size(); j++) {
-			BlobObject top = bos.get(j);
-			isTopFiducial = false;
-			for (int k = 0; k < bos.size(); k++) {
-				BlobObject bottom = bos.get(k);
-				if (top != bottom && isFiducialColorMatch(top, bottom)
-						&& isAbove(top, bottom, 0.1, 0.1)) {
-					FiducialObject fo = new FiducialObject(top, bottom);
-					fos.add(fo);
-					isTopFiducial = true;
-				}
-			}
-			if (!isTopFiducial) {
-				BlockObject blo = new BlockObject(top);
-				blos.add(blo);
-			}
-		}
-	}
+//
+//	public void sortBlobs() {
+//		boolean isTopFiducial;
+//		for (int j = 0; j < bos.size(); j++) {
+//			BlobObject top = bos.get(j);
+//			isTopFiducial = false;
+//			for (int k = 0; k < bos.size(); k++) {
+//				BlobObject bottom = bos.get(k);
+//				if (top != bottom && isFiducialColorMatch(top, bottom)
+//						&& isAbove(top, bottom, 0.1, 0.1)) {
+//					FiducialObject fo = new FiducialObject(top, bottom);
+//					fos.add(fo);
+//					isTopFiducial = true;
+//				}
+//			}
+//			if (!isTopFiducial) {
+//				BlockObject blo = new BlockObject(top);
+//				blos.add(blo);
+//			}
+//		}
+//	}
 
 	private boolean isAbove(BlobObject top, BlobObject bottom,
 			double thresholdX, double thresholdY) {
