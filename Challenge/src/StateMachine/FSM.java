@@ -50,7 +50,7 @@ public class FSM implements NodeMain{
     public double ROT_NOISE = 0.025;
     public double SENSOR_NOISE = 5.0;
     public Point2D.Double prevPt;
-	public final double BLOCKVISUAL_DIST = 0.46;		// must be half of robot plus two walls to avoid seeing block around corner
+    public final double BLOCKVISUAL_DIST = 0.46;		// must be half of robot plus two walls to avoid seeing block around corner
 
     private FSMState currentState;
     private boolean inState;
@@ -165,14 +165,13 @@ public class FSM implements NodeMain{
         armPWMPub = node.newPublisher("command/Arm", "rss_msgs/ArmMsg");
         armStatusSub = node.newSubscriber("rss/ArmStatus", "rss_msgs/ArmMsg");
 
-        armStatusSub.addMessageListener(new MessageListener<ArmMsg>() 
-                {
+        armStatusSub.addMessageListener(new MessageListener<ArmMsg>(){
             @Override
             public void onNewMessage(ArmMsg msg) 
             {    
                 dispatchState(new GenericMessage<ArmMsg>(msg, msgENUM.SERVO));
             }
-                });
+        });
 
         neckServo = new NeckController(armPWMPub);
         gateServo = new GateController(armPWMPub);

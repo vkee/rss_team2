@@ -21,7 +21,7 @@ public class ParticleFilter {
     private ArrayList<RobotParticle> particles = new ArrayList<RobotParticle>();
 
     //    Map Fields
-    private GrandChallengeMap map;
+    public GrandChallengeMap map;
     private java.awt.geom.Rectangle2D.Double worldRect;
 
     //    Map Dimensions
