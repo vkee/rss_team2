@@ -59,15 +59,15 @@ public class MultipleBlobTracking extends BlobTracking {
 		targetRange = focalPlaneDistance * targetRadius
 				/ Math.sqrt(bos.get(0).getTargetArea() / Math.PI);
 		targetBearing = Math.atan2(deltaX, focalPlaneDistance);
-		//System.out.println("Target Range " + targetRange);
-		//System.out.println("Target Bearing " + targetBearing);
-		//System.out.println("deltaX " + deltaX );
+		// System.out.println("Target Range " + targetRange);
+		// System.out.println("Target Bearing " + targetBearing);
+		// System.out.println("deltaX " + deltaX );
 	}
 
 	private void blobFix(int index) {
-		double deltaX = bos.get(0).getCentroidX() - width / 2.0;
+		double deltaX = bos.get(index).getCentroidX() - width / 2.0;
 		targetRange = focalPlaneDistance * targetRadius
-				/ Math.sqrt(targetArea[0] / Math.PI);
+				/ Math.sqrt(targetArea[index] / Math.PI);
 		targetBearing = Math.atan2(deltaX, focalPlaneDistance);
 	}
 
@@ -150,7 +150,6 @@ public class MultipleBlobTracking extends BlobTracking {
 	 * @param src
 	 * @param mask
 	 */
-
 	protected void blobPixel(Image src, int[][] mask) {
 		for (int i = 0; i < targetHueLevels.length; i++) { // loop through every
 															// color
@@ -213,38 +212,36 @@ public class MultipleBlobTracking extends BlobTracking {
 				int sx = 0;
 				int sy = 0;
 
-				if (countMax > blobSizeThreshold * height * width) {
-					int destIndex = 0;
-					for (int y = 0; y < height; y++) {
-						for (int x = 0; x < width; x++) {
-							if (connIm[i][destIndex] == colorMax) {
-								sx += x;
-								sy += y;
-								m_blobIm[i][destIndex++] = 255;
-							} else {
-								m_blobIm[i][destIndex++] = 0;
-							}
+				// if (countMax > blobSizeThreshold * height * width) {
+				int destIndex = 0;
+				for (int y = 0; y < height; y++) {
+					for (int x = 0; x < width; x++) {
+						if (connIm[i][destIndex] == colorMax) {
+							sx += x;
+							sy += y;
+							m_blobIm[i][destIndex++] = 255;
+						} else {
+							m_blobIm[i][destIndex++] = 0;
 						}
 					}
-					centroidX = sx / (double) countMax;
-					centroidY = sy / (double) countMax;
-
-					int ind = (int) (centroidY * width + centroidX);
-					int distToCentroid;
-					if (ind < depth_img.length) {
-						distToCentroid = (int) depth_img[(int) (centroidY
-								* width + centroidX)];
-					} else {
-						distToCentroid = 0;
-					}
-					BlobObject bo = new BlobObject(centroidX, centroidY,
-							distToCentroid, countMax, colorwheel[i],
-							m_blobIm[i]);
-
-					bos.add(bo);
 				}
+				centroidX = sx / (double) countMax;
+				centroidY = sy / (double) countMax;
+
+				int ind = (int) (centroidY * width + centroidX);
+				int distToCentroid;
+				if (ind < depth_img.length) {
+					distToCentroid = (int) depth_img[(int) (centroidY * width + centroidX)];
+				} else {
+					distToCentroid = 0;
+				}
+				BlobObject bo = new BlobObject(centroidX, centroidY,
+						distToCentroid, countMax, colorwheel[i], m_blobIm[i]);
+
+				bos.add(bo);
 			}
 		}
+		// }
 		// System.out.println(bos.size() + " blobs detected."); // use this to
 		// debug 4/29
 	}
@@ -473,15 +470,28 @@ public class MultipleBlobTracking extends BlobTracking {
 	/**
 	 * sortBlobs Iterates through blob objects to sort into fiducial and block
 	 */
-	/*
-	 * public void sortBlobs() { boolean isTopFiducial; for (int j = 0; j <
-	 * bos.size(); j++) { BlobObject top = bos.get(j); isTopFiducial = false;
-	 * for (int k = 0; k < bos.size(); k++) { BlobObject bottom = bos.get(k); if
-	 * (top != bottom && isFiducialColorMatch(top, bottom) && isAbove(top,
-	 * bottom, 0.1, 0.1)) { FiducialObject fo = new FiducialObject(top, bottom);
-	 * fos.add(fo); isTopFiducial = true; } } if (!isTopFiducial) { BlockObject
-	 * blo = new BlockObject(top); blos.add(blo); } } }
-	 */
+//
+//	public void sortBlobs() {
+//		boolean isTopFiducial;
+//		for (int j = 0; j < bos.size(); j++) {
+//			BlobObject top = bos.get(j);
+//			isTopFiducial = false;
+//			for (int k = 0; k < bos.size(); k++) {
+//				BlobObject bottom = bos.get(k);
+//				if (top != bottom && isFiducialColorMatch(top, bottom)
+//						&& isAbove(top, bottom, 0.1, 0.1)) {
+//					FiducialObject fo = new FiducialObject(top, bottom);
+//					fos.add(fo);
+//					isTopFiducial = true;
+//				}
+//			}
+//			if (!isTopFiducial) {
+//				BlockObject blo = new BlockObject(top);
+//				blos.add(blo);
+//			}
+//		}
+//	}
+
 	private boolean isAbove(BlobObject top, BlobObject bottom,
 			double thresholdX, double thresholdY) {
 
@@ -498,8 +508,8 @@ public class MultipleBlobTracking extends BlobTracking {
 	 */
 	public boolean isDone() {
 		// if there are 0 blocks then it's Done
-		//System.out.println("number of blocks " + blos.size()
-			//	+ "  number of blobs " + bos.size());
+		// System.out.println("number of blocks " + blos.size()
+		// + "  number of blobs " + bos.size());
 		return bos.size() == 0;
 	}
 
