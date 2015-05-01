@@ -1,5 +1,9 @@
 package StateMachine;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
+import MotionPlanning.WaypointNav;
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
 
@@ -9,14 +13,18 @@ import StateMachine.FSM.stateENUM;
 public class BlockCollected implements FSMState {
 
 
-	private FSM fsm;	
+	private FSM fsm;
+	private WaypointNav waypointNavigator;
 
 	public BlockCollected(FSM stateMachine)
 		{
 		fsm = stateMachine;
-
+		fsm.blocksCollected++;
 		//init any variables for this state
 
+		ArrayList<Point2D.Double> waypoints = new ArrayList<Point2D.Double>();
+		waypoints.add(fsm.currentLocation);
+		waypointNavigator = new WaypointNav(waypoints, fsm.currentLocation, fsm);		//waypont nav to exact goal location
 		}	
 
 	
@@ -33,10 +41,11 @@ public class BlockCollected implements FSMState {
 
 	public void update(GenericMessage msg)
 		{
-		//do stuff
 
-		//if condition to leave state
-		//fsm.updateState(new NextState(fsm));
+		waypointNavigator.wayptNav(message.x, message.y, message.theta);
+
+		if (waypointNavigator.isDone()) {
+			fsm.updateState(new NeckScan(fsm));
 
 		}
 

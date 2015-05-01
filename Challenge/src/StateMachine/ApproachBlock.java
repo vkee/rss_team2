@@ -75,12 +75,13 @@ public class ApproachBlock implements FSMState {
 			// System.out.println("BLOCK IN VISION");
 			fsm.updateState(new VisualServoCollect(fsm, mbt));
 		} else {
-			// System.out.println("Something bad is happening");
-			// OdometryMsg message = (OdometryMsg) msg.message;
+			System.out.println("no block in vision");
+			OdometryMsg message = (OdometryMsg) msg.message;
 
-			// waypointNavigator.wayptNav(message.x, message.y, message.theta);
+			waypointNavigator.wayptNav(message.x, message.y, message.theta);
 
 			if (waypointNavigator.isDone()) {
+				System.out.println("at waypoint");
 				fsm.updateState(new WaypointNavClose(fsm));
 			}
 		}
