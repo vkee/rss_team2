@@ -9,43 +9,43 @@ import StateMachine.FSM.stateENUM;
 public class MoveForward implements FSMState {
 
 
-	private FSM fsm;	
+    private FSM fsm;	
 
-	public MoveForward(FSM stateMachine)
-		{
-		fsm = stateMachine;
+    public MoveForward(FSM stateMachine)
+    {
+        fsm = stateMachine;
 
-		//init any variables for this state
+        //init any variables for this state
 
-		}	
-
-	
-	public stateENUM getName()
-		{return stateENUM.MOVEFORWARD;}
-
-	
-	public boolean accepts(msgENUM msgType)
-		{
-		if (msgType == msgENUM.WHEELS) return true;
-		return false;
-		}
+    }	
 
 
-	public void update(GenericMessage msg)
-		{
-		//do stuff
-
-		//if condition to leave state
-		//fsm.updateState(new NextState(fsm));
-
-		}
+    public stateENUM getName()
+    {return stateENUM.MOVEFORWARD;}
 
 
-	@Override
-	public void onStart() {
-		// TODO Auto-generated method stub
-		
-	}
+    public boolean accepts(msgENUM msgType)
+    {
+        if (msgType == msgENUM.WHEELS) return true;
+        return false;
+    }
+
+
+    public void update(GenericMessage msg)
+    {
+        //do stuff
+
+        //if condition to leave state
+        //fsm.updateState(new NextState(fsm));
+
+    }
+
+
+    @Override
+    public void onStart() {
+        // TODO Auto-generated method stub
+
+    }
 
 
 }
