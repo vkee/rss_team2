@@ -172,7 +172,7 @@ public class ParticleFilter {
      * @param translation the translational distance the robot has moved (in meters)
      * @param rotation the rotational distance the robot has moved (in radians)
      */
-    protected void motionUpdate(double translation, double rotation) {
+    public void motionUpdate(double translation, double rotation) {
         for (RobotParticle particle : particles) {
 //            System.out.println("Before motion update: " + particle);
             particle.motionUpdate(translation, rotation);
@@ -186,7 +186,7 @@ public class ParticleFilter {
      * (corresponding to the indices of the fiducials in the field of GrandChallengeMap)
      * @param measuredDists the measured distances to the fiducials
      */
-    protected void measurementUpdate(ArrayList<Integer> measuredFiducials, HashMap<Integer, Double> measuredDists) {
+    public void measurementUpdate(ArrayList<Integer> measuredFiducials, HashMap<Integer, Double> measuredDists) {
         //        Determining the probabilities that each of the particles measured the input measurements
         ArrayList<Double> measurementProbs = new ArrayList<Double>();
         for (RobotParticle particle : particles) {
@@ -221,7 +221,7 @@ public class ParticleFilter {
      * @param measurementProbs the probabilities that each of the particles 
      * @return the resampled particles
      */
-    protected ArrayList<RobotParticle> resampleParticles(ArrayList<Double> measurementProbs){
+    public ArrayList<RobotParticle> resampleParticles(ArrayList<Double> measurementProbs){
         ArrayList<RobotParticle> resampledParticles = new ArrayList<RobotParticle>();
 
         int index = (int) (Math.random() * numParticles);

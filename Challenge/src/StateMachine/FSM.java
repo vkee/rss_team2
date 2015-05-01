@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import Challenge.GrandChallengeMap;
+import Localization.ParticleFilter;
 import MotionPlanning.GoalAdjLists;
 import MotionPlanning.MultiRRT2D;
 import MotionPlanning.MultiRRT3D;
@@ -37,6 +38,19 @@ public class FSM implements NodeMain{
         WHEELS, BLOCK, IMAGE, SERVO, FLAP
     }
 
+    //    Particle Filter Related Fields
+    public ParticleFilter particleFilter;
+    //  the radius defining the circle the particles are distributed within
+    //    defining the particle filter particle initial distribution
+    public double PARTICLE_FILTER_RADIUS = .125;
+    //The number of particles in the particle filter
+    public int NUM_PARTICLES = 500;
+    //    Noise Parameters
+    public double TRANS_NOISE = 0.025;
+    public double ROT_NOISE = 0.025;
+    public double SENSOR_NOISE = 5.0;
+    public Point2D.Double prevPt;
+
     private FSMState currentState;
     private boolean inState;
 
@@ -45,15 +59,13 @@ public class FSM implements NodeMain{
     public long startTime;
     public final double RRT_TOLERANCE = 0.05;
     public final double ROBOTVEL = 0.1;			//coords/ms
-
-
     public int blocksCollected;
     public MultiRRT2D RRTengine;
     public Point2D.Double currentLocation;			//the current goal point we are at
     public GoalAdjLists foundPaths;
     public NeckController neckServo;
     public GateController gateServo;
-        //public HashSet<Integer> visited;
+    //public HashSet<Integer> visited;
 
     protected String mapFileName;
     private Publisher<GUIRectMsg> guiRectPub;
@@ -62,8 +74,8 @@ public class FSM implements NodeMain{
     private Publisher<GUIPointMsg> guiPtPub;
     private Publisher<Object> ellipsePub;
     private Publisher<Object> stringPub;
-
     private Subscriber<OdometryMsg> odometrySub;
+    private Publisher<OdometryMsg> odometryPub;
 
     // bumper subscriber
     private Subscriber<BumpMsg> bumpersSub;
@@ -71,15 +83,8 @@ public class FSM implements NodeMain{
     // servo control publishers and subscribers
     private Publisher<ArmMsg> armPWMPub;
     private Subscriber<ArmMsg> armStatusSub;
-
     public Publisher<MotionMsg> motionPub;
-
-
-	public MapDrawer mapDrawer;
-
-
-    // public wheels publishers
-    // public servos publishers
+    public MapDrawer mapDrawer;
 
     public FSM(){
 
@@ -118,6 +123,7 @@ public class FSM implements NodeMain{
         guiPolyPub = node.newPublisher("gui/Poly", "lab6_msgs/GUIPolyMsg");
         guiErasePub = node.newPublisher("gui/Erase", "lab5_msgs/GUIEraseMsg");
         guiPtPub = node.newPublisher("gui/Point", "lab5_msgs/GUIPointMsg");
+        odometryPub = node.newPublisher("/rss/odometry", "rss_msgs/OdometryMsg");
 
         // Reading in a map file whose name is set as the parameter mapFileName
         ParameterTree paramTree = node.newParameterTree();
@@ -159,21 +165,21 @@ public class FSM implements NodeMain{
         armStatusSub = node.newSubscriber("rss/ArmStatus", "rss_msgs/ArmMsg");
 
         armStatusSub.addMessageListener(new MessageListener<ArmMsg>() 
-        	{
+                {
             @Override
             public void onNewMessage(ArmMsg msg) 
-            	{    
-            	dispatchState(new GenericMessage<ArmMsg>(msg, msgENUM.SERVO));
-            	}
-        	});
+            {    
+                dispatchState(new GenericMessage<ArmMsg>(msg, msgENUM.SERVO));
+            }
+                });
 
         neckServo = new NeckController(armPWMPub);
         gateServo = new GateController(armPWMPub);
         System.out.println("Gate servo initialized");
-        
+
         mapDrawer = new MapDrawer(guiRectPub, guiPolyPub, guiErasePub, guiPtPub, ellipsePub, 
-        		stringPub, odometrySub, motionPub);
-        
+                stringPub, odometrySub, motionPub);
+
         currentState = new Initialize(this);
         inState = false;
         dispatchState(new GenericMessage(null, null));
