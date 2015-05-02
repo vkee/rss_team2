@@ -33,7 +33,7 @@ public class GateController extends ServoController {
      * @param currPWM the last PWM value written to the gate servo
      * @return safe PWM value to write to the gate servo while closing
      */
-    public int close(int currPWM) {
+    public int closePWM(int currPWM) {
         return getSafePWM(currPWM, GATE_CLOSED_PWM);
     }
 
@@ -58,5 +58,15 @@ public class GateController extends ServoController {
         sendPWM(currPWM[0],getSafePWM(currPWM[1], GATE_OPEN_PWM),currPWM[2]);
     }
 
+    /**
+     * Closes gate by calling ServoController.sendPWM() with appropriate PWM values
+     * @param currPWM int array of current PWM values
+     */
+    public void close(int[] currPWM) {
+        // send PWM commands to open gate only
+        // the neck servo commands are just their current PWM
+        // the gate servo command is the safe PWM value to write while opening gate
+        sendPWM(currPWM[0], getSafePWM(currPWM[1], GATE_CLOSED_PWM), currPWM[2]);
+    }
 
 }
