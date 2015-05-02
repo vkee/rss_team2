@@ -37,8 +37,8 @@ public class MoveForward implements FSMState {
     {
 
         //do stuff
-    	count++;
-    	if (count > 10)         //if condition to leave state
+//    	count++;
+  //  	if (count > 1000)         //if condition to leave state
     		{fsm.updateState(new BlockCollected(fsm));}
 
     }
