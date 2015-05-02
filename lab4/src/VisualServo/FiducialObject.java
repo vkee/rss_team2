@@ -10,9 +10,9 @@ public class FiducialObject {
 
 	}
 
-	public FiducialObject(BlobObject top, BlobObject bottom) {
-		this.top = top;
-		this.bottom = bottom;
+	public FiducialObject(BlobObject top_in, BlobObject bottom_in) {
+		this.top = top_in;
+		this.bottom = bottom_in;
 		this.distanceTo = (top.getDistToCentroid() + bottom.getDistToCentroid()) / 2.0;
 	}
 
@@ -20,12 +20,5 @@ public class FiducialObject {
 		return this.distanceTo;
 	}
 
-	public void addTop(BlobObject top_in) {
-		this.top = top_in;
-	}
-
-	public void addBottom(BlobObject bottom_in) {
-		this.bottom = bottom_in;
-	}
 
 }
