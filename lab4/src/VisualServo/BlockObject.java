@@ -2,8 +2,10 @@ package VisualServo;
 
 public class BlockObject {
 
-	public BlockObject(BlobObject blob) {
+	BlobObject blob;
+
+	public BlockObject(BlobObject blob_in) {
+		this.blob = blob_in;
 	}
-	
 
 }
