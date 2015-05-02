@@ -2,7 +2,7 @@ package StateMachine;
 
 import java.awt.geom.Point2D;
 
-import MotionPlanning.MotionMsg;
+///import MotionPlanning.MotionMsg;
 import MotionPlanning.RRTreeNode;
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
@@ -58,6 +58,7 @@ public class MoveForward implements FSMState {
     
     private void updateGate(GenericMessage msg)
 		{
+/*
 		BumpMsg message = (BumpMsg) msg.message;
 
     	if (message.back == true)
@@ -75,6 +76,7 @@ public class MoveForward implements FSMState {
 			{fsm.updateState(new MoveBackward(fsm));}
 		else if (gateCollected)
 			{fsm.updateState(new BackToGoalPoint(fsm, true));}
+*/
 		}
 
 

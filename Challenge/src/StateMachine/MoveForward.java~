@@ -44,18 +44,8 @@ public class MoveForward implements FSMState {
 
     public void update(GenericMessage msg)
     {
-<<<<<<< HEAD
-
-        //do stuff
-    	count++;
-    	if (count > 10)         //if condition to leave state
-    		{fsm.updateState(new BlockCollected(fsm));}
-
-=======
 		if (msg.type == msgENUM.WHEELS) updateMove(msg);
 		else if (msg.type == msgENUM.FLAP) updateGate(msg);
-		
->>>>>>> b996e3ffd15a9121b7b1f44ffd78ccadcc2f744f
     }
     
     private void updateMove(GenericMessage msg)
@@ -68,6 +58,7 @@ public class MoveForward implements FSMState {
     
     private void updateGate(GenericMessage msg)
 		{
+/*
 		BumpMsg message = (BumpMsg) msg.message;
 
     	if (message.back == true)
@@ -85,6 +76,7 @@ public class MoveForward implements FSMState {
 			{fsm.updateState(new MoveBackward(fsm));}
 		else if (gateCollected)
 			{fsm.updateState(new BackToGoalPoint(fsm, true));}
+*/
 		}
 
 

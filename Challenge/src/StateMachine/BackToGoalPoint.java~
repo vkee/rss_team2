@@ -32,7 +32,7 @@ public class BackToGoalPoint implements FSMState {
 	}
 
 	public stateENUM getName() {
-		return null;//stateENUM.BACKTOGOALPOINT;
+		return stateENUM.BACKTOGOALPOINT;
 	}
 
 	public boolean accepts(msgENUM msgType) {

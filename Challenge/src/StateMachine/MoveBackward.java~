@@ -33,7 +33,7 @@ public class MoveBackward implements FSMState {
 
 
     public stateENUM getName()
-    	{return null;}//stateENUM.MOVEBACKWARD;}
+    	{return null;//stateENUM.MOVEBACKWARD;}
 
 
     public boolean accepts(msgENUM msgType)
