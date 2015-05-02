@@ -6,6 +6,9 @@ public class FiducialObject {
 	private BlobObject bottom;
 	private double distanceTo;
 
+	public FiducialObject(){
+		
+	}
 	public FiducialObject(BlobObject top, BlobObject bottom) {
 		this.top = top;
 		this.bottom = bottom;
