@@ -49,7 +49,6 @@ public class NeckScan implements FSMState {
 
     public void update(GenericMessage msg)
     {
-        System.out.println("Current state: NeckScan.");
 	/*
     	ArmMsg message = (ArmMsg) msg.message;
     	

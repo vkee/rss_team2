@@ -56,7 +56,8 @@ public class OpenGate implements FSMState {
 		else //if condition to leave state
 			{
 			System.out.println("Done opening gate.");
-			System.out.println("Updating state...");
+			System.out.println("I'm going to try pooping out some blocks now.");
+
 			fsm.updateState(new MoveToRelease(fsm));
 			}
 

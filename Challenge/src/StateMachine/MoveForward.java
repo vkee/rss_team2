@@ -58,7 +58,6 @@ public class MoveForward implements FSMState {
     
     private void updateGate(GenericMessage msg)
 		{
-        System.out.println("Current state: MoveForward.");
 
 /*
 

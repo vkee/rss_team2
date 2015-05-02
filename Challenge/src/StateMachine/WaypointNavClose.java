@@ -70,7 +70,6 @@ public class WaypointNavClose implements FSMState {
 
 	public void update(GenericMessage msg)
 	{
-		System.out.println("Current state: WaypointNavClose.");
 
 		//do waypoint nav stuff
 		OdometryMsg message = (OdometryMsg)msg.message;
@@ -82,7 +81,6 @@ public class WaypointNavClose implements FSMState {
 		
 		if (RRTreeNode.distance(new Point2D.Double(message.x, message.y), finalGoal) <= fsm.BLOCKVISUAL_DIST) {
 		//if (waypointNavigator.isDone()) {
-			System.out.println("Changing state from WaypointNavClose to ApproachBlock...");
 			fsm.updateState(new ApproachBlock(fsm, finalGoal));
 		}
 		//	{fsm.updateState(new ApproachBlock(fsm, finalGoal));}		//Approach until visual servo

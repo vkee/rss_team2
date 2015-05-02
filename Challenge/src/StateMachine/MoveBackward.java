@@ -45,7 +45,6 @@ public class MoveBackward implements FSMState {
 
     public void update(GenericMessage msg)
     	{
-        System.out.println("Current state: MoveBackward.");
 		org.ros.message.rss_msgs.OdometryMsg message = (org.ros.message.rss_msgs.OdometryMsg) msg.message;
 		
 		if (startLoc == null) { startLoc=new Point2D.Double(message.x, message.y); }
@@ -56,7 +55,6 @@ public class MoveBackward implements FSMState {
         if (RRTreeNode.distance(startLoc, new Point2D.Double(message.x, message.y)) >= CSpace2D.ROBOT_LONGEST_DIM) 
         	{motion.translationalVelocity = 0.0;
             fsm.motionPub.publish(motion);
-            System.out.println("Updating state...");
             fsm.updateState(new BackToGoalPoint(fsm, false));
         	}
         else  

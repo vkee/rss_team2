@@ -208,8 +208,10 @@ public class Initialize implements FSMState {
 
 
         // if condition to leave state
-        System.out.println("Updating state...");
-        fsm.updateState(new WaypointNavClose(fsm)); 
+        System.out.println("Initialization complete. TIME TO GO COLLECT SOME BLOCKS!");
+        System.out.println("ARE YOU EXCITED?");
+        System.out.println("I'M EXCITED!!!");
+        fsm.updateState(new WaypointNavClose(fsm));
     }
 
     @Override
