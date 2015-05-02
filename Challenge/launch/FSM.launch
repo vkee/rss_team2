@@ -1,6 +1,9 @@
 <launch>
   <include file="$(find lab4)/launch/config.launch" />
-
+  <node name="lis" pkg="rosjava_bootstrap" type="run.py" args="uorc_listener Listener" machine="workstation" /> 
+  <node name="pub" pkg="rosjava_bootstrap" type="run.py" args="uorc_publisher Publisher" machine="workstation" />
+  <node name="odo" pkg="rosjava_bootstrap" type="run.py" args="odometry odometry.Odometry" machine="workstation" /> 
+  
   <node name="nav" pkg="rosjava_bootstrap" type="run.py" args="Challenge StateMachine.FSM" machine="workstation" output="screen">
 
 <!-- Construction Map 2011-->

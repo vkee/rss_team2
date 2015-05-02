@@ -11,14 +11,14 @@ import StateMachine.FSM.stateENUM;
  * This state triggers when the block door opens because a block was collected.
  * The state ends when the door releases
  */
-public class BlockCollected implements FSMState {
+public class BackToGoalPoint implements FSMState {
 
 	private FSM fsm;
 	private WaypointNav waypointNavigator;
 
-	public BlockCollected(FSM stateMachine) {
+	public BackToGoalPoint(FSM stateMachine, boolean collected) {
 		fsm = stateMachine;
-		fsm.blocksCollected++;
+		if (collected) fsm.blocksCollected++;
 		// init any variables for this state
 
 		ArrayList<Point2D.Double> waypoints = new ArrayList<Point2D.Double>();
@@ -32,7 +32,7 @@ public class BlockCollected implements FSMState {
 	}
 
 	public stateENUM getName() {
-		return stateENUM.BLOCKCOLLECTED;
+		return stateENUM.BACKTOGOALPOINT;
 	}
 
 	public boolean accepts(msgENUM msgType) {
