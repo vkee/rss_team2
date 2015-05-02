@@ -49,6 +49,7 @@ public class NeckScan implements FSMState {
 
     public void update(GenericMessage msg)
     {
+        System.out.println("Current state: NeckScan.");
 	/*
     	ArmMsg message = (ArmMsg) msg.message;
     	
@@ -79,7 +80,8 @@ public class NeckScan implements FSMState {
     	//TODO: actually update odometery to reflect the updated localization??
 
         //if condition to leave state
-        //		fsm.updateState(new NextState(fsm));
+//      System.out.println("Updating state...");
+//		fsm.updateState(new NextState(fsm));
 */
     }
     

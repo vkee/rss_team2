@@ -55,6 +55,9 @@ public class ApproachBlock implements FSMState {
 		// System.out.println("Entered update");
 		// do stuff
 
+		System.out.println("Current state: ApproachBlock.");
+
+
 		// if condition to leave state
 		// fsm.updateState(new NextState(fsm));
 		Image src = null;
@@ -72,16 +75,17 @@ public class ApproachBlock implements FSMState {
 			e.printStackTrace();
 		}
 		if (blockInVision) {
-			System.out.println("BLOCK IN VISION");
+			System.out.println("BLOCK IN VISION!!!1!");
 			fsm.updateState(new VisualServoCollect(fsm, mbt));
 		} else {
-			System.out.println("no block in vision");
+			System.out.println("No block in vision.");
 			OdometryMsg message = (OdometryMsg) msg.message;
 
 			waypointNavigator.wayptNav(message.x, message.y, message.theta);
 
 			if (waypointNavigator.isDone()) {
-				System.out.println("at waypoint");
+				System.out.println("At waypoint.");
+				System.out.println("Updating state...");
 				fsm.updateState(new WaypointNavClose(fsm));
 			}
 		}

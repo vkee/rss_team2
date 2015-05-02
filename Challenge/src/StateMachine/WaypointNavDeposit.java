@@ -48,6 +48,8 @@ public class WaypointNavDeposit implements FSMState {
 
 	public void update(GenericMessage msg)
 		{
+		System.out.println("Current state: WaypointNavDeposit.");
+
 		org.ros.message.rss_msgs.OdometryMsg message = (org.ros.message.rss_msgs.OdometryMsg)msg.message;
 		//do stuff
 		waypointNavigator.wayptNav(message.x, message.y, message.theta);
@@ -55,7 +57,10 @@ public class WaypointNavDeposit implements FSMState {
 
 		//if condition to leave state
 		if (waypointNavigator.isDone())
-			{fsm.updateState(new OrientAtDeposit(fsm));}
+			{
+			System.out.println("Changing state from WaypointNavDeposit to OrientAtDeposit...");
+			fsm.updateState(new OrientAtDeposit(fsm));
+			}
 
 
 

@@ -47,8 +47,13 @@ public class RRTUpdate implements FSMState {
 	public void update(GenericMessage msg)
 		{
 		//do stuff
+		System.out.println("Current state: RRTUpdate.");
+
+
+
 
 		//if condition to leave state
+		System.out.println("Updating state...");
 		//fsm.updateState(new NextState(fsm));
 
 		}

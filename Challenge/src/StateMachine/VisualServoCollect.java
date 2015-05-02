@@ -42,15 +42,22 @@ public class VisualServoCollect implements FSMState {
 	}
 
 	public void update(GenericMessage msg) {
-		if (msg.type == msgENUM.WHEELS)  updateDrive(msg);
-		else if (msg.type == msgENUM.FLAP) updateGate(msg);
+		System.out.println("Current state: VisualServoCollect.");
+		if (msg.type == msgENUM.WHEELS) {
+			updateDrive(msg);
+		}
+		else if (msg.type == msgENUM.FLAP) {
+			updateFlap(msg);
+		}
+
+
 	}
 
 	private void updateDrive(GenericMessage msg){
 
 //		System.out.println("Beginning drive Update");
 		// do stuff
-		
+
 		org.ros.message.rss_msgs.OdometryMsg message = (org.ros.message.rss_msgs.OdometryMsg) msg.message;
 
 		Image src = null;
@@ -69,17 +76,23 @@ public class VisualServoCollect implements FSMState {
 		fsm.motionPub.publish(mo_msg); // (Solution)
 
 		//if condition to leave state
-		if(blobTrack.isDone()){		
+		if(blobTrack.isDone()){
+			System.out.println("Changing state from VisualServoCollect to MoveForward...");
 			fsm.updateState(new MoveForward(fsm));
+
 		}
 //		System.out.println("End Update");
 	}
 
-	private void updateGate(GenericMessage msg){
+	private void updateFlap(GenericMessage msg){
 
 		//TODO: add bump message handling
 		//TODO: increment counter of collected blocks
 			// do we have a counter for this yet?
+		System.out.println("Block collected!");
+		System.out.println("Changing state from VisualServoCollect to BackToGoalPoint...");
+		//fsm.updateState(new BackToGoalPoint(fsm, true))
+
 }
 
 	@Override

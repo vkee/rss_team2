@@ -170,6 +170,9 @@ public class Initialize implements FSMState {
 
     public boolean accepts(msgENUM msgType) {
         // if (msgType == msgENUM.WHEELS) return true;
+        if (msgType == msgENUM.SERVO) {
+            return true;
+        }
         if (msgType == null && initialized) {
             return true;
         }
@@ -178,8 +181,34 @@ public class Initialize implements FSMState {
 
     public void update(GenericMessage msg) {
         // do stuff
-        System.out.println("hi");
+        System.out.println("Hi. I'm a robot.");
+        System.out.println("My current state is: Initialize.");
+
+
+        // get gate PWM value from arm message
+        ArmMsg message = (ArmMsg)msg.message;
+        int gatePWM = (int) message.pwms[1]; // convert from long to int
+
+        // if gate is not closed, close gate
+        if (!fsm.gateServo.isClosed(gatePWM))
+        {
+            int[] messagePWMs = new int[3];
+            messagePWMs[0] = (int) message.pwms[0]; // convert from long to int
+            messagePWMs[1] = (int) message.pwms[1]; // convert from long to int
+            messagePWMs[2] = (int) message.pwms[2]; // convert from long to int
+            fsm.gateServo.close(messagePWMs);
+          //  System.out.println("CurrPWM: "+gatePWM);
+            System.out.println("Trying to close gate.");
+        }
+        else //if condition to leave state
+        {
+            System.out.println("Done closing gate.");
+            //fsm.updateState(new MoveForward(fsm));
+        }
+
+
         // if condition to leave state
+        System.out.println("Updating state...");
         fsm.updateState(new WaypointNavClose(fsm)); 
     }
 

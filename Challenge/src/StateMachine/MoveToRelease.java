@@ -35,7 +35,10 @@ public class MoveToRelease implements FSMState {
     {
         //do stuff
 
+        System.out.println("Current state: MoveToRelease.");
+
         //if condition to leave state
+        System.out.println("Updating state...");
         //fsm.updateState(new NextState(fsm));
 
     }

@@ -58,7 +58,11 @@ public class MoveForward implements FSMState {
     
     private void updateGate(GenericMessage msg)
 		{
+        System.out.println("Current state: MoveForward.");
+
 /*
+
+
 		BumpMsg message = (BumpMsg) msg.message;
 
     	if (message.back == true)
@@ -73,11 +77,20 @@ public class MoveForward implements FSMState {
 	    	fsm.motionPub.publish(motion);
     		}
 		if (message.front == true)
-			{fsm.updateState(new MoveBackward(fsm));}
+			{
+			    System.out.println("Changing state from MoveForward to MoveBackward...");
+                fsm.updateState(new MoveBackward(fsm));
+			}
 		else if (gateCollected)
-			{fsm.updateState(new BackToGoalPoint(fsm, true));}
+			{
+                System.out.println("Block collected!");
+                System.out.println("Changing state from MoveForward to BackToGoalPoint...");
+                fsm.updateState(new BackToGoalPoint(fsm, true));
+
+
+			}
 */
-		}
+        }
 
 
     @Override

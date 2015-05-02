@@ -42,11 +42,15 @@ public class BackToGoalPoint implements FSMState {
 	}
 
 	public void update(GenericMessage msg) {
+
+		System.out.println("Current state: BackToGoalPoint.");
+
 		org.ros.message.rss_msgs.OdometryMsg message = (org.ros.message.rss_msgs.OdometryMsg) msg.message;
 
 		waypointNavigator.wayptNav(message.x, message.y, message.theta);
 
 		if (waypointNavigator.isDone()) {
+			System.out.println("Updating state...");
 			fsm.updateState(new NeckScan(fsm));
 		}
 
