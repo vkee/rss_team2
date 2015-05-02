@@ -485,6 +485,8 @@ public class MultipleBlobTracking extends BlobTracking {
 				if (top != bottom && isFiducialColorMatch(top, bottom)
 						&& isAbove(top, bottom, 0.1, 0.1)) {
 					FiducialObject fo = new FiducialObject();//top, bottom);
+					fo.addTop(top);
+					fo.addBottom(bottom);
 					fos.add(fo);
 					isTopFiducial = true;
 				}
