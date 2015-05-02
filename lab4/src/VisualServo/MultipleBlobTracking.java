@@ -8,7 +8,6 @@ public class MultipleBlobTracking extends BlobTracking {
 	private Color[] colorwheel = { Color.RED, Color.GREEN, Color.BLUE,
 			Color.YELLOW, Color.ORANGE };
 
-
 	private double[] targetHueLevels = { 0.0, 120.0 / 360, 240.0 / 360,
 			60.0 / 360, 24.0 / 360 };
 	// red, green, blue,yellow,orange
@@ -74,7 +73,6 @@ public class MultipleBlobTracking extends BlobTracking {
 				/ Math.sqrt(targetArea[index] / Math.PI);
 		targetBearing = Math.atan2(deltaX, focalPlaneDistance);
 	}
-
 
 	/**
 	 * Color blob for debugging
@@ -475,27 +473,27 @@ public class MultipleBlobTracking extends BlobTracking {
 	/**
 	 * sortBlobs Iterates through blob objects to sort into fiducial and block
 	 */
-//
-//	public void sortBlobs() {
-//		boolean isTopFiducial;
-//		for (int j = 0; j < bos.size(); j++) {
-//			BlobObject top = bos.get(j);
-//			isTopFiducial = false;
-//			for (int k = 0; k < bos.size(); k++) {
-//				BlobObject bottom = bos.get(k);
-//				if (top != bottom && isFiducialColorMatch(top, bottom)
-//						&& isAbove(top, bottom, 0.1, 0.1)) {
-//					FiducialObject fo = new FiducialObject(top, bottom);
-//					fos.add(fo);
-//					isTopFiducial = true;
-//				}
-//			}
-//			if (!isTopFiducial) {
-//				BlockObject blo = new BlockObject(top);
-//				blos.add(blo);
-//			}
-//		}
-//	}
+	//
+	// public void sortBlobs() {
+	// boolean isTopFiducial;
+	// for (int j = 0; j < bos.size(); j++) {
+	// BlobObject top = bos.get(j);
+	// isTopFiducial = false;
+	// for (int k = 0; k < bos.size(); k++) {
+	// BlobObject bottom = bos.get(k);
+	// if (top != bottom && isFiducialColorMatch(top, bottom)
+	// && isAbove(top, bottom, 0.1, 0.1)) {
+	// FiducialObject fo = new FiducialObject(top, bottom);
+	// fos.add(fo);
+	// isTopFiducial = true;
+	// }
+	// }
+	// if (!isTopFiducial) {
+	// BlockObject blo = new BlockObject(top);
+	// blos.add(blo);
+	// }
+	// }
+	// }
 
 	private boolean isAbove(BlobObject top, BlobObject bottom,
 			double thresholdX, double thresholdY) {
@@ -675,6 +673,57 @@ public class MultipleBlobTracking extends BlobTracking {
 			rotationVelocityCommand = 0.0;
 		}
 
+	}
+
+	/**
+	 * use this apply if you want to test fiducial tracking. No Motion
+	 * 
+	 * @param src
+	 * @param dest
+	 * @param float_array
+	 * @param fiducialTrack
+	 */
+	public void apply(Image src, Image dest, float[] float_array,
+			boolean fiducialTrack) {
+		stepTiming();
+		bos = new ArrayList<BlobObject>();
+		fos = new ArrayList<FiducialObject>();
+		blos = new ArrayList<BlockObject>();
+
+		if (useGaussianBlur) {// (Solution)
+			byte[] srcArray = src.toArray();// (Solution)
+			byte[] destArray = new byte[srcArray.length]; // (Solution)
+			if (approximateGaussian) { // (Solution)
+				GaussianBlur.applyBox(srcArray, destArray, src.getWidth(),
+						src.getHeight());
+			} else {
+				GaussianBlur.apply(srcArray, destArray, width, height); // (Solution)
+			}
+			src = new Image(destArray, src.getWidth(), src.getHeight()); // (Solution)
+		}
+
+		blobPixel(src, multiBlobPixelMask);
+		multiBlobPresent(float_array, multiBlobPixelMask, multiImageConnected,
+				multiBlobMask);
+
+		if (dest != null) { // (Solution)
+			// dest = Histogram.getHistogram(src, dest, true); // (Solution)
+			markBlob(src, dest);
+			for (BlobObject bo : bos) {
+				int x = (int) bo.getCentroidX();
+				int y = (int) bo.getCentroidY();
+				if (x > 10 && y > 10) {
+					for (int j = 0; j < 10; j++) {
+						for (int k = 0; k < 10; k++) {
+							dest.setPixel(x + j, y + k, (byte) 0, (byte) 0,
+									(byte) 0);
+						}
+					}
+				}
+			}
+
+		}
+		sortBlobs();
 	}
 
 }

@@ -15,7 +15,7 @@ import org.ros.node.topic.Subscriber;
  * @author previous TA's, prentice, vona
  * 
  */
-public class VisualServo implements NodeMain, Runnable {
+public class VisualBlob implements NodeMain, Runnable {
 
 	public client cl = null;
 
@@ -45,7 +45,7 @@ public class VisualServo implements NodeMain, Runnable {
 	 * Create a new VisualServo object.
 	 * </p>
 	 */
-	public VisualServo() {
+	public VisualBlob() {
 
 		setInitialParams();
 
@@ -66,7 +66,6 @@ public class VisualServo implements NodeMain, Runnable {
 	 *            a received camera message
 	 */
 	public void handle(byte[] rawImage) {
-
 		visionImage.offer(rawImage);
 	}
 
@@ -85,19 +84,20 @@ public class VisualServo implements NodeMain, Runnable {
 				continue;
 			}
 			Image dest = new Image(src);
-			// Image depth = Image.floatRGB(depth_array);
 			blobTrack.apply(src, dest, depth_array);// , depth_array);
-			//
+
 			// update newly formed vision message
 			gui.setVisionImage(dest.toArray(), width, height);
 
 			// Begin Student Code
 			// publish velocity messages to move the robot towards the target
 
-			MotionMsg msg = new MotionMsg(); // (Solution)
-			msg.translationalVelocity = blobTrack.translationVelocityCommand;
-			msg.rotationalVelocity = blobTrack.rotationVelocityCommand;
-			publisher.publish(msg); // (Solution)
+			/*
+			 * MotionMsg msg = new MotionMsg(); // (Solution)
+			 * msg.translationalVelocity = blobTrack.translationVelocityCommand;
+			 * msg.rotationalVelocity = blobTrack.rotationVelocityCommand;
+			 * publisher.publish(msg); // (Solution)
+			 */
 
 			// End Student Code
 		}
