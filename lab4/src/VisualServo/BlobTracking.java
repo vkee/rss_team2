@@ -25,24 +25,46 @@ public class BlobTracking {
 	protected float imageHsb[] = null; //(Solution)
 	// (Solution)
 	public double targetHueLevel; // (Solution)
-	public double targetRadius; // (Solution)
 	public double hueThreshold; // (Solution)
 	public double saturationLevel; // (Solution)
-	public double blobSizeThreshold; // (Solution)
-	public double desiredFixationDistance = 0.0; // (Solution)
-	public double translationErrorTolerance = 0.25; // (Solution)
-	public double rotationErrorTolerance = 0.25; // (Solution)
-	public boolean useGaussianBlur; // (Solution)
-	public boolean approximateGaussian; // (Solution)
-	public double translationVelocityGain = .2; // (Solution)
-	public double translationVelocityMax = 1; // (Solution)
-	public double rotationVelocityGain = .2; // (Solution)
-	public double rotationVelocityMax = 1; // (Solution)
+
+	public double targetRadius = 0.1; // (Solution)
+	public double blobSizeThreshold = 0.005; // (Solution)
+	public double desiredFixationDistance = 0.1; // (Solution)
+
+	public double translationErrorTolerance = 0.05; // (Solution)
+	public double rotationErrorTolerance = 0.4; // (Solution)
+
+	public boolean useGaussianBlur = true; // (Solution)
+	public boolean approximateGaussian = false; // (Solution)
+
+	public double translationVelocityGain = .5; // (Solution)
+	public double translationVelocityMax = .5; // (Solution)
+	public double rotationVelocityGain = 0.01; // (Solution)
+	public double rotationVelocityMax = 0.1; // (Solution)
+
+/*
+	private double blob_size_threshold = 0.005; // (Solution)
+	private double target_radius = 0.1; // (Solution)
+	private double desired_fixation_distance = .1; // (Solution)
+	
+	private double translation_error_tolerance = .05;
+	private double translation_velocity_gain = .75;// (Solution)
+	private double translation_velocity_max = .75;// (Solution)
+
+	private double rotation_error_tolerance = 0.2; // (Solution)
+	private double rotation_velocity_gain = 0.05; // (Solution)
+	private double rotation_velocity_max = 0.15; // (Solution)
+	
+	private boolean use_gaussian_blur = true;// (Solution)
+	private boolean approximate_gaussian = false;// (Solution)
+*/
+
 	// (Solution)
 	/** //(Solution)
 	 * <p>Focal plane distance, experimentally determined, in pixels.</p> //(Solution)
 	 **/ //(Solution)
-	public double focalPlaneDistance = 107.0; //(Solution)
+	public double focalPlaneDistance = 70.0; //(Solution)
 	// (Solution)
 	protected ConnectedComponents connComp = new ConnectedComponents(); //(Solution)
 	// (Solution)
@@ -167,7 +189,9 @@ public class BlobTracking {
 	protected void computeTranslationVelocityCommand() { //(Solution)
 		//System.out.println("RUNNING TRANSLATIONAL");
 		double translationError = targetRange - desiredFixationDistance; //(Solution)
-	//	System.out.println("targetRange " + targetRange);
+		System.out.println("targetRange " + targetRange);
+		System.out.println("translationalError " + translationError);
+
 		if (Math.abs(translationError) < translationErrorTolerance) //(Solution)
 			translationVelocityCommand = 0.0; //(Solution)
 		else //(Solution)
@@ -186,7 +210,8 @@ public class BlobTracking {
 	 */ //(Solution)
 	protected void computeRotationVelocityCommand() { //(Solution)
 		double rotationError = targetBearing; //(Solution)
-		//System.out.println(rotationError);
+		System.out.println("rotationError " + rotationError);
+//		System.out.println("rotationTolerance " + rotationErrorTolerance);
 		if (Math.abs(rotationError) < rotationErrorTolerance) //(Solution)
 			rotationVelocityCommand = 0.0; //(Solution)
 		else //(Solution)

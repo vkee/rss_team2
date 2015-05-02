@@ -32,9 +32,9 @@ public class VisualServo implements NodeMain, Runnable {
 	 **/
 	protected MultipleBlobTracking blobTrack = null;
 
-	private double target_hue_level = 0; // (Solution)
-	private double hue_threshold = 0.08; // (Solution)
-	private double saturation_level = 0.5; // (Solution)
+//	private double target_hue_level = 0; // (Solution)
+//	private double hue_threshold = 0.08; // (Solution)
+//	private double saturation_level = 0.5; // (Solution)
 	/*
 	 * private double target_hue_level = 130/360; // (Solution) private double
 	 * hue_threshold = 0.1; // (Solution) private double saturation_level = 0.4;
@@ -42,6 +42,7 @@ public class VisualServo implements NodeMain, Runnable {
 	 */
 	// // Units are fraction of total number of pixels detected in blob //
 	// (Solution)
+/*
 	private double blob_size_threshold = 0.005; // (Solution)
 	private double target_radius = 0.1; // (Solution)
 	private double desired_fixation_distance = .1; // (Solution)
@@ -56,7 +57,7 @@ public class VisualServo implements NodeMain, Runnable {
 	
 	private boolean use_gaussian_blur = true;// (Solution)
 	private boolean approximate_gaussian = false;// (Solution)
-
+*/
 	private VisionGUI gui;
 	protected ArrayBlockingQueue<byte[]> visionImage = new ArrayBlockingQueue<byte[]>(
 			1);
@@ -120,8 +121,8 @@ public class VisualServo implements NodeMain, Runnable {
 			// publish velocity messages to move the robot towards the target
 
 			MotionMsg msg = new MotionMsg(); // (Solution)
-			msg.translationalVelocity = .2 * blobTrack.translationVelocityCommand;
-			msg.rotationalVelocity = .2 * blobTrack.rotationVelocityCommand;
+			msg.translationalVelocity = blobTrack.translationVelocityCommand;
+			msg.rotationalVelocity = blobTrack.rotationVelocityCommand;
 			publisher.publish(msg); // (Solution)
 
 			// End Student Code
@@ -142,6 +143,7 @@ public class VisualServo implements NodeMain, Runnable {
 		// Begin Student Code
 
 		// set parameters on blobTrack as you desire
+/*
 		blobTrack.targetHueLevel = target_hue_level;// (Solution)
 		blobTrack.hueThreshold = hue_threshold;// (Solution)
 		blobTrack.saturationLevel = saturation_level;// (Solution)
@@ -156,7 +158,7 @@ public class VisualServo implements NodeMain, Runnable {
 		blobTrack.rotationVelocityMax = rotation_velocity_max;// (Solution)
 		blobTrack.useGaussianBlur = use_gaussian_blur;// (Solution)
 		blobTrack.approximateGaussian = approximate_gaussian;// (Solution)
-
+*/
 		// initialize the ROS publication to command/Motors
 
 		publisher = node.newPublisher("command/Motors", "rss_msgs/MotionMsg"); // (Solution)

@@ -5,20 +5,23 @@ import java.util.*;
 
 public class MultipleBlobTracking extends BlobTracking {
 
+	private Color[] colorwheel = { Color.RED, Color.GREEN, Color.BLUE,
+			Color.YELLOW, Color.ORANGE };
+
+
 	private double[] targetHueLevels = { 0.0, 120.0 / 360, 240.0 / 360,
 			60.0 / 360, 24.0 / 360 };
 	// red, green, blue,yellow,orange
-
-	private Color[] colorwheel = { Color.RED, Color.GREEN, Color.BLUE,
-			Color.YELLOW, Color.ORANGE };
 
 	private double[] hueThresholds = { 0.1, 0.1, 0.15, 0.05, 0.05 };
 	private double other_hueThreshold = 0.1;
 
 	protected double[] multiSaturationLevel = { 0.6, 0.3, 0.3, 0.8, 0.8 };
 	double other_saturation = 0.6;
+
 	double[] multiBrightnessLevel = { 0.55, 0.0, 0.0, 0.5, 0.3 };
 	double other_brightness = 0.55;
+
 	int[][] multiBlobPixelMask = null;
 	int[][] multiBlobMask = null;
 	int[][] multiImageConnected = null;
@@ -53,8 +56,9 @@ public class MultipleBlobTracking extends BlobTracking {
 	 * @param index
 	 */
 	protected void blobFix() {
-		targetRadius = 0.01;
-		focalPlaneDistance = 107.0;
+		System.out.println("Centroid: " + bos.get(0).getCentroidX());
+		System.out.println("Target Area: " + bos.get(0).getTargetArea());
+
 		double deltaX = bos.get(0).getCentroidX() - width / 2.0;
 		targetRange = focalPlaneDistance * targetRadius
 				/ Math.sqrt(bos.get(0).getTargetArea() / Math.PI);
@@ -70,6 +74,7 @@ public class MultipleBlobTracking extends BlobTracking {
 				/ Math.sqrt(targetArea[index] / Math.PI);
 		targetBearing = Math.atan2(deltaX, focalPlaneDistance);
 	}
+
 
 	/**
 	 * Color blob for debugging
