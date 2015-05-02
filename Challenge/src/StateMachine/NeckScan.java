@@ -9,17 +9,27 @@ import MotionPlanning.RRT;
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
 
+import org.ros.message.rss_msgs.*;
+import org.ros.message.lab5_msgs.*;
+import org.ros.message.lab6_msgs.*;
+import org.ros.message.Challenge_msgs.*;
+
 /**
  * This state turns the neck all around taking snapshots of the world at different angles
  */
 public class NeckScan implements FSMState {
     //TODO: make servos rotate
 
-    private FSM fsm;	
+    private FSM fsm;
+    private double neckAngleTarget = 0;
+    private final int NECKSTATES = 6;
+    
+    private ArrayList<Point2D.Double> newGoals;
 
     public NeckScan(FSM stateMachine)
     {
         fsm = stateMachine;
+        newGoals = new ArrayList<Point2D.Double>();
 
         //init any variables for this state
 
@@ -27,13 +37,12 @@ public class NeckScan implements FSMState {
 
 
     public stateENUM getName()
-    {return stateENUM.SCAN;}
+    	{return stateENUM.SCAN;}
 
 
     public boolean accepts(msgENUM msgType)
     {
         if (msgType == msgENUM.SERVO) return true;
-        if (msgType == msgENUM.IMAGE) return true;
         return false;
     }
 
@@ -41,6 +50,22 @@ public class NeckScan implements FSMState {
     public void update(GenericMessage msg)
     {
 
+    	ArmMsg message = (ArmMsg) msg.message;
+    	
+    	if (fsm.neckServo.atAngle(neckAngleTarget, message.pwms))
+    		{
+    		//process image
+    		System.out.println("Processing image at: "+neckAngleTarget);
+    		Thread.sleep(1000);
+    		//update fiducial and goal lists
+    		double newTarget = neckAngleTarget + 360/NECKSTATES;
+    		if (newTarget < 360) neckAngleTarget = newTarget;
+    		else fsm.updateState(new RRTUpdate(fsm, newGoals));			//TODO: insert arraylist of new goalpoint 2ds
+    		}
+    	else
+    		{fsm.neckServo.goToAngle(neckAngleTarget, message.pwms);}
+    	
+    	
         //	    Particle Filter Measurement Update
         //	    TODO: determine which fiducials are in the fov and get the distances to them
         //        //                    Determining which fiducials are in the FOV of the robot
@@ -50,6 +75,8 @@ public class NeckScan implements FSMState {
         //        HashMap<Integer, java.lang.Double> measuredDists = getFidsDists(fsm.prevPoint, measuredFiducials);
         //
         //        fsm.particleFilter.measurementUpdate(measuredFiducials, measuredDists);
+    	
+    	//TODO: actually update odometery to reflect the updated localization??
 
         //if condition to leave state
         //		fsm.updateState(new NextState(fsm));
@@ -62,6 +89,7 @@ public class NeckScan implements FSMState {
      * @param measuredFiducials the indices of the fiducials in the robot's FOV
      * @return the distances from the robot's position to the fiducials
      */
+    // TODO: SHOULDNT THIS BE IN PARTICLE FILTER CODE NOT HERE??
     private HashMap<Integer, java.lang.Double> getFidsDists(Point2D.Double robotPos, ArrayList<Integer> measuredFiducials) {
         HashMap<Integer, java.lang.Double> fidsDists = new HashMap<Integer, java.lang.Double>();
         Fiducial[] fiducials = fsm.particleFilter.map.getFiducials();

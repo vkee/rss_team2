@@ -12,7 +12,7 @@ import Challenge.GrandChallengeMap;
  */
 public class CSpace2D {
 
-    private final double ROBOT_LONGEST_DIM = 0.38;
+    public final static double ROBOT_LONGEST_DIM = 0.38;
 
     private final int NUM_SIDES = 8; // number of sides of the n side polygon
     // approximation of robot
