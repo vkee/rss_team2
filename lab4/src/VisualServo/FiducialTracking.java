@@ -84,7 +84,7 @@ public class FiducialTracking extends BlobTracking {
 	 * @param blob2
 	 * @return
 	 */
-	protected boolean isFiducialColorMatch(BlobObject top, BlobObject bottom) {
+	protected int isFiducialColorMatch(BlobObject top, BlobObject bottom) {
 		// top & bottom
 		// yellow & red
 		// red & green
@@ -92,25 +92,33 @@ public class FiducialTracking extends BlobTracking {
 		// blue & yellow
 		// green & orange
 		// blue & red
-		if (top.getColor() == Color.YELLOW && bottom.getColor() == Color.RED) {
-
+		if (top.getColor() == Color.RED && bottom.getColor() == Color.BLUE) {
+			return 2;
 		} else if (top.getColor() == Color.RED
-				&& bottom.getColor() == Color.GREEN) {
-
+				&& bottom.getColor() == Color.ORANGE) {
+			return 1;
 		} else if (top.getColor() == Color.GREEN
 				&& bottom.getColor() == Color.BLUE) {
+			return 0;
 
-		} else if (top.getColor() == Color.GREEN
+		} else if (top.getColor() == Color.YELLOW
 				&& bottom.getColor() == Color.ORANGE) {
+			return 3;
 
-		} else if (top.getColor() == Color.BLUE
-				&& bottom.getColor() == Color.RED) {
+		} else if (top.getColor() == Color.YELLOW
+				&& bottom.getColor() == Color.GREEN) {
+			return 4;
+		} else if (top.getColor() == Color.RED
+				&& bottom.getColor() == Color.GREEN) {
+			return 5;
+
+		} else if (top.getColor() == Color.YELLOW
+				&& bottom.getColor() == Color.BLUE) {
+			return 6;
 
 		} else {
-			return false;// if the color pair is not one of the above, it is NOT
-							// a fidcuial
+			return -1;
 		}
-		return true;
 	}
 
 	/**
@@ -246,9 +254,10 @@ public class FiducialTracking extends BlobTracking {
 			isTopFiducial = false;
 			for (int k = 0; k < bos.size(); k++) {
 				BlobObject bottom = bos.get(k);
-				if (top != bottom && isFiducialColorMatch(top, bottom)
+				if (top != bottom && isFiducialColorMatch(top, bottom) != -1
 						&& isAbove(top, bottom, 0.1, 0.1)) {
-					FiducialObject fo = new FiducialObject(top, bottom);
+					FiducialObject fo = new FiducialObject(top, bottom,
+							isFiducialColorMatch(top, bottom));
 					fos.add(fo);
 					isTopFiducial = true;
 				}
@@ -356,5 +365,10 @@ public class FiducialTracking extends BlobTracking {
 
 		}
 		sortBlobs();
+		System.out.println("Number of Fiducials " + fos.size());
+		for (FiducialObject fo : fos) {
+			System.out.println("Fiducial Number " + fo.getFiducialNumber()
+					+ " at " + fo.getDistanceTo() + "mm away.");
+		}
 	}
 }

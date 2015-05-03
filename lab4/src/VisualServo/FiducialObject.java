@@ -7,9 +7,15 @@ public class FiducialObject {
 
 	int centroidX;
 	int centroidY;
+	private int fiducialNumber;
 
-	public FiducialObject() {
-
+	public FiducialObject(BlobObject top_in, BlobObject bottom_in, int i) {
+		this.top = top_in;
+		this.bottom = bottom_in;
+		this.distanceTo = (top.getDistToCentroid() + bottom.getDistToCentroid()) / 2.0;
+		this.centroidX = (int) ((top.getCentroidX() + bottom.getCentroidX()) / 2.0);
+		this.centroidY = (int) ((top.getCentroidY() + bottom.getCentroidY()) / 2.0);
+		this.fiducialNumber = i;
 	}
 
 	/**
@@ -49,14 +55,18 @@ public class FiducialObject {
 	 * Returns the top blob object
 	 */
 	public BlobObject getTop() {
-		return top;
+		return this.top;
 	}
 
 	/**
 	 * Returns the bottom blob object
 	 */
 	public BlobObject getBottom() {
-		return bottom;
+		return this.bottom;
+	}
+	
+	public int getFiducialNumber(){
+		return this.fiducialNumber;
 	}
 
 }
