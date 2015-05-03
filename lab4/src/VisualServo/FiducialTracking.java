@@ -152,7 +152,8 @@ public class FiducialTracking extends BlobTracking {
 						green += 255;
 
 					double ratio = 1.3;
-					if (i == 0 && red >= ratio * blue && red >= ratio * green) {
+					if (i == 0 && red >= ratio * blue && red >= ratio * green
+							&& blue < 170) {
 						mask[i][maskIndex++] = 255; // (Solution)
 					} else if (i == 1 && green >= ratio * red
 							&& green >= ratio * blue) {
