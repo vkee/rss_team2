@@ -235,14 +235,14 @@ public class MultipleBlobTracking extends BlobTracking {
 				int ind = (int) (centroidY * width + centroidX);
 				float fT = 42.775668509f;
 
-				int distToCentroid = (int) (depth_img[(int) (centroidY * width + centroidX)]);
-
-				if (ind < depth_img.length && distToCentroid > 0) {
-
-					BlobObject bo = new BlobObject(centroidX, centroidY,
-							(fT / distToCentroid), countMax, colorwheel[i],
-							m_blobIm[i]);
-					bos.add(bo);
+				if (ind < depth_img.length) {
+					int distToCentroid = (int) (depth_img[ind]);
+					if (distToCentroid > 0) {
+						BlobObject bo = new BlobObject(centroidX, centroidY,
+								(fT / distToCentroid), countMax, colorwheel[i],
+								m_blobIm[i]);
+						bos.add(bo);
+					}
 				}
 			}
 		}
