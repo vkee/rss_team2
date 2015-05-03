@@ -77,7 +77,7 @@ map {
     construction_objects {
     	num_construction_objects 8 
         0 {
-            position { 0.0 0.0 } # Tricky Under robot
+            position { 0.75 0.0 } # Tricky Under robot
             #color color_name
             #size 1 | 2
         }
