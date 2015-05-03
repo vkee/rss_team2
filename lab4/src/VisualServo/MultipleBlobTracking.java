@@ -65,6 +65,7 @@ public class MultipleBlobTracking extends BlobTracking {
 		// System.out.println("Target Range " + targetRange);
 		// System.out.println("Target Bearing " + targetBearing);
 		// System.out.println("deltaX " + deltaX );
+
 	}
 
 	private void blobFix(int index) {
@@ -757,7 +758,7 @@ public class MultipleBlobTracking extends BlobTracking {
 				}
 			}
 		}
-		
+
 		sortBlobs();
 		for (FiducialObject fo : fos) {
 			int x = (int) fo.getCentroidX();
