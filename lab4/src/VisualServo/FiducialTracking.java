@@ -9,14 +9,15 @@ public class FiducialTracking extends BlobTracking {
 			Color.YELLOW, Color.ORANGE };
 
 	private double[] targetHueLevels = { 0.0, 120.0 / 360, 240.0 / 360,
-			28.0 / 360, 24.0 / 360 };
+			30.0 / 360, 24.0 / 360 };
 	// red, green, blue,yellow,orange
 
 	private double[] hueThresholds = { 0.05, 0.1, 0.15, 0.05, 0.05 };
 	private double other_hueThreshold = 0.05;
 
-	protected double[] multiSaturationLevel = { 0.6, 0.3, 0.3, 0.8, 0.8 };
+	protected double[] multiSaturationLevel = { 0.6, 0.3, 0.3, 0.2, 0.8 };
 	double other_saturation = 0.6;
+	
 
 	double[] multiBrightnessLevel = { 0.55, 0.0, 0.0, 0.5, 0.1 };
 	double other_brightness = 0.55;
