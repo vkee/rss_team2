@@ -12,16 +12,16 @@ public class FiducialTracking extends BlobTracking {
 			30.0 / 360, 24.0 / 360 };
 	// red, green, blue,yellow,orange
 
-	private double[] hueThresholds = { 0.05, 0.1, 0.15, 0.1, 0.05 };
+	private double[] hueThresholds = { 0.05, 0.1, 0.15, 0.1, 0.1 };
 	private double other_hueThreshold = 0.05;
 
-	protected double[] multiSaturationLevel = { 0.6, 0.3, 0.3, 0.5, 0.8 };
+	protected double[] multiSaturationLevel = { 0.6, 0.3, 0.3, 0.5, 0.7 };
 	double other_saturation = 0.6;
 
 	protected double[] multiSaturationUpper = { 1, 1, 1, .9, 1 };
 	double other_upper = 1;
 
-	double[] multiBrightnessLevel = { 0.55, 0.0, 0.0, 0.5, 0.1 };
+	double[] multiBrightnessLevel = { 0.55, 0.0, 0.0, 0.5, 0.2 };
 	double other_brightness = 0.55;
 
 	int[][] multiBlobPixelMask = null;
@@ -151,32 +151,6 @@ public class FiducialTracking extends BlobTracking {
 					if (green < 0)
 						green += 255;
 
-					// double ratio = 1.3;
-					// if (i == 0 && red >= ratio * blue && red >= ratio * green
-					// && blue < 170) {
-					// mask[i][maskIndex++] = 255; // (Solution)
-					// } else if (i == 1 && green >= ratio * red
-					// && green >= ratio * blue) {
-					// mask[i][maskIndex++] = 255; // (Solution)
-					//
-					// } else if (i == 2 && blue >= ratio * red
-					// && blue >= ratio * green) {
-					// mask[i][maskIndex++] = 255; // (Solution)
-					//
-					// } else if (i == 3 && red >= ratio * blue
-					// && green >= ratio * blue) {
-					// mask[i][maskIndex++] = 255; // (Solution)
-					//
-					// } /*
-					// * else if (i == 4 && red >= ratio / 2 * blue && green >=
-					// * ratio / 2 * blue) { mask[i][maskIndex++] = 255; //
-					// * (Solution) }
-					// */
-					// else {
-					// mask[i][maskIndex++] = 0; // (Solution)
-					// }
-					//
-
 					float[] hsb = Color.RGBtoHSB(red, green, blue, null);
 					double hue = targetHueLevels[i];
 					double hue_Threshold = hueThresholds[i];
@@ -192,11 +166,9 @@ public class FiducialTracking extends BlobTracking {
 							&& hsb[2] > other_brightness
 							&& hsb[1] > other_saturation
 							&& Math.abs(hsb[0] - (360.0 / 360)) < other_hueThreshold) {
-						mask[i][maskIndex] = 255; // (Solution)
-						// blob[maskIndex++] = 255;
+						mask[i][maskIndex] = 255;
 					} else {
 						mask[i][maskIndex] = 0;
-						// blob[maskIndex++] = 0;
 					}
 					if (i == 4) {
 						if (mask[0][maskIndex] == 255
@@ -229,7 +201,6 @@ public class FiducialTracking extends BlobTracking {
 				int sx = 0;
 				int sy = 0;
 
-				// if (countMax > blobSizeThreshold * height * width) {
 				int destIndex = 0;
 				for (int y = 0; y < height; y++) {
 					for (int x = 0; x < width; x++) {
