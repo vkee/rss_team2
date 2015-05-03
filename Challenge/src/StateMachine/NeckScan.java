@@ -58,7 +58,7 @@ public class NeckScan implements FSMState {
     public void update(GenericMessage msg) {
         Image src = null;
         float[] depth_array = null;
-        List<FiducialObject> fos = new ArrayList<FiducialObject>();
+        List<FiducialObject> detectedFids = new ArrayList<FiducialObject>();
 
         //      ArmMsg message = (ArmMsg) msg.message;
         //      
@@ -77,7 +77,7 @@ public class NeckScan implements FSMState {
         try {
             src = cl.getImage();
             depth_array = cl.getDepthImage();
-            fos.addAll(blobTrack.getFiducials(src, depth_array));
+            detectedFids.addAll(blobTrack.getFiducials(src, depth_array));
         } catch (Exception e) {
             System.err.println("Unable to get fiducials");
             e.printStackTrace();
@@ -85,9 +85,12 @@ public class NeckScan implements FSMState {
 
 
         //        Determining which fiducials are in the robot's field of view
-        for (FiducialObject obj : fos) {
-            for (Fiducial mapFiducial : fsm.map) {
-                
+        for (FiducialObject fid : detectedFids) {
+            // Finding which fiducial each detected fiducial is           
+            for (Fiducial mapFid : fsm.map.getFiducials()) {
+                if (fidsEqual(fid, mapFid)) {
+                    
+                }
             }
         }
 
@@ -114,6 +117,14 @@ public class NeckScan implements FSMState {
 
     }
 
+    /**
+     * Determines whether a detected fiducial is the same color as a map fiducial
+     * @param detectedFid the fiducial detected by the robot
+     * @param mapFid the fiducial encoded in the map
+     */
+    private boolean fidsEqual(FiducialObject detectedFid, Fiducial mapFid) {
+        return 
+    }
 
     @Override
     public void onStart() {

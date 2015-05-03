@@ -58,7 +58,7 @@ public class FSM implements NodeMain{
     public final long TIME_LIMIT = 10*60*1000;
 
     public long startTime;
-    public final double RRT_TOLERANCE = 0.05;
+    public final double RRT_TOLERANCE = 0.02;
     public final double ROBOTVEL = 0.1;			//coords/ms
     public int blocksCollected;
 //    public MultiRRT2D RRTengine; // for 2D Cspace
@@ -89,6 +89,15 @@ public class FSM implements NodeMain{
     private Subscriber<ArmMsg> armStatusSub;
     public Publisher<MotionMsg> motionPub;
     public MapDrawer mapDrawer;
+    
+    private double xOdoOffset = 0;
+    private double yOdoOffset = 0;
+    
+    public void updateODO(double x, double y)
+    	{
+    	xOdoOffset = x;
+    	yOdoOffset = y;
+    	}
 
     public FSM(){
 
@@ -143,8 +152,8 @@ public class FSM implements NodeMain{
         .addMessageListener(new MessageListener<OdometryMsg>() {
             @Override
             public void onNewMessage(OdometryMsg message) {
-                //robotX = message.x;
-                //robotY = message.y;
+                message.x += xOdoOffset;
+                message.y += yOdoOffset;
                 //robotTheta = message.theta;
                 //message.type = msgENUM.WHEELS;
                 dispatchState(new GenericMessage<OdometryMsg>(message, msgENUM.WHEELS));

@@ -20,7 +20,7 @@ public class WaypointNav {
     private final double WAYPT_TOL = 0.05; // in meters
     private final double WAYPT_TOL_THETA = 0.1; // in radians
 
-    private final double FWD_GAIN = .3; // may need to change to 0.1 if runs into things and off waypoints
+    private final double FWD_GAIN = 1.0; // may need to change to 0.1 if runs into things and off waypoints
     private final double ROT_GAIN = .3;
 
     private ArrayList<Point2D.Double> waypoints;
