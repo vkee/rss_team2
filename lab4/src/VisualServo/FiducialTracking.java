@@ -152,7 +152,7 @@ public class FiducialTracking extends BlobTracking {
 					if (green < 0)
 						green += 255;
 
-					double ratio = 1.3;
+					double ratio = 1.1;
 					if (i == 0 && red >= ratio * blue && red >= ratio * green) {
 						c = true;
 					} else if (i == 1 && green >= ratio * red
