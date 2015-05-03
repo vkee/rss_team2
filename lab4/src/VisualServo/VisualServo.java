@@ -75,21 +75,26 @@ public class VisualServo implements NodeMain, Runnable {
 		cl = new client();
 		while (true) {
 			Image src = null;
-			float[] depth_array = null;
+			float[] depth_float_array = null;
+			double[] depth_double_array = null;
+
 			try {
 				src = cl.getImage();
-				depth_array = cl.getDepthImage();
+				depth_float_array = cl.getDepthImage();
+				depth_double_array = cl.getDepthArray();
+
 				if (src == null)
 					continue;
 			} catch (Exception e) {
 				continue;
 			}
 			Image dest = new Image(src);
-			//Image depth = Image.floatRGB(depth_array);
-			blobTrack.apply(src, dest, depth_array);// , depth_array);
+			// Image depth = Image.floatRGB(depth_array);
+			Image depth = Image.doubleRGB(depth_double_array);
+			blobTrack.apply(src, dest, depth_float_array);// , depth_array);
 			//
 			// update newly formed vision message
-			gui.setVisionImage(dest.toArray(), width, height);
+			gui.setVisionImage(depth.toArray(), width, height);
 
 			// Begin Student Code
 			// publish velocity messages to move the robot towards the target
