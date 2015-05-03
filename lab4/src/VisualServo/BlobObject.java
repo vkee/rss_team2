@@ -10,16 +10,16 @@ public class BlobObject {
 	private double centroidX;
 	private double centroidY;
 	private int[] blobArr;
-	private int distToCentroid;
+	private float distToCentroid;
 
-	public BlobObject(double centroidX, double centroidY, int distToCentroid,
+	public BlobObject(double centroidX, double centroidY, float f,
 			int targetArea, Color color, int[] blobArr) {
 		this.centroidX = centroidX;
 		this.centroidY = centroidY;
 		this.targetArea = targetArea;
 		this.blobArr = blobArr;
 		this.color = color;
-		this.distToCentroid = distToCentroid;
+		this.distToCentroid = f;
 	}
 
 	public BlobObject(int[] blobArr) {
@@ -35,7 +35,7 @@ public class BlobObject {
 		return this.centroidY;
 	}
 
-	public int getDistToCentroid() {
+	public float getDistToCentroid() {
 		return this.distToCentroid;
 	}
 

@@ -237,15 +237,9 @@ public class MultipleBlobTracking extends BlobTracking {
 				int distToCentroid = (int) (depth_img[(int) (centroidY * width + centroidX)]);
 
 				if (ind < depth_img.length && distToCentroid > 0) {
-					if (colorwheel[i] == Color.BLUE) {
-						System.out.println("Converted distance to Blue " + fT
-								/ distToCentroid);
-					} else if (colorwheel[i] == Color.YELLOW) {
-						System.out.println("Converted distance to Yellow " + fT
-								/ distToCentroid);
-					}
+
 					BlobObject bo = new BlobObject(centroidX, centroidY,
-							distToCentroid, countMax, colorwheel[i],
+							(fT / distToCentroid), countMax, colorwheel[i],
 							m_blobIm[i]);
 					bos.add(bo);
 				}
@@ -522,6 +516,39 @@ public class MultipleBlobTracking extends BlobTracking {
 		// System.out.println("number of blocks " + blos.size()
 		// + "  number of blobs " + bos.size());
 		return bos.size() == 0;
+	}
+
+	/**
+	 * Use this apply for Challenge
+	 * 
+	 * @param src
+	 */
+	public List<FiducialObject> getFiducials(Image src, float[] array) {
+		stepTiming();
+		bos = new ArrayList<BlobObject>();
+		fos = new ArrayList<FiducialObject>();
+		blos = new ArrayList<BlockObject>();
+
+		if (useGaussianBlur) {
+			byte[] srcArray = src.toArray();
+			byte[] destArray = new byte[srcArray.length];
+			if (approximateGaussian) {
+				GaussianBlur.applyBox(srcArray, destArray, src.getWidth(),
+						src.getHeight());
+			} else {
+				GaussianBlur.apply(srcArray, destArray, width, height);
+			}
+			src = new Image(destArray, src.getWidth(), src.getHeight());
+		}
+
+		blobPixel(src, multiBlobPixelMask);
+		multiBlobPresent(array, multiBlobPixelMask, multiImageConnected,
+				multiBlobMask);
+
+		// sorts blobs into fiducials and blocks
+		sortBlobs();
+
+		return fos;
 	}
 
 	/**
