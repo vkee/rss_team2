@@ -33,7 +33,7 @@ public class WaypointNavClose implements FSMState {
 		//		double maxDist = fsm.ROBOTVEL * (fsm.TIME_LIMIT - (System.currentTimeMillis() - fsm.startTime));
 		double maxDist = 1000000.0;
 		finalGoal = fsm.foundPaths.getClosestFeasiblePointFrom(fsm.currentLocation, maxDist);
-		System.out.println("Final Goal: " + finalGoal);
+		System.out.println("Final Goal from "+fsm.currentLocation+": " + finalGoal);
 
 	}	
 

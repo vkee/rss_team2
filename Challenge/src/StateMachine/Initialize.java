@@ -119,7 +119,7 @@ public class Initialize implements FSMState {
 			ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>(); 
 			Point2D.Double start = challengeMap.getRobotStart(); 
 			Point2D.Double end = challengeMap.getRobotGoal();
-			for (ConstructionObject cobj : challengeMap.getConstructionObjects()){
+			for (ConstructionObject cobj : challengeMap.getConstructionObjects())
 				{objectLocations.add(cobj.getPosition());}
 			
 			
@@ -175,7 +175,6 @@ public class Initialize implements FSMState {
 			initialized = true;
 		}
 
-	}
 
 	public stateENUM getName() {
 		return stateENUM.INITIALIZE;

@@ -28,6 +28,8 @@ public class GoalAdjLists {
      */
     public void addBiPath(Point2D.Double from, Point2D.Double to, ArrayList<Point2D.Double> path, double dist)
     {
+    	if (from.equals(new Point2D.Double(0.6, 0.6))) System.out.println(to+" -- "+dist);
+    	
         double pathDistance = dist;//getDistance(path);
         if (distanceGrid.get(from)==null) distanceGrid.put(from, new HashMap<Point2D.Double,Double>());
         if (distanceGrid.get(to)==null) distanceGrid.put(to, new HashMap<Point2D.Double,Double>());
@@ -59,6 +61,8 @@ public class GoalAdjLists {
     public Point2D.Double getClosestFeasiblePointFrom(Point2D.Double from, double maxDist)
     {
         HashMap<Point2D.Double,Double> originDistMap = distanceGrid.get(from);
+        
+        System.out.println(originDistMap);
 
         Point2D.Double closestPoint = null;
         double closestDistance = Double.MAX_VALUE;
