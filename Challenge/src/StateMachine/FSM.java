@@ -63,6 +63,7 @@ public class FSM implements NodeMain{
     public int blocksCollected;
 //    public MultiRRT2D RRTengine; // for 2D Cspace
     public MultiRRT3D RRTengine; // for 3D Cspace
+    public ArrayList<Point2D.Double> currentPath;			//the current path we are following
     public Point2D.Double currentLocation;			//the current goal point we are at
     public GoalAdjLists foundPaths;
     public NeckController neckServo;

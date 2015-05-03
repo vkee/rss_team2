@@ -73,7 +73,7 @@ public class GoalAdjLists {
         for (Point2D.Double tos : destinations)
         {
             if (tos.equals(goal)) continue;		//not goal node
-            if (originDistMap.get(tos) + distanceGrid.get(tos).get(goal) > maxDist) continue;
+           // if (originDistMap.get(tos) + distanceGrid.get(tos).get(goal) > maxDist) continue;
 
             if (originDistMap.get(tos) < closestDistance)
             {

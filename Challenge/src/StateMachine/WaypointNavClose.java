@@ -41,7 +41,10 @@ public class WaypointNavClose implements FSMState {
 	public void onStart() {
 		if (finalGoal == null)	//no path to goal point left, go to deposit site
 		{
-			fsm.updateState(new WaypointNavDeposit(fsm));
+			if (fsm.foundPaths.getPathToGoal(fsm.currentLocation) != null)
+				{fsm.updateState(new WaypointNavDeposit(fsm));}
+			else 
+				{System.out.println("need to go backwards");}
 
 		} else {
 			waypoints = fsm.foundPaths.getPath(fsm.currentLocation, finalGoal);
@@ -52,6 +55,8 @@ public class WaypointNavClose implements FSMState {
 
 			} else {
 				Point2D.Double goalpt = waypoints.get(waypoints.size()-1);
+				
+				fsm.currentPath = waypoints;
 
 				waypointNavigator = new WaypointNav(waypoints, goalpt, fsm);
 			}

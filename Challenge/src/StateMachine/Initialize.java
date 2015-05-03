@@ -89,7 +89,7 @@ public class Initialize implements FSMState {
 			fsm.mapDrawer.displayMapCSpace(obsCSpaces.get(90));
 
 			// 2D CSpace for checking if can reach obstacles CSpace2D
-			CSpace2D cSpace2D = new CSpace2D();
+			/*CSpace2D cSpace2D = new CSpace2D();
 			ArrayList<PolygonObstacle> obs2DCSpaces = cSpace2D.generateCSpace(challengeMap, false);
 
 			ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>(); 
@@ -112,9 +112,19 @@ public class Initialize implements FSMState {
 				if (!unreachable){ 
 					objectLocations.add(loc);
 				}
-			}
+			}*/
+			
+			// NO HUERISTIC CHECK ************************************************
+			
+			ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>(); 
+			Point2D.Double start = challengeMap.getRobotStart(); 
+			Point2D.Double end = challengeMap.getRobotGoal();
+			for (ConstructionObject cobj : challengeMap.getConstructionObjects()){
+				{objectLocations.add(cobj.getPosition());}
+			
+			
 
-			System.out.println("Num obs: " + objectLocations.size());
+			System.out.println("Num locs: " + objectLocations.size());
 
 			fsm.mapDrawer.displayCObj(challengeMap.getConstructionObjects());
 
@@ -126,11 +136,11 @@ public class Initialize implements FSMState {
 
 			Point2D.Double currLocation = start;
 			while (objectLocations.size() > 0) {
-				System.out.println("starting loc " + currLocation);
+				/*System.out.println("starting loc " + currLocation);
 				System.out.println("Printing locs");
 				for (Point2D.Double locs : objectLocations) {
 					System.out.println(locs);
-				}
+				}*/
 				RRTreeNode[] pathEnds = fsm.RRTengine.getPaths(currLocation,
 						objectLocations, fsm.RRT_TOLERANCE);
 
@@ -142,13 +152,15 @@ public class Initialize implements FSMState {
 				}
 
 				for (int i = 0; i < pathEnds.length; i++) {
-					if (pathEnds[i] == null) {
-						objectLocations.remove(i); // if path was not found,
+					double dist;
+					if (pathEnds[i] != null) {
+						// objectLocations.remove(i); // if path was not found,
 						// remove it from possible
 						// locations
-						continue;
+						dist = pathEnds[i].distFromRoot;
 					}
-					double dist = pathEnds[i].distFromRoot;
+					else 
+						{dist = java.lang.Double.MAX_VALUE;}
 					ArrayList<Point2D.Double> path = pathEnds[i]
 							.pathFromParent();
 					fsm.foundPaths.addBiPath(currLocation,

@@ -2286,3 +2286,19 @@ org.eclipse.debug.core.DebugException: Invalid launch configuration XML.
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
 !SUBENTRY 1 org.eclipse.debug.core 4 5012 2015-05-02 10:46:50.013
 !MESSAGE Invalid launch configuration XML.
+
+!ENTRY org.eclipse.jdt.core 4 4 2015-05-03 14:39:23.725
+!MESSAGE Background Indexer Crash Recovery
+!STACK 0
+java.lang.OutOfMemoryError: Java heap space
+	at org.eclipse.jdt.internal.compiler.util.HashtableOfObject.<init>(HashtableOfObject.java:38)
+	at org.eclipse.jdt.internal.core.index.DiskIndex.readCategoryTable(DiskIndex.java:642)
+	at org.eclipse.jdt.internal.core.index.DiskIndex.mergeCategory(DiskIndex.java:463)
+	at org.eclipse.jdt.internal.core.index.DiskIndex.mergeCategories(DiskIndex.java:455)
+	at org.eclipse.jdt.internal.core.index.DiskIndex.mergeWith(DiskIndex.java:549)
+	at org.eclipse.jdt.internal.core.index.Index.save(Index.java:197)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.saveIndex(IndexManager.java:905)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.saveIndexes(IndexManager.java:947)
+	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.notifyIdle(IndexManager.java:644)
+	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:388)
+	at java.lang.Thread.run(Unknown Source)
