@@ -78,7 +78,7 @@ public class FSM implements NodeMain{
     private Publisher<Object> ellipsePub;
     private Publisher<Object> stringPub;
     private Subscriber<OdometryMsg> odometrySub;
-    private Publisher<OdometryMsg> odometryPub;
+    public Publisher<OdometryMsg> odometryPub;
 
     // bumper subscriber
     private Subscriber<BumpMsg> bumpersSub;

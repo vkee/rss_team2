@@ -1,11 +1,13 @@
 package Localization;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
 import Challenge.Fiducial;
 import Challenge.GrandChallengeMap;
+import MotionPlanning.RRT;
 
 /**
  * ParticleFilter is part of the Localization module. It represents a particle
@@ -245,6 +247,30 @@ public class ParticleFilter {
     public RobotParticle sampleParticle() {
         int index = (int) (Math.random() * numParticles);
         return particles.get(index);
+    }
+    
+    /**
+     * Determines the distances from the robot to the fiducials in the robot's FOV
+     * @param robotPos the robot's current position
+     * @param measuredFiducials the indices of the fiducials in the robot's FOV
+     * @param 
+     * @return the distances from the robot's position to the fiducials
+     */
+    public HashMap<Integer, java.lang.Double> getFidsDists(Point2D.Double robotPos, 
+            GrandChallengeMap map, ArrayList<Integer> measuredFiducials) {
+        HashMap<Integer, java.lang.Double> fidsDists = new HashMap<Integer, java.lang.Double>();
+        Fiducial[] fiducials = map.getFiducials();
+        for (Integer index : measuredFiducials) {
+            Point2D.Double fidPos = fiducials[index].getPosition();
+
+            //            Potential bug site is if robot position at 0,0 and map goes negative, 
+            //            but this should be able to account for it in this ordering
+            double dist = RRT.getDist(robotPos.x, robotPos.y, fidPos.x, fidPos.y);
+            //            System.out.println("Distance to Fiducial " + index + " at " + fidPos + " is " + dist);
+            fidsDists.put(index, dist);
+        }
+
+        return fidsDists;
     }
     
     public ArrayList<RobotParticle> getParticles() {

@@ -17,6 +17,7 @@ import MotionPlanning.PolygonObstacle;
 import MotionPlanning.RRTreeNode;
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
+import odometry.OdometryMsg;
 
 import org.ros.message.rss_msgs.*;
 import org.ros.message.lab5_msgs.*;
@@ -121,9 +122,7 @@ public class Initialize implements FSMState {
 			Point2D.Double end = challengeMap.getRobotGoal();
 			for (ConstructionObject cobj : challengeMap.getConstructionObjects()){
 				{objectLocations.add(cobj.getPosition());}
-			
-			
-
+		
 			System.out.println("Num locs: " + objectLocations.size());
 
 			fsm.mapDrawer.displayCObj(challengeMap.getConstructionObjects());
@@ -173,6 +172,12 @@ public class Initialize implements FSMState {
 				currLocation = objectLocations.remove(0);
 			}
 			initialized = true;
+			
+			OdometryMsg msg = new OdometryMsg();
+			msg.x = start.x;
+			msg.y = start.y;
+			msg.theta = 0;
+			fsm.odometryPub.publish(msg);
 		}
 
 	}
