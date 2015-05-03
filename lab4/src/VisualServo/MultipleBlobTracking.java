@@ -756,8 +756,8 @@ public class MultipleBlobTracking extends BlobTracking {
 					}
 				}
 			}
-
 		}
+		
 		sortBlobs();
 		for (FiducialObject fo : fos) {
 			int x = (int) fo.getCentroidX();
