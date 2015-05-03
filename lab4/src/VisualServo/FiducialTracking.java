@@ -135,10 +135,10 @@ public class FiducialTracking extends BlobTracking {
 				green_ += 255;
 
 			float[] hsb_ = Color.RGBtoHSB(red_, green_, blue_, null);
-			System.out.println("Center Hue: " + hsb_[0]*360);
-			System.out.println("Center Saturation: " + hsb_[1]*100);
-			System.out.println("Center Brightness: " + hsb_[2]*100);
-
+			System.out.println("Center Hue: " + hsb_[0] * 360);
+			System.out.println("Center Saturation: " + hsb_[1] * 100);
+			System.out.println("Center Brightness: " + hsb_[2] * 100);
+			boolean c = false;
 			for (int y = 0; y < height; y++) { // (Solution)
 				for (int x = 0; x < width; x++) { // (Solution)
 					int pix = src.getPixel(x, y); // (Solution)
@@ -151,9 +151,37 @@ public class FiducialTracking extends BlobTracking {
 						blue += 255;
 					if (green < 0)
 						green += 255;
-					float[] hsb = Color.RGBtoHSB(red, green, blue, null);
-					double hue = targetHueLevels[i];
-					double hue_Threshold = hueThresholds[i];
+
+					double ratio = 1.3;
+					if (i == 0 && red >= ratio * blue && red >= ratio * green) {
+						c = true;
+					} else if (i == 1 && green >= ratio * red
+							&& green >= ratio * blue) {
+						c = true;
+
+					} else if (i == 2 && blue >= ratio * red
+							&& blue >= ratio * green) {
+						c = true;
+
+					} else if (i == 3 && red >= ratio * blue
+							&& green >= ratio * blue) {
+						c = true;
+
+					} else if (i == 4 && red >= ratio / 2 * blue
+							&& green >= ratio / 2 * blue) {
+						c = true;
+					}
+
+					if (c) {
+						mask[i][maskIndex++] = 255; // (Solution)
+
+					} else {
+						mask[i][maskIndex++] = 0; // (Solution)
+					}
+
+					// float[] hsb = Color.RGBtoHSB(red, green, blue, null);
+					// double hue = targetHueLevels[i];
+					// double hue_Threshold = hueThresholds[i];
 
 					// Using HSB thresholds, set pixels
 					if (hsb[2] > multiBrightnessLevel[i]
