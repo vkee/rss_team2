@@ -6,6 +6,7 @@ import javax.imageio.*;
 import java.awt.image.*;
 import java.util.*;
 
+
 public class client {
 
 	public client() {

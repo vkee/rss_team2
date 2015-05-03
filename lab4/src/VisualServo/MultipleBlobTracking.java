@@ -65,6 +65,7 @@ public class MultipleBlobTracking extends BlobTracking {
 		// System.out.println("Target Range " + targetRange);
 		// System.out.println("Target Bearing " + targetBearing);
 		// System.out.println("deltaX " + deltaX );
+
 	}
 
 	private void blobFix(int index) {
@@ -519,7 +520,7 @@ public class MultipleBlobTracking extends BlobTracking {
 	}
 
 	/**
-	 * Use this apply for Challenge
+	 * finds fiducials present in an image
 	 * 
 	 * @param src
 	 */
@@ -756,9 +757,22 @@ public class MultipleBlobTracking extends BlobTracking {
 					}
 				}
 			}
-
 		}
+
 		sortBlobs();
+		for (FiducialObject fo : fos) {
+			int x = (int) fo.getCentroidX();
+			int y = (int) fo.getCentroidY();
+			if (x > 10 && y > 10) {
+				for (int j = 0; j < 10; j++) {
+					for (int k = 0; k < 10; k++) {
+						dest.setPixel(x + j, y + k, (byte) 255, (byte) 255,
+								(byte) 255);
+					}
+				}
+			}
+		}
+
 	}
 
 }
