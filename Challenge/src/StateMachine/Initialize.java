@@ -86,7 +86,7 @@ public class Initialize implements FSMState {
 					cSpace3D.generateCSpace(challengeMap, false);
 			challengeMap.set3DCSpace(obsCSpaces);
 			fsm.mapDrawer.displayMap(challengeMap);
-
+			fsm.map = challengeMap;
 
 			// 2D CSpace for checking if can reach obstacles CSpace2D
 			/*CSpace2D cSpace2D = new CSpace2D();
