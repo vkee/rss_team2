@@ -18,7 +18,7 @@ public class FiducialTracking extends BlobTracking {
 	protected double[] multiSaturationLevel = { 0.6, 0.3, 0.3, 0.8, 0.8 };
 	double other_saturation = 0.6;
 
-	double[] multiBrightnessLevel = { 0.55, 0.0, 0.0, 0.5, 0.3 };
+	double[] multiBrightnessLevel = { 0.55, 0.0, 0.0, 0.5, 0.1 };
 	double other_brightness = 0.55;
 
 	int[][] multiBlobPixelMask = null;
