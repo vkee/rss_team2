@@ -18,7 +18,6 @@ import MotionPlanning.RRT3DSmoother;
 import MotionPlanning.RRTreeNode;
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
-import odometry.OdometryMsg;
 
 import org.ros.message.rss_msgs.*;
 import org.ros.message.lab5_msgs.*;
