@@ -37,10 +37,14 @@ public class GoalAdjLists {
         if (pathGrid.get(from)==null) pathGrid.put(from, new HashMap<Point2D.Double,ArrayList<Point2D.Double>>());
         if (pathGrid.get(to)==null) pathGrid.put(to, new HashMap<Point2D.Double,ArrayList<Point2D.Double>>());
 
-        ArrayList<Point2D.Double> reversePath = new ArrayList<Point2D.Double>(path.size());
-        for (int i = path.size()-1; i >= 0; i--) {
-            reversePath.add(path.get(i));
-        }
+        ArrayList<Point2D.Double> reversePath;
+        if (path != null)
+        	{reversePath = new ArrayList<Point2D.Double>(path.size());
+        	for (int i = path.size()-1; i >= 0; i--) {
+        		reversePath.add(path.get(i));
+        		}
+        	}
+        else reversePath = null;
 
         pathGrid.get(from).put(to, path);
         pathGrid.get(to).put(from, reversePath);

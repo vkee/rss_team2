@@ -71,8 +71,8 @@ public class ApproachBlock implements FSMState {
 			blockInVision = false;
 			e.printStackTrace();
 		}
-		if (blockInVision) {
-			System.out.println("BLOCK IN VISION!!!1!");
+		if (blockInVision && false) {
+			System.out.println("BLOCK IN VISION!!!!");
 			fsm.updateState(new VisualServoCollect(fsm, mbt));
 		} else {
 			System.out.println("No block in vision.");
