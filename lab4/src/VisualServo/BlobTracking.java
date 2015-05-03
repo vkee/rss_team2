@@ -212,6 +212,7 @@ public class BlobTracking {
 		double rotationError = targetBearing; //(Solution)
 		//System.out.println("rotationError " + rotationError);
 //		System.out.println("rotationTolerance " + rotationErrorTolerance);
+		
 		if (Math.abs(rotationError) < rotationErrorTolerance) //(Solution)
 			rotationVelocityCommand = 0.0; //(Solution)
 		else //(Solution)
