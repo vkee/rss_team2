@@ -120,6 +120,15 @@ public class FiducialTracking extends BlobTracking {
 		for (int i = 0; i < targetHueLevels.length; i++) { // loop through every
 															// color
 			int maskIndex = 0;
+			int pix_ = src.getPixel(height / 2, width / 2);
+			int red_ = Image.pixelRed(pix_);
+			int blue_ = Image.pixelBlue(pix_);
+			int green_ = Image.pixelGreen(pix_);
+			float[] hsb_ = Color.RGBtoHSB(red_, green_, blue_, null);
+			System.out.println("Center Hue: " + hsb_[0]);
+			System.out.println("Center Saturation: " + hsb_[1]);
+			System.out.println("Center Brightness: " + hsb_[2]);
+
 			for (int y = 0; y < height; y++) { // (Solution)
 				for (int x = 0; x < width; x++) { // (Solution)
 					int pix = src.getPixel(x, y); // (Solution)
