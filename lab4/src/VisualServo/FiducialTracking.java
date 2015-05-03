@@ -12,15 +12,17 @@ public class FiducialTracking extends BlobTracking {
 			30.0 / 360, 24.0 / 360 };
 	// red, green, blue,yellow,orange
 
-	private double[] hueThresholds = { 0.05, 0.1, 0.15, 0.1, 0.05 };
+	private double[] hueThresholds = { 0.05, 0.1, 0.15, 0.1, 0.1 };
 	private double other_hueThreshold = 0.05;
 
-	protected double[] multiSaturationLevel = { 0.6, 0.3, 0.3, 0.23, 0.8 };
+	protected double[] multiSaturationLevel = { 0.6, 0.3, 0.3, 0.5, 0.7 };
 	double other_saturation = 0.6;
-	
 
-	double[] multiBrightnessLevel = { 0.55, 0.0, 0.0, 0.5, 0.1 };
-	double other_brightness = 0.55;
+	protected double[] multiSaturationUpper = { 1, 1, 1, .9, 1 };
+	double other_upper = 1;
+
+	double[] multiBrightnessLevel = { 0.45, 0.0, 0.0, 0.5, 0.2 };
+	double other_brightness = 0.45;
 
 	int[][] multiBlobPixelMask = null;
 	int[][] multiBlobMask = null;
@@ -133,10 +135,9 @@ public class FiducialTracking extends BlobTracking {
 				green_ += 255;
 
 			float[] hsb_ = Color.RGBtoHSB(red_, green_, blue_, null);
-			System.out.println("Center Hue: " + hsb_[0]);
-			System.out.println("Center Saturation: " + hsb_[1]);
-			System.out.println("Center Brightness: " + hsb_[2]);
-
+			System.out.println("Center Hue: " + hsb_[0] * 360);
+			System.out.println("Center Saturation: " + hsb_[1] * 100);
+			System.out.println("Center Brightness: " + hsb_[2] * 100);
 			for (int y = 0; y < height; y++) { // (Solution)
 				for (int x = 0; x < width; x++) { // (Solution)
 					int pix = src.getPixel(x, y); // (Solution)
@@ -149,6 +150,7 @@ public class FiducialTracking extends BlobTracking {
 						blue += 255;
 					if (green < 0)
 						green += 255;
+
 					float[] hsb = Color.RGBtoHSB(red, green, blue, null);
 					double hue = targetHueLevels[i];
 					double hue_Threshold = hueThresholds[i];
@@ -156,19 +158,29 @@ public class FiducialTracking extends BlobTracking {
 					// Using HSB thresholds, set pixels
 					if (hsb[2] > multiBrightnessLevel[i]
 							&& hsb[1] > multiSaturationLevel[i]
+							&& hsb[1] < multiSaturationUpper[i]
 							&& Math.abs(hsb[0] - hue) < hue_Threshold) {
-						mask[i][maskIndex++] = 255; // (Solution)
+						mask[i][maskIndex] = 255; // (Solution)
 						// blob[maskIndex++] = 255;
 					} else if (i == 0
 							&& hsb[2] > other_brightness
 							&& hsb[1] > other_saturation
 							&& Math.abs(hsb[0] - (360.0 / 360)) < other_hueThreshold) {
-						mask[i][maskIndex++] = 255; // (Solution)
-						// blob[maskIndex++] = 255;
+						mask[i][maskIndex] = 255;
 					} else {
-						mask[i][maskIndex++] = 0;
-						// blob[maskIndex++] = 0;
+						mask[i][maskIndex] = 0;
 					}
+					if (i == 4) {
+						if (mask[0][maskIndex] == 255
+								&& mask[3][maskIndex] == 255) {
+							mask[0][maskIndex] = 0;
+							mask[3][maskIndex] = 0;
+						} else if (mask[4][maskIndex] == 255
+								&& mask[3][maskIndex] == 255) {
+							mask[3][maskIndex] = 0;
+						}
+					}
+					maskIndex++;
 				}
 			}
 		}
@@ -192,7 +204,6 @@ public class FiducialTracking extends BlobTracking {
 				int sx = 0;
 				int sy = 0;
 
-				// if (countMax > blobSizeThreshold * height * width) {
 				int destIndex = 0;
 				for (int y = 0; y < height; y++) {
 					for (int x = 0; x < width; x++) {
