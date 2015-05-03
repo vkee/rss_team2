@@ -151,53 +151,61 @@ public class FiducialTracking extends BlobTracking {
 					if (green < 0)
 						green += 255;
 
-					double ratio = 1.3;
-					if (i == 0 && red >= ratio * blue && red >= ratio * green
-							&& blue < 170) {
-						mask[i][maskIndex++] = 255; // (Solution)
-					} else if (i == 1 && green >= ratio * red
-							&& green >= ratio * blue) {
-						mask[i][maskIndex++] = 255; // (Solution)
-
-					} else if (i == 2 && blue >= ratio * red
-							&& blue >= ratio * green) {
-						mask[i][maskIndex++] = 255; // (Solution)
-
-					} else if (i == 3 && red >= ratio * blue
-							&& green >= ratio * blue) {
-						mask[i][maskIndex++] = 255; // (Solution)
-
-					} /*
-					 * else if (i == 4 && red >= ratio / 2 * blue && green >=
-					 * ratio / 2 * blue) { mask[i][maskIndex++] = 255; //
-					 * (Solution) }
-					 */
-					else {
-						mask[i][maskIndex++] = 0; // (Solution)
-					}
-
-					// float[] hsb = Color.RGBtoHSB(red, green, blue, null);
-					// double hue = targetHueLevels[i];
-					// double hue_Threshold = hueThresholds[i];
-
-					// // Using HSB thresholds, set pixels
-					// if (hsb[2] > multiBrightnessLevel[i]
-					// && hsb[1] > multiSaturationLevel[i]
-					// && hsb[1] < multiSaturationUpper[i]
-					// && Math.abs(hsb[0] - hue) < hue_Threshold) {
+					// double ratio = 1.3;
+					// if (i == 0 && red >= ratio * blue && red >= ratio * green
+					// && blue < 170) {
 					// mask[i][maskIndex++] = 255; // (Solution)
-					// // blob[maskIndex++] = 255;
-					// } else if (i == 0
-					// && hsb[2] > other_brightness
-					// && hsb[1] > other_saturation
-					// && Math.abs(hsb[0] - (360.0 / 360)) < other_hueThreshold)
-					// {
+					// } else if (i == 1 && green >= ratio * red
+					// && green >= ratio * blue) {
 					// mask[i][maskIndex++] = 255; // (Solution)
-					// // blob[maskIndex++] = 255;
-					// } else {
-					// mask[i][maskIndex++] = 0;
-					// // blob[maskIndex++] = 0;
+					//
+					// } else if (i == 2 && blue >= ratio * red
+					// && blue >= ratio * green) {
+					// mask[i][maskIndex++] = 255; // (Solution)
+					//
+					// } else if (i == 3 && red >= ratio * blue
+					// && green >= ratio * blue) {
+					// mask[i][maskIndex++] = 255; // (Solution)
+					//
+					// } /*
+					// * else if (i == 4 && red >= ratio / 2 * blue && green >=
+					// * ratio / 2 * blue) { mask[i][maskIndex++] = 255; //
+					// * (Solution) }
+					// */
+					// else {
+					// mask[i][maskIndex++] = 0; // (Solution)
 					// }
+					//
+
+					float[] hsb = Color.RGBtoHSB(red, green, blue, null);
+					double hue = targetHueLevels[i];
+					double hue_Threshold = hueThresholds[i];
+
+					// Using HSB thresholds, set pixels
+					if (hsb[2] > multiBrightnessLevel[i]
+							&& hsb[1] > multiSaturationLevel[i]
+							&& hsb[1] < multiSaturationUpper[i]
+							&& Math.abs(hsb[0] - hue) < hue_Threshold) {
+						mask[i][maskIndex] = 255; // (Solution)
+						// blob[maskIndex++] = 255;
+					} else if (i == 0
+							&& hsb[2] > other_brightness
+							&& hsb[1] > other_saturation
+							&& Math.abs(hsb[0] - (360.0 / 360)) < other_hueThreshold) {
+						mask[i][maskIndex] = 255; // (Solution)
+						// blob[maskIndex++] = 255;
+					} else {
+						mask[i][maskIndex] = 0;
+						// blob[maskIndex++] = 0;
+					}
+					if (i == 4) {
+						if (mask[0][maskIndex] == 255
+								&& mask[3][maskIndex] == 255) {
+							mask[0][maskIndex] = 0;
+							mask[3][maskIndex] = 0;
+						}
+					}
+					maskIndex++;
 				}
 			}
 		}
