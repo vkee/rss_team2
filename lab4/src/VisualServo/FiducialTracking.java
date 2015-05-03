@@ -330,7 +330,7 @@ public class FiducialTracking extends BlobTracking {
 
 			for (int j = 0; j < 10; j++) {
 				for (int k = 0; k < 10; k++) {
-					dest.setPixel(width + j, height + k, (byte) 0, (byte) 0,
+					dest.setPixel(width/2 + j, height/2 + k, (byte) 0, (byte) 0,
 							(byte) 0);
 				}
 			}
