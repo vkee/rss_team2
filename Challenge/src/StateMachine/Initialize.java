@@ -18,6 +18,10 @@ import MotionPlanning.RRTreeNode;
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
 
+import org.ros.message.rss_msgs.*;
+import org.ros.message.lab5_msgs.*;
+import org.ros.message.lab6_msgs.*;
+import org.ros.message.Challenge_msgs.*;
 /**
  * This state initializes the robot to the starting positions engaging all
  * motors and servos
