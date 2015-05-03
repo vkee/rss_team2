@@ -36,14 +36,15 @@ public class Initialize implements FSMState {
 		fsm = stateMachine;
 
 		//try {
-			GrandChallengeMap challengeMap = null;
-			try {
-				challengeMap = GrandChallengeMap.parseFile(fsm.mapFileName);
-			} catch (Exception e) {
-				System.err.println("Unable to load map.");
-				e.printStackTrace();
-			}
+		GrandChallengeMap challengeMap = new GrandChallengeMap();
+		try {
+			challengeMap = challengeMap.parseFile(fsm.mapFileName);
+		} catch (Exception e) {
+			System.err.println("Unable to load map.");
+			e.printStackTrace();
+		}
 
+<<<<<<< HEAD
 			//            Using 2D CSpace *************************************************
 			//            CSpace2D cSpace = new CSpace2D();
 			//            ArrayList<PolygonObstacle> cSpaces = cSpace.generateCSpace(
@@ -86,10 +87,58 @@ public class Initialize implements FSMState {
 					cSpace3D.generateCSpace(challengeMap, false);
 			challengeMap.set3DCSpace(obsCSpaces);
 			fsm.mapDrawer.displayMap(challengeMap);
-
+			fsm.map = challengeMap;
 
 			// 2D CSpace for checking if can reach obstacles CSpace2D
 			/*CSpace2D cSpace2D = new CSpace2D();
+=======
+		//            Using 2D CSpace *************************************************
+		//            CSpace2D cSpace = new CSpace2D();
+		//            ArrayList<PolygonObstacle> cSpaces = cSpace.generateCSpace(
+		//                    challengeMap, false);
+		//            challengeMap.cSpace = cSpaces;
+		//            fsm.mapDrawer.displayMap(challengeMap);
+		//
+		//            fsm.mapDrawer.displayMapCSpace(cSpaces);
+		//
+		//            //			Initialize the particle filter
+		//            Double robotStartPos = challengeMap.getRobotStart();
+		//
+		//            fsm.particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, 
+		//                    fsm.PARTICLE_FILTER_RADIUS, fsm.NUM_PARTICLES, challengeMap, fsm.TRANS_NOISE, 
+		//                    fsm.ROT_NOISE, fsm.SENSOR_NOISE);
+		//
+		//            fsm.prevPt = robotStartPos;
+		//
+		//            ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
+		//            for (ConstructionObject cobj : challengeMap
+		//                    .getConstructionObjects()) {
+		//                boolean unreachable = false;
+		//                Point2D.Double loc = cobj.getPosition();
+		//
+		//                for (PolygonObstacle obs : cSpaces) {
+		//                    if (obs.contains(loc)) {
+		//                        unreachable = true;
+		//                        break;
+		//                    }
+		//                }
+		//
+		//                if (!unreachable) {
+		//                    objectLocations.add(loc);
+		//                }
+		//            }
+
+		//            Using 3D Cspace *************************************************
+		CSpace3D cSpace3D = new CSpace3D();
+		ArrayList<ArrayList<PolygonObstacle>> obsCSpaces =
+				cSpace3D.generateCSpace(challengeMap, false);
+		challengeMap.set3DCSpace(obsCSpaces);
+		fsm.mapDrawer.displayMap(challengeMap);
+		fsm.mapDrawer.displayMapCSpace(obsCSpaces.get(0));
+
+		// 2D CSpace for checking if can reach obstacles CSpace2D
+		/*CSpace2D cSpace2D = new CSpace2D();
+>>>>>>> e4ef3abfc3ede506c1c7116303693038f0f989fa
 			ArrayList<PolygonObstacle> obs2DCSpaces = cSpace2D.generateCSpace(challengeMap, false);
 			fsm.mapDrawer.displayMapCSpace(obs2DCSpaces);
 
@@ -114,77 +163,86 @@ public class Initialize implements FSMState {
 					objectLocations.add(loc);
 				}
 			}*/
-			
-			// NO HUERISTIC CHECK ************************************************
-			
-			ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>(); 
-			Point2D.Double start = challengeMap.getRobotStart(); 
-			Point2D.Double end = challengeMap.getRobotGoal();
-			for (ConstructionObject cobj : challengeMap.getConstructionObjects())
-				{objectLocations.add(cobj.getPosition());}
-		
-			System.out.println("Num locs: " + objectLocations.size());
 
-			fsm.mapDrawer.displayCObj(challengeMap.getConstructionObjects());
+		// NO HUERISTIC CHECK ************************************************
 
-			fsm.currentLocation = start;
-			objectLocations.add(end);
+		ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>(); 
+		Point2D.Double start = challengeMap.getRobotStart(); 
+		Point2D.Double end = challengeMap.getRobotGoal();
+		for (ConstructionObject cobj : challengeMap.getConstructionObjects())
+		{objectLocations.add(cobj.getPosition());}
 
-			fsm.RRTengine = new MultiRRT3D(challengeMap);
-			fsm.foundPaths = new GoalAdjLists(end);
-			RRT3DSmoother smoother = new RRT3DSmoother(fsm.RRTengine);
+		System.out.println("Num locs: " + objectLocations.size());
 
-			Point2D.Double currLocation = start;
-			while (objectLocations.size() > 0) {
-				/*System.out.println("starting loc " + currLocation);
+		fsm.mapDrawer.displayCObj(challengeMap.getConstructionObjects());
+
+		fsm.currentLocation = start;
+		objectLocations.add(end);
+		fsm.prevPt = start;
+		fsm.particleFilter = new ParticleFilter(start.x, start.y, 0.0, 
+				fsm.PARTICLE_FILTER_RADIUS, fsm.NUM_PARTICLES, challengeMap, fsm.TRANS_NOISE, 
+				fsm.ROT_NOISE, fsm.SENSOR_NOISE);
+		System.out.println("Start Publish");
+
+		/// publishing the real start position
+		//OdometryMsg msg = new OdometryMsg();
+		//msg.x = start.x;
+		//msg.y = start.y;
+		//msg.theta = 0;
+		//fsm.odometryPub.publish(msg);
+		fsm.updateODO(start.x, start.y);
+
+		System.out.println("Published");
+
+		fsm.RRTengine = new MultiRRT3D(challengeMap);
+		fsm.foundPaths = new GoalAdjLists(end);
+		RRT3DSmoother smoother = new RRT3DSmoother(fsm.RRTengine);
+
+		Point2D.Double currLocation = start;
+		while (objectLocations.size() > 0) {
+			/*System.out.println("starting loc " + currLocation);
 				System.out.println("Printing locs");
 				for (Point2D.Double locs : objectLocations) {
 					System.out.println(locs);
 				}*/
-				RRTreeNode[] pathEnds = fsm.RRTengine.getPaths(currLocation,
-						objectLocations, fsm.RRT_TOLERANCE);
+			RRTreeNode[] pathEnds = fsm.RRTengine.getPaths(currLocation,
+					objectLocations, fsm.RRT_TOLERANCE);
 
-				// Prints out the path to the MapGUI
-				for (RRTreeNode r : pathEnds) {
-					if (r == null)
-						continue;
-					fsm.mapDrawer.outputPath(r.pathFromParent());
-				}
-
-				for (int i = 0; i < pathEnds.length; i++) {
-					double dist;
-					ArrayList<Point2D.Double> path;
-					if (pathEnds[i] != null) {
-						// objectLocations.remove(i); // if path was not found,
-						// remove it from possible
-						// locations
-						dist = pathEnds[i].distFromRoot;
-						path = pathEnds[i].pathFromParent();
-						path = smoother.smoothPath(path);
-
-					}
-					else 
-						{dist = java.lang.Double.MAX_VALUE;
-						path = null;}
-							
-					fsm.foundPaths.addBiPath(currLocation,
-							objectLocations.get(i), path, dist);
-				}
-
-				currLocation = objectLocations.remove(0);
+			// Prints out the path to the MapGUI
+			for (RRTreeNode r : pathEnds) {
+				if (r == null)
+					continue;
 			}
-			
-			/// publishing the real start position
-			OdometryMsg msg = new OdometryMsg();
-			msg.x = start.x;
-			msg.y = start.y;
-			msg.theta = 0;
-			fsm.odometryPub.publish(msg);
-			
-			
-			initialized = true;
 
+			for (int i = 0; i < pathEnds.length; i++) {
+				double dist;
+				ArrayList<Point2D.Double> path;
+				if (pathEnds[i] != null) {
+					// objectLocations.remove(i); // if path was not found,
+					// remove it from possible
+					// locations
+					dist = pathEnds[i].distFromRoot;
+					path = pathEnds[i].pathFromParent();
+					path = smoother.smoothPath(path);
+					fsm.mapDrawer.outputPath(path);
+
+				}
+				else 
+				{dist = java.lang.Double.MAX_VALUE;
+				path = null;}
+
+				fsm.foundPaths.addBiPath(currLocation,
+						objectLocations.get(i), path, dist);
+			}
+
+			currLocation = objectLocations.remove(0);
 		}
+
+
+
+		initialized = true;
+
+	}
 
 
 	public stateENUM getName() {

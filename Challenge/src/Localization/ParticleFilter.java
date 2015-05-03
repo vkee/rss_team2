@@ -253,7 +253,7 @@ public class ParticleFilter {
      * Determines the distances from the robot to the fiducials in the robot's FOV
      * @param robotPos the robot's current position
      * @param measuredFiducials the indices of the fiducials in the robot's FOV
-     * @param 
+     * @param map the map
      * @return the distances from the robot's position to the fiducials
      */
     public HashMap<Integer, java.lang.Double> getFidsDists(Point2D.Double robotPos, 
