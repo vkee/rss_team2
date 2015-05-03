@@ -34,7 +34,7 @@ public class Initialize implements FSMState {
 	public Initialize(FSM stateMachine) {
 		fsm = stateMachine;
 
-		try {
+		//try {
 			GrandChallengeMap challengeMap = null;
 			try {
 				challengeMap = GrandChallengeMap.parseFile(fsm.mapFileName);
@@ -153,16 +153,19 @@ public class Initialize implements FSMState {
 
 				for (int i = 0; i < pathEnds.length; i++) {
 					double dist;
+					ArrayList<Point2D.Double> path;
 					if (pathEnds[i] != null) {
 						// objectLocations.remove(i); // if path was not found,
 						// remove it from possible
 						// locations
 						dist = pathEnds[i].distFromRoot;
+						path = pathEnds[i].pathFromParent();
+
 					}
 					else 
-						{dist = java.lang.Double.MAX_VALUE;}
-					ArrayList<Point2D.Double> path = pathEnds[i]
-							.pathFromParent();
+						{dist = java.lang.Double.MAX_VALUE;
+						path = null;}
+							
 					fsm.foundPaths.addBiPath(currLocation,
 							objectLocations.get(i), path, dist);
 				}
@@ -170,10 +173,6 @@ public class Initialize implements FSMState {
 				currLocation = objectLocations.remove(0);
 			}
 			initialized = true;
-
-		} catch (Exception e) {
-			System.err.println("Error in Initialize.");
-			e.printStackTrace();
 		}
 
 	}
@@ -185,7 +184,7 @@ public class Initialize implements FSMState {
 	public boolean accepts(msgENUM msgType) {
 		// if (msgType == msgENUM.WHEELS) return true;
 		if (msgType == msgENUM.SERVO) {
-			return true;
+			return false;
 		}
 		if (msgType == null && initialized) {
 			return true;
@@ -195,7 +194,7 @@ public class Initialize implements FSMState {
 
 	public void update(GenericMessage msg) {
 		// do stuff
-		System.out.println("Hi. I'm a robot.");
+		/*System.out.println("Hi. I'm a robot.");
 		System.out.println("My current state is: Initialize.");
 
 
@@ -224,7 +223,7 @@ public class Initialize implements FSMState {
 		// if condition to leave state
 		System.out.println("Initialization complete. TIME TO GO COLLECT SOME BLOCKS!");
 		System.out.println("ARE YOU EXCITED?");
-		System.out.println("I'M EXCITED!!!");
+		System.out.println("I'M EXCITED!!!");*/
 		fsm.updateState(new WaypointNavClose(fsm));
 	}
 
