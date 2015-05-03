@@ -138,7 +138,6 @@ public class FiducialTracking extends BlobTracking {
 			System.out.println("Center Hue: " + hsb_[0] * 360);
 			System.out.println("Center Saturation: " + hsb_[1] * 100);
 			System.out.println("Center Brightness: " + hsb_[2] * 100);
-			boolean c = false;
 			for (int y = 0; y < height; y++) { // (Solution)
 				for (int x = 0; x < width; x++) { // (Solution)
 					int pix = src.getPixel(x, y); // (Solution)
@@ -154,28 +153,24 @@ public class FiducialTracking extends BlobTracking {
 
 					double ratio = 1.1;
 					if (i == 0 && red >= ratio * blue && red >= ratio * green) {
-						c = true;
+						mask[i][maskIndex++] = 255; // (Solution)
 					} else if (i == 1 && green >= ratio * red
 							&& green >= ratio * blue) {
-						c = true;
+						mask[i][maskIndex++] = 255; // (Solution)
 
 					} else if (i == 2 && blue >= ratio * red
 							&& blue >= ratio * green) {
-						c = true;
+						mask[i][maskIndex++] = 255; // (Solution)
 
 					} else if (i == 3 && red >= ratio * blue
 							&& green >= ratio * blue) {
-						c = true;
+						mask[i][maskIndex++] = 255; // (Solution)
 
 					} else if (i == 4 && red >= ratio / 2 * blue
 							&& green >= ratio / 2 * blue) {
-						c = true;
-					}
-
-					if (c) {
 						mask[i][maskIndex++] = 255; // (Solution)
-
-					} else {
+					}
+					else {
 						mask[i][maskIndex++] = 0; // (Solution)
 					}
 
