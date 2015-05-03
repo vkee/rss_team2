@@ -21,8 +21,8 @@ public class FiducialTracking extends BlobTracking {
 	protected double[] multiSaturationUpper = { 1, 1, 1, .9, 1 };
 	double other_upper = 1;
 
-	double[] multiBrightnessLevel = { 0.55, 0.0, 0.0, 0.5, 0.2 };
-	double other_brightness = 0.55;
+	double[] multiBrightnessLevel = { 0.45, 0.0, 0.0, 0.5, 0.2 };
+	double other_brightness = 0.45;
 
 	int[][] multiBlobPixelMask = null;
 	int[][] multiBlobMask = null;
@@ -174,6 +174,9 @@ public class FiducialTracking extends BlobTracking {
 						if (mask[0][maskIndex] == 255
 								&& mask[3][maskIndex] == 255) {
 							mask[0][maskIndex] = 0;
+							mask[3][maskIndex] = 0;
+						} else if (mask[4][maskIndex] == 255
+								&& mask[3][maskIndex] == 255) {
 							mask[3][maskIndex] = 0;
 						}
 					}
