@@ -2,11 +2,12 @@
 
 map {
 
-    bottom_left { 0.0 0.0 }
-    top_right { 4.6419 3.048 }
     robot_start { 0.6 0.6 }
     #robot_goal { 4.0 2.0 }
     robot_goal { 2.33 1.33 }
+    bottom_left { 0.0 0.0 }
+    top_right { 4.6419 3.048 }
+
 
     #Fiducials will contain a position,
     #a top_color, a bottom_color, a top_radius, and a bottom_radius

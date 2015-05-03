@@ -88,6 +88,15 @@ public class FSM implements NodeMain{
     private Subscriber<ArmMsg> armStatusSub;
     public Publisher<MotionMsg> motionPub;
     public MapDrawer mapDrawer;
+    
+    private double xOdoOffset = 0;
+    private double yOdoOffset = 0;
+    
+    public void updateODO(double x, double y)
+    	{
+    	xOdoOffset = x;
+    	yOdoOffset = y;
+    	}
 
     public FSM(){
 
@@ -142,8 +151,8 @@ public class FSM implements NodeMain{
         .addMessageListener(new MessageListener<OdometryMsg>() {
             @Override
             public void onNewMessage(OdometryMsg message) {
-                //robotX = message.x;
-                //robotY = message.y;
+                message.x += xOdoOffset;
+                message.y += yOdoOffset;
                 //robotTheta = message.theta;
                 //message.type = msgENUM.WHEELS;
                 dispatchState(new GenericMessage<OdometryMsg>(message, msgENUM.WHEELS));

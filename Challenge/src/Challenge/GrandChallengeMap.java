@@ -79,7 +79,7 @@ public class GrandChallengeMap implements NodeMain {
      *
      * @param fileName the name of the file 
      **/
-    public static GrandChallengeMap parseFile(String fileName) throws IOException, ParseException{
+    public GrandChallengeMap parseFile(String fileName) throws IOException, ParseException{
         DEBUG("In GrandChallenge");
         GrandChallengeMap m = new GrandChallengeMap();
         BufferedReader br = new BufferedReader(new FileReader(fileName));
@@ -111,7 +111,9 @@ public class GrandChallengeMap implements NodeMain {
                 top_right = parsePoint2D(br);
             } 
             else if(token.equals("robot_start")){
+                robotStart = new Point2D.Double(0.0,0.0);
                 m.robotStart = parsePoint2D(br);
+                robotStart = m.robotStart;
             }
             else if(token.equals("robot_goal")){
                 m.robotGoal = parsePoint2D(br);
@@ -132,6 +134,7 @@ public class GrandChallengeMap implements NodeMain {
         //Don't forget to close the file!
         br.close();
         DEBUG("Done parsing map");
+        m.robotStart = new Point2D.Double(0.0,0.0);
         return m;
     }
 
@@ -144,7 +147,7 @@ public class GrandChallengeMap implements NodeMain {
      * @throws IOException
      * @throws ParseException
      */
-    private static Fiducial[] parseFiducials(BufferedReader br) throws IOException, ParseException{
+    private Fiducial[] parseFiducials(BufferedReader br) throws IOException, ParseException{
         DEBUG("Parsing Fiducial List");
 
         parseToken(br,SECTION_START);
@@ -173,7 +176,7 @@ public class GrandChallengeMap implements NodeMain {
      * @throws IOException
      * @throws ParseException
      */
-    private static Fiducial parseFiducial(BufferedReader br) throws IOException, ParseException{
+    private Fiducial parseFiducial(BufferedReader br) throws IOException, ParseException{
         DEBUG("Parsing Fiducial");
         parseToken(br,SECTION_START);
         Fiducial fiducial = new Fiducial();
@@ -213,7 +216,7 @@ public class GrandChallengeMap implements NodeMain {
      * @throws IOException
      * @throws ParseException
      */
-    private static ConstructionObject[] parseConstructionObjects(BufferedReader br) throws IOException, ParseException{
+    private ConstructionObject[] parseConstructionObjects(BufferedReader br) throws IOException, ParseException{
         DEBUG("Parsing ConstructionObject List");
 
         parseToken(br,SECTION_START);
@@ -240,7 +243,7 @@ public class GrandChallengeMap implements NodeMain {
      * @throws IOException
      * @throws ParseException
      */
-    private static ConstructionObject parseConstructionObject(BufferedReader br) throws IOException, ParseException{
+    private ConstructionObject parseConstructionObject(BufferedReader br) throws IOException, ParseException{
         DEBUG("Parsing ConstructionObject");
 
         parseToken(br,SECTION_START);
@@ -275,7 +278,7 @@ public class GrandChallengeMap implements NodeMain {
      * @throws IOException
      * @throws ParseException
      */
-    private static PolygonObstacle[] parsePolygonObstacles(BufferedReader br) throws IOException, ParseException{
+    private PolygonObstacle[] parsePolygonObstacles(BufferedReader br) throws IOException, ParseException{
         DEBUG("Parsing Obstacle List");
         parseToken(br,SECTION_START);
         parseToken(br,"num_obstacles");
@@ -300,7 +303,7 @@ public class GrandChallengeMap implements NodeMain {
      * @throws IOException
      * @throws ParseException
      */
-    private static PolygonObstacle parsePolygonObstacle(BufferedReader br) throws IOException, ParseException{
+    private PolygonObstacle parsePolygonObstacle(BufferedReader br) throws IOException, ParseException{
         DEBUG("Parsing Obstacle");
 
         parseToken(br,SECTION_START);
@@ -354,10 +357,10 @@ public class GrandChallengeMap implements NodeMain {
      * @throws IOException
      * @throws ParseException
      */
-    private static Point2D.Double parsePoint2D(BufferedReader br) throws IOException, ParseException {
+    private Point2D.Double parsePoint2D(BufferedReader br) throws IOException, ParseException {
         DEBUG("Parsing vector { x y }");
         double[] vec = parseVectorNd(br,2);
-        return new Point2D.Double(vec[0],vec[1]);
+        return new Point2D.Double(vec[0]-robotStart.x,vec[1]-robotStart.y);
     }
 
     /**
@@ -567,7 +570,8 @@ public class GrandChallengeMap implements NodeMain {
             erasePub.publish(new GUIEraseMsg());
             Thread.sleep(1000);
 
-            GrandChallengeMap gcm = GrandChallengeMap.parseFile(mapFileName);
+            GrandChallengeMap gcm = new GrandChallengeMap();
+            		gcm = gcm.parseFile(mapFileName);
             publishRect(gcm.worldRect, false, Color.BLACK);
             for(int i=0; i < gcm.constructionObjects.length; i++) {
                 ConstructionObject b = gcm.constructionObjects[i];
