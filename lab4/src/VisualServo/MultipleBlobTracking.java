@@ -232,7 +232,10 @@ public class MultipleBlobTracking extends BlobTracking {
 				centroidY = sy / (double) countMax;
 
 				int ind = (int) (centroidY * width + centroidX);
-				int distToCentroid = (int) depth_img[(int) (centroidY * width + centroidX)];
+				double f = 570.342224121;
+				double T = 0.0750000029802;
+				int distToCentroid = (int) (f * T / (depth_img[(int) (centroidY
+						* width + centroidX)]));
 
 				if (ind < depth_img.length && distToCentroid > 0) {
 					if (colorwheel[i] == Color.BLUE) {
