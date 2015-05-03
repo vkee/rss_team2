@@ -201,7 +201,7 @@ public class MultiRRT3D {
      * @param robotLoc the robot's current location
      * @return whether the robot will collide with any obstacles
      */
-    private boolean collisionInRotation(double robotOrientation, double robotAngleError, Point2D.Double robotLoc) {
+    public boolean collisionInRotation(double robotOrientation, double robotAngleError, Point2D.Double robotLoc) {
         int robotIndex = getCSpaceIndex(robotOrientation);
 
         int errorIndex = getErrorIndex(robotAngleError);
@@ -263,7 +263,7 @@ public class MultiRRT3D {
      * @param closestNodePt the second point of the line
      * @return whether the line intersects any obstacles
      */
-    private boolean lineIntersectsObs(int index, Point2D.Double testPt, Point2D.Double closestNodePt) {
+    public boolean lineIntersectsObs(int index, Point2D.Double testPt, Point2D.Double closestNodePt) {
         //      Checking to see if the path between the current and new point intersects any obstacles
         for (PolygonObstacle obstacle : map.get2DCSpace(index)) {
             //              If the path to the new node intersects a polygon, we cannot add the node to the tree
@@ -280,7 +280,7 @@ public class MultiRRT3D {
      * @param robotOrientation the orientation of the robot in radians
      * @return the index from 0 - 359
      */
-    private int getCSpaceIndex(double robotOrientation) {
+    public int getCSpaceIndex(double robotOrientation) {
         return ((int) Math.round(robotOrientation*180/Math.PI)) % (CSpace3D.NUM_ANGLES);
     }
 

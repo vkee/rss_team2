@@ -14,6 +14,7 @@ import MotionPlanning.MultiRRT2D;
 import MotionPlanning.MultiRRT3D;
 //import MotionPlanning.MultiRRT3D;
 import MotionPlanning.PolygonObstacle;
+import MotionPlanning.RRT3DSmoother;
 import MotionPlanning.RRTreeNode;
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
@@ -132,6 +133,7 @@ public class Initialize implements FSMState {
 
 			fsm.RRTengine = new MultiRRT3D(challengeMap);
 			fsm.foundPaths = new GoalAdjLists(end);
+			RRT3DSmoother smoother = new RRT3DSmoother(fsm.RRTengine);
 
 			Point2D.Double currLocation = start;
 			while (objectLocations.size() > 0) {
@@ -159,6 +161,7 @@ public class Initialize implements FSMState {
 						// locations
 						dist = pathEnds[i].distFromRoot;
 						path = pathEnds[i].pathFromParent();
+						path = smoother.smoothPath(path);
 
 					}
 					else 
@@ -171,13 +174,17 @@ public class Initialize implements FSMState {
 
 				currLocation = objectLocations.remove(0);
 			}
-			initialized = true;
 			
+			/// publishing the real start position
 			OdometryMsg msg = new OdometryMsg();
 			msg.x = start.x;
 			msg.y = start.y;
 			msg.theta = 0;
 			fsm.odometryPub.publish(msg);
+			
+			
+			initialized = true;
+
 		}
 
 
