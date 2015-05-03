@@ -55,8 +55,8 @@ public class MultipleBlobTracking extends BlobTracking {
 	 * @param index
 	 */
 	protected void blobFix() {
-		System.out.println("Centroid: " + bos.get(0).getCentroidX());
-		System.out.println("Target Area: " + bos.get(0).getTargetArea());
+		// System.out.println("Centroid: " + bos.get(0).getCentroidX());
+		// System.out.println("Target Area: " + bos.get(0).getTargetArea());
 
 		double deltaX = bos.get(0).getCentroidX() - width / 2.0;
 		targetRange = focalPlaneDistance * targetRadius
@@ -470,7 +470,7 @@ public class MultipleBlobTracking extends BlobTracking {
 	 * (!isTopFiducial) { BlockObject blo = new BlockObject(top); blos.add(blo);
 	 * } } }
 	 */
-	
+
 	/**
 	 * sortBlobs Iterates through blob objects to sort into fiducial and block
 	 */
