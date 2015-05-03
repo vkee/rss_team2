@@ -89,8 +89,8 @@ public class VisualServo implements NodeMain, Runnable {
 				continue;
 			}
 			Image dest = new Image(src);
-			// Image depth = Image.floatRGB(depth_array);
-			Image depth = Image.doubleRGB(depth_double_array);
+			Image depth = Image.floatRGB(depth_float_array);
+			// Image depth = Image.doubleRGB(depth_double_array);
 			blobTrack.apply(src, dest, depth_float_array);// , depth_array);
 			//
 			// update newly formed vision message
