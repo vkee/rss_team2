@@ -5,7 +5,7 @@
   </machine>
 
   <node name="map" pkg="rosjava_bootstrap" type="run.py" args="Challenge Challenge.GrandChallengeMap" machine="workstation" output="screen">
-  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/src/challenge_2012.txt" />  
+  	<param name="mapFileName" value="/home/rss-student/RSS-I-group/Challenge/src/construction_map_2012.txt" />  
   </node> 
 
 </launch>

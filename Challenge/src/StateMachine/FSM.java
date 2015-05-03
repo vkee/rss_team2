@@ -61,7 +61,8 @@ public class FSM implements NodeMain{
     public final double RRT_TOLERANCE = 0.05;
     public final double ROBOTVEL = 0.1;			//coords/ms
     public int blocksCollected;
-    public MultiRRT2D RRTengine;
+//    public MultiRRT2D RRTengine; // for 2D Cspace
+    public MultiRRT3D RRTengine; // for 3D Cspace
     public Point2D.Double currentLocation;			//the current goal point we are at
     public GoalAdjLists foundPaths;
     public NeckController neckServo;
