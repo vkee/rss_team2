@@ -240,7 +240,7 @@ public class MultipleBlobTracking extends BlobTracking {
 								.println("Distance to Blue " + distToCentroid);
 					} else if (colorwheel[i] == Color.YELLOW) {
 						System.out
-								.println("Distance to Blue " + distToCentroid);
+								.println("Distance to Yellow " + distToCentroid);
 					}
 					BlobObject bo = new BlobObject(centroidX, centroidY,
 							distToCentroid, countMax, colorwheel[i],
