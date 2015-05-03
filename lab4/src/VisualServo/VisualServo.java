@@ -30,7 +30,8 @@ public class VisualServo implements NodeMain, Runnable {
 	 * The blob tracker.
 	 * </p>
 	 **/
-	protected MultipleBlobTracking blobTrack = null;
+	// protected MultipleBlobTracking blobTrack = null;
+	protected FiducialTracking blobTrack = null;
 
 	private VisionGUI gui;
 	protected ArrayBlockingQueue<byte[]> visionImage = new ArrayBlockingQueue<byte[]>(
@@ -118,7 +119,7 @@ public class VisualServo implements NodeMain, Runnable {
 	 */
 	@Override
 	public void onStart(Node node) {
-		blobTrack = new MultipleBlobTracking(width, height);
+		blobTrack = new FiducialTracking();
 		// initialize the ROS publication to command/Motors
 
 		publisher = node.newPublisher("command/Motors", "rss_msgs/MotionMsg"); // (Solution)
