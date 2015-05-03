@@ -235,13 +235,15 @@ public class MultipleBlobTracking extends BlobTracking {
 				int distToCentroid;
 				if (ind < depth_img.length) {
 					distToCentroid = (int) depth_img[(int) (centroidY * width + centroidX)];
-				} else {
-					distToCentroid = 0;
+					if (colorwheel[i] == Color.BLUE) {
+						System.out
+								.println("Distance to Blue " + distToCentroid);
+					}
+					BlobObject bo = new BlobObject(centroidX, centroidY,
+							distToCentroid, countMax, colorwheel[i],
+							m_blobIm[i]);
+					bos.add(bo);
 				}
-				BlobObject bo = new BlobObject(centroidX, centroidY,
-						distToCentroid, countMax, colorwheel[i], m_blobIm[i]);
-
-				bos.add(bo);
 			}
 		}
 		// }
