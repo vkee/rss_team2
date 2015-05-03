@@ -233,19 +233,16 @@ public class MultipleBlobTracking extends BlobTracking {
 
 				int ind = (int) (centroidY * width + centroidX);
 				float fT = 42.775668509f;
-				System.out.println("Raw Depth Value: "
-						+ (depth_img[(int) (centroidY * width + centroidX)]));
 
-				int distToCentroid = (int) (fT / (depth_img[(int) (centroidY
-						* width + centroidX)]));
+				int distToCentroid = (int) (depth_img[(int) (centroidY * width + centroidX)]);
 
 				if (ind < depth_img.length && distToCentroid > 0) {
 					if (colorwheel[i] == Color.BLUE) {
-						System.out.println("Converted distance to Blue "
-								+ distToCentroid);
+						System.out.println("Converted distance to Blue " + fT
+								/ distToCentroid);
 					} else if (colorwheel[i] == Color.YELLOW) {
-						System.out.println("Converted distance to Yellow "
-								+ distToCentroid);
+						System.out.println("Converted distance to Yellow " + fT
+								/ distToCentroid);
 					}
 					BlobObject bo = new BlobObject(centroidX, centroidY,
 							distToCentroid, countMax, colorwheel[i],
