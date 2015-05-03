@@ -17,7 +17,9 @@ public class FiducialTracking extends BlobTracking {
 
 	protected double[] multiSaturationLevel = { 0.6, 0.3, 0.3, 0.23, 0.8 };
 	double other_saturation = 0.6;
-	
+
+	protected double[] multiSaturationUpper = { 1, 1, 1, 0.3, 1 };
+	double other_upper = 1;
 
 	double[] multiBrightnessLevel = { 0.55, 0.0, 0.0, 0.5, 0.1 };
 	double other_brightness = 0.55;
@@ -156,6 +158,7 @@ public class FiducialTracking extends BlobTracking {
 					// Using HSB thresholds, set pixels
 					if (hsb[2] > multiBrightnessLevel[i]
 							&& hsb[1] > multiSaturationLevel[i]
+							&& hsb[1] < multiSaturationUpper[i]
 							&& Math.abs(hsb[0] - hue) < hue_Threshold) {
 						mask[i][maskIndex++] = 255; // (Solution)
 						// blob[maskIndex++] = 255;
