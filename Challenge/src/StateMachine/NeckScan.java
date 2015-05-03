@@ -84,35 +84,9 @@ public class NeckScan implements FSMState {
 */
     }
     
-    /**
-     * Determines the distances from the robot to the fiducials in the robot's FOV
-     * @param robotPos the robot's current position
-     * @param measuredFiducials the indices of the fiducials in the robot's FOV
-     * @return the distances from the robot's position to the fiducials
-     */
-    // TODO: SHOULDNT THIS BE IN PARTICLE FILTER CODE NOT HERE??
-    private HashMap<Integer, java.lang.Double> getFidsDists(Point2D.Double robotPos, ArrayList<Integer> measuredFiducials) {
-        HashMap<Integer, java.lang.Double> fidsDists = new HashMap<Integer, java.lang.Double>();
-        Fiducial[] fiducials = fsm.particleFilter.map.getFiducials();
-        for (Integer index : measuredFiducials) {
-            Point2D.Double fidPos = fiducials[index].getPosition();
-
-            //            Potential bug site is if robot position at 0,0 and map goes negative, 
-            //            but this should be able to account for it in this ordering
-            double dist = RRT.getDist(robotPos.x, robotPos.y, fidPos.x, fidPos.y);
-            //            System.out.println("Distance to Fiducial " + index + " at " + fidPos + " is " + dist);
-            fidsDists.put(index, dist);
-        }
-
-        return fidsDists;
-    }
-
-
     @Override
     public void onStart() {
         // TODO Auto-generated method stub
 
     }
-
-
 }
