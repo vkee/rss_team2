@@ -9,7 +9,7 @@ public class FiducialTracking extends BlobTracking {
 			Color.YELLOW, Color.ORANGE };
 
 	private double[] targetHueLevels = { 0.0, 120.0 / 360, 240.0 / 360,
-			60.0 / 360, 24.0 / 360 };
+			28.0 / 360, 24.0 / 360 };
 	// red, green, blue,yellow,orange
 
 	private double[] hueThresholds = { 0.05, 0.1, 0.15, 0.05, 0.05 };
@@ -124,6 +124,13 @@ public class FiducialTracking extends BlobTracking {
 			int red_ = Image.pixelRed(pix_);
 			int blue_ = Image.pixelBlue(pix_);
 			int green_ = Image.pixelGreen(pix_);
+			if (red_ < 0)
+				red_ += 255;
+			if (blue_ < 0)
+				blue_ += 255;
+			if (green_ < 0)
+				green_ += 255;
+
 			float[] hsb_ = Color.RGBtoHSB(red_, green_, blue_, null);
 			System.out.println("Center Hue: " + hsb_[0]);
 			System.out.println("Center Saturation: " + hsb_[1]);
@@ -330,8 +337,8 @@ public class FiducialTracking extends BlobTracking {
 
 			for (int j = 0; j < 10; j++) {
 				for (int k = 0; k < 10; k++) {
-					dest.setPixel(width/2 + j, height/2 + k, (byte) 0, (byte) 0,
-							(byte) 0);
+					dest.setPixel(width / 2 + j, height / 2 + k, (byte) 0,
+							(byte) 0, (byte) 0);
 				}
 			}
 
