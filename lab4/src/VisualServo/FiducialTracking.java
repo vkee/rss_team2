@@ -135,9 +135,9 @@ public class FiducialTracking extends BlobTracking {
 				green_ += 255;
 
 			float[] hsb_ = Color.RGBtoHSB(red_, green_, blue_, null);
-			System.out.println("Center Hue: " + hsb_[0]);
-			System.out.println("Center Saturation: " + hsb_[1]);
-			System.out.println("Center Brightness: " + hsb_[2]);
+			System.out.println("Center Hue: " + hsb_[0]*360);
+			System.out.println("Center Saturation: " + hsb_[1]*100);
+			System.out.println("Center Brightness: " + hsb_[2]*100);
 
 			for (int y = 0; y < height; y++) { // (Solution)
 				for (int x = 0; x < width; x++) { // (Solution)
