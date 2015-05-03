@@ -86,11 +86,11 @@ public class Initialize implements FSMState {
 			challengeMap.set3DCSpace(obsCSpaces);
 			fsm.mapDrawer.displayMap(challengeMap);
 
-			fsm.mapDrawer.displayMapCSpace(obsCSpaces.get(90));
 
 			// 2D CSpace for checking if can reach obstacles CSpace2D
 			/*CSpace2D cSpace2D = new CSpace2D();
 			ArrayList<PolygonObstacle> obs2DCSpaces = cSpace2D.generateCSpace(challengeMap, false);
+			fsm.mapDrawer.displayMapCSpace(obs2DCSpaces);
 
 			ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>(); 
 			Point2D.Double start = challengeMap.getRobotStart(); 

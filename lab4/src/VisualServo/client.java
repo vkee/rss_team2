@@ -67,7 +67,7 @@ public class client{
 					| ((data_[i+1] & 0xFF) << 8)
 					| ((data_[i+2] & 0xFF) << 16) 
 					| ((data_[i+3] & 0xFF) << 24);
-				asFloat = Float.intBitsToFloat(asInt);
+				asFloat =  Float.intBitsToFloat(asInt);
 				float_array[(int)(i/4.0)] = asFloat; 
 			}
 		}catch(Exception e){
