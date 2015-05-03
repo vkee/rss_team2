@@ -183,23 +183,24 @@ public class FiducialTracking extends BlobTracking {
 					// double hue = targetHueLevels[i];
 					// double hue_Threshold = hueThresholds[i];
 
-					// Using HSB thresholds, set pixels
-					if (hsb[2] > multiBrightnessLevel[i]
-							&& hsb[1] > multiSaturationLevel[i]
-							&& hsb[1] < multiSaturationUpper[i]
-							&& Math.abs(hsb[0] - hue) < hue_Threshold) {
-						mask[i][maskIndex++] = 255; // (Solution)
-						// blob[maskIndex++] = 255;
-					} else if (i == 0
-							&& hsb[2] > other_brightness
-							&& hsb[1] > other_saturation
-							&& Math.abs(hsb[0] - (360.0 / 360)) < other_hueThreshold) {
-						mask[i][maskIndex++] = 255; // (Solution)
-						// blob[maskIndex++] = 255;
-					} else {
-						mask[i][maskIndex++] = 0;
-						// blob[maskIndex++] = 0;
-					}
+					// // Using HSB thresholds, set pixels
+					// if (hsb[2] > multiBrightnessLevel[i]
+					// && hsb[1] > multiSaturationLevel[i]
+					// && hsb[1] < multiSaturationUpper[i]
+					// && Math.abs(hsb[0] - hue) < hue_Threshold) {
+					// mask[i][maskIndex++] = 255; // (Solution)
+					// // blob[maskIndex++] = 255;
+					// } else if (i == 0
+					// && hsb[2] > other_brightness
+					// && hsb[1] > other_saturation
+					// && Math.abs(hsb[0] - (360.0 / 360)) < other_hueThreshold)
+					// {
+					// mask[i][maskIndex++] = 255; // (Solution)
+					// // blob[maskIndex++] = 255;
+					// } else {
+					// mask[i][maskIndex++] = 0;
+					// // blob[maskIndex++] = 0;
+					// }
 				}
 			}
 		}
