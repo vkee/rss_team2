@@ -16,14 +16,14 @@ public class CSpace3D {
     //    are aligned with the polar axes)
     //    NOTE: These are not necessary the corners of the robot, but the outer dimension of the entire robot
     //    TODO: double check these measurements
-    private final double ROBOT_TL_X = 0.070; // robot top left x dimension
-    private final double ROBOT_TL_Y = 0.245; // robot top left y dimension
-    private final double ROBOT_TR_X = 0.070; // robot top right x dimension
-    private final double ROBOT_TR_Y = -0.245; // robot top right y dimension
-    private final double ROBOT_BR_X = -0.360; // robot bottom right x dimension
-    private final double ROBOT_BR_Y = -0.245; // robot bottom right y dimension
-    private final double ROBOT_BL_X = -0.360; // robot bottom left x dimension
-    private final double ROBOT_BL_Y = 0.245; // robot bottom left y dimension
+    private final double ROBOT_TL_X = 0.13; // 0.070 robot top left x dimension
+    private final double ROBOT_TL_Y = 0.305; // 0.245 robot top left y dimension
+    private final double ROBOT_TR_X = 0.13; // robot top right x dimension
+    private final double ROBOT_TR_Y = -0.305; // robot top right y dimension
+    private final double ROBOT_BR_X = -0.42; // 0.360 robot bottom right x dimension
+    private final double ROBOT_BR_Y = -0.305; // robot bottom right y dimension
+    private final double ROBOT_BL_X = -0.42; // robot bottom left x dimension
+    private final double ROBOT_BL_Y = 0.305; // robot bottom left y dimension
 
     //    Number of angles to compute the configuration space for
     protected static final int NUM_ANGLES = 360;

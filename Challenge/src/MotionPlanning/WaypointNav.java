@@ -18,10 +18,10 @@ public class WaypointNav {
 
     // The waypoint tolerance defining whether the robot is at a waypoint
     public static final double WAYPT_TOL = 0.05; // in meters
-    public static final double WAYPT_TOL_THETA = 0.1; // in radians
+    public static final double WAYPT_TOL_THETA = 0.05; // in radians
 
-    private final double FWD_GAIN = 1.0; // may need to change to 0.1 if runs into things and off waypoints
-    private final double ROT_GAIN = .3;
+    private final double FWD_GAIN = 0.75; // may need to change to 0.1 if runs into things and off waypoints
+    private final double ROT_GAIN = .1;
 
     private ArrayList<Point2D.Double> waypoints;
     private Point2D.Double goal;
@@ -84,13 +84,15 @@ public class WaypointNav {
         } else if (thetaError > Math.PI) {
             thetaError -= 2 * Math.PI;
         }
+        
+        //System.out.println(thetaError);
 
         // While not at the current waypoint, adjust proportionally to the error
         MotionMsg msg = new MotionMsg();
 
         // adjust theta error first
         if (Math.abs(thetaError) > WAYPT_TOL_THETA) {
-            msg.rotationalVelocity = -Math.min(ROT_GAIN * thetaError, 0.25);
+            msg.rotationalVelocity = -Math.min(ROT_GAIN * thetaError, 0.1);
             msg.translationalVelocity = 0.0;
             // only when theta has been reached, adjust translation
         } else if ((Math.abs(xError)+Math.abs(yError)) > WAYPT_TOL) {
