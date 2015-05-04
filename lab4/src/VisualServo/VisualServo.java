@@ -102,12 +102,14 @@ public class VisualServo implements NodeMain, Runnable {
 
 			// Begin Student Code
 			// publish velocity messages to move the robot towards the target
-
-			MotionMsg msg = new MotionMsg(); // (Solution)
-			msg.translationalVelocity = blobTrack.translationVelocityCommand;
-			msg.rotationalVelocity = blobTrack.rotationVelocityCommand;
-			publisher.publish(msg); // (Solution)
-
+			
+			/*
+						
+						MotionMsg msg = new MotionMsg(); // (Solution)
+						msg.translationalVelocity = blobTrack.translationVelocityCommand;
+						msg.rotationalVelocity = blobTrack.rotationVelocityCommand;
+						publisher.publish(msg); // (Solution)
+			*/
 			// End Student Code
 		}
 	}
