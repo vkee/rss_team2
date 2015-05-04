@@ -36,7 +36,7 @@ public class Image {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				if (inDepthArray[index] > threshold) {
-					System.out.println(inDepthArray[index]);
+					//System.out.println(inDepthArray[index]);
 					outColor.setPixel(i, j, (byte) 0, (byte) 0, (byte) 0);
 				}
 				index++;
