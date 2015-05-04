@@ -28,7 +28,7 @@ public class Image {
 		// direction is a degree measurement from 0-360? or is in radians, yet
 		// to decide
 		int index = 0;
-		double threshold = 1.5;
+		double threshold = 1;
 		float[] inDepthArray = convertDistanceArray(_inDepthArray);
 		// threshold = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
 		Image ret = new Image(inColor);
