@@ -59,7 +59,7 @@ public class MoveToRelease implements FSMState {
 			motion.rotationalVelocity = 0.0;
 			motion.translationalVelocity = 0.0;
 			fsm.motionPub.publish(motion);
-			System.out.println("Done");
+			System.out.println("Done"); 
 		}
 		//fsm.updateState(new NextState(fsm));
 
