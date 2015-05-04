@@ -143,9 +143,6 @@ public class FiducialTracking extends BlobTracking {
 				green_ += 255;
 
 			float[] hsb_ = Color.RGBtoHSB(red_, green_, blue_, null);
-			//System.out.println("Center Hue: " + hsb_[0] * 360);
-			//System.out.println("Center Saturation: " + hsb_[1] * 100);
-			//System.out.println("Center Brightness: " + hsb_[2] * 100);
 			for (int y = 0; y < height; y++) { // (Solution)
 				for (int x = 0; x < width; x++) { // (Solution)
 					int pix = src.getPixel(x, y); // (Solution)
@@ -169,7 +166,6 @@ public class FiducialTracking extends BlobTracking {
 							&& hsb[1] < multiSaturationUpper[i]
 							&& Math.abs(hsb[0] - hue) < hue_Threshold) {
 						mask[i][maskIndex] = 255; // (Solution)
-						// blob[maskIndex++] = 255;
 					} else if (i == 0
 							&& hsb[2] > other_brightness
 							&& hsb[1] > other_saturation
@@ -249,13 +245,29 @@ public class FiducialTracking extends BlobTracking {
 
 	public void sortBlobs() {
 		boolean isTopFiducial;
+		System.out.println("-- " + bos.size() + "--");
 		for (int j = 0; j < bos.size(); j++) {
 			BlobObject top = bos.get(j);
 			isTopFiducial = false;
 			for (int k = 0; k < bos.size(); k++) {
 				BlobObject bottom = bos.get(k);
-				if (top != bottom && isFiducialColorMatch(top, bottom) != -1
-						&& isAbove(top, bottom, 0.1, 0.1)) {
+				if (!top.equals(bottom)) {
+					if (!isAbove(top, bottom, 5, 5)) {
+						System.out.print("X: ");
+						System.out.println(top.getCentroidX()
+								- bottom.getCentroidX());
+						System.out.print("Y: ");
+
+						System.out.println(Math.abs(bottom.getCentroidY()
+								- top.getCentroidY()
+								- (top.getRadius() + bottom.getRadius())));
+					}
+					System.out.println("isAbove "
+							+ isAbove(top, bottom, 5, 5));
+				}
+				if (!top.equals(bottom)
+						&& isFiducialColorMatch(top, bottom) != -1
+						&& isAbove(top, bottom, 5, 5)) {
 					FiducialObject fo = new FiducialObject(top, bottom,
 							isFiducialColorMatch(top, bottom));
 					fos.add(fo);
@@ -365,10 +377,12 @@ public class FiducialTracking extends BlobTracking {
 
 		}
 		sortBlobs();
-		System.out.println("Number of Fiducials " + fos.size());
-		for (FiducialObject fo : fos) {
-			System.out.println("Fiducial Number " + fo.getFiducialNumber()
-					+ " at " + fo.getDistanceTo() + "mm away.");
+		if (fos.size() > 0) {
+			System.out.println("Number of Fiducials " + fos.size());
+			for (FiducialObject fo : fos) {
+				System.out.println("Fiducial Number " + fo.getFiducialNumber()
+						+ " at " + fo.getDistanceTo() + "mm away.");
+			}
 		}
 	}
 }
