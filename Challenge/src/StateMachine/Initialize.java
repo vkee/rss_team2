@@ -195,8 +195,10 @@ public class Initialize implements FSMState {
 		fsm.foundPaths = new GoalAdjLists(end);
 		RRT3DSmoother smoother = new RRT3DSmoother(fsm.RRTengine);
 
-		Point2D.Double currLocation = start;
-		while (objectLocations.size() > 0) {
+		//Point2D.Double currLocation = start;
+		///while (objectLocations.size() > 0) {
+		objectLocations.add(start);
+		for (Point2D.Double currLocation : objectLocations) {
 			/*System.out.println("starting loc " + currLocation);
 				System.out.println("Printing locs");
 				for (Point2D.Double locs : objectLocations) {
@@ -232,7 +234,7 @@ public class Initialize implements FSMState {
 						objectLocations.get(i), path, dist);
 			}
 
-			currLocation = objectLocations.remove(0);
+			//currLocation = objectLocations.remove(0);
 		}
 
 
