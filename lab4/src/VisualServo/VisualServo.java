@@ -76,24 +76,25 @@ public class VisualServo implements NodeMain, Runnable {
 		cl = new client();
 		while (true) {
 			Image src = null;
-			Image src_ = null;
-			Image dest = null;
 			float[] depth_float_array = null;
 			double[] depth_double_array = null;
 
 			try {
 				src = cl.getImage();
-				dest = new Image(src);
 
 				depth_float_array = cl.getDepthImage();
 				// depth_double_array = cl.getDepthArray();
-				Image.filterImage(src, dest, depth_float_array, width, height,
-						3.048, 4.6419, 0.6, 0.6, 0, .1);
 				if (src == null)
 					continue;
 			} catch (Exception e) {
 				continue;
 			}
+			Image temp = null;
+			Image.filterImage(src, temp, depth_float_array, width, height,
+					3.048, 4.6419, 0.6, 0.6, 0, .1);
+
+			Image dest = new Image(temp);
+
 			// Image depth = Image.floatRGB(depth_float_array);
 			// Image depth = Image.doubleRGB(depth_double_array);
 			blobTrack.apply(src, dest, depth_float_array);// , depth_array);
