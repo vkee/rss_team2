@@ -77,16 +77,20 @@ public class VisualServoCollect implements FSMState {
 
 		//if condition to leave state
 		if(blobTrack.isDone()){
-			//fsm.updateState(new MoveForward(fsm));
-			fsm.updateState(new WaypointNavClose(fsm));
+			System.out.println("Changing state from VisualServoCollect to MoveForward...");
+			fsm.updateState(new MoveForward(fsm));
+
 		}
 //		System.out.println("End Update");
 	}
 
 	private void updateFlap(GenericMessage msg){
 
-
-		//System.out.println("Changing state from VisualServoCollect to BackToGoalPoint...");
+		//TODO: add bump message handling
+		//TODO: increment counter of collected blocks
+			// do we have a counter for this yet?
+		System.out.println("Block collected!");
+		System.out.println("Changing state from VisualServoCollect to BackToGoalPoint...");
 		//fsm.updateState(new BackToGoalPoint(fsm, true))
 
 }
