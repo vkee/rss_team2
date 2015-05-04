@@ -84,8 +84,8 @@ public class VisualServo implements NodeMain, Runnable {
 				src_ = cl.getImage();
 				depth_float_array = cl.getDepthImage();
 				// depth_double_array = cl.getDepthArray();
-				src = Image.filterImage(src_, depth_float_array, 3.048, 4.6419,
-						0.6, 0.6, 0, .1);
+				src = Image.filterImage(src_, depth_float_array, width, height,
+						3.048, 4.6419, 0.6, 0.6, 0, .1);
 				if (src == null)
 					continue;
 			} catch (Exception e) {
@@ -101,7 +101,7 @@ public class VisualServo implements NodeMain, Runnable {
 
 			// Begin Student Code
 			// publish velocity messages to move the robot towards the target
-			
+
 			/*
 						
 						MotionMsg msg = new MotionMsg(); // (Solution)

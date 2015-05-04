@@ -9,7 +9,6 @@ package VisualServo;
  */
 public class Image {
 
-
 	public static float[] convertDistanceArray(float[] inDepthArray) {
 		float fT = 42.775668509f;
 		float[] out = new float[inDepthArray.length];
@@ -24,8 +23,8 @@ public class Image {
 	}
 
 	public static Image filterImage(Image inColor, float[] _inDepthArray,
-			double field_width, double field_height, double locX, double locY,
-			double direction, double buffer) {
+			int width, int height, double field_width, double field_height,
+			double locX, double locY, double direction, double buffer) {
 		// direction is a degree measurement from 0-360? or is in radians, yet
 		// to decide
 		int index = 0;
@@ -34,9 +33,12 @@ public class Image {
 		// threshold = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
 		Image ret = new Image(inColor);
 
-		for (int i = 0; i < field_height; i++) {
-			for (int j = 0; j < field_width; j++) {
-				//System.out.println("Index " + inDepthArray[index]);
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				if (i == height / 2 && j == width / 2) {
+					System.out.println("Index " + inDepthArray[index]);
+				}
+
 				if (inDepthArray[index] > threshold) {
 					ret.setPixel(i, j, (byte) 0, (byte) 0, (byte) 0);
 				}
