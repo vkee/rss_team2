@@ -199,9 +199,9 @@ public class FiducialTracking extends BlobTracking {
 			HashMap<Integer, Integer> blob_info = connComp.getBlobPixel(0.005
 					* height * width);
 
+			double centroidX;
+			double centroidY;
 			for (Map.Entry<Integer, Integer> entry : blob_info.entrySet()) {
-			double centroidX = 0;
-			double centroidY = 0;
 
 				int colorMax = entry.getKey();
 				int countMax = entry.getValue();

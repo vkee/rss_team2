@@ -30,34 +30,9 @@ public class VisualServo implements NodeMain, Runnable {
 	 * The blob tracker.
 	 * </p>
 	 **/
-	protected MultipleBlobTracking blobTrack = null;
+	// protected MultipleBlobTracking blobTrack = null;
+	protected FiducialTracking blobTrack = null;
 
-//	private double target_hue_level = 0; // (Solution)
-//	private double hue_threshold = 0.08; // (Solution)
-//	private double saturation_level = 0.5; // (Solution)
-	/*
-	 * private double target_hue_level = 130/360; // (Solution) private double
-	 * hue_threshold = 0.1; // (Solution) private double saturation_level = 0.4;
-	 * // (Solution)
-	 */
-	// // Units are fraction of total number of pixels detected in blob //
-	// (Solution)
-/*
-	private double blob_size_threshold = 0.005; // (Solution)
-	private double target_radius = 0.1; // (Solution)
-	private double desired_fixation_distance = .1; // (Solution)
-	
-	private double translation_error_tolerance = .05;
-	private double translation_velocity_gain = .75;// (Solution)
-	private double translation_velocity_max = .75;// (Solution)
-
-	private double rotation_error_tolerance = 0.2; // (Solution)
-	private double rotation_velocity_gain = 0.05; // (Solution)
-	private double rotation_velocity_max = 0.15; // (Solution)
-	
-	private boolean use_gaussian_blur = true;// (Solution)
-	private boolean approximate_gaussian = false;// (Solution)
-*/
 	private VisionGUI gui;
 	protected ArrayBlockingQueue<byte[]> visionImage = new ArrayBlockingQueue<byte[]>(
 			1);
@@ -101,18 +76,28 @@ public class VisualServo implements NodeMain, Runnable {
 		cl = new client();
 		while (true) {
 			Image src = null;
-			float[] depth_array = null;
+			float[] depth_float_array = null;
+			double[] depth_double_array = null;
+
 			try {
 				src = cl.getImage();
-				depth_array = cl.getDepthImage();
+
+				depth_float_array = cl.getDepthImage();
+				// depth_double_array = cl.getDepthArray();
 				if (src == null)
 					continue;
 			} catch (Exception e) {
 				continue;
 			}
-			Image dest = new Image(src);
-			// Image depth = Image.floatRGB(depth_array);
-			blobTrack.apply(src, dest, depth_array);// , depth_array);
+			Image temp =  new Image(src);
+			//Image.filterImage(src, temp, depth_float_array, width, height,
+			//		3.048, 4.6419, 0.6, 0.6, 0, .1);
+
+			Image dest = new Image(temp);
+
+			// Image depth = Image.floatRGB(depth_float_array);
+			// Image depth = Image.doubleRGB(depth_double_array);
+			blobTrack.apply(src, dest, depth_float_array);// , depth_array);
 			//
 			// update newly formed vision message
 			gui.setVisionImage(dest.toArray(), width, height);
@@ -120,11 +105,13 @@ public class VisualServo implements NodeMain, Runnable {
 			// Begin Student Code
 			// publish velocity messages to move the robot towards the target
 
-			MotionMsg msg = new MotionMsg(); // (Solution)
-			msg.translationalVelocity = .blobTrack.translationVelocityCommand;
-			msg.rotationalVelocity = blobTrack.rotationVelocityCommand;
-			publisher.publish(msg); // (Solution)
-
+			/*
+						
+						MotionMsg msg = new MotionMsg(); // (Solution)
+						msg.translationalVelocity = blobTrack.translationVelocityCommand;
+						msg.rotationalVelocity = blobTrack.rotationVelocityCommand;
+						publisher.publish(msg); // (Solution)
+			*/
 			// End Student Code
 		}
 	}
@@ -139,26 +126,8 @@ public class VisualServo implements NodeMain, Runnable {
 	 */
 	@Override
 	public void onStart(Node node) {
-		blobTrack = new MultipleBlobTracking(width, height);
-		// Begin Student Code
-
-		// set parameters on blobTrack as you desire
-/*
-		blobTrack.targetHueLevel = target_hue_level;// (Solution)
-		blobTrack.hueThreshold = hue_threshold;// (Solution)
-		blobTrack.saturationLevel = saturation_level;// (Solution)
-		blobTrack.blobSizeThreshold = blob_size_threshold;// (Solution)
-		blobTrack.targetRadius = target_radius;// (Solution)
-		blobTrack.desiredFixationDistance = desired_fixation_distance;// (Solution)
-		blobTrack.translationErrorTolerance = translation_error_tolerance;// (Solution)
-		blobTrack.translationVelocityGain = translation_velocity_gain;// (Solution)
-		blobTrack.translationVelocityMax = translation_velocity_max;// (Solution)
-		blobTrack.rotationErrorTolerance = rotation_error_tolerance;// (Solution)
-		blobTrack.rotationVelocityGain = rotation_velocity_gain;// (Solution)
-		blobTrack.rotationVelocityMax = rotation_velocity_max;// (Solution)
-		blobTrack.useGaussianBlur = use_gaussian_blur;// (Solution)
-		blobTrack.approximateGaussian = approximate_gaussian;// (Solution)
-*/
+		//blobTrack = new FiducialTracking();
+		blobTrack = new MultipleBlobTracking();		
 		// initialize the ROS publication to command/Motors
 
 		publisher = node.newPublisher("command/Motors", "rss_msgs/MotionMsg"); // (Solution)
