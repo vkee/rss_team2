@@ -59,4 +59,50 @@ public class NeckController {
 		return ((bottom.atTarget(angles[0], pwm)||true) &&
 				top.atTarget(angles[1], pwm));
 	}
+	
+	
+	
+	
+	public void fullCycle(boolean full)
+	{
+		int top0 = top.PWM_0;
+		int top180 = top.PWM_180;
+
+		int bot0 = bottom.PWM_0;
+		int bot180 = bottom.PWM_180;
+
+if (full){
+		for (int i=0; i<6; i++){
+
+			//System.out.println(i+"--"+Math.max(0,i-3)+"--"+Math.min(i, 3));
+
+			bottom.sendPWM(bot0+(bot180-bot0)/3*Math.max(0,i-3), GateController.GATE_CLOSED_PWM, top0+(top180-top0)/3*Math.min(i, 3)); //0 (forward)
+			try{Thread.sleep(2000);}catch(Exception e){}
+
+		}
 }
+		for (int i=6; i>=0; i--){
+
+			//System.out.println(i+"--"+Math.max(0,i-3)+"--"+Math.min(i, 3));
+
+			bottom.sendPWM(bot0+(bot180-bot0)/3*Math.max(0,i-3), GateController.GATE_CLOSED_PWM, top0+(top180-top0)/3*Math.min(i, 3)); //0 (forward)
+			try{Thread.sleep(2000);}catch(Exception e){}
+
+
+		}
+	}
+	
+	public void goToSetting(int i)
+		{
+		int top0 = top.PWM_0;
+		int top180 = top.PWM_180;
+
+		int bot0 = bottom.PWM_0;
+		int bot180 = bottom.PWM_180;
+		
+		bottom.sendPWM(bot0+(bot180-bot0)/3*Math.max(0,i-3), GateController.GATE_CLOSED_PWM, top0+(top180-top0)/3*Math.min(i, 3));
+		
+		}
+
+}
+	
