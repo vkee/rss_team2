@@ -248,12 +248,11 @@ public class FiducialTracking extends BlobTracking {
 		System.out.println("-- " + bos.size() + "--");
 		for (int j = 0; j < bos.size(); j++) {
 			BlobObject top = bos.get(j);
-			System.out.println("COLOR " + top.getColor());
 			isTopFiducial = false;
 			for (int k = 0; k < bos.size(); k++) {
 				BlobObject bottom = bos.get(k);
 				if (!top.equals(bottom)) {
-					if (!isAbove(top, bottom, 0.1, 0.1)) {
+					if (!isAbove(top, bottom, 5, 5)) {
 						System.out.print("X: ");
 						System.out.println(top.getCentroidX()
 								- bottom.getCentroidX());
@@ -264,11 +263,11 @@ public class FiducialTracking extends BlobTracking {
 								- (top.getRadius() + bottom.getRadius())));
 					}
 					System.out.println("isAbove "
-							+ isAbove(top, bottom, 0.1, 0.1));
+							+ isAbove(top, bottom, 5, 5));
 				}
 				if (!top.equals(bottom)
 						&& isFiducialColorMatch(top, bottom) != -1
-						&& isAbove(top, bottom, 0.1, 0.1)) {
+						&& isAbove(top, bottom, 5, 5)) {
 					FiducialObject fo = new FiducialObject(top, bottom,
 							isFiducialColorMatch(top, bottom));
 					fos.add(fo);
