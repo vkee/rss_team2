@@ -40,6 +40,11 @@ public class Image {
 				index++;
 			}
 		}
+		if (ret.equals(inColor)){
+			System.out.println("IS NULL");
+		}else{
+			System.out.println("NOT NULL");
+		}
 		return ret;
 	}
 
