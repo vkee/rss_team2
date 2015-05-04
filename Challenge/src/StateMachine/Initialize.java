@@ -276,7 +276,6 @@ public class Initialize implements FSMState {
 		// if gate is not closed, close gate
 		if (!fsm.gateServo.isClosed(gatePWM))
 		{
-			
 			fsm.gateServo.close(ServoController.messageConvert(message.pwms));
 			//  System.out.println("CurrPWM: "+gatePWM);
 			//System.out.println("Trying to close gate.");
@@ -284,14 +283,9 @@ public class Initialize implements FSMState {
 		else if (initialized)
 		{
 			//System.out.println("Done closing gate.");
-			fsm.updateState(new WaypointNavClose(fsm));
+//			fsm.updateState(new WaypointNavClose(fsm));
+		    fsm.updateState(new NeckScan(fsm, null));
 		}
-
-
-		// if condition to leave state
-		//System.out.println("Initialization complete. TIME TO GO COLLECT SOME BLOCKS!");
-		//System.out.println("ARE YOU EXCITED?");
-		//System.out.println("I'M EXCITED!!!");
 	}
 
 	@Override
