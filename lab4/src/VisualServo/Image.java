@@ -10,7 +10,7 @@ package VisualServo;
 public class Image {
 
 	public static Image filterImage(Image inColor, float[] inDepthArray,
-			int field_width, int field_height, double locX, double locY,
+			double field_width, double field_height, double locX, double locY,
 			double direction, double buffer) {
 		// direction is a degree measurement from 0-360? or is in radians, yet
 		// to decide
@@ -30,7 +30,7 @@ public class Image {
 
 		for (int i = 0; i < field_height; i++) {
 			for (int j = 0; j < field_width; j++) {
-				if (inDepthArray[index] > threshold + buffer) {
+				if (inDepthArray[index] > threshold - buffer) {
 					ret.setPixel(i, j, (byte) 0, (byte) 0, (byte) 0);
 				}
 				index++;

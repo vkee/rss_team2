@@ -76,14 +76,17 @@ public class VisualServo implements NodeMain, Runnable {
 		cl = new client();
 		while (true) {
 			Image src = null;
+			Image src_ = null;
 			float[] depth_float_array = null;
 			double[] depth_double_array = null;
 
 			try {
-				src = cl.getImage();
+				src_ = cl.getImage();
 				depth_float_array = cl.getDepthImage();
-				depth_double_array = cl.getDepthArray();
+				// depth_double_array = cl.getDepthArray();
 
+				src = Image.filterImage(src_, depth_float_array, 3.048, 4.6419,
+						0, 0, 0, .1);
 				if (src == null)
 					continue;
 			} catch (Exception e) {
