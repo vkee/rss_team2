@@ -33,8 +33,8 @@ public class Image {
 		// threshold = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
 		Image ret = new Image(inColor);
 		
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
 				if (inDepthArray[index] > threshold) {
 					ret.setPixel(i, j, (byte) 0xff, (byte) 0xff, (byte) 0xff);
 				}
