@@ -4,7 +4,6 @@ import java.awt.Color;
 
 public class BlobObject {
 
-
 	private Color color;
 	private int targetArea;
 	private double centroidX;
@@ -54,8 +53,12 @@ public class BlobObject {
 	public int[] getBlobArr() {
 		return this.blobArr;
 	}
-	
-	public double getRadius(){
-		return Math.sqrt(this.targetArea/Math.PI);
+
+	public double getRadius() {
+		return Math.sqrt(this.targetArea / Math.PI);
+	}
+
+	public boolean equals(BlobObject other) {
+		return (this.getColor() == other.getColor());
 	}
 }
