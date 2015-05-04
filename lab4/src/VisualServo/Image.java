@@ -22,26 +22,25 @@ public class Image {
 		return out;
 	}
 
-	public static Image filterImage(Image inColor, float[] _inDepthArray,
-			int width, int height, double field_width, double field_height,
-			double locX, double locY, double direction, double buffer) {
+	public static void filterImage(Image inColor, Image outColor,
+			float[] _inDepthArray, int width, int height, double field_width,
+			double field_height, double locX, double locY, double direction,
+			double buffer) {
 		// direction is a degree measurement from 0-360? or is in radians, yet
 		// to decide
 		int index = 0;
 		double threshold = 1;
 		float[] inDepthArray = convertDistanceArray(_inDepthArray);
 		// threshold = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
-		Image ret = new Image(inColor);
-		
+
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				if (inDepthArray[index] > threshold) {
-					ret.setPixel(i, j, (byte) 0, (byte) 0, (byte) 0);
+					outColor.setPixel(i, j, (byte) 0, (byte) 0, (byte) 0);
 				}
 				index++;
 			}
 		}
-		return ret;
 	}
 
 	public static Image floatRGB(float[] inFloat) {
