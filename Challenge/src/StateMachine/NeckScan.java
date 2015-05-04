@@ -30,7 +30,7 @@ public class NeckScan implements FSMState {
 
 	private FSM fsm;
 	private double neckAngleTarget = 0;
-	private final int NECKSTATES = 6;
+	private final int NECKSTATES = 12;
 	protected MultipleBlobTracking blobTrack = null;
 	client cl = null;
 
@@ -63,23 +63,73 @@ public class NeckScan implements FSMState {
 
 		ArmMsg message = (ArmMsg) msg.message;
 		int[] pwms = ServoController.messageConvert((message).pwms);
+		
+//		double[] angles = fsm.neckServo.bottomAndTopAngle(neckAngleTarget);
+//		if (fsm.neckServo.top.atTarget(angles[1], pwms))
+//			{System.out.print("top done");
+//			if (fsm.neckServo.bottom.atTarget(angles[0], pwms))
+//				{System.out.print("bottom done");}
+//			else
+//				{int pwmBot = fsm.neckServo.bottom.rotateTo(angles[0], pwms);
+//				fsm.neckServo.top.sendPWM(pwmBot,pwms[1],pwms[0]);}}
+//		else
+//			{int pwmTop=  fsm.neckServo.top.rotateTo(angles[1], pwms);
+//			fsm.neckServo.top.sendPWM(pwms[2],pwms[1],pwmTop);
+//			System.out.println("Going bottom to: "+
+//			fsm.neckServo.bottom.getPWM(angles[0])+
+//			" from "+
+//			message.pwms[2]);}
 
-		if (fsm.neckServo.atAngle(neckAngleTarget, pwms)) { //process image
-			System.out.println("Processing image at: "+neckAngleTarget);
-			try{
-//			    TODO: this should be changed to boolean flags that the visual processing stuff updates
-				Thread.sleep(5000); //update fiducial and goal lists 
-			}catch(Exception e){
-				
-			}
-			double newTarget = neckAngleTarget + 360/NECKSTATES; 
-			if (newTarget < 360){
-				neckAngleTarget = newTarget; 
-			} else fsm.updateState(new RRTUpdate(fsm, newGoals)); //TODO: insert arraylist of new goalpoint 2ds 
-		} else
-		{
-			fsm.neckServo.goToAngle(neckAngleTarget, pwms);
+
+//		
+//		
+//		if (fsm.neckServo.atAngle(neckAngleTarget, pwms)) { //process image
+//			System.out.println("Processing image at: "+neckAngleTarget);
+//			try{
+////			    TODO: this should be changed to boolean flags that the visual processing stuff updates
+//				Thread.sleep(2000); //update fiducial and goal lists 
+//			}catch(Exception e){
+//				
+//			}
+//			double newTarget = neckAngleTarget + 2*Math.PI/NECKSTATES; 
+//			System.out.println(newTarget);
+//			if (newTarget < 2*Math.PI){
+//				neckAngleTarget = newTarget; 
+//			} else {}//fsm.updateState(new RRTUpdate(fsm, newGoals)); //TODO: insert arraylist of new goalpoint 2ds 
+//		} else
+//		{
+//			fsm.neckServo.goToAngle(neckAngleTarget, pwms);
+//			
+//			System.out.println("Going bottom to: "+
+//					fsm.neckServo.bottom.getPWM(fsm.neckServo.bottomAndTopAngle(neckAngleTarget)[0])+
+//					" from "+
+//					message.pwms[fsm.neckServo.bottom.messageIndex]);
+		
+		
+		int top0 = fsm.neckServo.top.PWM_0;
+		int top180 = fsm.neckServo.top.PWM_180;
+		
+		int bot0 = fsm.neckServo.bottom.PWM_0;
+		int bot180 = fsm.neckServo.bottom.PWM_180;
+		
+		for (int i=0; i<6; i++){
+
+			System.out.println(i+"--"+Math.max(0,i-3)+"--"+Math.min(i, 3));
+			
+		fsm.neckServo.bottom.sendPWM(bot0+(bot180-bot0)/3*Math.max(0,i-3), pwms[1], top0+(top180-top0)/3*Math.min(i, 3)); //0 (forward)
+		try{Thread.sleep(2000);}catch(Exception e){}
+
 		}
+			
+		for (int i=6; i>=0; i--){
+
+			System.out.println(i+"--"+Math.max(0,i-3)+"--"+Math.min(i, 3));
+			
+		fsm.neckServo.bottom.sendPWM(bot0+(bot180-bot0)/3*Math.max(0,i-3), pwms[1], top0+(top180-top0)/3*Math.min(i, 3)); //0 (forward)
+		try{Thread.sleep(2000);}catch(Exception e){}
+
+		}
+		//}
 
 		//        TODO Most likely want to be running the below in each of the neck servo positions
 		//        after done taking all the shots and processing them, want to update the particle filter

@@ -10,6 +10,7 @@ public class GateController extends ServoController {
 
     public GateController(Publisher<ArmMsg> armPWMPub) {
         super(GATE_OPEN_PWM, GATE_CLOSED_PWM, Math.PI/2, GATE_CLOSED_PWM, GATE_OPEN_PWM, armPWMPub);
+		this.messageIndex = 1;
     }
 
     /**

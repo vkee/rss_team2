@@ -5,8 +5,7 @@ import org.ros.message.rss_msgs.*;
 
 public class NeckController {
 	//	The indices of the servos in the PWM array
-	private final int TOP_PWM_INDEX = 0;
-	private final int BOT_PWM_INDEX = 2;
+
 	private final int OTHER_PWM_INDEX = 1;
 
 	public TopNeckController top;
@@ -22,10 +21,10 @@ public class NeckController {
 	 * for the camera to be pointed at the desired angle.
 	 * @param angle the desired angle
 	 */
-	private double[] bottomAndTopAngle(double angle){
-		angle %= 360;
-		if (angle > 180){
-			return new double[]{180.0, angle-180};
+	public double[] bottomAndTopAngle(double angle){
+		angle %= 2*Math.PI;
+		if (angle > Math.PI){
+			return new double[]{Math.PI, angle-Math.PI};
 		} else{
 			return new double[]{0.0, angle};
 		}
@@ -38,12 +37,15 @@ public class NeckController {
 	 */
 	public void goToAngle(double angle, int[] pwm){
 		double[] angles = bottomAndTopAngle(angle);
-
+		
+		System.out.println(bottom.rotateTo(angles[0], pwm) + " - " +top.rotateTo(angles[1], pwm));
 		// order: bottom, gate, top
-		top.sendPWM(bottom.rotateTo(angles[0], pwm[BOT_PWM_INDEX]),
-				pwm[OTHER_PWM_INDEX],top.rotateTo(angles[1], pwm[TOP_PWM_INDEX]));
-		System.out.println("Bottom PWM: " + bottom.rotateTo(angles[0], pwm[BOT_PWM_INDEX]));
-		System.out.println("Top PWM: " + top.rotateTo(angles[1], pwm[TOP_PWM_INDEX]));
+		top.sendPWM(pwm[bottom.messageIndex],
+				pwm[OTHER_PWM_INDEX],top.rotateTo(angles[1], pwm));
+//		top.sendPWM(bottom.rotateTo(angles[0], pwm),
+//				pwm[OTHER_PWM_INDEX],pwm[top.messageIndex]);
+		//System.out.println("Bottom PWM: " + bottom.rotateTo(angles[0], pwm[BOT_PWM_INDEX]));
+		//System.out.println("Top PWM: " + top.rotateTo(angles[1], pwm[TOP_PWM_INDEX]));
 	}
 
 	/**
@@ -54,7 +56,7 @@ public class NeckController {
 	public boolean atAngle(double angle, int[] pwm)
 	{
 		double[] angles = bottomAndTopAngle(angle);
-		return (bottom.atTarget(angles[0], pwm[BOT_PWM_INDEX]) &&
-				top.atTarget(angles[1], pwm[TOP_PWM_INDEX]));
+		return ((bottom.atTarget(angles[0], pwm)||true) &&
+				top.atTarget(angles[1], pwm));
 	}
 }

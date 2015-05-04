@@ -158,7 +158,7 @@ public class Initialize implements FSMState {
 					} 
 				}
 
-				if (!unreachable){ 
+				if (!unreacbottomhable){ 
 					objectLocations.add(loc);
 				}
 			}*/
@@ -283,8 +283,7 @@ public class Initialize implements FSMState {
 		else if (initialized)
 		{
 			//System.out.println("Done closing gate.");
-//			fsm.updateState(new WaypointNavClose(fsm));
-		    fsm.updateState(new NeckScan(fsm, null));
+			fsm.updateState(new WaypointNavClose(fsm));
 		}
 	}
 
