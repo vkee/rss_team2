@@ -33,10 +33,10 @@ public class Image {
 		float[] inDepthArray = convertDistanceArray(_inDepthArray);
 		// threshold = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
 
-		for (int i = 0; i < height; i++) {
-			for (int j = 0; j < width; j++) {
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
 				if (inDepthArray[index] > threshold) {
-					//System.out.println(inDepthArray[index]);
+					// System.out.println(inDepthArray[index]);
 					outColor.setPixel(i, j, (byte) 0, (byte) 0, (byte) 0);
 				}
 				index++;
