@@ -36,8 +36,8 @@ public class Image {
 
 		for (int i = 0; i < field_height; i++) {
 			for (int j = 0; j < field_width; j++) {
-				System.out.println("Index " + inDepthArray[index]);
-				if (inDepthArray[index] > threshold - buffer) {
+				//System.out.println("Index " + inDepthArray[index]);
+				if (inDepthArray[index] > threshold) {
 					ret.setPixel(i, j, (byte) 0, (byte) 0, (byte) 0);
 				}
 				index++;
