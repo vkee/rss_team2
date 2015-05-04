@@ -9,34 +9,39 @@ package VisualServo;
  */
 public class Image {
 
-	public static Image filterImage(Image inColor, float[] inDepthArray,
-			double field_width, double field_height, double locX, double locY,
-			double direction, double buffer) {
+	public static float[] convertDistanceArray(float[] inDepthArray) {
+		float fT = 42.775668509f;
+		float[] out = new float[inDepthArray.length];
+		for (int i = 0; i < inDepthArray.length; i++) {
+			if (inDepthArray[i] > 0) {
+				out[i] = fT / inDepthArray[i];
+			} else {
+				out[i] = 0;
+			}
+		}
+		return out;
+	}
+
+	public static void filterImage(Image inColor, Image outColor,
+			float[] _inDepthArray, int width, int height, double field_width,
+			double field_height, double locX, double locY, double direction,
+			double buffer) {
 		// direction is a degree measurement from 0-360? or is in radians, yet
 		// to decide
 		int index = 0;
-		double threshold = 0;
-		double diffX = 0;
-		double diffY = 0;
-		if (direction <= Math.PI) {
-			diffX = Math.cos(direction) * (field_height - locY);
-			diffY = Math.sin(direction) * (field_width - locX);
-		} else {
-			diffX = Math.cos(direction) * (locY);
-			diffY = Math.sin(direction) * (locX);
-		}
-		threshold = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
-		Image ret = new Image(inColor);
+		double threshold = 1;
+		float[] inDepthArray = convertDistanceArray(_inDepthArray);
+		// threshold = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
 
-		for (int i = 0; i < field_height; i++) {
-			for (int j = 0; j < field_width; j++) {
-				if (inDepthArray[index] > threshold - buffer) {
-					ret.setPixel(i, j, (byte) 0, (byte) 0, (byte) 0);
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				if (inDepthArray[index] > threshold) {
+					// System.out.println(inDepthArray[index]);
+					outColor.setPixel(j, i, (byte) 0, (byte) 0, (byte) 0);
 				}
 				index++;
 			}
 		}
-		return ret;
 	}
 
 	public static Image floatRGB(float[] inFloat) {
