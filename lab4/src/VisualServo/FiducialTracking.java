@@ -381,7 +381,7 @@ public class FiducialTracking extends BlobTracking {
 			System.out.println("Number of Fiducials " + fos.size());
 			for (FiducialObject fo : fos) {
 				System.out.println("Fiducial Number " + fo.getFiducialNumber()
-						+ " at " + fo.getDistanceTo() + "mm away.");
+						+ " at " + fo.getDistanceTo() + "m away.");
 			}
 		}
 	}

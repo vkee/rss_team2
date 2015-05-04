@@ -9,43 +9,33 @@ package VisualServo;
  */
 public class Image {
 
-	public static Image doubleRGB(double[] inArray) {
-		Image ret = new Image(640, 480);// width = 640, height = 480
-		// System.out.println(inFloat.length + " " + inFloat.length/640.0);
-		int r = 0;
-		int g = 0;
-		int b = 0;
-		// float max = 0;
-		double ratio;
-		int value;
-		for (int i = 0; i < inArray.length; i++) {
-			ratio = inArray[i];
-			value = (int) (ratio * 255);
-			if (value > 255) {
-				value = 255;
-			}
-			if (ratio > 0.75) {
-				r = value;
-				g = 0;
-				b = 0;
-			} else if (ratio > 0.5) {
-				r = 0;
-				g = value;
-				b = 0;
-			} else if (ratio > .25) {
-				r = 0;
-				g = 0;
-				b = value;
-			} else {
-				r = value;
-				g = value;
-				b = value;
-			}
-
-			ret.setPixel((int) (i % 640.0), (int) (i / 640.0), (byte) r,
-					(byte) g, (byte) b);
+	public static Image filterImage(Image inColor, float[] inDepthArray,
+			int field_width, int field_height, double locX, double locY,
+			double direction, double buffer) {
+		// direction is a degree measurement from 0-360? or is in radians, yet
+		// to decide
+		int index = 0;
+		double threshold = 0;
+		double diffX = 0;
+		double diffY = 0;
+		if (direction <= Math.PI) {
+			diffX = Math.cos(direction) * (field_height - locY);
+			diffY = Math.sin(direction) * (field_width - locX);
+		} else {
+			diffX = Math.cos(direction) * (locY);
+			diffY = Math.sin(direction) * (locX);
 		}
-		// System.out.println(max);
+		threshold = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
+		Image ret = new Image(inColor);
+
+		for (int i = 0; i < field_height; i++) {
+			for (int j = 0; j < field_width; j++) {
+				if (inDepthArray[index] > threshold + buffer) {
+					ret.setPixel(i, j, (byte) 0, (byte) 0, (byte) 0);
+				}
+				index++;
+			}
+		}
 		return ret;
 	}
 
