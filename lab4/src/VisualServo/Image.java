@@ -36,14 +36,11 @@ public class Image {
 			for (int j = 0; j < width; j++) {
 				if (inDepthArray[index] > threshold) {
 					ret.setPixel(i, j, (byte) 0, (byte) 0, (byte) 0);
+				} else {
+					System.out.println("GOOD VALUE: " + inDepthArray[index]);
 				}
 				index++;
 			}
-		}
-		if (ret.equals(inColor)){
-			System.out.println("IS NULL");
-		}else{
-			System.out.println("NOT NULL");
 		}
 		return ret;
 	}
