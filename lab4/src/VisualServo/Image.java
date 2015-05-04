@@ -32,15 +32,15 @@ public class Image {
 		float[] inDepthArray = convertDistanceArray(_inDepthArray);
 		// threshold = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
 		Image ret = new Image(inColor);
-		/*
+		
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				if (inDepthArray[index] > threshold) {
-					ret.setPixel(i, j, (byte) 0, (byte) 0, (byte) 0);
+//					ret.setPixel(i, j, (byte) 0, (byte) 0, (byte) 0);
 				}
 				index++;
 			}
-		}*/
+		}
 		return ret;
 	}
 
