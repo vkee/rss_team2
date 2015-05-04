@@ -1,5 +1,6 @@
 package VisualServo;
 
+
 public class FiducialObject {
 	private BlobObject top;
 	private BlobObject bottom;

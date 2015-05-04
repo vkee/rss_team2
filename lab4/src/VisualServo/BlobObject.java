@@ -4,6 +4,7 @@ import java.awt.Color;
 
 public class BlobObject {
 
+
 	private Color color;
 	private int targetArea;
 	private double centroidX;
