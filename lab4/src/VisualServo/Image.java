@@ -9,23 +9,28 @@ package VisualServo;
  */
 public class Image {
 
-	public static Image filterImage(Image inColor, float[] inDepthArray,
+	public static float[] convertDistanceArray(float[] inDepthArray) {
+		float fT = 42.775668509f;
+		float[] out = new float[inDepthArray.length];
+		for (int i = 0; i < inDepthArray.length; i++) {
+			if (inDepthArray[i] > 0) {
+				out[i] = fT / inDepthArray[i];
+			} else {
+				out[i] = 0;
+			}
+		}
+		return out;
+	}
+
+	public static Image filterImage(Image inColor, float[] _inDepthArray,
 			double field_width, double field_height, double locX, double locY,
 			double direction, double buffer) {
 		// direction is a degree measurement from 0-360? or is in radians, yet
 		// to decide
 		int index = 0;
-		double threshold = 0;
-		double diffX = 0;
-		double diffY = 0;
-		if (direction <= Math.PI) {
-			diffX = Math.cos(direction) * (field_height - locY);
-			diffY = Math.sin(direction) * (field_width - locX);
-		} else {
-			diffX = Math.cos(direction) * (locY);
-			diffY = Math.sin(direction) * (locX);
-		}
-		threshold = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
+		double threshold = 4.3;
+		float[] inDepthArray = convertDistanceArray(_inDepthArray);
+		// threshold = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
 		Image ret = new Image(inColor);
 
 		for (int i = 0; i < field_height; i++) {
