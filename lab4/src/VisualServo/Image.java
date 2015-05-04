@@ -36,7 +36,7 @@ public class Image {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				if (inDepthArray[index] > threshold) {
-//					ret.setPixel(i, j, (byte) 0, (byte) 0, (byte) 0);
+					ret.setPixel(i, j, (byte) 0xff, (byte) 0xff, (byte) 0xff);
 				}
 				index++;
 			}
