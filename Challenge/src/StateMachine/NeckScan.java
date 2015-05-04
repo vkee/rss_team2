@@ -71,14 +71,25 @@ public class NeckScan implements FSMState {
 			detectedFids.addAll(blobTrack.getFiducials(src, depth_array));
 			try{Thread.sleep(2000);}catch(Exception e){}
 		}
-		for (FiducialObject fo : detectedFids) {
-			System.out.println("Distance to " + fo.getFiducialNumber() + " is "
-					+ fo.getDistanceTo() + " m");
+		
+
+         ArrayList<Integer> measuredFids = new ArrayList<Integer>();
+		
+		for (FiducialObject fids : detectedFids) {
+			System.out.println("Distance to " + fids.getFiducialNumber() + " is "
+					+ fids.getDistanceTo() + " m");
+			measuredFids.add(fids.getFiducialNumber());
 		}
+		
 		if(detectedFids.size() == 0){
 			System.out.println("No Fids Detected");
 		}
 		fsm.neckServo.fullCycle(false); // go back
+		
+		// Determining the distances to the
+        // fiducials that are in the FOV of the robot 
+		 HashMap<Integer, java.lang.Double> measuredDists = fsm.particleFilter.getFidsDists(fsm.prevPt, fsm.map, measuredFids); // //
+         fsm.particleFilter.measurementUpdate(measuredFids, measuredDists);
 		
 		//fsm.updateState(null);
 
@@ -132,16 +143,6 @@ public class NeckScan implements FSMState {
 		// after done taking all the shots and processing them, want to update
 		// the particle filter
 
-		// Get the fiducials
-		// try {
-		// src = cl.getImage();
-		// depth_array = cl.getDepthImage();
-		// detectedFids.addAll(blobTrack.getFiducials(src, depth_array));
-		// } catch (Exception e) {
-		// System.err.println("Unable to get fiducials");
-		// e.printStackTrace();
-		// }
-		//
 		//
 		// ArrayList<Integer> measuredFiducials = new ArrayList<Integer>();
 		// // Determining which fiducials are in the robot's field of view

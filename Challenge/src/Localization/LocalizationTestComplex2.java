@@ -23,6 +23,7 @@ import org.ros.message.Challenge_msgs.*;
 import Challenge.Fiducial;
 import Challenge.GrandChallengeMap;
 import MotionPlanning.CSpace;
+import MotionPlanning.CSpace3D;
 import MotionPlanning.CSpaceTest;
 import MotionPlanning.PolygonObstacle;
 import MotionPlanning.RRT;
@@ -46,7 +47,7 @@ public class LocalizationTestComplex2 implements NodeMain {
 
 	private String mapFileName;
 	private GrandChallengeMap challengeMap;
-	private CSpace cSpace;
+	private CSpace3D cSpace;
 	private ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = new ArrayList<ArrayList<PolygonObstacle>>();
 	private RRT rrt;
 	private List<Point2D.Double> rrtPath;
@@ -69,7 +70,7 @@ public class LocalizationTestComplex2 implements NodeMain {
 	private final double TOLERANCE = 0.02;
 
 	public LocalizationTestComplex2() {
-		cSpace = new CSpace();
+		cSpace = new CSpace3D();
 	}
 
 	@Override
