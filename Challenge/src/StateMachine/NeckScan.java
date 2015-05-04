@@ -94,10 +94,11 @@ public class NeckScan implements FSMState {
 //		}
 //
 //
-//		//        Determining which fiducials are in the robot's field of view
-//		for (FiducialObject fid : detectedFids) {
-//
-//		}
+		ArrayList<Integer> measuredFiducials = new ArrayList<Integer>();
+		//        Determining which fiducials are in the robot's field of view
+		for (FiducialObject fid : detectedFids) {
+		    measuredFiducials.add(fid.getFiducialNumber());
+		}
 
 		//          
 		//          
