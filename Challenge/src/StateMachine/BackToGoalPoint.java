@@ -48,7 +48,7 @@ public class BackToGoalPoint implements FSMState {
 		waypointNavigator.wayptNav(message.x, message.y, message.theta);
 
 		if (waypointNavigator.isDone()) {
-			fsm.updateState(new NeckScan(fsm));
+			//fsm.updateState(new NeckScan(fsm));
 		}
 
 	}

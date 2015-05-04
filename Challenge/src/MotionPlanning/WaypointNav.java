@@ -17,8 +17,8 @@ public class WaypointNav {
     private final boolean wayptNav_debug = false;
 
     // The waypoint tolerance defining whether the robot is at a waypoint
-    private final double WAYPT_TOL = 0.05; // in meters
-    private final double WAYPT_TOL_THETA = 0.1; // in radians
+    public static final double WAYPT_TOL = 0.05; // in meters
+    public static final double WAYPT_TOL_THETA = 0.1; // in radians
 
     private final double FWD_GAIN = 1.0; // may need to change to 0.1 if runs into things and off waypoints
     private final double ROT_GAIN = .3;

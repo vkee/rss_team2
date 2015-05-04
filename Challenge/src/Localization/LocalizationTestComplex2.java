@@ -92,6 +92,7 @@ public class LocalizationTestComplex2 implements NodeMain {
 
 			guiErasePub.publish(new GUIEraseMsg());
 			//            Thread.sleep(1000);
+
 			
 			challengeMap = new GrandChallengeMap();
 			challengeMap = challengeMap.parseFile(mapFileName);
