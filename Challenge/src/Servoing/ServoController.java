@@ -162,5 +162,12 @@ public class ServoController {
         // System.out.println("message sent");
         // System.out.println(Arrays.toString(pwm_stat));
     }
-
+    
+    public static int[] messageConvert(long[] origMsg){
+    	int[] messagePWMs = new int[3];
+		messagePWMs[0] = (int) origMsg[0]; // convert from long to int
+		messagePWMs[1] = (int) origMsg[1]; // convert from long to int
+		messagePWMs[2] = (int) origMsg[2]; // convert from long to int
+    	return messagePWMs;
+    }
 }

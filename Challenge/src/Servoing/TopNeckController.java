@@ -5,11 +5,11 @@ import org.ros.message.rss_msgs.*;
 
 public class TopNeckController extends ServoController {
 
-    private static final int TOP_PWM_0 = 726;
-    private static final int TOP_PWM_180 = 2371;
+    private static final int TOP_PWM_0 = 2340;
+    private static final int TOP_PWM_180 = 675;
 
     public TopNeckController(Publisher<ArmMsg> armPWMPub) {
-            super(TOP_PWM_0, TOP_PWM_180, Math.PI, TOP_PWM_0, TOP_PWM_180, armPWMPub);
+            super(TOP_PWM_180, TOP_PWM_0, Math.PI, TOP_PWM_0, TOP_PWM_180, armPWMPub);
     }
 
     /**

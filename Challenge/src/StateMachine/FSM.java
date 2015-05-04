@@ -71,7 +71,7 @@ public class FSM implements NodeMain{
     //public HashSet<Integer> visited;
 
     protected String mapFileName;
-    public GrandChallengeMap map;
+    public GrandChallengeMap map; 
     private Publisher<GUIRectMsg> guiRectPub;
     private Publisher<GUIPolyMsg> guiPolyPub;
     private Publisher<GUIEraseMsg> guiErasePub;
