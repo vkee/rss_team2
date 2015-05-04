@@ -3,7 +3,6 @@ package Servoing;
 import org.ros.node.topic.Publisher;
 import org.ros.message.rss_msgs.*;
 
-
 public class ServoController {
     protected int       MIN_PWM;
     protected int       MAX_PWM;
@@ -141,8 +140,6 @@ public class ServoController {
         return currPWM == MAX_PWM;
     }
     
-    
-
 	/**
 	 * Sends PWM commands to neck and gate servos by publishing 
 	 * an ArmMsg with desired PWM commands to the armPWMPub 
