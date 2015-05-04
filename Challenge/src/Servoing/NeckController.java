@@ -32,11 +32,12 @@ public class NeckController {
 		
 		// order: bottom, gate, top
 		top.sendPWM(
-				top.rotateTo(angles[0], pwm[BOT_PWM_INDEX]),
+				bottom.rotateTo(angles[0], pwm[BOT_PWM_INDEX]),
 				pwm[OTHER_PWM_INDEX],
 				top.rotateTo(angles[1], pwm[TOP_PWM_INDEX])
 				);
-		
+		System.out.println("Bottom PWM: " + bottom.rotateTo(angles[0], pwm[BOT_PWM_INDEX]));
+		System.out.println("Top PWM: " + top.rotateTo(angles[1], pwm[TOP_PWM_INDEX]));
 		}
 	
 	public boolean atAngle(double angle, int[] pwm)

@@ -83,6 +83,7 @@ public class ApproachBlock implements FSMState {
 			if (waypointNavigator.isDone()) {
 				System.out.println("At waypoint.");
 				fsm.updateState(new WaypointNavClose(fsm));
+				//fsm.updateState(new NeckScan(fsm, mbt));
 			}
 		}
 	}

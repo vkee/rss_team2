@@ -44,54 +44,52 @@ public class Initialize implements FSMState {
 			e.printStackTrace();
 		}
 
-<<<<<<< HEAD
-			//            Using 2D CSpace *************************************************
-			//            CSpace2D cSpace = new CSpace2D();
-			//            ArrayList<PolygonObstacle> cSpaces = cSpace.generateCSpace(
-			//                    challengeMap, false);
-			//            challengeMap.cSpace = cSpaces;
-			//            fsm.mapDrawer.displayMap(challengeMap);
-			//
-			//            fsm.mapDrawer.displayMapCSpace(cSpaces);
-			//
-			//            //			Initialize the particle filter
-			//            Double robotStartPos = challengeMap.getRobotStart();
-			//
-			//            fsm.particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, 
-			//                    fsm.PARTICLE_FILTER_RADIUS, fsm.NUM_PARTICLES, challengeMap, fsm.TRANS_NOISE, 
-			//                    fsm.ROT_NOISE, fsm.SENSOR_NOISE);
-			//
-			//            fsm.prevPt = robotStartPos;
-			//
-			//            ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
-			//            for (ConstructionObject cobj : challengeMap
-			//                    .getConstructionObjects()) {
-			//                boolean unreachable = false;
-			//                Point2D.Double loc = cobj.getPosition();
-			//
-			//                for (PolygonObstacle obs : cSpaces) {
-			//                    if (obs.contains(loc)) {
-			//                        unreachable = true;
-			//                        break;
-			//                    }
-			//                }
-			//
-			//                if (!unreachable) {
-			//                    objectLocations.add(loc);
-			//                }
-			//            }
+		//            Using 2D CSpace *************************************************
+		//            CSpace2D cSpace = new CSpace2D();
+		//            ArrayList<PolygonObstacle> cSpaces = cSpace.generateCSpace(
+		//                    challengeMap, false);
+		//            challengeMap.cSpace = cSpaces;
+		//            fsm.mapDrawer.displayMap(challengeMap);
+		//
+		//            fsm.mapDrawer.displayMapCSpace(cSpaces);
+		//
+		//            //			Initialize the particle filter
+		//            Double robotStartPos = challengeMap.getRobotStart();
+		//
+		//            fsm.particleFilter = new ParticleFilter(robotStartPos.x, robotStartPos.y, 0.0, 
+		//                    fsm.PARTICLE_FILTER_RADIUS, fsm.NUM_PARTICLES, challengeMap, fsm.TRANS_NOISE, 
+		//                    fsm.ROT_NOISE, fsm.SENSOR_NOISE);
+		//
+		//            fsm.prevPt = robotStartPos;
+		//
+		//            ArrayList<Point2D.Double> objectLocations = new ArrayList<Point2D.Double>();
+		//            for (ConstructionObject cobj : challengeMap
+		//                    .getConstructionObjects()) {
+		//                boolean unreachable = false;
+		//                Point2D.Double loc = cobj.getPosition();
+		//
+		//                for (PolygonObstacle obs : cSpaces) {
+		//                    if (obs.contains(loc)) {
+		//                        unreachable = true;
+		//                        break;
+		//                    }
+		//                }
+		//
+		//                if (!unreachable) {
+		//                    objectLocations.add(loc);
+		//                }
+		//            }
 
-			//            Using 3D Cspace *************************************************
-			CSpace3D cSpace3D = new CSpace3D();
-			ArrayList<ArrayList<PolygonObstacle>> obsCSpaces =
-					cSpace3D.generateCSpace(challengeMap, false);
-			challengeMap.set3DCSpace(obsCSpaces);
-			fsm.mapDrawer.displayMap(challengeMap);
-			fsm.map = challengeMap;
+		//            Using 3D Cspace *************************************************
+		CSpace3D cSpace3D = new CSpace3D();
+		ArrayList<ArrayList<PolygonObstacle>> obsCSpaces =
+				cSpace3D.generateCSpace(challengeMap, false);
+		challengeMap.set3DCSpace(obsCSpaces);
+		fsm.mapDrawer.displayMap(challengeMap);
+		fsm.map = challengeMap; 
 
-			// 2D CSpace for checking if can reach obstacles CSpace2D
-			/*CSpace2D cSpace2D = new CSpace2D();
-=======
+		// 2D CSpace for checking if can reach obstacles CSpace2D
+		/*CSpace2D cSpace2D = new CSpace2D();
 		//            Using 2D CSpace *************************************************
 		//            CSpace2D cSpace = new CSpace2D();
 		//            ArrayList<PolygonObstacle> cSpaces = cSpace.generateCSpace(
@@ -138,7 +136,6 @@ public class Initialize implements FSMState {
 
 		// 2D CSpace for checking if can reach obstacles CSpace2D
 		/*CSpace2D cSpace2D = new CSpace2D();
->>>>>>> e4ef3abfc3ede506c1c7116303693038f0f989fa
 			ArrayList<PolygonObstacle> obs2DCSpaces = cSpace2D.generateCSpace(challengeMap, false);
 			fsm.mapDrawer.displayMapCSpace(obs2DCSpaces);
 
