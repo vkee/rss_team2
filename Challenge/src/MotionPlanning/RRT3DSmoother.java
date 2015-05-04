@@ -40,7 +40,8 @@ public class RRT3DSmoother {
 			}
 		}
 		System.out.println(removes.size()+ " of "+path.size());
-		if (removes.size()==0) return path;
+		if (removes.size()==0) 
+			{return path;}
 		for (int k=removes.size()-1; k>=0; k--)
 			{path.remove((int)removes.get(k));}
 		return smoothPath(path);

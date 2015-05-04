@@ -71,7 +71,7 @@ public class ApproachBlock implements FSMState {
 			blockInVision = false;
 			e.printStackTrace();
 		}
-		if (blockInVision) {
+		if (blockInVision || false) {
 			System.out.println("BLOCK IN VISION!!!!");
 			fsm.updateState(new VisualServoCollect(fsm, mbt));
 		} else {
@@ -81,7 +81,7 @@ public class ApproachBlock implements FSMState {
 			waypointNavigator.wayptNav(message.x, message.y, message.theta);
 
 			if (waypointNavigator.isDone()) {
-				System.out.println("At waypoint.");
+				//System.out.println("At waypoint.");
 				fsm.updateState(new WaypointNavClose(fsm));
 				//fsm.updateState(new NeckScan(fsm, mbt));
 			}

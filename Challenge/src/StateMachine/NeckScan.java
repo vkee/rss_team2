@@ -67,7 +67,7 @@ public class NeckScan implements FSMState {
 		if (fsm.neckServo.atAngle(neckAngleTarget, pwms)) { //process image
 			System.out.println("Processing image at: "+neckAngleTarget);
 			try{
-				Thread.sleep(1000); //update fiducial and goal lists 
+				Thread.sleep(5000); //update fiducial and goal lists 
 			}catch(Exception e){
 				
 			}
