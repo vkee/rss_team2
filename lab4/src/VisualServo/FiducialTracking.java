@@ -258,9 +258,10 @@ public class FiducialTracking extends BlobTracking {
 						System.out.println(top.getCentroidX()
 								- bottom.getCentroidX());
 						System.out.print("Y: ");
-						System.out.println(top.getCentroidY()
-								- bottom.getCentroidY());
 
+						System.out.println(Math.abs(bottom.getCentroidY()
+								- top.getCentroidY()
+								- (top.getRadius() + bottom.getRadius())));
 					}
 					System.out.println("isAbove "
 							+ isAbove(top, bottom, 0.1, 0.1));
