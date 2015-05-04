@@ -78,8 +78,8 @@ public class VisualServoCollect implements FSMState {
 		//if condition to leave state
 		if(blobTrack.isDone()){
 			System.out.println("Changing state from VisualServoCollect to MoveForward...");
-			fsm.updateState(new MoveForward(fsm));
-
+			//fsm.updateState(new MoveForward(fsm));
+			fsm.updateState(new WaypointNavClose(fsm));
 		}
 //		System.out.println("End Update");
 	}
