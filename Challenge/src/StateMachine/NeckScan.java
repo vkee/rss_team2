@@ -67,6 +67,7 @@ public class NeckScan implements FSMState {
 		if (fsm.neckServo.atAngle(neckAngleTarget, pwms)) { //process image
 			System.out.println("Processing image at: "+neckAngleTarget);
 			try{
+//			    TODO: this should be changed to boolean flags that the visual processing stuff updates
 				Thread.sleep(5000); //update fiducial and goal lists 
 			}catch(Exception e){
 				
@@ -94,9 +95,10 @@ public class NeckScan implements FSMState {
 //		}
 //
 //
+//		ArrayList<Integer> measuredFiducials = new ArrayList<Integer>();
 //		//        Determining which fiducials are in the robot's field of view
 //		for (FiducialObject fid : detectedFids) {
-//
+//		    measuredFiducials.add(fid.getFiducialNumber());
 //		}
 
 		//          

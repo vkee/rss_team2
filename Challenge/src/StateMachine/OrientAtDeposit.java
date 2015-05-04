@@ -39,7 +39,7 @@ public class OrientAtDeposit implements FSMState {
 
 		//if condition to leave state
 		System.out.println("Done orienting at deposit site.");
-		//fsm.updateState(new NextState(fsm));
+		fsm.updateState(new OpenGate(fsm));
 
 		}
 
