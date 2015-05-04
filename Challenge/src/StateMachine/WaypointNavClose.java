@@ -42,9 +42,9 @@ public class WaypointNavClose implements FSMState {
 		if (finalGoal == null)	//no path to goal point left, go to deposit site
 		{
 			if (fsm.foundPaths.getPathToGoal(fsm.currentLocation) != null)
-				{fsm.updateState(new WaypointNavDeposit(fsm));}
+			{fsm.updateState(new WaypointNavDeposit(fsm));}
 			else 
-				{System.out.println("need to go backwards");}
+			{System.out.println("need to go backwards");}
 
 		} else {
 			waypoints = fsm.foundPaths.getPath(fsm.currentLocation, finalGoal);
@@ -55,14 +55,14 @@ public class WaypointNavClose implements FSMState {
 
 			} else {
 				Point2D.Double goalpt = waypoints.get(waypoints.size()-1);
-				
+
 				fsm.currentPath = waypoints;
 
 				waypointNavigator = new WaypointNav(waypoints, goalpt, fsm);
 			}
 		}		
 	}
-	
+
 	public stateENUM getName() {return stateENUM.WNCLOSE;}
 
 
@@ -83,22 +83,16 @@ public class WaypointNavClose implements FSMState {
 
 		//if condition to leave state (one waypoint away)
 		//if (atWaypoint >= waypoints.size()-2)
-		
-		System.out.println("Angle:" + fsm.RRTengine.getAngle(message.x, message.y, finalGoal.x, finalGoal.x));
-		System.out.println("message.theta:" + message.theta);
-		
-		
+
+		//System.out.println("Angle:" + fsm.RRTengine.getAngle(message.x, message.y, finalGoal.x, finalGoal.x));
+		//System.out.println("message.theta:" + message.theta);
+
+
 		if (RRTreeNode.distance(new Point2D.Double(message.x, message.y), finalGoal) <= fsm.BLOCKVISUAL_DIST
-				&& Math.abs(fsm.RRTengine.getAngle(message.x, message.y, finalGoal.x, finalGoal.x)-message.theta) <= WaypointNav.WAYPT_TOL_THETA) {
-		//if (waypointNavigator.isDone()) {
+				)//&& Math.abs(fsm.RRTengine.getAngle(message.x, message.y, finalGoal.x, finalGoal.x)-message.theta) <= WaypointNav.WAYPT_TOL_THETA) {
+			//if (waypointNavigator.isDone()) {
 			fsm.updateState(new ApproachBlock(fsm, finalGoal));
-		}
-		//	{fsm.updateState(new ApproachBlock(fsm, finalGoal));}		//Approach until visual servo
-
 	}
-
-
-
-
+	//	{fsm.updateState(new ApproachBlock(fsm, finalGoal));}		//Approach until visual servo
 
 }

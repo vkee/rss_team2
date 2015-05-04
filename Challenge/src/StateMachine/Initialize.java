@@ -16,6 +16,7 @@ import MotionPlanning.MultiRRT3D;
 import MotionPlanning.PolygonObstacle;
 import MotionPlanning.RRT3DSmoother;
 import MotionPlanning.RRTreeNode;
+import Servoing.ServoController;
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
 
@@ -86,6 +87,7 @@ public class Initialize implements FSMState {
 				cSpace3D.generateCSpace(challengeMap, false);
 		challengeMap.set3DCSpace(obsCSpaces);
 		fsm.mapDrawer.displayMap(challengeMap);
+//		fsm.mapDrawer.displayMapCSpace(obsCSpaces.get(0));
 		fsm.map = challengeMap; 
 
 		// 2D CSpace for checking if can reach obstacles CSpace2D
@@ -195,8 +197,10 @@ public class Initialize implements FSMState {
 		fsm.foundPaths = new GoalAdjLists(end);
 		RRT3DSmoother smoother = new RRT3DSmoother(fsm.RRTengine);
 
-		Point2D.Double currLocation = start;
-		while (objectLocations.size() > 0) {
+		//Point2D.Double currLocation = start;
+		///while (objectLocations.size() > 0) {
+		objectLocations.add(start);
+		for (Point2D.Double currLocation : objectLocations) {
 			/*System.out.println("starting loc " + currLocation);
 				System.out.println("Printing locs");
 				for (Point2D.Double locs : objectLocations) {
@@ -230,14 +234,16 @@ public class Initialize implements FSMState {
 
 				fsm.foundPaths.addBiPath(currLocation,
 						objectLocations.get(i), path, dist);
-			}
+			}					System.out.println("done processing");
 
-			currLocation = objectLocations.remove(0);
+
+			//currLocation = objectLocations.remove(0);
 		}
 
 
 
 		initialized = true;
+		System.out.println("initialized");
 
 	}
 
@@ -249,18 +255,18 @@ public class Initialize implements FSMState {
 	public boolean accepts(msgENUM msgType) {
 		// if (msgType == msgENUM.WHEELS) return true;
 		if (msgType == msgENUM.SERVO) {
-			return false;
+			return true;
 		}
 		if (msgType == null && initialized) {
-			return true;
+			return false;
 		}
 		return false;
 	}
 
 	public void update(GenericMessage msg) {
 		// do stuff
-		/*System.out.println("Hi. I'm a robot.");
-		System.out.println("My current state is: Initialize.");
+		//System.out.println("Hi. I'm a robot.");
+		//System.out.println("My current state is: Initialize.");
 
 
 		// get gate PWM value from arm message
@@ -270,26 +276,16 @@ public class Initialize implements FSMState {
 		// if gate is not closed, close gate
 		if (!fsm.gateServo.isClosed(gatePWM))
 		{
-			int[] messagePWMs = new int[3];
-			messagePWMs[0] = (int) message.pwms[0]; // convert from long to int
-			messagePWMs[1] = (int) message.pwms[1]; // convert from long to int
-			messagePWMs[2] = (int) message.pwms[2]; // convert from long to int
-			fsm.gateServo.close(messagePWMs);
+			fsm.gateServo.close(ServoController.messageConvert(message.pwms));
 			//  System.out.println("CurrPWM: "+gatePWM);
-			System.out.println("Trying to close gate.");
+			//System.out.println("Trying to close gate.");
 		}
-		else //if condition to leave state
+		else if (initialized)
 		{
-			System.out.println("Done closing gate.");
-			//fsm.updateState(new MoveForward(fsm));
+			//System.out.println("Done closing gate.");
+//			fsm.updateState(new WaypointNavClose(fsm));
+		    fsm.updateState(new NeckScan(fsm, null));
 		}
-
-
-		// if condition to leave state
-		System.out.println("Initialization complete. TIME TO GO COLLECT SOME BLOCKS!");
-		System.out.println("ARE YOU EXCITED?");
-		System.out.println("I'M EXCITED!!!");*/
-		fsm.updateState(new WaypointNavClose(fsm));
 	}
 
 	@Override
