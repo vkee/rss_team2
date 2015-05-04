@@ -245,12 +245,13 @@ public class FiducialTracking extends BlobTracking {
 
 	public void sortBlobs() {
 		boolean isTopFiducial;
-		System.out.println("-- " + bos.size() + "--");
+		//System.out.println("-- " + bos.size() + "--");
 		for (int j = 0; j < bos.size(); j++) {
 			BlobObject top = bos.get(j);
 			isTopFiducial = false;
 			for (int k = 0; k < bos.size(); k++) {
 				BlobObject bottom = bos.get(k);
+				/*
 				if (!top.equals(bottom)) {
 					if (!isAbove(top, bottom, 5, 5)) {
 						System.out.print("X: ");
@@ -264,7 +265,7 @@ public class FiducialTracking extends BlobTracking {
 					}
 					System.out.println("isAbove "
 							+ isAbove(top, bottom, 5, 5));
-				}
+				}*/
 				if (!top.equals(bottom)
 						&& isFiducialColorMatch(top, bottom) != -1
 						&& isAbove(top, bottom, 5, 5)) {
