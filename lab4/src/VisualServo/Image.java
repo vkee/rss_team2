@@ -9,6 +9,7 @@ package VisualServo;
  */
 public class Image {
 
+
 	public static Image filterImage(Image inColor, float[] inDepthArray,
 			double field_width, double field_height, double locX, double locY,
 			double direction, double buffer) {
