@@ -84,7 +84,7 @@ public class WaypointNavClose implements FSMState {
 		//if condition to leave state (one waypoint away)
 		//if (atWaypoint >= waypoints.size()-2)
 		
-		if (RRTreeNode.distance(new Point2D.Double(message.x, message.y), finalGoal) <= fsm.BLOCKVISUAL_DIST) {
+		if (true||RRTreeNode.distance(new Point2D.Double(message.x, message.y), finalGoal) <= fsm.BLOCKVISUAL_DIST) {
 		//if (waypointNavigator.isDone()) {
 			fsm.updateState(new ApproachBlock(fsm, finalGoal));
 		}

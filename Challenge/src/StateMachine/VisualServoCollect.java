@@ -86,11 +86,8 @@ public class VisualServoCollect implements FSMState {
 
 	private void updateFlap(GenericMessage msg){
 
-		//TODO: add bump message handling
-		//TODO: increment counter of collected blocks
-			// do we have a counter for this yet?
-		System.out.println("Block collected!");
-		System.out.println("Changing state from VisualServoCollect to BackToGoalPoint...");
+
+		//System.out.println("Changing state from VisualServoCollect to BackToGoalPoint...");
 		//fsm.updateState(new BackToGoalPoint(fsm, true))
 
 }

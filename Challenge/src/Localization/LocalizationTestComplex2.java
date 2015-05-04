@@ -92,8 +92,8 @@ public class LocalizationTestComplex2 implements NodeMain {
 
 			guiErasePub.publish(new GUIEraseMsg());
 			//            Thread.sleep(1000);
-
-			challengeMap = GrandChallengeMap.parseFile(mapFileName);
+			GrandChallengeMap mapReader = new GrandChallengeMap();
+			challengeMap = mapReader.parseFile(mapFileName);
 			obsCSpaces = cSpace.generateCSpace(challengeMap, false);            //this was adding the robot as an OBSTACLE!!! was true TODO
 			challengeMap.set3DCSpace(obsCSpaces);
 			rrt = new RRT(challengeMap);
