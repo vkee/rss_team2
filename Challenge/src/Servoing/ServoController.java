@@ -7,13 +7,14 @@ public class ServoController {
     protected int       MIN_PWM;
     protected int       MAX_PWM;
     protected double    THETA_RANGE;          // in radians
-    protected int       PWM_0;                // PWM value at the 0 radians position
-    protected int       PWM_180;              // PWM value at the PI/2  position
+    public int       PWM_0;                // PWM value at the 0 radians position
+    public int       PWM_180;              // PWM value at the PI/2  position
     protected double    LINE_SLOPE;           // slope of the line between PWM_90 and PWM_0
     protected double    LINE_THETA_INTERCEPT; // intercept of the line between PWM_90 and PWM_0
     protected int       MAX_PWM_CHANGE;       // the largest PWM change in value that can be safety written to the servo (for 1 radian of rotation)
     protected int       SHIFT_AMOUNT = 10;    // number of divisions of the rotation
     private Publisher<ArmMsg> armPWMPub;
+    public int messageIndex;
  
     
     public ServoController(int minPWM, int maxPWM, double thetaRange, int pwm0, int pwm180, Publisher<ArmMsg> armPWMPub) {
@@ -58,11 +59,11 @@ public class ServoController {
         }
     }
 
-    public boolean atTarget(double angle, int currentPWM)
-    {return getPWM(angle)==currentPWM;}
+    public boolean atTarget(double angle, int[] currentPWMs)
+    {return getPWM(angle)==currentPWMs[messageIndex];}
 
-    public boolean atTargetPWM(int target, int currentPWM)
-    {return target==currentPWM;}
+    public boolean atTargetPWM(int target, int[] currentPWMs)
+    {return target==currentPWMs[messageIndex];}
 
     /**
      * Computes the PWM to write to the servo taking into the constraint of not moving more than 1 radian per control step
@@ -79,8 +80,12 @@ public class ServoController {
         } else {
             correction = -Math.min(-correction, MAX_PWM_CHANGE);
         }
+        
+        int corrected = currPWM + correction;
+        if (Math.signum(desPWM-corrected) != Math.signum(correction))		//passed it
+        	corrected = desPWM;
 
-        return currPWM + correction;
+        return Math.max(Math.min(corrected, MAX_PWM), MIN_PWM);
     }
 
     /**
@@ -102,23 +107,23 @@ public class ServoController {
         }
     }
 
-    public int rotateTo(double angle, int currPWM) {
+    public int rotateTo(double angle, int[] currPWMs) {
         //        int correction;
-        int diff = (getPWM(angle)-currPWM);
+        int diff = (getPWM(angle)-currPWMs[messageIndex]);
         if (diff!=0)
         	{int direction = diff/Math.abs(diff);
-        	return Math.max(Math.min(currPWM + direction*(MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MAX_PWM), MIN_PWM);}
-        else return currPWM;
+        	return Math.max(Math.min(currPWMs[messageIndex] + direction*(MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MAX_PWM), MIN_PWM);}
+        else return currPWMs[messageIndex];
     } 
 
 
-    public int rotateToPWM(int target, int currPWM) {
-        int diff = (target-currPWM);
+    public int rotateToPWM(int target, int[] currPWMs) {
+        int diff = (target-currPWMs[messageIndex]);
         if (diff!=0){
             int direction = diff/Math.abs(diff);
-            return Math.max(Math.min(currPWM + direction*(MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MAX_PWM), MIN_PWM);
+            return Math.max(Math.min(currPWMs[messageIndex] + direction*(MAX_PWM - MIN_PWM)/SHIFT_AMOUNT, MAX_PWM), MIN_PWM);
         } else {
-            return currPWM;
+            return currPWMs[messageIndex];
         }
     } 
 

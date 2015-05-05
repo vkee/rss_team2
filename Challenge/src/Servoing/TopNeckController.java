@@ -10,6 +10,7 @@ public class TopNeckController extends ServoController {
 
 	public TopNeckController(Publisher<ArmMsg> armPWMPub) {
 		super(TOP_PWM_180, TOP_PWM_0, Math.PI, TOP_PWM_0, TOP_PWM_180, armPWMPub);
+		this.messageIndex = 2;
 	}
 
 	/**

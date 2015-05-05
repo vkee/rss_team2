@@ -23,6 +23,7 @@ import org.ros.message.Challenge_msgs.*;
 import Challenge.Fiducial;
 import Challenge.GrandChallengeMap;
 import MotionPlanning.CSpace;
+import MotionPlanning.CSpace3D;
 import MotionPlanning.CSpaceTest;
 import MotionPlanning.PolygonObstacle;
 import MotionPlanning.RRT;
@@ -46,7 +47,7 @@ public class LocalizationTestComplex2 implements NodeMain {
 
 	private String mapFileName;
 	private GrandChallengeMap challengeMap;
-	private CSpace cSpace;
+	private CSpace3D cSpace;
 	private ArrayList<ArrayList<PolygonObstacle>> obsCSpaces = new ArrayList<ArrayList<PolygonObstacle>>();
 	private RRT rrt;
 	private List<Point2D.Double> rrtPath;
@@ -69,7 +70,7 @@ public class LocalizationTestComplex2 implements NodeMain {
 	private final double TOLERANCE = 0.02;
 
 	public LocalizationTestComplex2() {
-		cSpace = new CSpace();
+		cSpace = new CSpace3D();
 	}
 
 	@Override
@@ -186,27 +187,27 @@ public class LocalizationTestComplex2 implements NodeMain {
 	private ArrayList<Point2D.Double> generateTestPath(Double startPoint){
 		ArrayList<Point2D.Double> testPath = new ArrayList<Point2D.Double>();
 
-		testPath.add(new Point2D.Double(0.43, 1.0));
-		testPath.add(new Point2D.Double(1.0, 0.63));
-		testPath.add(new Point2D.Double(2.0, 0.63));
-		testPath.add(new Point2D.Double(2.0, 1.0));
-		testPath.add(new Point2D.Double(2.0, 2.0));
-		testPath.add(new Point2D.Double(1.0, 2.0));
-		testPath.add(new Point2D.Double(1.0, 2.7));
-		testPath.add(new Point2D.Double(1.0, 2.0));
-		testPath.add(new Point2D.Double(2.0, 2.0));
-		testPath.add(new Point2D.Double(2.0, 1.4));
-		testPath.add(new Point2D.Double(3.0, 1.0));
-		testPath.add(new Point2D.Double(3.5, 0.6));
-		testPath.add(new Point2D.Double(4.0, 1.0));
-		testPath.add(new Point2D.Double(2.8, 1.6));
-		testPath.add(new Point2D.Double(2.7, 2.6));
-		testPath.add(new Point2D.Double(4.3, 2.6));
-		testPath.add(new Point2D.Double(4.3, 2.1));
-		testPath.add(new Point2D.Double(3.5, 2.7));
-		testPath.add(new Point2D.Double(2.7, 2.3));
-		testPath.add(new Point2D.Double(2.65, 1.3));
-		testPath.add(new Point2D.Double(2.3, 1.3));
+		testPath.add(new Point2D.Double(0.43 - 0.6, 1.0 - 0.6));
+		testPath.add(new Point2D.Double(1.0 - 0.6, 0.63 - 0.6));
+		testPath.add(new Point2D.Double(2.0 - 0.6, 0.63 - 0.6));
+		testPath.add(new Point2D.Double(2.0 - 0.6, 1.0 - 0.6));
+		testPath.add(new Point2D.Double(2.0 - 0.6, 2.0 - 0.6));
+		testPath.add(new Point2D.Double(1.0 - 0.6, 2.0 - 0.6));
+		testPath.add(new Point2D.Double(1.0 - 0.6, 2.7 - 0.6));
+		testPath.add(new Point2D.Double(1.0 - 0.6, 2.0 - 0.6));
+		testPath.add(new Point2D.Double(2.0 - 0.6, 2.0 - 0.6));
+		testPath.add(new Point2D.Double(2.0 - 0.6, 1.4 - 0.6));
+		testPath.add(new Point2D.Double(3.0 - 0.6, 1.0 - 0.6));
+		testPath.add(new Point2D.Double(3.5 - 0.6, 0.6 - 0.6));
+		testPath.add(new Point2D.Double(4.0 - 0.6, 1.0 - 0.6));
+		testPath.add(new Point2D.Double(2.8 - 0.6, 1.6 - 0.6));
+		testPath.add(new Point2D.Double(2.7 - 0.6, 2.6 - 0.6));
+		testPath.add(new Point2D.Double(4.3 - 0.6, 2.6 - 0.6));
+		testPath.add(new Point2D.Double(4.3 - 0.6, 2.1 - 0.6));
+		testPath.add(new Point2D.Double(3.5 - 0.6, 2.7 - 0.6));
+		testPath.add(new Point2D.Double(2.7 - 0.6, 2.3 - 0.6));
+		testPath.add(new Point2D.Double(2.65 - 0.6, 1.3 - 0.6));
+		testPath.add(new Point2D.Double(2.3 - 0.6, 1.3 - 0.6 ));
 		
 		
 		return testPath;

@@ -9,6 +9,7 @@ package VisualServo;
  */
 public class Image {
 
+
 	public static float[] convertDistanceArray(float[] inDepthArray) {
 		float fT = 42.775668509f;
 		float[] out = new float[inDepthArray.length];

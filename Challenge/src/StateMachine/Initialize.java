@@ -158,7 +158,7 @@ public class Initialize implements FSMState {
 					} 
 				}
 
-				if (!unreachable){ 
+				if (!unreacbottomhable){ 
 					objectLocations.add(loc);
 				}
 			}*/
@@ -178,10 +178,10 @@ public class Initialize implements FSMState {
 		fsm.currentLocation = start;
 		objectLocations.add(end);
 		fsm.prevPt = start;
-		fsm.particleFilter = new ParticleFilter(start.x, start.y, 0.0, 
+//		Initialize particle filter
+		fsm.particleFilter = new ParticleFilter(start.x + fsm.CAMERA_X_POS, start.y, 0.0, 
 				fsm.PARTICLE_FILTER_RADIUS, fsm.NUM_PARTICLES, challengeMap, fsm.TRANS_NOISE, 
 				fsm.ROT_NOISE, fsm.SENSOR_NOISE);
-		System.out.println("Start Publish");
 
 		/// publishing the real start position
 		//OdometryMsg msg = new OdometryMsg();
@@ -190,8 +190,6 @@ public class Initialize implements FSMState {
 		//msg.theta = 0;
 		//fsm.odometryPub.publish(msg);
 		fsm.updateODO(start.x, start.y);
-
-		System.out.println("Published");
 
 		fsm.RRTengine = new MultiRRT3D(challengeMap);
 		fsm.foundPaths = new GoalAdjLists(end);
@@ -282,9 +280,9 @@ public class Initialize implements FSMState {
 		}
 		else if (initialized)
 		{
+			fsm.neckServo.fullCycle(true);
 			//System.out.println("Done closing gate.");
-//			fsm.updateState(new WaypointNavClose(fsm));
-		    fsm.updateState(new NeckScan(fsm, null));
+			fsm.updateState(new WaypointNavClose(fsm));
 		}
 	}
 

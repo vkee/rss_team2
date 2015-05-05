@@ -5,11 +5,12 @@ import org.ros.message.rss_msgs.*;
 
 public class GateController extends ServoController {
 
-    private static final int GATE_OPEN_PWM = 740;
-    private static final int GATE_CLOSED_PWM = 1660;
+    static final int GATE_OPEN_PWM = 740;
+    static final int GATE_CLOSED_PWM = 1660;
 
     public GateController(Publisher<ArmMsg> armPWMPub) {
         super(GATE_OPEN_PWM, GATE_CLOSED_PWM, Math.PI/2, GATE_CLOSED_PWM, GATE_OPEN_PWM, armPWMPub);
+		this.messageIndex = 1;
     }
 
     /**

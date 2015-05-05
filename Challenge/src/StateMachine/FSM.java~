@@ -92,8 +92,6 @@ public class FSM implements NodeMain{
     
     private double xOdoOffset = 0;
     private double yOdoOffset = 0;
-//    The x position of the camera wrt the robot origin in meters
-    public final double CAMERA_X_POS = 0.055;
     
     public void updateODO(double x, double y)
     	{
@@ -194,8 +192,7 @@ public class FSM implements NodeMain{
         mapDrawer = new MapDrawer(guiRectPub, guiPolyPub, guiErasePub, guiPtPub, ellipsePub, 
                 stringPub, odometrySub, motionPub);
 
-//        currentState = new Initialize(this);
-        	currentState =	    new NeckScan(this);
+        currentState = new Initialize(this);//		    new NeckScan(this, null);
 //
         inState = false;
         dispatchState(new GenericMessage(null, null));

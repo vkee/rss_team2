@@ -10,6 +10,8 @@ public class BottomNeckController extends ServoController {
 
 	public BottomNeckController(Publisher<ArmMsg> armPWMPub) {
 		super(BOTTOM_PWM_180, BOTTOM_PWM_0, Math.PI, BOTTOM_PWM_0, BOTTOM_PWM_180, armPWMPub);
+		this.messageIndex = 0;
+
 	}
 
 	/**
