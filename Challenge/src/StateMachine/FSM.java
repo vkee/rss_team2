@@ -80,6 +80,8 @@ public class FSM implements NodeMain{
     private Publisher<Object> stringPub;
     private Subscriber<OdometryMsg> odometrySub;
     public Publisher<OdometryMsg> odometryPub;
+    public Publisher<org.ros.message.sensor_msgs.Image> vidPub;
+
 
     // bumper subscriber
     private Subscriber<BumpMsg> bumpersSub;
@@ -139,6 +141,7 @@ public class FSM implements NodeMain{
         guiErasePub = node.newPublisher("gui/Erase", "lab5_msgs/GUIEraseMsg");
         guiPtPub = node.newPublisher("gui/Point", "lab5_msgs/GUIPointMsg");
         odometryPub = node.newPublisher("/rss/odometry", "rss_msgs/OdometryMsg");
+        vidPub = node.newPublisher("/rss/video", "sensor_msgs/Image");
 
         // Reading in a map file whose name is set as the parameter mapFileName
         ParameterTree paramTree = node.newParameterTree();
