@@ -35,7 +35,7 @@ public class NeckScan implements FSMState {
 	private final int NECKSTATES = 12;
 	protected FiducialTracking blobTrack = null;
 	client cl = null;
-	
+
 	int debug_count;
 
 	private ArrayList<Point2D.Double> newGoals;
@@ -45,7 +45,7 @@ public class NeckScan implements FSMState {
 		newGoals = new ArrayList<Point2D.Double>();
 		blobTrack = new FiducialTracking();
 		cl = new client();
-		
+
 		// init any variables for this state
 		debug_count = 0;
 	}
@@ -82,7 +82,9 @@ public class NeckScan implements FSMState {
 			depth_array = cl.getDepthImage();
 			Image dest = new Image(src);
 			blobTrack.apply(src, dest, depth_array);
-//	        fsm.vidPub.publish(dest);
+			org.ros.message.sensor_msgs.Image pubImage = new org.ros.message.sensor_msgs.Image();
+			Image.fillImageMsg(pubImage, dest);
+	        fsm.vidPub.publish(pubImage);
 			detectedFids.addAll(blobTrack.getFiducials(src, depth_array));
 			try{Thread.sleep(2000);}catch(Exception e){}
 		}

@@ -9,6 +9,15 @@ package VisualServo;
  */
 public class Image {
 
+	public static void fillImageMsg(org.ros.message.sensor_msgs.Image pubImage,
+			Image dest) {
+		pubImage.width = 640;
+		pubImage.height = 480;
+		pubImage.encoding = "rgb8";
+		pubImage.is_bigendian = 0;
+		pubImage.step = 640 * 3;
+		pubImage.data = dest.toArray();
+	}
 
 	public static float[] convertDistanceArray(float[] inDepthArray) {
 		float fT = 42.775668509f;
