@@ -108,7 +108,7 @@ public class FiducialTracking extends BlobTracking {
 			return 0;
 
 		} else if (top.getColor() == Color.YELLOW
-				&& bottom.getColor() == Color.RED) {
+				&& bottom.getColor() == Color.ORANGE) {
 			return 3;
 
 		} else if (top.getColor() == Color.YELLOW

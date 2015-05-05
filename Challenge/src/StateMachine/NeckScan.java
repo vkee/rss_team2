@@ -65,14 +65,15 @@ public class NeckScan implements FSMState {
 
 		// Making the Scans
 
-		// Forward
-		for (int i = 0; i < 3; i++) {
+		// Forward and Backward
+		int dir = 1;
+		for (int i = 0; i >= 0; i+=dir) {
 			fsm.neckServo.goToSettingOne(i);
 			try {
 				Thread.sleep(3000);
 			} catch (Exception e) {
 			}
-			for (int j = 0; j < 3; j++) {
+			for (int j = 0; j < 3 ; j++) {
 				src = cl.getImage();
 				depth_array = cl.getDepthImage();
 				Image dest = new Image(src);
@@ -82,16 +83,19 @@ public class NeckScan implements FSMState {
 				Image.fillImageMsg(pubImage, dest);
 				fsm.vidPub.publish(pubImage);
 				detectedBlobs.addAll(blobTrack.getBlobs(src, depth_array));
+				try {
+					Thread.sleep(500);
+				} catch (Exception e) {
+				}
 			}
-			detectedFids.addAl(blobTrack.sortBlobs(detectedBlobs));
+			detectedFids.addAll(blobTrack.sortBlobs(detectedBlobs));
 			// detectedFids.addAll(blobTrack.getFiducials(src, depth_array));
-			// try {
-			// Thread.sleep(3000);
-			// } catch (Exception e) {
-			// }
+			
+			if (i==3) dir = -1;
+
 		}
 
-		// Backward
+		/*// Backward
 		for (int i = 3; i >= 0; i--) {
 			try {
 				Thread.sleep(3000);
@@ -110,7 +114,7 @@ public class NeckScan implements FSMState {
 			// Thread.sleep(3000);
 			// } catch (Exception e) {
 			// }
-		}
+		}*/
 
 		if (detectedFids.size() == 0) {
 			System.out.println("No Fids Detected");
