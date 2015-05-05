@@ -89,7 +89,7 @@ public class VisualServo implements NodeMain, Runnable {
 			} catch (Exception e) {
 				continue;
 			}
-			Image temp = new Image(width, height);
+			Image temp = new Image(src);
 			Image.filterImage(src, temp, depth_float_array, width, height,
 					3.048, 4.6419, 0.6, 0.6, 0, .1);
 
@@ -97,7 +97,7 @@ public class VisualServo implements NodeMain, Runnable {
 
 			// Image depth = Image.floatRGB(depth_float_array);
 			// Image depth = Image.doubleRGB(depth_double_array);
-			blobTrack.apply(src, dest, depth_float_array);// , depth_array);
+			blobTrack.apply(temp, dest, depth_float_array);// , depth_array);
 			//
 			// update newly formed vision message
 			gui.setVisionImage(dest.toArray(), width, height);
