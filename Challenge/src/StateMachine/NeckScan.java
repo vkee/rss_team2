@@ -82,7 +82,7 @@ public class NeckScan implements FSMState {
 			depth_array = cl.getDepthImage();
 			Image dest = new Image(src);
 			blobTrack.apply(src, dest, depth_array);
-	        fsm.vidPub.publish(dest);
+//	        fsm.vidPub.publish(dest);
 			detectedFids.addAll(blobTrack.getFiducials(src, depth_array));
 			try{Thread.sleep(2000);}catch(Exception e){}
 		}
