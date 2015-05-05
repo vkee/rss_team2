@@ -167,8 +167,8 @@ public class FiducialTracking extends BlobTracking {
 					double hue_Threshold = hueThresholds[i];
 
 					if (y == height / 2 && x == width / 2) {
-						System.out.println("0: " + hsb[0] + " 1: " + hsb[1]
-								+ " 2: " + hsb[2]);
+//						System.out.println("0: " + hsb[0] + " 1: " + hsb[1]
+	//							+ " 2: " + hsb[2]);
 					}
 					// Using HSB thresholds, set pixels
 
