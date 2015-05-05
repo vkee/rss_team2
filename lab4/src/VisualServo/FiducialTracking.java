@@ -15,8 +15,8 @@ public class FiducialTracking extends BlobTracking {
 	private double[] hueLowThresholds = { 0.0, 75.0 / 360, 168.0 / 360,
 			28.0 / 360, 15.0 / 360 };
 
-	private double[] hueHighThresholds = { 9.0 / 360, 162.0 / 360,
-			245.0 / 360, 48.0 / 360, 24.0 / 360 };
+	private double[] hueHighThresholds = { 9.0 / 360, 162.0 / 360, 245.0 / 360,
+			48.0 / 360, 24.0 / 360 };
 
 	private double[] hueThresholds = { 0.05, 0.1, 0.15, 0.1, 0.1 };
 	private double other_hueThreshold = 0.05;
@@ -269,6 +269,25 @@ public class FiducialTracking extends BlobTracking {
 		}
 	}
 
+	public List<FiducialObject> sortBlobs(List<BlobObject> bos) {
+		List<FiducialObject> ret = new ArrayList<FiducialObject>();
+		for (int j = 0; j < bos.size(); j++) {
+			BlobObject top = bos.get(j);
+			for (int k = 0; k < bos.size(); k++) {
+				BlobObject bottom = bos.get(k);
+				if (!top.equals(bottom)
+						&& isFiducialColorMatch(top, bottom) != -1
+						&& isAbove(top, bottom, 12, 5)) {
+					FiducialObject fo = new FiducialObject(top, bottom,
+							isFiducialColorMatch(top, bottom));
+					ret.add(fo);
+				}
+			}
+		}
+		return ret;
+
+	}
+
 	/**
 	 * sortBlobs Iterates through blob objects to sort into fiducial and block
 	 */
@@ -361,6 +380,34 @@ public class FiducialTracking extends BlobTracking {
 		sortBlobs();
 
 		return fos;
+	}
+
+	public List<BlobObject> getBlobs(Image src, float[] array) {
+		stepTiming();
+		bos = new ArrayList<BlobObject>();
+		fos = new ArrayList<FiducialObject>();
+		blos = new ArrayList<BlockObject>();
+
+		if (useGaussianBlur) {
+			byte[] srcArray = src.toArray();
+			byte[] destArray = new byte[srcArray.length];
+			if (approximateGaussian) {
+				GaussianBlur.applyBox(srcArray, destArray, src.getWidth(),
+						src.getHeight());
+			} else {
+				GaussianBlur.apply(srcArray, destArray, width, height);
+			}
+			src = new Image(destArray, src.getWidth(), src.getHeight());
+		}
+
+		blobPixel(src, multiBlobPixelMask);
+		multiBlobPresent(array, multiBlobPixelMask, multiImageConnected,
+				multiBlobMask);
+
+		// sorts blobs into fiducials and blocks
+		sortBlobs();
+
+		return bos;
 	}
 
 	/**
