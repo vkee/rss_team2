@@ -11,11 +11,7 @@ import MotionPlanning.RRT;
 import Servoing.ServoController;
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
-import VisualServo.FiducialObject;
-import VisualServo.FiducialTracking;
-import VisualServo.Image;
-import VisualServo.MultipleBlobTracking;
-import VisualServo.client;
+import VisualServo.*;
 
 import org.ros.message.rss_msgs.*;
 import org.ros.message.lab5_msgs.*;
