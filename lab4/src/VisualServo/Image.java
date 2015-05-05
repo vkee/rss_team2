@@ -9,7 +9,6 @@ package VisualServo;
  */
 public class Image {
 
-	
 	public static void fillImageMsg(org.ros.message.sensor_msgs.Image pubImage,
 			Image dest) {
 		pubImage.width = 640;
@@ -390,8 +389,8 @@ public class Image {
 	}
 
 	public static void smoothDepthImage(float[] float_array, int smoothRadius) {
-		
+
 		// TODO Auto-generated method stub
-		
+
 	}
 }
