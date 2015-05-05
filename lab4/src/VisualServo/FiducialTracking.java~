@@ -9,7 +9,7 @@ public class FiducialTracking extends BlobTracking {
 			Color.YELLOW, Color.ORANGE };
 
 	private double[] targetHueLevels = { 0.0, 120.0 / 360, 240.0 / 360,
-			30.0 / 360, 24.0 / 360 };
+			60.0 / 360, 24.0 / 360 };
 	// red, green, blue,yellow,orange
 
 	private double[] hueThresholds = { 0.05, 0.1, 0.15, 0.1, 0.1 };
@@ -21,7 +21,7 @@ public class FiducialTracking extends BlobTracking {
 	protected double[] multiSaturationUpper = { 1, 1, 1, .9, 1 };
 	double other_upper = 1;
 
-	double[] multiBrightnessLevel = { 0.45, 0.0, 0.0, 0.5, 0.2 };
+	double[] multiBrightnessLevel = { 0.45, 0.0, 0.0, 0.5, 0.3 };
 	double other_brightness = 0.45;
 
 	int[][] multiBlobPixelMask = null;
@@ -160,6 +160,9 @@ public class FiducialTracking extends BlobTracking {
 					double hue = targetHueLevels[i];
 					double hue_Threshold = hueThresholds[i];
 
+					if(y == height/2 && x == width/2){
+						System.out.println("0: " + hsb[0] + "1: " + hsb[1] + "2: " + hsb[2]);
+					}
 					// Using HSB thresholds, set pixels
 					if (hsb[2] > multiBrightnessLevel[i]
 							&& hsb[1] > multiSaturationLevel[i]
@@ -198,9 +201,9 @@ public class FiducialTracking extends BlobTracking {
 
 			HashMap<Integer, Integer> blob_info = connComp.getBlobPixel(0.005
 					* height * width);
-
-			double centroidX;
-			double centroidY;
+			double centroidX = 0;
+			double centroidY = 0;
+//			System.out.println(blob_info.entrySet().size());
 			for (Map.Entry<Integer, Integer> entry : blob_info.entrySet()) {
 
 				int colorMax = entry.getKey();
