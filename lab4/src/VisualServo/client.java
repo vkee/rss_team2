@@ -6,7 +6,6 @@ import javax.imageio.*;
 import java.awt.image.*;
 import java.util.*;
 
-
 public class client {
 
 	public client() {
@@ -98,6 +97,8 @@ public class client {
 				asFloat = Float.intBitsToFloat(asInt);
 				float_array[(int) (i / 4.0)] = asFloat;
 			}
+			int smoothRadius = 5;
+			Image.smoothDepthImage(float_array, smoothRadius);
 		} catch (Exception e) {
 		}
 		return float_array;

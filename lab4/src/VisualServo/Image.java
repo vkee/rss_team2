@@ -388,4 +388,10 @@ public class Image {
 		}
 		return ret;
 	}
+
+	public static void smoothDepthImage(float[] float_array, int smoothRadius) {
+		
+		// TODO Auto-generated method stub
+		
+	}
 }
