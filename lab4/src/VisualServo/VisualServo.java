@@ -89,7 +89,7 @@ public class VisualServo implements NodeMain, Runnable {
 			} catch (Exception e) {
 				continue;
 			}
-			Image temp = new Image(src);
+			Image temp = new Image(width, height);
 			Image.filterImage(src, temp, depth_float_array, width, height,
 					3.048, 4.6419, 0.6, 0.6, 0, .1);
 
