@@ -89,15 +89,15 @@ public class VisualServo implements NodeMain, Runnable {
 			} catch (Exception e) {
 				continue;
 			}
-			Image temp =  new Image(src);
-			//Image.filterImage(src, temp, depth_float_array, width, height,
-			//		3.048, 4.6419, 0.6, 0.6, 0, .1);
+			Image temp = new Image(src);
+			Image.filterImage(src, temp, depth_float_array, width, height,
+					3.048, 4.6419, 0.6, 0.6, 0, .1);
 
 			Image dest = new Image(temp);
 
 			// Image depth = Image.floatRGB(depth_float_array);
 			// Image depth = Image.doubleRGB(depth_double_array);
-			blobTrack.apply(src, dest, depth_float_array);// , depth_array);
+			blobTrack.apply(temp, dest, depth_float_array);// , depth_array);
 			//
 			// update newly formed vision message
 			gui.setVisionImage(dest.toArray(), width, height);
@@ -127,7 +127,7 @@ public class VisualServo implements NodeMain, Runnable {
 	@Override
 	public void onStart(Node node) {
 		blobTrack = new FiducialTracking();
-		//blobTrack = new MultipleBlobTracking();		
+		// blobTrack = new MultipleBlobTracking();
 		// initialize the ROS publication to command/Motors
 
 		publisher = node.newPublisher("command/Motors", "rss_msgs/MotionMsg"); // (Solution)
