@@ -166,15 +166,17 @@ public class FiducialTracking extends BlobTracking {
 					double hue = targetHueLevels[i];
 					double hue_Threshold = hueThresholds[i];
 
-					if(y == height/2 && x == width/2){
-						System.out.println("0: " + hsb[0] + "1: " + hsb[1] + "2: " + hsb[2]);
+					if (y == height / 2 && x == width / 2) {
+						// System.out.println("0: " + hsb[0] + "1: " + hsb[1] +
+						// "2: " + hsb[2]);
 					}
 					// Using HSB thresholds, set pixels
-					
+
 					if (hsb[2] > multiBrightnessLevel[i]
 							&& hsb[1] > multiSaturationLevel[i]
 							&& hsb[1] < multiSaturationUpper[i]
-							&& hsb[0] > hueLowThresholds[i] && hsb[0] < hueHighThresholds[i]) {
+							&& hsb[0] > hueLowThresholds[i]
+							&& hsb[0] < hueHighThresholds[i]) {
 						mask[i][maskIndex] = 255; // (Solution)
 					} else if (i == 0
 							&& hsb[2] > other_brightness
@@ -184,23 +186,23 @@ public class FiducialTracking extends BlobTracking {
 					} else {
 						mask[i][maskIndex] = 0;
 					}
-/*					
-					if (hsb[2] > multiBrightnessLevel[i]
-							&& hsb[1] > multiSaturationLevel[i]
-							&& hsb[1] < multiSaturationUpper[i]
-							&& Math.abs(hsb[0] - hue) < hue_Threshold) {
-						mask[i][maskIndex] = 255; // (Solution)
-					} else if (i == 0
-							&& hsb[2] > other_brightness
-							&& hsb[1] > other_saturation
-							&& Math.abs(hsb[0] - (360.0 / 360)) < other_hueThreshold) {
-						mask[i][maskIndex] = 255;
-					} else {
-						mask[i][maskIndex] = 0;
-					}
-					
-					*/
-					
+					/*					
+										if (hsb[2] > multiBrightnessLevel[i]
+												&& hsb[1] > multiSaturationLevel[i]
+												&& hsb[1] < multiSaturationUpper[i]
+												&& Math.abs(hsb[0] - hue) < hue_Threshold) {
+											mask[i][maskIndex] = 255; // (Solution)
+										} else if (i == 0
+												&& hsb[2] > other_brightness
+												&& hsb[1] > other_saturation
+												&& Math.abs(hsb[0] - (360.0 / 360)) < other_hueThreshold) {
+											mask[i][maskIndex] = 255;
+										} else {
+											mask[i][maskIndex] = 0;
+										}
+										
+										*/
+
 					/*//ORANGE HACK --RED & YELLOW--
 					if (i == 4) {
 						if (mask[0][maskIndex] == 255
@@ -228,7 +230,7 @@ public class FiducialTracking extends BlobTracking {
 					* height * width);
 			double centroidX = 0;
 			double centroidY = 0;
-//			System.out.println(blob_info.entrySet().size());
+			// System.out.println(blob_info.entrySet().size());
 			for (Map.Entry<Integer, Integer> entry : blob_info.entrySet()) {
 
 				int colorMax = entry.getKey();
@@ -313,16 +315,19 @@ public class FiducialTracking extends BlobTracking {
 	private boolean isAbove(BlobObject top, BlobObject bottom,
 			double thresholdX, double thresholdY) {
 
-		if( top.getCentroidY() < bottom.getCentroidY()
+		if (top.getCentroidY() < bottom.getCentroidY()
 				&& Math.abs(bottom.getCentroidY() - top.getCentroidY()
 						- (top.getRadius() + bottom.getRadius())) < thresholdY
-				&& (Math.abs(top.getCentroidX() - bottom.getCentroidX()) < thresholdX)){
-		return true;
-		}else {
-//System.out.println("Y: " + Math.abs(bottom.getCentroidY() - top.getCentroidY()
-			//			- (top.getRadius() + bottom.getRadius())));
-//			System.out.println("X: " + Math.abs(top.getCentroidX() - bottom.getCentroidX()));
-return false;		}
+				&& (Math.abs(top.getCentroidX() - bottom.getCentroidX()) < thresholdX)) {
+			return true;
+		} else {
+			// System.out.println("Y: " + Math.abs(bottom.getCentroidY() -
+			// top.getCentroidY()
+			// - (top.getRadius() + bottom.getRadius())));
+			// System.out.println("X: " + Math.abs(top.getCentroidX() -
+			// bottom.getCentroidX()));
+			return false;
+		}
 	}
 
 	/**
