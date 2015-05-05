@@ -9,6 +9,7 @@ package VisualServo;
  */
 public class Image {
 
+	
 	public static void fillImageMsg(org.ros.message.sensor_msgs.Image pubImage,
 			Image dest) {
 		pubImage.width = 640;
