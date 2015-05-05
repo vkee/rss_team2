@@ -125,20 +125,17 @@ public class NeckScan implements FSMState {
 
 		// // Determining the distances to the
 		// // fiducials that are in the FOV of the robot
-		// HashMap<Integer, java.lang.Double> measuredDists =
-		// fsm.particleFilter.getFidsDists(fsm.prevPt, fsm.map, measuredFids);
-		// // //
-		// fsm.particleFilter.measurementUpdate(measuredFids, measuredDists);
-		//
-		// RobotParticle particle = fsm.particleFilter.sampleParticle();
-		//
-		// System.out.println("Prev Stored Pt: X-" + fsm.prevPt.x + " Y-" +
-		// fsm.prevPt.y);
-		// System.out.println("Sampled Particle Position: X-" + particle.getX()
-		// + " Y-" + particle.getY());
-		// TODO: need to have the robot's orientation b/c cannot simply subtract
-		// the camera x pos
-		// fsm.updateODO(particle.getX() - fsm.CAMERA_X_POS, particle.getY());
+		 HashMap<Integer, java.lang.Double> measuredDists = fsm.particleFilter.getFidsDists(fsm.prevPt, fsm.map, measuredFids);
+		 fsm.particleFilter.measurementUpdate(measuredFids, measuredDists);
+		
+		 RobotParticle particle = fsm.particleFilter.sampleParticle();
+		
+		 System.out.println("Prev Stored Pt: X-" + fsm.prevPt.x + " Y-" +
+		 fsm.prevPt.y);
+		 System.out.println("Sampled Particle Position: X-" + particle.getX()
+		 + " Y-" + particle.getY());
+
+		 fsm.updateODO(particle.getX() - fsm.CAMERA_X_POS*Math.cos(fsm.robotTheta), particle.getY() - fsm.CAMERA_X_POS*Math.sin(fsm.robotTheta));
 		//
 		// fsm.updateState(new WaypointNavClose(fsm));
 

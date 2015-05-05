@@ -124,7 +124,8 @@ public class WaypointNav {
                 msg.rotationalVelocity = 0.0;
                 System.out.println("At the goal!");
             }
-            fsm.prevPt = wayPoint;
+            fsm.prevPt = new Point2D.Double(robotX, robotY);
+            fsm.robotTheta = robotTheta;
         }
         
         motionPub.publish(msg);
