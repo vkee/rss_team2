@@ -12,6 +12,12 @@ public class FiducialTracking extends BlobTracking {
 			30.0 / 360, 24.0 / 360 };
 	// red, green, blue,yellow,orange
 
+	private double[] hueLowThresholds = { 0.0, 75.0 / 360, 168.0 / 360,
+			52.0 / 360, 28.0 / 360 };
+
+	private double[] hueHighThresholds = { 13.0 / 360, 162.0 / 360,
+			245.0 / 360, 66.0 / 360, 48.0 / 360 };
+
 	private double[] hueThresholds = { 0.05, 0.1, 0.15, 0.1, 0.1 };
 	private double other_hueThreshold = 0.05;
 
@@ -161,6 +167,21 @@ public class FiducialTracking extends BlobTracking {
 					double hue_Threshold = hueThresholds[i];
 
 					// Using HSB thresholds, set pixels
+					
+					if (hsb[2] > multiBrightnessLevel[i]
+							&& hsb[1] > multiSaturationLevel[i]
+							&& hsb[1] < multiSaturationUpper[i]
+							&& hsb[0] > hueLowThresholds[i] && hsb[0] < hueHighThresholds[i]) {
+						mask[i][maskIndex] = 255; // (Solution)
+					} else if (i == 0
+							&& hsb[2] > other_brightness
+							&& hsb[1] > other_saturation
+							&& Math.abs(hsb[0] - (360.0 / 360)) < other_hueThreshold) {
+						mask[i][maskIndex] = 255;
+					} else {
+						mask[i][maskIndex] = 0;
+					}
+/*					
 					if (hsb[2] > multiBrightnessLevel[i]
 							&& hsb[1] > multiSaturationLevel[i]
 							&& hsb[1] < multiSaturationUpper[i]
@@ -174,6 +195,10 @@ public class FiducialTracking extends BlobTracking {
 					} else {
 						mask[i][maskIndex] = 0;
 					}
+					
+					*/
+					
+					/*//ORANGE HACK --RED & YELLOW--
 					if (i == 4) {
 						if (mask[0][maskIndex] == 255
 								&& mask[3][maskIndex] == 255) {
@@ -183,7 +208,7 @@ public class FiducialTracking extends BlobTracking {
 								&& mask[3][maskIndex] == 255) {
 							mask[3][maskIndex] = 0;
 						}
-					}
+					}*/
 					maskIndex++;
 				}
 			}
