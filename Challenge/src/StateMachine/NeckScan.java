@@ -79,7 +79,7 @@ public class NeckScan implements FSMState {
 			src = cl.getImage();
 			depth_array = cl.getDepthImage();
 			detectedFids.addAll(blobTrack.getFiducials(src, depth_array));
-			try{Thread.sleep(2000);}catch(Exception e){}
+			try{Thread.sleep(5000);}catch(Exception e){}
 		}
 
 		ArrayList<Integer> measuredFids = new ArrayList<Integer>();
