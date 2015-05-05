@@ -65,17 +65,8 @@ public class NeckScan implements FSMState {
 		float[] depth_array = null;
 		List<FiducialObject> detectedFids = new ArrayList<FiducialObject>();
 
-		// ArmMsg message = (ArmMsg) msg.message;
-		// int[] pwms = ServoController.messageConvert((message).pwms);
-
-		// //for (int i = 0; i < 6; i++) {
-		// //fsm.neckServo.goToSetting(i);
-		// src = cl.getImage();
-		// depth_array = cl.getDepthImage();
-		// detectedFids.addAll(blobTrack.getFiducials(src, depth_array));
-		// try{Thread.sleep(2000);}catch(Exception e){}
-		// //}
-
+//		Making the 
+		
 		for (int i = 0; i < 3; i++) {
 			fsm.neckServo.goToSettingOne(i);
 			src = cl.getImage();
@@ -125,17 +116,17 @@ public class NeckScan implements FSMState {
 
 		// // Determining the distances to the
 		// // fiducials that are in the FOV of the robot
-		 HashMap<Integer, java.lang.Double> measuredDists = fsm.particleFilter.getFidsDists(fsm.prevPt, fsm.map, measuredFids);
-		 fsm.particleFilter.measurementUpdate(measuredFids, measuredDists);
-		
-		 RobotParticle particle = fsm.particleFilter.sampleParticle();
-		
-		 System.out.println("Prev Stored Pt: X-" + fsm.prevPt.x + " Y-" +
-		 fsm.prevPt.y);
-		 System.out.println("Sampled Particle Position: X-" + particle.getX()
-		 + " Y-" + particle.getY());
-
-		 fsm.updateODO(particle.getX() - fsm.CAMERA_X_POS*Math.cos(fsm.robotTheta), particle.getY() - fsm.CAMERA_X_POS*Math.sin(fsm.robotTheta));
+//		 HashMap<Integer, java.lang.Double> measuredDists = fsm.particleFilter.getFidsDists(fsm.prevPt, fsm.map, measuredFids);
+//		 fsm.particleFilter.measurementUpdate(measuredFids, measuredDists);
+//		
+//		 RobotParticle particle = fsm.particleFilter.sampleParticle();
+//		
+//		 System.out.println("Prev Stored Pt: X-" + fsm.prevPt.x + " Y-" +
+//		 fsm.prevPt.y);
+//		 System.out.println("Sampled Particle Position: X-" + particle.getX()
+//		 + " Y-" + particle.getY());
+//
+//		 fsm.updateODO(particle.getX() - fsm.CAMERA_X_POS*Math.cos(fsm.robotTheta), particle.getY() - fsm.CAMERA_X_POS*Math.sin(fsm.robotTheta));
 		//
 		// fsm.updateState(new WaypointNavClose(fsm));
 
