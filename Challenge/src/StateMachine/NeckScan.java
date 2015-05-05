@@ -12,6 +12,7 @@ import Servoing.ServoController;
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
 import VisualServo.FiducialObject;
+import VisualServo.FiducialTracking;
 import VisualServo.Image;
 import VisualServo.MultipleBlobTracking;
 import VisualServo.client;
@@ -32,15 +33,15 @@ public class NeckScan implements FSMState {
 	private FSM fsm;
 	private double neckAngleTarget = 0;
 	private final int NECKSTATES = 12;
-	protected MultipleBlobTracking blobTrack = null;
+	protected FiducialTracking blobTrack = null;
 	client cl = null;
 
 	private ArrayList<Point2D.Double> newGoals;
 
-	public NeckScan(FSM stateMachine, MultipleBlobTracking blobTrack_in) {
+	public NeckScan(FSM stateMachine) {
 		fsm = stateMachine;
 		newGoals = new ArrayList<Point2D.Double>();
-		blobTrack = blobTrack_in;
+		blobTrack = new FiducialTracking();
 		cl = new client();
 
 		// init any variables for this state
@@ -65,14 +66,21 @@ public class NeckScan implements FSMState {
 		// ArmMsg message = (ArmMsg) msg.message;
 		// int[] pwms = ServoController.messageConvert((message).pwms);
 
-		//for (int i = 0; i < 6; i++) {
-		//fsm.neckServo.goToSetting(i);
-		src = cl.getImage();
-		depth_array = cl.getDepthImage();
-		detectedFids.addAll(blobTrack.getFiducials(src, depth_array));
-		try{Thread.sleep(2000);}catch(Exception e){}
-		//}
+		//		//for (int i = 0; i < 6; i++) {
+		//		//fsm.neckServo.goToSetting(i);
+		//		src = cl.getImage();
+		//		depth_array = cl.getDepthImage();
+		//		detectedFids.addAll(blobTrack.getFiducials(src, depth_array));
+		//		try{Thread.sleep(2000);}catch(Exception e){}
+		//		//}
 
+		for (int i = 0; i < 3; i++) {
+			fsm.neckServo.goToSettingOne(i);
+			src = cl.getImage();
+			depth_array = cl.getDepthImage();
+			detectedFids.addAll(blobTrack.getFiducials(src, depth_array));
+			try{Thread.sleep(2000);}catch(Exception e){}
+		}
 
 		ArrayList<Integer> measuredFids = new ArrayList<Integer>();
 
@@ -85,19 +93,22 @@ public class NeckScan implements FSMState {
 		if(detectedFids.size() == 0){
 			System.out.println("No Fids Detected");
 		}
-		//fsm.neckServo.fullCycle(false); // go back
+//		fsm.neckServo.fullCycle(false); // go back
+		fsm.neckServo.fullCycleOne(false);// go back
 
-
-		// Determining the distances to the
-		// fiducials that are in the FOV of the robot 
-		HashMap<Integer, java.lang.Double> measuredDists = fsm.particleFilter.getFidsDists(fsm.prevPt, fsm.map, measuredFids); // //
-		fsm.particleFilter.measurementUpdate(measuredFids, measuredDists);
-
-		RobotParticle particle = fsm.particleFilter.sampleParticle();
-
-		fsm.updateODO(particle.getX(), particle.getY());
-
-		fsm.updateState(new WaypointNavClose(fsm));
+//		// Determining the distances to the
+//		// fiducials that are in the FOV of the robot 
+//		HashMap<Integer, java.lang.Double> measuredDists = fsm.particleFilter.getFidsDists(fsm.prevPt, fsm.map, measuredFids); // //
+//		fsm.particleFilter.measurementUpdate(measuredFids, measuredDists);
+//
+//		RobotParticle particle = fsm.particleFilter.sampleParticle();
+//
+//		System.out.println("Prev Stored Pt: X-" + fsm.prevPt.x + " Y-" + fsm.prevPt.y);
+//		System.out.println("Sampled Particle Position: X-" + particle.getX() + " Y-" + particle.getY());
+//		TODO: need to have the robot's orientation b/c cannot simply subtract the camera x pos
+//		fsm.updateODO(particle.getX() - fsm.CAMERA_X_POS, particle.getY());
+//
+//		fsm.updateState(new WaypointNavClose(fsm));
 
 
 		//fsm.updateState(null);

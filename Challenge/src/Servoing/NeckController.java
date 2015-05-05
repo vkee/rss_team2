@@ -37,13 +37,13 @@ public class NeckController {
 	 */
 	public void goToAngle(double angle, int[] pwm){
 		double[] angles = bottomAndTopAngle(angle);
-		
+
 		System.out.println(bottom.rotateTo(angles[0], pwm) + " - " +top.rotateTo(angles[1], pwm));
 		// order: bottom, gate, top
 		top.sendPWM(pwm[bottom.messageIndex],
 				pwm[OTHER_PWM_INDEX],top.rotateTo(angles[1], pwm));
-//		top.sendPWM(bottom.rotateTo(angles[0], pwm),
-//				pwm[OTHER_PWM_INDEX],pwm[top.messageIndex]);
+		//		top.sendPWM(bottom.rotateTo(angles[0], pwm),
+		//				pwm[OTHER_PWM_INDEX],pwm[top.messageIndex]);
 		//System.out.println("Bottom PWM: " + bottom.rotateTo(angles[0], pwm[BOT_PWM_INDEX]));
 		//System.out.println("Top PWM: " + top.rotateTo(angles[1], pwm[TOP_PWM_INDEX]));
 	}
@@ -59,10 +59,7 @@ public class NeckController {
 		return ((bottom.atTarget(angles[0], pwm)||true) &&
 				top.atTarget(angles[1], pwm));
 	}
-	
-	
-	
-	
+
 	public void fullCycle(boolean full)
 	{
 		int top0 = top.PWM_0;
@@ -71,16 +68,16 @@ public class NeckController {
 		int bot0 = bottom.PWM_0;
 		int bot180 = bottom.PWM_180;
 
-if (full){
-		for (int i=0; i<6; i++){
+		if (full){
+			for (int i=0; i<6; i++){
 
-			//System.out.println(i+"--"+Math.max(0,i-3)+"--"+Math.min(i, 3));
+				//System.out.println(i+"--"+Math.max(0,i-3)+"--"+Math.min(i, 3));
 
-			bottom.sendPWM(bot0+(bot180-bot0)/3*Math.max(0,i-3), GateController.GATE_CLOSED_PWM, top0+(top180-top0)/3*Math.min(i, 3)); //0 (forward)
-			try{Thread.sleep(2000);}catch(Exception e){}
+				bottom.sendPWM(bot0+(bot180-bot0)/3*Math.max(0,i-3), GateController.GATE_CLOSED_PWM, top0+(top180-top0)/3*Math.min(i, 3)); //0 (forward)
+				try{Thread.sleep(2000);}catch(Exception e){}
 
+			}
 		}
-}
 		for (int i=6; i>=0; i--){
 
 			//System.out.println(i+"--"+Math.max(0,i-3)+"--"+Math.min(i, 3));
@@ -91,18 +88,61 @@ if (full){
 
 		}
 	}
-	
+
 	public void goToSetting(int i)
-		{
+	{
 		int top0 = top.PWM_0;
 		int top180 = top.PWM_180;
 
 		int bot0 = bottom.PWM_0;
 		int bot180 = bottom.PWM_180;
-		
-		bottom.sendPWM(bot0+(bot180-bot0)/3*Math.max(0,i-3), GateController.GATE_CLOSED_PWM, top0+(top180-top0)/3*Math.min(i, 3));
-		
-		}
 
-}
+		bottom.sendPWM(bot0+(bot180-bot0)/3*Math.max(0,i-3), GateController.GATE_CLOSED_PWM, top0+(top180-top0)/3*Math.min(i, 3));
+
+	}
 	
+	/**
+	 * Moves the servo to the position when only moving the top one
+	 * @param i
+	 */
+	public void goToSettingOne(int i)
+	{
+		int top0 = top.PWM_0;
+		int top180 = top.PWM_180;
+
+		int bot0 = bottom.PWM_0;
+		int bot180 = bottom.PWM_180;
+
+		bottom.sendPWM(bot0, GateController.GATE_CLOSED_PWM, top0+(top180-top0)/3*Math.min(i, 3));
+
+	}
+	
+	public void fullCycleOne(boolean full)
+	{
+		int top0 = top.PWM_0;
+		int top180 = top.PWM_180;
+
+		int bot0 = bottom.PWM_0;
+		int bot180 = bottom.PWM_180;
+
+		if (full){
+			for (int i=0; i<3; i++){
+
+				//System.out.println(i+"--"+Math.max(0,i-3)+"--"+Math.min(i, 3));
+
+				bottom.sendPWM(bot0, GateController.GATE_CLOSED_PWM, top0+(top180-top0)/3*Math.min(i, 3)); //0 (forward)
+				try{Thread.sleep(2000);}catch(Exception e){}
+
+			}
+		}
+		for (int i=3; i>=0; i--){
+
+			//System.out.println(i+"--"+Math.max(0,i-3)+"--"+Math.min(i, 3));
+
+			bottom.sendPWM(bot0, GateController.GATE_CLOSED_PWM, top0+(top180-top0)/3*Math.min(i, 3)); //0 (forward)
+			try{Thread.sleep(2000);}catch(Exception e){}
+
+
+		}
+	}
+}

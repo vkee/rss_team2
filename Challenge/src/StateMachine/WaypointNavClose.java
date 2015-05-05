@@ -94,5 +94,4 @@ public class WaypointNavClose implements FSMState {
 			fsm.updateState(new ApproachBlock(fsm, finalGoal));
 	}
 	//	{fsm.updateState(new ApproachBlock(fsm, finalGoal));}		//Approach until visual servo
-
 }
