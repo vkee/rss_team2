@@ -35,6 +35,8 @@ public class NeckScan implements FSMState {
 	private final int NECKSTATES = 12;
 	protected FiducialTracking blobTrack = null;
 	client cl = null;
+	
+	int debug_count;
 
 	private ArrayList<Point2D.Double> newGoals;
 
@@ -43,9 +45,9 @@ public class NeckScan implements FSMState {
 		newGoals = new ArrayList<Point2D.Double>();
 		blobTrack = new FiducialTracking();
 		cl = new client();
-
+		
 		// init any variables for this state
-
+		debug_count = 0;
 	}
 
 	public stateENUM getName() {
@@ -82,9 +84,11 @@ public class NeckScan implements FSMState {
 			blobTrack.apply(src, dest, depth_array);
 	        fsm.vidPub.publish(dest);
 			detectedFids.addAll(blobTrack.getFiducials(src, depth_array));
-			try{Thread.sleep(5000);}catch(Exception e){}
+			try{Thread.sleep(2000);}catch(Exception e){}
 		}
 
+		System.out.println(debug_count);
+		debug_count++;
 		ArrayList<Integer> measuredFids = new ArrayList<Integer>();
 
 		for (FiducialObject fids : detectedFids) {
