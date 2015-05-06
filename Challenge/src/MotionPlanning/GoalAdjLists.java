@@ -128,6 +128,12 @@ public class GoalAdjLists {
     	}
     }
 
+    public void pruneSelfLoops(ArrayList<Point2D.Double> destinations) {
+        for (Point2D.Double dest : destinations) {
+            distanceGrid.get(dest).remove(dest);
+            pathGrid.get(dest).remove(dest);        }
+    }
+    
     private double getDistance(ArrayList<Point2D.Double> path)
     {
         double dist = 0;

@@ -240,9 +240,7 @@ public class Initialize implements FSMState {
 
 
 //		Pruning self paths
-		for (Point2D.Double locs : objectLocations) {
-		    fsm.foundPaths.useBiPath(locs, locs);
-		}
+		fsm.foundPaths.pruneSelfLoops(objectLocations);
 		
 		initialized = true;
 		System.out.println("initialized");
