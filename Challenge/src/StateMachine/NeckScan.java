@@ -146,7 +146,7 @@ public class NeckScan implements FSMState {
             // Averaging the distances
             for (Integer index : totalFidDist.keySet()) {
                 double avgDist = totalFidDist.get(index)
-                        / numMeasurements.get(index);
+                        / numMeasurements.get(index) + .110; // adding .110 m b/c accounting for ball radius
                 measuredDists.put(index, avgDist);
             }
 

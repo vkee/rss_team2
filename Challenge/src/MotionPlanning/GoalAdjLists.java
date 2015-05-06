@@ -28,7 +28,7 @@ public class GoalAdjLists {
      */
     public void addBiPath(Point2D.Double from, Point2D.Double to, ArrayList<Point2D.Double> path, double dist)
     {
-    	if (from.equals(new Point2D.Double(0.6, 0.6))) System.out.println(to+" -- "+dist);
+//    	if (from.equals(new Point2D.Double(0.6, 0.6))) System.out.println(to+" -- "+dist);
     	
         double pathDistance = dist;//getDistance(path);
         if (distanceGrid.get(from)==null) distanceGrid.put(from, new HashMap<Point2D.Double,Double>());
@@ -62,7 +62,7 @@ public class GoalAdjLists {
     {
         HashMap<Point2D.Double,Double> originDistMap = distanceGrid.get(from);
         
-        System.out.println(originDistMap);
+//        System.out.println(originDistMap);
 
         Point2D.Double closestPoint = null;
         double closestDistance = Double.MAX_VALUE;
@@ -72,11 +72,11 @@ public class GoalAdjLists {
         
         ArrayList<Point2D.Double> destinations = new ArrayList<Point2D.Double>(Arrays.asList(tempArray));
         
-        System.out.println("destinations.size() " + destinations.size());
+//        System.out.println("destinations.size() " + destinations.size());
         if (destinations.size() == 1) return null;
-        for (Point2D.Double dests : destinations){
-        	System.out.println(dests);
-        }
+//        for (Point2D.Double dests : destinations){
+//        	System.out.println(dests);
+//        }
         
         for (Point2D.Double tos : destinations)
         {
