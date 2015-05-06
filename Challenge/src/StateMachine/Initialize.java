@@ -237,10 +237,13 @@ public class Initialize implements FSMState {
 
 			//currLocation = objectLocations.remove(0);
 		}
-		
-//		Pruning the 0.0, 0.0 starting point
-		fsm.foundPaths.useBiPath(fsm.currentLocation, new Point2D.Double(0.0, 0.0));
 
+
+//		Pruning self paths
+		for (Point2D.Double locs : objectLocations) {
+		    fsm.foundPaths.useBiPath(locs, locs);
+		}
+		
 		initialized = true;
 		System.out.println("initialized");
 
