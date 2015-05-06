@@ -66,7 +66,7 @@ public class NeckScan implements FSMState {
             List<BlobObject> detectedBlobs = new ArrayList<BlobObject>();
             fsm.neckServo.goToSettingOne(i);
             try {
-                Thread.sleep(3000);
+                Thread.sleep(1500);
             } catch (Exception e) {
             }
             for (int j = 0; j < 3 ; j++) {
