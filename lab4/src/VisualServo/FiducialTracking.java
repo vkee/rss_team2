@@ -21,10 +21,10 @@ public class FiducialTracking extends BlobTracking {
 	private double[] hueThresholds = { 0.05, 0.1, 0.15, 0.1, 0.1 };
 	private double other_hueThreshold = 0.05;
 
-	protected double[] multiSaturationLevel = { 0.6, 0.3, 0.3, 0.5, 0.5 };
+	protected double[] multiSaturationLevel = { 0.6, 0.3, 0.3, 0.3, 0.5 };
 	double other_saturation = 0.6;
 
-	protected double[] multiSaturationUpper = { 1, 1, 1, .9, 1 };
+	protected double[] multiSaturationUpper = { 1, 1, 1, 1, 1 };
 	double other_upper = 1;
 
 	double[] multiBrightnessLevel = { 0.45, 0.0, 0.0, 0.6, 0.3 };
