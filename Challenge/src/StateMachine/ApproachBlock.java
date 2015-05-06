@@ -3,7 +3,7 @@ package StateMachine;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import MotionPlanning.WaypointNav;
+import MotionPlanning.WaypointNav; 
 import StateMachine.FSM.msgENUM;
 import StateMachine.FSM.stateENUM;
 import VisualServo.*;

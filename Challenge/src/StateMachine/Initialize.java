@@ -97,7 +97,7 @@ public class Initialize implements FSMState {
 		//            ArrayList<PolygonObstacle> cSpaces = cSpace.generateCSpace(
 		//                    challengeMap, false);
 		//            challengeMap.cSpace = cSpaces;
-		//            fsm.mapDrawer.displayMap(challengeMap);
+		//            fsm.mapDrawer.displayMap(challengeMap); 
 		//
 		//            fsm.mapDrawer.displayMapCSpace(cSpaces);
 		//

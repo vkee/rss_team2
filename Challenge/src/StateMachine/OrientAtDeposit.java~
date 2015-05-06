@@ -13,7 +13,7 @@ public class OrientAtDeposit implements FSMState {
 
 	public OrientAtDeposit(FSM stateMachine)
 		{
-		fsm = stateMachine; 
+		fsm = stateMachine;
 
 		//init any variables for this state
 

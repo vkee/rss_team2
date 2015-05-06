@@ -13,7 +13,7 @@ import org.ros.node.topic.Subscriber;
  */
 public class WaypointNavDeposit implements FSMState {
 
-	private FSM fsm; 
+	private FSM fsm;
 	private ArrayList<Point2D.Double> waypoints;
 	private WaypointNav waypointNavigator;
 

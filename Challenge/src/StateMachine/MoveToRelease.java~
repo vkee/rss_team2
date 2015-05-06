@@ -9,7 +9,7 @@ import org.ros.message.rss_msgs.*;
 import org.ros.message.lab5_msgs.*;
 import org.ros.message.lab6_msgs.*;
 import org.ros.message.Challenge_msgs.*;
-/** 
+/**
  * This state moves the robot forward to release the blocks
  */
 public class MoveToRelease implements FSMState {

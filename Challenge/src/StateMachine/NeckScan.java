@@ -72,7 +72,7 @@ public class NeckScan implements FSMState {
             for (int j = 0; j < 3 ; j++) {
                 src = cl.getImage();
                 depth_array = cl.getDepthImage();
-                Image dest = new Image(src);
+                Image dest = new Image(src); 
                 blobTrack.apply(src, dest, depth_array);
 
                 org.ros.message.sensor_msgs.Image pubImage = new org.ros.message.sensor_msgs.Image();

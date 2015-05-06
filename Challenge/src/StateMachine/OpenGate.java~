@@ -11,7 +11,7 @@ public class OpenGate implements FSMState {
     //TODO: make it actually open the gate
 
     private FSM fsm;	
- 
+
     public OpenGate(FSM stateMachine)
     {
         fsm = stateMachine;

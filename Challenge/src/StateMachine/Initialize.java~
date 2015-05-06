@@ -279,10 +279,10 @@ public class Initialize implements FSMState {
 			//System.out.println("Trying to close gate.");
 		}
 		else if (initialized)
-		{ 
-			fsm.neckServo.fullCycle(true);
+		{
+			fsm.neckServo.fullCycleOne(true);
 			//System.out.println("Done closing gate.");
-			fsm.updateState(new WaypointNavClose(fsm)); 
+			fsm.updateState(new WaypointNavClose(fsm));
 		}
 	}
 
