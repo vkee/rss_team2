@@ -21,77 +21,83 @@ import org.ros.message.Challenge_msgs.*;
 public class WaypointNavClose implements FSMState {
 
 
-	private FSM fsm;
-	private ArrayList<Point2D.Double> waypoints;
-	private WaypointNav waypointNavigator;
-	private Point2D.Double finalGoal;
+    private FSM fsm;
+    private ArrayList<Point2D.Double> waypoints;
+    private WaypointNav waypointNavigator;
+    private Point2D.Double finalGoal;
 
-	public WaypointNavClose(FSM stateMachine)
-	{
-		fsm = stateMachine;
+    public WaypointNavClose(FSM stateMachine)
+    {
+        fsm = stateMachine;
 
-		//		double maxDist = fsm.ROBOTVEL * (fsm.TIME_LIMIT - (System.currentTimeMillis() - fsm.startTime));
-		double maxDist = 1000000.0;
-		finalGoal = fsm.foundPaths.getClosestFeasiblePointFrom(fsm.currentLocation, maxDist);
-		System.out.println("Final Goal from "+fsm.currentLocation+": " + finalGoal);
+        //		double maxDist = fsm.ROBOTVEL * (fsm.TIME_LIMIT - (System.currentTimeMillis() - fsm.startTime));
+        double maxDist = 1000000.0;
+        finalGoal = fsm.foundPaths.getClosestFeasiblePointFrom(fsm.currentLocation, maxDist);
+        System.out.println("Final Goal from "+fsm.currentLocation+": " + finalGoal);
 
-	}	
+    }	
 
-	@Override
-	public void onStart() {
-		if (finalGoal == null)	//no path to goal point left, go to deposit site
-		{
-			if (fsm.foundPaths.getPathToGoal(fsm.currentLocation) != null)
-			{fsm.updateState(new WaypointNavDeposit(fsm));}
-			else 
-			{System.out.println("need to go backwards");}
+    @Override
+    public void onStart() {
+        if (finalGoal == null)	//no path to goal point left, go to deposit site
+        {
+            if (fsm.foundPaths.getPathToGoal(fsm.currentLocation) != null)
+            {fsm.updateState(new WaypointNavDeposit(fsm));}
+            else 
+            {
+                System.out.println("Should go backwards but Orienting at Deposit");
+                fsm.updateState(new OrientAtDeposit(fsm));
+            }
 
-		} else {
-			waypoints = fsm.foundPaths.getPath(fsm.currentLocation, finalGoal);
+        } else {
+            waypoints = fsm.foundPaths.getPath(fsm.currentLocation, finalGoal);
 
-			if (waypoints.size() == 1){
-				//			switch to visual servo
-				fsm.updateState(new ApproachBlock(fsm, finalGoal));
+            //            if (waypoints.size() == 1){
+            //			switch to visual servo
+            //                fsm.updateState(new ApproachBlock(fsm, finalGoal));
 
-			} else {
-				Point2D.Double goalpt = waypoints.get(waypoints.size()-1);
+            //            } else {
+            Point2D.Double goalpt = waypoints.get(waypoints.size()-1);
 
-				fsm.currentPath = waypoints;
+            fsm.currentPath = waypoints;
 
-				waypointNavigator = new WaypointNav(waypoints, goalpt, fsm);
-			}
-		}		
-	}
+            waypointNavigator = new WaypointNav(waypoints, goalpt, fsm);
+            //            }
+        }		
+    }
 
-	public stateENUM getName() {return stateENUM.WNCLOSE;}
-
-
-	public boolean accepts(msgENUM msgType)
-	{
-		if (msgType == msgENUM.WHEELS) return true;
-		return false;
-	}
+    public stateENUM getName() {return stateENUM.WNCLOSE;}
 
 
-	public void update(GenericMessage msg)
-	{
-
-		//do waypoint nav stuff
-		OdometryMsg message = (OdometryMsg)msg.message;
-
-		waypointNavigator.wayptNav(message.x, message.y, message.theta);
-
-		//if condition to leave state (one waypoint away)
-		//if (atWaypoint >= waypoints.size()-2)
-
-		//System.out.println("Angle:" + fsm.RRTengine.getAngle(message.x, message.y, finalGoal.x, finalGoal.x));
-		//System.out.println("message.theta:" + message.theta);
+    public boolean accepts(msgENUM msgType)
+    {
+        if (msgType == msgENUM.WHEELS) return true;
+        return false;
+    }
 
 
-		if (RRTreeNode.distance(new Point2D.Double(message.x, message.y), finalGoal) <= fsm.BLOCKVISUAL_DIST
-				)//&& Math.abs(fsm.RRTengine.getAngle(message.x, message.y, finalGoal.x, finalGoal.x)-message.theta) <= WaypointNav.WAYPT_TOL_THETA) {
-			//if (waypointNavigator.isDone()) {
-			fsm.updateState(new ApproachBlock(fsm, finalGoal));
-	}
-	//	{fsm.updateState(new ApproachBlock(fsm, finalGoal));}		//Approach until visual servo
+    public void update(GenericMessage msg)
+    {
+
+        //do waypoint nav stuff
+        OdometryMsg message = (OdometryMsg)msg.message;
+
+        waypointNavigator.wayptNav(message.x, message.y, message.theta);
+
+        //if condition to leave state (one waypoint away)
+        //if (atWaypoint >= waypoints.size()-2)
+
+        //System.out.println("Angle:" + fsm.RRTengine.getAngle(message.x, message.y, finalGoal.x, finalGoal.x));
+        //System.out.println("message.theta:" + message.theta);
+
+
+        //        if (RRTreeNode.distance(new Point2D.Double(message.x, message.y), finalGoal) <= fsm.BLOCKVISUAL_DIST
+        //                )//&& Math.abs(fsm.RRTengine.getAngle(message.x, message.y, finalGoal.x, finalGoal.x)-message.theta) <= WaypointNav.WAYPT_TOL_THETA) {
+        if (waypointNavigator.isDone()) {
+            //            fsm.updateState(new ApproachBlock(fsm, finalGoal));
+            fsm.updateState(new NeckScan(fsm));
+        }
+
+    }
+    //	{fsm.updateState(new ApproachBlock(fsm, finalGoal));}		//Approach until visual servo
 }

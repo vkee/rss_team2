@@ -198,8 +198,8 @@ public class FSM implements NodeMain{
         mapDrawer = new MapDrawer(guiRectPub, guiPolyPub, guiErasePub, guiPtPub, ellipsePub, 
                 stringPub, odometrySub, motionPub);
 
-//        currentState = new Initialize(this);
-        	currentState =	    new NeckScan(this);
+        currentState = new Initialize(this);
+//        	currentState =	    new NeckScan(this);
 //
         inState = false;
         dispatchState(new GenericMessage(null, null));
