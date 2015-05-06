@@ -24,74 +24,74 @@ import org.ros.message.Challenge_msgs.*;
  */
 public class NeckScan implements FSMState {
 
-	// TODO: make servos rotate
+    // TODO: make servos rotate
 
-	private FSM fsm;
-	private double neckAngleTarget = 0;
-	private final int NECKSTATES = 12;
-	protected FiducialTracking blobTrack = null;
-	client cl = null;
+    private FSM fsm;
+    private double neckAngleTarget = 0;
+    private final int NECKSTATES = 12;
+    protected FiducialTracking blobTrack = null;
+    client cl = null;
 
-	private ArrayList<Point2D.Double> newGoals;
+    private ArrayList<Point2D.Double> newGoals;
 
-	public NeckScan(FSM stateMachine) {
-		fsm = stateMachine;
-		newGoals = new ArrayList<Point2D.Double>();
-		blobTrack = new FiducialTracking();
-		cl = new client();
+    public NeckScan(FSM stateMachine) {
+        fsm = stateMachine;
+        newGoals = new ArrayList<Point2D.Double>();
+        blobTrack = new FiducialTracking();
+        cl = new client();
 
-		// init any variables for this state
-	}
+        // init any variables for this state
+    }
 
-	public stateENUM getName() {
-		return stateENUM.SCAN;
-	}
+    public stateENUM getName() {
+        return stateENUM.SCAN;
+    }
 
-	public boolean accepts(msgENUM msgType) {
-		if (msgType == msgENUM.SERVO)
-			return true;
-		return false;
-	}
+    public boolean accepts(msgENUM msgType) {
+        if (msgType == msgENUM.SERVO)
+            return true;
+        return false;
+    }
 
-	public void update(GenericMessage msg) {
-		Image src = null;
-		float[] depth_array = null;
-		List<FiducialObject> detectedFids = new ArrayList<FiducialObject>();
-		List<BlobObject> detectedBlobs = new ArrayList<BlobObject>();
+    public void update(GenericMessage msg) {
+        Image src = null;
+        float[] depth_array = null;
+        List<FiducialObject> detectedFids = new ArrayList<FiducialObject>();
+        List<BlobObject> detectedBlobs = new ArrayList<BlobObject>();
 
-		// Making the Scans
+        // Making the Scans
 
-		// Forward and Backward
-		int dir = 1;
-		for (int i = 0; i >= 0; i+=dir) {
-			fsm.neckServo.goToSettingOne(i);
-			try {
-				Thread.sleep(3000);
-			} catch (Exception e) {
-			}
-			for (int j = 0; j < 3 ; j++) {
-				src = cl.getImage();
-				depth_array = cl.getDepthImage();
-				Image dest = new Image(src);
-				blobTrack.apply(src, dest, depth_array);
+        // Forward and Backward
+        int dir = 1;
+        for (int i = 0; i >= 0; i+=dir) {
+            fsm.neckServo.goToSettingOne(i);
+            try {
+                Thread.sleep(3000);
+            } catch (Exception e) {
+            }
+            for (int j = 0; j < 3 ; j++) {
+                src = cl.getImage();
+                depth_array = cl.getDepthImage();
+                Image dest = new Image(src);
+                blobTrack.apply(src, dest, depth_array);
 
-				org.ros.message.sensor_msgs.Image pubImage = new org.ros.message.sensor_msgs.Image();
-				Image.fillImageMsg(pubImage, dest);
-				fsm.vidPub.publish(pubImage);
-				detectedBlobs.addAll(blobTrack.getBlobs(src, depth_array));
-				try {
-					Thread.sleep(500);
-				} catch (Exception e) {
-				}
-			}
-			detectedFids.addAll(blobTrack.sortBlobs(detectedBlobs));
-			// detectedFids.addAll(blobTrack.getFiducials(src, depth_array));
-			
-			if (i==3) dir = -1;
+                org.ros.message.sensor_msgs.Image pubImage = new org.ros.message.sensor_msgs.Image();
+                Image.fillImageMsg(pubImage, dest);
+                fsm.vidPub.publish(pubImage);
+                detectedBlobs.addAll(blobTrack.getBlobs(src, depth_array));
+                try {
+                    Thread.sleep(500);
+                } catch (Exception e) {
+                }
+            }
+            detectedFids.addAll(blobTrack.sortBlobs(detectedBlobs));
+            // detectedFids.addAll(blobTrack.getFiducials(src, depth_array));
 
-		}
+            if (i==3) dir = -1;
 
-		/*// Backward
+        }
+
+        /*// Backward
 		for (int i = 3; i >= 0; i--) {
 			try {
 				Thread.sleep(3000);
@@ -112,64 +112,64 @@ public class NeckScan implements FSMState {
 			// }
 		}*/
 
-		if (detectedFids.size() == 0) {
-			System.out.println("No Fids Detected");
-		}
+        if (detectedFids.size() == 0) {
+            System.out.println("No Fids Detected");
+        } else {
 
-		HashMap<Integer, Double> totalFidDist = new HashMap<Integer, Double>();
-		HashMap<Integer, Integer> numMeasurements = new HashMap<Integer, Integer>();
+            HashMap<Integer, Double> totalFidDist = new HashMap<Integer, Double>();
+            HashMap<Integer, Integer> numMeasurements = new HashMap<Integer, Integer>();
 
-		// Computing the number of measurements and distances
-		for (FiducialObject fids : detectedFids) {
-			int fidIndex = fids.getFiducialNumber();
-			double fidDist = fids.getDistanceTo();
-			// Updating the distances
-			if (totalFidDist.containsKey(fidIndex)) {
-				totalFidDist
-						.put(fidIndex, totalFidDist.get(fidIndex) + fidDist);
-			} else {
-				totalFidDist.put(fidIndex, fidDist);
-			}
+            // Computing the number of measurements and distances
+            for (FiducialObject fids : detectedFids) {
+                int fidIndex = fids.getFiducialNumber();
+                double fidDist = fids.getDistanceTo();
+                // Updating the distances
+                if (totalFidDist.containsKey(fidIndex)) {
+                    totalFidDist
+                    .put(fidIndex, totalFidDist.get(fidIndex) + fidDist);
+                } else {
+                    totalFidDist.put(fidIndex, fidDist);
+                }
 
-			// Updating the number of measurements
-			if (numMeasurements.containsKey(fidIndex)) {
-				numMeasurements
-						.put(fidIndex, numMeasurements.get(fidIndex) + 1);
-			} else {
-				numMeasurements.put(fidIndex, 1);
-			}
-		}
+                // Updating the number of measurements
+                if (numMeasurements.containsKey(fidIndex)) {
+                    numMeasurements
+                    .put(fidIndex, numMeasurements.get(fidIndex) + 1);
+                } else {
+                    numMeasurements.put(fidIndex, 1);
+                }
+            }
 
-		ArrayList<Integer> measuredFids = new ArrayList<Integer>();
-		HashMap<Integer, Double> measuredDists = new HashMap<Integer, Double>();
+            ArrayList<Integer> measuredFids = new ArrayList<Integer>();
+            HashMap<Integer, Double> measuredDists = new HashMap<Integer, Double>();
 
-		// Averaging the distances
-		for (Integer index : totalFidDist.keySet()) {
-			double avgDist = totalFidDist.get(index)
-					/ numMeasurements.get(index);
-			measuredDists.put(index, avgDist);
-		}
+            // Averaging the distances
+            for (Integer index : totalFidDist.keySet()) {
+                double avgDist = totalFidDist.get(index)
+                        / numMeasurements.get(index) + .110; // adding .110 m b/c accounting for ball radius
+                measuredDists.put(index, avgDist);
+            }
 
-		// Determining the distances to the fiducials that are in the FOV of the
-		// robot
-		fsm.particleFilter.measurementUpdate(measuredFids, measuredDists);
+            // Determining the distances to the fiducials that are in the FOV of the
+            // robot
+            fsm.particleFilter.measurementUpdate(measuredFids, measuredDists);
 
-		RobotParticle particle = fsm.particleFilter.sampleParticle();
+            RobotParticle particle = fsm.particleFilter.sampleParticle();
 
-		System.out.println("Prev Stored Pt: X-" + fsm.prevPt.x + " Y-"
-				+ fsm.prevPt.y);
-		System.out.println("Sampled Particle Position: X-" + particle.getX()
-				+ " Y-" + particle.getY());
+            System.out.println("Prev Stored Pt: X-" + fsm.prevPt.x + " Y-"
+                    + fsm.prevPt.y);
+            System.out.println("Sampled Particle Position: X-" + particle.getX()
+                    + " Y-" + particle.getY());
 
-		fsm.updateODO(
-				particle.getX() - fsm.CAMERA_X_POS * Math.cos(fsm.robotTheta),
-				particle.getY() - fsm.CAMERA_X_POS * Math.sin(fsm.robotTheta));
+            fsm.updateODO(
+                    particle.getX() - fsm.CAMERA_X_POS * Math.cos(fsm.robotTheta),
+                    particle.getY() - fsm.CAMERA_X_POS * Math.sin(fsm.robotTheta));
+        }
+        fsm.updateState(new WaypointNavClose(fsm));
+    }
 
-		fsm.updateState(new WaypointNavClose(fsm));
-	}
-
-	@Override
-	public void onStart() {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void onStart() {
+        // TODO Auto-generated method stub
+    }
 }
