@@ -12,22 +12,28 @@ public class FiducialTracking extends BlobTracking {
 			60.0 / 360, 24.0 / 360 };
 	// red, green, blue,yellow,orange
 
-	private double[] hueLowThresholds = { 0.0, 75.0 / 360, 168.0 / 360,
-			28.0 / 360, 15.0 / 360 };
+	// old params
+	// { 0.0, 75.0 / 360, 168.0 / 360,
+	// 45.0 / 360, 15.0 / 360 };
+	private double[] hueLowThresholds = { 0.0, 100.0 / 360, 187.0 / 360,
+			45.0 / 360, 15.0 / 360 };
 
-	private double[] hueHighThresholds = { 9.0 / 360, 162.0 / 360, 245.0 / 360,
-			50.0 / 360, 24.0 / 360 };
+	// old params
+	// { 9.0 / 360, 162.0 / 360, 245.0 / 360,
+	// 63.0 / 360, 24.0 / 360 };
+	private double[] hueHighThresholds = { 10.0 / 360, 175.0 / 360, 255.0 / 360,
+			63.0 / 360, 24.0 / 360 };
 
 	private double[] hueThresholds = { 0.05, 0.1, 0.15, 0.1, 0.1 };
 	private double other_hueThreshold = 0.05;
 
-	protected double[] multiSaturationLevel = { 0.6, 0.3, 0.3, 0.3, 0.5 };
+	protected double[] multiSaturationLevel = { 0.6, 0.3, 0.3, 0.25, 0.4 };
 	double other_saturation = 0.6;
 
 	protected double[] multiSaturationUpper = { 1, 1, 1, 1, 1 };
 	double other_upper = 1;
 
-	double[] multiBrightnessLevel = { 0.45, 0.0, 0.0, 0.6, 0.3 };
+	double[] multiBrightnessLevel = { 0.45, 0.0, 0.0, 0.3, 0.3 };
 	double other_brightness = 0.45;
 
 	int[][] multiBlobPixelMask = null;
