@@ -94,6 +94,8 @@ public class WaypointNavClose implements FSMState {
         //        if (RRTreeNode.distance(new Point2D.Double(message.x, message.y), finalGoal) <= fsm.BLOCKVISUAL_DIST
         //                )//&& Math.abs(fsm.RRTengine.getAngle(message.x, message.y, finalGoal.x, finalGoal.x)-message.theta) <= WaypointNav.WAYPT_TOL_THETA) {
         if (waypointNavigator.isDone()) {
+            fsm.foundPaths.useBiPath(fsm.currentLocation, finalGoal);
+            fsm.currentLocation = finalGoal;
             //            fsm.updateState(new ApproachBlock(fsm, finalGoal));
             fsm.updateState(new NeckScan(fsm));
         }
