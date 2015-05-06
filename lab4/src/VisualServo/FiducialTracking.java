@@ -167,8 +167,8 @@ public class FiducialTracking extends BlobTracking {
 					double hue_Threshold = hueThresholds[i];
 
 					if (y == height / 2 && x == width / 2) {
-//						System.out.println("0: " + hsb[0] + " 1: " + hsb[1]
-	//							+ " 2: " + hsb[2]);
+						// System.out.println("0: " + hsb[0] + " 1: " + hsb[1]
+						// + " 2: " + hsb[2]);
 					}
 					// Using HSB thresholds, set pixels
 
@@ -275,12 +275,14 @@ public class FiducialTracking extends BlobTracking {
 			BlobObject top = bos.get(j);
 			for (int k = 0; k < bos.size(); k++) {
 				BlobObject bottom = bos.get(k);
-				System.out.println(top.getColor() );
-				if (!top.equals(bottom)
-						&& isFiducialColorMatch(top, bottom) != -1
+				// System.out.println("TOP color " + top.getColor() );
+				// if (!top.equals(bottom) &&
+				if (isFiducialColorMatch(top, bottom) != -1
 						&& isAbove(top, bottom, 12, 5)) {
-					System.out.println(" Is Fiducial " + isFiducialColorMatch(top,  bottom));
-					System.out.println(" Is Above " + isAbove(top,bottom,12,5));
+					System.out.println(" Is Fiducial "
+							+ isFiducialColorMatch(top, bottom));
+					System.out.println(" Is Above "
+							+ isAbove(top, bottom, 12, 5));
 					FiducialObject fo = new FiducialObject(top, bottom,
 							isFiducialColorMatch(top, bottom));
 					ret.add(fo);
