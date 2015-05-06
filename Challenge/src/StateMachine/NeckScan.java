@@ -90,6 +90,7 @@ public class NeckScan implements FSMState {
                 } catch (Exception e) {
                 }
             }
+            System.out.println(detectedBlobs.size());
             detectedFids.addAll(blobTrack.sortBlobs(detectedBlobs));
             // detectedFids.addAll(blobTrack.getFiducials(src, depth_array));
 
@@ -121,7 +122,7 @@ public class NeckScan implements FSMState {
         if (detectedFids.size() == 0) {
             System.out.println("No Fids Detected");
         } else {
-
+        	
             HashMap<Integer, Double> totalFidDist = new HashMap<Integer, Double>();
             HashMap<Integer, Integer> numMeasurements = new HashMap<Integer, Integer>();
 
