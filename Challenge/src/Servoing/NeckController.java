@@ -131,7 +131,7 @@ public class NeckController {
 				//System.out.println(i+"--"+Math.max(0,i-3)+"--"+Math.min(i, 3));
 
 				bottom.sendPWM(bot0, GateController.GATE_CLOSED_PWM, top0+(top180-top0)/3*Math.min(i, 3)); //0 (forward)
-				try{Thread.sleep(2000);}catch(Exception e){}
+				try{Thread.sleep(1000);}catch(Exception e){}
 
 			}
 		}
@@ -140,7 +140,7 @@ public class NeckController {
 			//System.out.println(i+"--"+Math.max(0,i-3)+"--"+Math.min(i, 3));
 
 			bottom.sendPWM(bot0, GateController.GATE_CLOSED_PWM, top0+(top180-top0)/3*Math.min(i, 3)); //0 (forward)
-			try{Thread.sleep(2000);}catch(Exception e){}
+			try{Thread.sleep(1000);}catch(Exception e){}
 
 
 		}
