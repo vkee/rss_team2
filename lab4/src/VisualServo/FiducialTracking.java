@@ -16,7 +16,7 @@ public class FiducialTracking extends BlobTracking {
 			28.0 / 360, 15.0 / 360 };
 
 	private double[] hueHighThresholds = { 9.0 / 360, 162.0 / 360, 245.0 / 360,
-			48.0 / 360, 24.0 / 360 };
+			50.0 / 360, 24.0 / 360 };
 
 	private double[] hueThresholds = { 0.05, 0.1, 0.15, 0.1, 0.1 };
 	private double other_hueThreshold = 0.05;
