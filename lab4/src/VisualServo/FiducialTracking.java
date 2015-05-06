@@ -278,6 +278,8 @@ public class FiducialTracking extends BlobTracking {
 				if (!top.equals(bottom)
 						&& isFiducialColorMatch(top, bottom) != -1
 						&& isAbove(top, bottom, 12, 5)) {
+					System.out.println(" Is Fiducial " + isFiducialColorMatch(top,  bottom));
+					System.out.println(" Is Above " + isAbove(top,bottom,12,5));
 					FiducialObject fo = new FiducialObject(top, bottom,
 							isFiducialColorMatch(top, bottom));
 					ret.add(fo);
