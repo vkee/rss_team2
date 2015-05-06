@@ -70,6 +70,7 @@ public class NeckScan implements FSMState {
             } catch (Exception e) {
             }
             for (int j = 0; j < 3 ; j++) {
+            	try{
                 src = cl.getImage();
                 depth_float_array = cl.getDepthImage();
     			Image temp = new Image(src);
@@ -85,6 +86,8 @@ public class NeckScan implements FSMState {
                 
                 fsm.vidPub.publish(pubImage);
                 detectedBlobs.addAll(blobTrack.getBlobs(src, depth_float_array));
+            	}catch(Exception e){
+            	}
                 try {
                     Thread.sleep(500);
                 } catch (Exception e) {
