@@ -57,13 +57,13 @@ public class NeckScan implements FSMState {
         Image src = null;
         float[] depth_float_array = null;
         List<FiducialObject> detectedFids = new ArrayList<FiducialObject>();
-        List<BlobObject> detectedBlobs = new ArrayList<BlobObject>();
 
         // Making the Scans
 
         // Forward and Backward
         int dir = 1;
         for (int i = 0; i >= 0; i+=dir) {
+            List<BlobObject> detectedBlobs = new ArrayList<BlobObject>();
             fsm.neckServo.goToSettingOne(i);
             try {
                 Thread.sleep(3000);
@@ -90,7 +90,7 @@ public class NeckScan implements FSMState {
                 } catch (Exception e) {
                 }
             }
-            System.out.println(detectedBlobs.size());
+           // System.out.println(detectedBlobs.size());
             detectedFids.addAll(blobTrack.sortBlobs(detectedBlobs));
             // detectedFids.addAll(blobTrack.getFiducials(src, depth_array));
 
