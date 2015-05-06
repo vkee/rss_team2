@@ -4,10 +4,11 @@ package VisualServo;
  * An Image object is a easy-to-use representation of the pixelated image data
  * from Carmen
  * 
- * @author Vinayak Ranade
+ * @author Vinayak Ranade 
  *
  */
 public class Image {
+
 
 	public static void fillImageMsg(org.ros.message.sensor_msgs.Image pubImage,
 			Image dest) {

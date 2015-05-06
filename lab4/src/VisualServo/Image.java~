@@ -9,6 +9,16 @@ package VisualServo;
  */
 public class Image {
 
+	public static void fillImageMsg(org.ros.message.sensor_msgs.Image pubImage,
+			Image dest) {
+		pubImage.width = 640;
+		pubImage.height = 480;
+		pubImage.encoding = "rgb8";
+		pubImage.is_bigendian = 0;
+		pubImage.step = 640 * 3;
+		pubImage.data = dest.toArray();
+	}
+
 	public static float[] convertDistanceArray(float[] inDepthArray) {
 		float fT = 42.775668509f;
 		float[] out = new float[inDepthArray.length];
@@ -35,7 +45,8 @@ public class Image {
 
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				if (inDepthArray[index] > threshold) {
+				
+				if (index < inDepthArray.length && inDepthArray[index] > threshold) {
 					// System.out.println(inDepthArray[index]);
 					outColor.setPixel(j, i, (byte) 0, (byte) 0, (byte) 0);
 				}
@@ -376,5 +387,11 @@ public class Image {
 			}
 		}
 		return ret;
+	}
+
+	public static void smoothDepthImage(float[] float_array, int smoothRadius) {
+
+		// TODO Auto-generated method stub
+
 	}
 }
