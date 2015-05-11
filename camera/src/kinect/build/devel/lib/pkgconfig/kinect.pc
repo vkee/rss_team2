@@ -1,0 +1,8 @@
+prefix=/home/rss-student/camera/src/kinect/build/devel
+
+Name: kinect
+Description: Description of kinect
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/rss-student/camera/src/kinect/build/devel/lib 
+Requires: 

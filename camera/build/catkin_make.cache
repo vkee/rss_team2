@@ -1,0 +1,2 @@
+kinect
+-DCATKIN_DEVEL_PREFIX=/home/rss-student/camera/devel -DCMAKE_INSTALL_PREFIX=/home/rss-student/camera/install -G Unix Makefiles
