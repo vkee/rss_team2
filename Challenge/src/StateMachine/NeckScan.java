@@ -171,9 +171,9 @@ public class NeckScan implements FSMState {
             System.out.println("Sampled Particle Position: X-" + particle.getX()
                     + " Y-" + particle.getY());
 
-            fsm.updateODO(
-                    particle.getX() - fsm.CAMERA_X_POS * Math.cos(fsm.robotTheta),
-                    particle.getY() - fsm.CAMERA_X_POS * Math.sin(fsm.robotTheta));
+           // fsm.updateODO(
+           //         particle.getX() - fsm.CAMERA_X_POS * Math.cos(fsm.robotTheta)-fsm.prevPt.x,
+           //         particle.getY() - fsm.CAMERA_X_POS * Math.sin(fsm.robotTheta)-fsm.prevPt.y);
         }
         fsm.updateState(new WaypointNavClose(fsm));
     }

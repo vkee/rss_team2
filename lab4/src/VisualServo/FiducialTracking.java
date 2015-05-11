@@ -24,10 +24,10 @@ public class FiducialTracking extends BlobTracking {
 	private double[] hueHighThresholds = { 10.0 / 360, 175.0 / 360, 255.0 / 360,
 			63.0 / 360, 24.0 / 360 };
 
-	private double[] hueThresholds = { 0.05, 0.1, 0.15, 0.1, 0.1 };
+	private double[] hueThresholds = { 0.05, 0.1, 0.2, 0.1, 0.1 };
 	private double other_hueThreshold = 0.05;
 
-	protected double[] multiSaturationLevel = { 0.6, 0.3, 0.3, 0.25, 0.4 };
+	protected double[] multiSaturationLevel = { 0.6, 0.3, 0.3, 0.3, 0.4 };
 	double other_saturation = 0.6;
 
 	protected double[] multiSaturationUpper = { 1, 1, 1, 1, 1 };
@@ -173,8 +173,8 @@ public class FiducialTracking extends BlobTracking {
 					double hue_Threshold = hueThresholds[i];
 
 					if (y == height / 2 && x == width / 2) {
-						// System.out.println("0: " + hsb[0] + " 1: " + hsb[1]
-						// + " 2: " + hsb[2]);
+//						 System.out.println("0: " + hsb[0] + " 1: " + hsb[1]
+//						 + " 2: " + hsb[2]);
 					}
 					// Using HSB thresholds, set pixels
 

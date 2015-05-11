@@ -55,35 +55,45 @@ public class NeckScan implements FSMState {
 
     public void update(GenericMessage msg) {
         Image src = null;
-        float[] depth_array = null;
+        float[] depth_float_array = null;
         List<FiducialObject> detectedFids = new ArrayList<FiducialObject>();
-        List<BlobObject> detectedBlobs = new ArrayList<BlobObject>();
 
         // Making the Scans
 
         // Forward and Backward
         int dir = 1;
         for (int i = 0; i >= 0; i+=dir) {
+            List<BlobObject> detectedBlobs = new ArrayList<BlobObject>();
             fsm.neckServo.goToSettingOne(i);
             try {
-                Thread.sleep(3000);
+                Thread.sleep(1500);
             } catch (Exception e) {
             }
             for (int j = 0; j < 3 ; j++) {
+            	try{
                 src = cl.getImage();
-                depth_array = cl.getDepthImage();
-                Image dest = new Image(src);
-                blobTrack.apply(src, dest, depth_array);
+                depth_float_array = cl.getDepthImage();
+    			Image temp = new Image(src);
+    			Image.filterImage(src, temp, depth_float_array, 640, 480,
+    					3.048, 4.6419, 0.6, 0.6, 0, .1);
+
+    			Image dest = new Image(temp);
+
+                blobTrack.apply(temp, dest, depth_float_array);
 
                 org.ros.message.sensor_msgs.Image pubImage = new org.ros.message.sensor_msgs.Image();
                 Image.fillImageMsg(pubImage, dest);
+                
                 fsm.vidPub.publish(pubImage);
-                detectedBlobs.addAll(blobTrack.getBlobs(src, depth_array));
+                detectedBlobs.addAll(blobTrack.getBlobs(src, depth_float_array));
+            	}catch(Exception e){
+            	}
                 try {
                     Thread.sleep(500);
                 } catch (Exception e) {
                 }
             }
+           // System.out.println(detectedBlobs.size());
             detectedFids.addAll(blobTrack.sortBlobs(detectedBlobs));
             // detectedFids.addAll(blobTrack.getFiducials(src, depth_array));
 
@@ -115,7 +125,7 @@ public class NeckScan implements FSMState {
         if (detectedFids.size() == 0) {
             System.out.println("No Fids Detected");
         } else {
-
+        	
             HashMap<Integer, Double> totalFidDist = new HashMap<Integer, Double>();
             HashMap<Integer, Integer> numMeasurements = new HashMap<Integer, Integer>();
 
@@ -161,9 +171,9 @@ public class NeckScan implements FSMState {
             System.out.println("Sampled Particle Position: X-" + particle.getX()
                     + " Y-" + particle.getY());
 
-            fsm.updateODO(
-                    particle.getX() - fsm.CAMERA_X_POS * Math.cos(fsm.robotTheta),
-                    particle.getY() - fsm.CAMERA_X_POS * Math.sin(fsm.robotTheta));
+           // fsm.updateODO(
+           //         particle.getX() - fsm.CAMERA_X_POS * Math.cos(fsm.robotTheta)-fsm.prevPt.x,
+           //         particle.getY() - fsm.CAMERA_X_POS * Math.sin(fsm.robotTheta)-fsm.prevPt.y);
         }
         fsm.updateState(new WaypointNavClose(fsm));
     }
